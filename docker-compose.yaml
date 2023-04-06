@@ -3,7 +3,9 @@ services:
   neo4j:
     image: neo4j:latest
     ports: 
-      - 7474:7474
+      # Port for neo4j web DB inspection tool
+      - 7474:7474 
+      # Actual database port
       - 7687:7687
     volumes:
       - neo4j_db:/data/

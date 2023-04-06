@@ -1,8 +1,15 @@
 const { composePlugins, withNx } = require('@nrwl/webpack');
+const { merge } = require('webpack-merge');
+const WatchExternalFilesPlugin = require('webpack-watch-files-plugin').default;
 
 // Nx plugins for webpack.
-module.exports = composePlugins(withNx(), (config) => {
-  // Update the webpack config as needed here.
-  // e.g. `config.plugins.push(new MyPlugin())`
-  return config;
+module.exports = composePlugins(withNx(), config => {
+  return merge(config, {
+    plugins: [
+      // Watch for graphql schema change to rebuild the app
+      new WatchExternalFilesPlugin({
+        files: ['./**/*.graphql'],
+      }),
+    ],
+  });
 });

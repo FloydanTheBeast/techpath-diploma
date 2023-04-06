@@ -2,12 +2,7 @@ module.exports = {
   root: true,
   ignorePatterns: ['**/*'],
   plugins: ['@nrwl/nx'],
-  extends: [
-    'prettier',
-    'plugin:prettier/recommended',
-    'plugin:import/typescript',
-    'plugin:import/recommended',
-  ],
+  extends: ['plugin:prettier/recommended', 'plugin:import/typescript', 'plugin:import/recommended'],
   rules: {
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
