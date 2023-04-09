@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {},
     "noUncheckedIndexedAccess": true,
-    "noImplicitAny": true,
+    "noImplicitAny": true
   },
   "ts-node": {
     "compilerOptions": {

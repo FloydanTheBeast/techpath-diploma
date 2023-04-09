@@ -3,7 +3,7 @@ import styles from './app.module.css';
 
 import NxWelcome from './nx-welcome';
 
-export function App() {
+export function App(t: any) {
   return (
     <>
       <NxWelcome title="client" />

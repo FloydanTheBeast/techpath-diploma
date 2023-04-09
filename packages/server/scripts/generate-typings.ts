@@ -1,6 +1,7 @@
 import path from 'path';
 
 import { OGM, generate } from '@neo4j/graphql-ogm';
+import { GraphQLDefinitionsFactory } from '@nestjs/graphql';
 import neo4j from 'neo4j-driver';
 
 import { typeDefs } from '../src/gql';

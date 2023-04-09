@@ -1,0 +1,14 @@
+type User {
+  id: ID! @id
+  email: String!
+  password: String! @private
+  roles: [String!]!
+  firstName: String!
+  lastName: String!
+}
+
+type Course @auth(rules: [{ operations: [CREATE], roles: ["user"] }]) {
+  id: ID! @id
+  title: String!
+  description: String
+}
