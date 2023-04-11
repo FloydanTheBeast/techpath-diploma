@@ -6,6 +6,10 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "types": ["vite/client", "vitest"],
+    "paths": {
+      "@shared/types": ["packages/shared/types/src/index.ts"],
+      "src/*": ["packages/client/src/*"]
+    }
   },
   "files": [],
   "include": [],
