@@ -8,6 +8,9 @@
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.7.11",
+    "@emotion/react": "^11.10.6",
+    "@mantine/core": "^6.0.7",
+    "@mantine/hooks": "^6.0.7",
     "@neo4j/graphql": "^3.17.1",
     "@neo4j/graphql-ogm": "^3.17.1",
     "@neo4j/graphql-plugin-auth": "^2.1.0",
