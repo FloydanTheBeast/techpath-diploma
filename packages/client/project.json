@@ -66,6 +66,9 @@
       "options": {
         "lintFilePatterns": ["packages/client/**/*.{ts,tsx,js,jsx}"]
       }
+    },
+    "gql-codegen": {
+      "command": "graphql-codegen --require dotenv-expand/config --config packages/client/codegen.ts"
     }
   },
   "tags": []

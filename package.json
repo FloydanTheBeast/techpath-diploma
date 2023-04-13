@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "gql-codegen:client": "nx run client:gql-codegen",
     "gql-codegen:server": "nx run server:generate-typings"
   },
   "private": true,
@@ -43,6 +44,9 @@
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
+    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/typescript-operations": "^3.0.3",
+    "@graphql-codegen/typescript-react-apollo": "^3.3.7",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@nrwl/cypress": "15.8.5",

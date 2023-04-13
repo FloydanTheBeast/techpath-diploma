@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppRouter } from '../AppRouter';
 
 const client = new ApolloClient({
-  uri: 'https://api.com/', // FIXME
+  uri: 'http://localhost:3333/graphql', // FIXME: use config
   cache: new InMemoryCache(),
 });
 
