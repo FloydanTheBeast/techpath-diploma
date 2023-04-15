@@ -7,7 +7,9 @@
     "strict": true,
     "types": ["vite/client", "vitest"],
     "paths": {
+      "@shared/graphql": ["packages/shared/graphql/src/index.ts"],
       "@shared/types": ["packages/shared/types/src/index.ts"],
+      "@shared/utils": ["packages/shared/utils/src/index.ts"],
       "src/*": ["packages/client/src/*"]
     }
   },

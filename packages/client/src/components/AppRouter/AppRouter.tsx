@@ -4,7 +4,7 @@ import { Nullable } from '@shared/types';
 import { Route, Routes, Navigate, matchPath, useLocation } from 'react-router-dom';
 
 import { appRoutes } from 'src/constants';
-import { useRoutes } from 'src/hooks';
+import { useAuth, useRoutes } from 'src/hooks';
 import { APP_ROUTES } from 'src/routes';
 import type { RouteProps } from 'src/types';
 
@@ -25,9 +25,8 @@ const renderNestedRoutes = (routesProps: RouteProps[] = []) => {
   return routesProps.map(renderRouteContent);
 };
 
-export const AppRouter: React.FC = React.memo(() => {
-  // const { isAuthenticated } = useAuth(); TODO
-  const isAuthenticated = false;
+const AppRouter: React.FC = React.memo(() => {
+  const { isAuthenticated } = useAuth();
   const routes = useRoutes(APP_ROUTES);
 
   const location = useLocation();
@@ -43,3 +42,7 @@ export const AppRouter: React.FC = React.memo(() => {
     </Routes>
   );
 });
+
+AppRouter.displayName = 'AppRouter';
+
+export { AppRouter };

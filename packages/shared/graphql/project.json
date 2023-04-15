@@ -1,0 +1,19 @@
+{
+  "name": "shared-graphql",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/shared/graphql/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/shared/graphql/**/*.ts"]
+      }
+    },
+    "gql-codegen": {
+      "command": "graphql-codegen --require dotenv-expand/config --config packages/shared/graphql/codegen.ts"
+    }
+  },
+  "tags": []
+}

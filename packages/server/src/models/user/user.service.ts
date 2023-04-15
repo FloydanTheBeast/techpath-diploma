@@ -14,6 +14,10 @@ export class UserService {
     this.userModel = this.gqlService.ogm.model('User');
   }
 
+  async getUser(id: string) {
+    return (await this.userModel.find({ where: { id } }))[0];
+  }
+
   async createUser(createUserInput: UserCreateInput) {
     const user = (
       await this.userModel.create({
@@ -33,7 +37,7 @@ export class UserService {
     return user;
   }
 
-  async getUser({ password, email }: UserSignInInput) {
+  async loginUser({ password, email }: UserSignInInput) {
     const user = (await this.userModel.find({ where: { email } }))[0];
 
     if (!user) {

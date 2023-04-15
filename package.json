@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "gql-codegen:client": "nx run client:gql-codegen",
+    "gql-codegen:client": "nx run shared-graphql:gql-codegen",
     "gql-codegen:server": "nx run server:generate-typings"
   },
   "private": true,
@@ -23,6 +23,7 @@
     "@nestjs/jwt": "^10.0.3",
     "@nestjs/passport": "^9.0.3",
     "@nestjs/platform-express": "^9.0.0",
+    "@tabler/icons-react": "^2.16.0",
     "@types/ms": "^0.7.31",
     "@types/passport-jwt": "^3.0.8",
     "apollo-server": "^3.12.0",
@@ -36,11 +37,13 @@
     "passport-jwt": "^4.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@babel/preset-react": "^7.14.5",
@@ -75,6 +78,7 @@
     "cypress": "^12.2.0",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-cypress": "^2.10.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",

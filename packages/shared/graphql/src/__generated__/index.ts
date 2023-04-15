@@ -191,7 +191,7 @@ export type Query = {
   courses: Array<Course>;
   coursesAggregate: CourseAggregateSelection;
   coursesConnection: CoursesConnection;
-  test: Scalars['String'];
+  currentUser: UserResponse;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
@@ -311,6 +311,7 @@ export type UserResponse = {
   __typename?: 'UserResponse';
   email: Scalars['String'];
   firstName: Scalars['String'];
+  id: Scalars['String'];
   lastName: Scalars['String'];
   roles: Array<Scalars['String']>;
 };
@@ -379,22 +380,154 @@ export type UsersConnection = {
   totalCount: Scalars['Int'];
 };
 
+export type UserInfoFragment = {
+  __typename?: 'UserResponse';
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  roles: Array<string>;
+};
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CurrentUserQuery = {
+  __typename?: 'Query';
+  currentUser: {
+    __typename?: 'UserResponse';
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    roles: Array<string>;
+  };
+};
+
 export type SignInMutationVariables = Exact<{
   data: UserSignInInput;
 }>;
 
 export type SignInMutation = {
   __typename?: 'Mutation';
-  signIn: { __typename?: 'AuthSessionResponse'; accessToken: string };
+  signIn: {
+    __typename?: 'AuthSessionResponse';
+    accessToken: string;
+    accessTokenExpiresIn: number;
+    refreshToken: string;
+    refreshTokenExpiresIn: number;
+    user: {
+      __typename?: 'UserResponse';
+      id: string;
+      email: string;
+      firstName: string;
+      lastName: string;
+      roles: Array<string>;
+    };
+  };
 };
 
+export const UserInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const CurrentUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'CurrentUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'currentUser' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrentUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
+}
+export function useCurrentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(
+    CurrentUserDocument,
+    options,
+  );
+}
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<
+  CurrentUserQuery,
+  CurrentUserQueryVariables
+>;
 export const SignInDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'mutation',
-      name: { kind: 'Name', value: 'signIn' },
+      name: { kind: 'Name', value: 'SignIn' },
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
@@ -420,9 +553,39 @@ export const SignInDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'accessToken' } }],
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'accessTokenExpiresIn' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiresIn' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'user' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } },
+                    ],
+                  },
+                },
+              ],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
         ],
       },
     },

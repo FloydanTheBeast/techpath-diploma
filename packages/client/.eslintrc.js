@@ -1,7 +1,14 @@
 module.exports = {
-  extends: ['plugin:@nrwl/nx/react', '../../.eslintrc.js'],
+  extends: ['plugin:@nrwl/nx/react', 'plugin:react/recommended', '../../.eslintrc.js'],
+  settings: {
+    react: {
+      version: 'detect',
+    },
+  },
   ignorePatterns: ['!**/*'],
   rules: {
+    'react/react-in-jsx-scope': 'off',
+
     'import/order': [
       'warn',
       {

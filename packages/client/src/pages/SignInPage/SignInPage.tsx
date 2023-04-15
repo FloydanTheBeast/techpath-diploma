@@ -1,13 +1,29 @@
 import React from 'react';
 
 import { Anchor, Button, Paper, PasswordInput, Text, TextInput, Title } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { SignInMutationVariables } from '@shared/graphql';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { appRoutes } from 'src/constants';
-import { useSignInMutation } from 'src/graphql';
+import { useAuth } from 'src/hooks';
+
+type SignInFormData = SignInMutationVariables['data'];
 
 export const SignInPage: React.FC = () => {
-  const [signIn] = useSignInMutation();
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
+  const { handleSubmit, register } = useForm<SignInFormData>();
+
+  const onSubmit: SubmitHandler<SignInFormData> = async data => {
+    try {
+      await signIn(data);
+      navigate(appRoutes.app.index);
+    } catch (error) {
+      // TODO: Spawn notification
+      console.error(error);
+    }
+  };
 
   return (
     <React.Fragment>
@@ -22,22 +38,19 @@ export const SignInPage: React.FC = () => {
       </Text>
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md" sx={{ width: 420 }}>
-        <TextInput label="Email" placeholder="you@mantine.dev" required />
-        <PasswordInput label="Password" placeholder="Your password" required mt="md" />
-        <Button
-          fullWidth
-          mt="xl"
-          onClick={async () => {
-            const { data } = await signIn({
-              variables: {
-                data: { email: 'test@test.ru', password: 'test' },
-              },
-            });
-            console.log(data?.signIn.accessToken);
-          }}
-        >
-          Sign in
-        </Button>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextInput {...register('email')} label="Email" placeholder="you@mantine.dev" required />
+          <PasswordInput
+            {...register('password')}
+            label="Password"
+            placeholder="Your password"
+            required
+            mt="md"
+          />
+          <Button fullWidth mt="xl" type="submit">
+            Sign in
+          </Button>
+        </form>
       </Paper>
     </React.Fragment>
   );

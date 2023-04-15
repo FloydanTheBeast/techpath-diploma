@@ -9,8 +9,8 @@ const codegenConfig: CodegenConfig = {
   schema: GRAPHQL_API_URL,
   documents: [`${__dirname}/src/**/*.ts`],
   generates: {
-    [`${__dirname}/src/graphql/__generated__/index.ts`]: {
-      documents: ['src/graphql/**/*.ts'],
+    [`${__dirname}/src/__generated__/index.ts`]: {
+      documents: ['src/**/*.ts'],
       plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
     },
   },

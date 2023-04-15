@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@shared/types": ["packages/shared/types/src/index.ts"]
+      "@shared/graphql": ["packages/shared/graphql/src/index.ts"],
+      "@shared/types": ["packages/shared/types/src/index.ts"],
+      "@shared/utils": ["packages/shared/utils/src/index.ts"]
     },
     "noUncheckedIndexedAccess": true,
     "noImplicitAny": true
