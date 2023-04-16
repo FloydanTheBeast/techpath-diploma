@@ -8,7 +8,12 @@ import { appRoutes } from 'src/constants';
 export const SignUpPage: React.FC = () => {
   return (
     <React.Fragment>
-      <Title align="center" sx={{ fontWeight: 900 }}>
+      <Title
+        align="center"
+        sx={{ fontWeight: 900 }}
+        variant="gradient"
+        gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
+      >
         New here?
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>

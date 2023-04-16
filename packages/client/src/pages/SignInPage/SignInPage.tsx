@@ -31,7 +31,12 @@ export const SignInPage: React.FC = () => {
 
   return (
     <React.Fragment>
-      <Title align="center" sx={{ fontWeight: 900 }}>
+      <Title
+        align="center"
+        sx={{ fontWeight: 900 }}
+        variant="gradient"
+        gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}
+      >
         Welcome back!
       </Title>
       <Text color="dimmed" size="sm" align="center" mt={5}>
@@ -45,7 +50,13 @@ export const SignInPage: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormField
             component={TextInput}
-            fieldProps={{ ...register('email'), control, label: 'Email', required: true }}
+            fieldProps={{
+              ...register('email'),
+              control,
+              label: 'Email',
+              required: true,
+              placeholder: 'Your email',
+            }}
           />
           <FormField
             component={PasswordInput}

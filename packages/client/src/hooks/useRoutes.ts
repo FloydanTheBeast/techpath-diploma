@@ -1,45 +1,63 @@
 import React from 'react';
 
+import _ from 'lodash';
+
+import { RouteAccessType } from 'src/constants';
 import type { RouteProps } from 'src/types';
 
+import { useAuth } from './useAuth';
+import { useCurrentUser } from './useCurrentUser';
+
 export const useRoutes = (routesTree: RouteProps[]): RouteProps[] => {
-  // TODO:
-  // const { currentUser } = useAuth();
-  // const userRole = currentUser?.role;
+  const { isAuthenticated } = useAuth();
+  const { permissions } = useCurrentUser();
 
-  // const checkRouteAccess = React.useCallback(
-  //   ({ accessRoles }: RouteProps): boolean => {
-  //     return (
-  //       accessRoles?.some(accessRole => {
-  //         switch (accessRole) {
-  //           case RouteAccessType.unauthorized:
-  //             return !userRole;
-  //           case RouteAccessType.anyAuthorized:
-  //             return !!userRole;
-  //           case RouteAccessType.agent:
-  //             return userRole === UserRole.Agent;
-  //           case RouteAccessType.admin:
-  //             return userRole === UserRole.Administrator;
-  //           default:
-  //             return false;
-  //         }
-  //       }) ?? true
-  //     );
-  //   },
-  //   [userRole],
-  // );
+  const checkRouteAccess = React.useCallback(
+    ({ accessRoles }: RouteProps): boolean => {
+      return (
+        accessRoles?.some(accessRole => {
+          switch (accessRole) {
+            case RouteAccessType.unauthorized:
+              return !isAuthenticated;
+            case RouteAccessType.anyAuthorized:
+              return Object.values(permissions).some(Boolean);
+            case RouteAccessType.hasAdminRole:
+              return permissions.isAdmin;
+            case RouteAccessType.hasUserRole:
+              return permissions.isUser;
+            default:
+              return false;
+          }
+        }) ?? true
+      );
+    },
+    [permissions, isAuthenticated],
+  );
 
-  const routesTreeWalker = React.useCallback((routesTree: RouteProps[] = []): RouteProps[] => {
-    if (!routesTree) return [];
+  const routesTreeWalker = React.useCallback(
+    (routesTree: RouteProps[] = [], parentPermissions: RouteAccessType[]): RouteProps[] => {
+      if (!routesTree) return [];
 
-    return routesTree.map(route => {
-      return {
-        ...route,
-        element: route.element,
-        childRoutes: routesTreeWalker(route.childRoutes),
-      };
-    }); // .filter(checkRouteAccess);
-  }, []);
+      return routesTree
+        .filter(route => checkRouteAccess(route))
+        .map(route => {
+          let accessPermissions = route.accessRoles || [];
+          const shouldInheritPermissions =
+            _.isEmpty(route.accessRoles) || route.accessRoles?.includes(RouteAccessType.inherit);
 
-  return routesTreeWalker(routesTree);
+          if (shouldInheritPermissions) {
+            accessPermissions = parentPermissions;
+          }
+
+          return {
+            ...route,
+            element: route.element,
+            childRoutes: routesTreeWalker(route.childRoutes, accessPermissions),
+          };
+        });
+    },
+    [checkRouteAccess],
+  );
+
+  return routesTreeWalker(routesTree, []);
 };

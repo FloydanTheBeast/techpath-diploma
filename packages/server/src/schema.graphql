@@ -1,14 +1,30 @@
 type User {
   id: ID! @id
-  email: String!
+  email: String! @unique
   password: String! @private
   roles: [String!]!
   firstName: String!
   lastName: String!
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-type Course @auth(rules: [{ operations: [CREATE], roles: ["user"] }]) {
+type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
   id: ID! @id
   title: String!
   description: String
+  url: String!
+  price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
+}
+
+type CoursePrice {
+  course: Course @relationship(type: "HAS_PRICE", direction: IN)
+  price: Int
+  currency: String
+}
+
+type SkillTag {
+  id: ID! @id
 }

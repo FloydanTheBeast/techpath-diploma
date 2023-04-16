@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from 'react-router';
 
-import { appRoutes } from 'src/constants';
+import { RouteAccessType, appRoutes } from 'src/constants';
 import { AuthLayout } from 'src/layouts';
 import { SignInPage, SignUpPage } from 'src/pages';
 import { RouteProps } from 'src/types';
@@ -28,4 +28,5 @@ export const AUTH_ROUTE: RouteProps = {
     </AuthLayout>
   ),
   childRoutes: ROUTES,
+  accessRoles: [RouteAccessType.unauthorized],
 };

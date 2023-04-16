@@ -3,16 +3,22 @@ import React from 'react';
 import { AppShell, LoadingOverlay } from '@mantine/core';
 
 import { useAuth } from 'src/hooks';
+import type { NavbarLink } from 'src/types';
 
 import { Navbar } from './components';
 
-export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const { loadingCurrentUser } = useAuth();
+interface BaseAppLayoutProps {
+  navbarLinks: NavbarLink[];
+}
 
+export const BaseAppLayout: React.FC<React.PropsWithChildren<BaseAppLayoutProps>> = ({
+  children,
+  navbarLinks,
+}) => {
   return (
     <AppShell
       padding="md"
-      navbar={<Navbar />}
+      navbar={<Navbar navbarLinks={navbarLinks} />}
       styles={theme => ({
         main: {
           backgroundColor:
@@ -20,7 +26,7 @@ export const AppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {
         },
       })}
     >
-      <LoadingOverlay visible={loadingCurrentUser}>{children}</LoadingOverlay>
+      {children}
     </AppShell>
   );
 };
