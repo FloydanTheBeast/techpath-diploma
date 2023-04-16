@@ -35,7 +35,7 @@ const errorHandlerMiddleware = onError(errorHandler => {
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: from([errorHandlerMiddleware, authMiddleware, httpLink]),
+  link: from([authMiddleware, httpLink]),
 });
 
 export const App: React.FC = () => {

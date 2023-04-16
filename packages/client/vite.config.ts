@@ -21,6 +21,19 @@ export default defineConfig({
     viteTsConfigPaths({
       root: '../../',
     }),
+    // FIXME: Temporary workaround for `Cannot access before initialization` error
+    {
+      name: 'singleHMR',
+      handleHotUpdate({ modules }) {
+        modules.map(m => {
+          m.importedModules = new Set();
+          m.importers = new Set();
+          return m;
+        });
+
+        return modules;
+      },
+    },
   ],
 
   // Uncomment this if you are using workers.

@@ -1,19 +1,23 @@
 import React from 'react';
 
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Anchor, Button, Paper, PasswordInput, Text, TextInput, Title } from '@mantine/core';
-import { SignInMutationVariables } from '@shared/graphql';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { FormField } from 'src/components';
 import { appRoutes } from 'src/constants';
 import { useAuth } from 'src/hooks';
 
-type SignInFormData = SignInMutationVariables['data'];
+import { signInFormValidationSchema } from './constants';
+import { SignInFormData } from './types';
 
 export const SignInPage: React.FC = () => {
   const navigate = useNavigate();
   const { signIn } = useAuth();
-  const { handleSubmit, register } = useForm<SignInFormData>();
+  const { handleSubmit, register, control } = useForm<SignInFormData>({
+    resolver: yupResolver(signInFormValidationSchema),
+  });
 
   const onSubmit: SubmitHandler<SignInFormData> = async data => {
     try {
@@ -39,13 +43,20 @@ export const SignInPage: React.FC = () => {
 
       <Paper withBorder shadow="md" p={30} mt={30} radius="md" sx={{ width: 420 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <TextInput {...register('email')} label="Email" placeholder="you@mantine.dev" required />
-          <PasswordInput
-            {...register('password')}
-            label="Password"
-            placeholder="Your password"
-            required
-            mt="md"
+          <FormField
+            component={TextInput}
+            fieldProps={{ ...register('email'), control, label: 'Email', required: true }}
+          />
+          <FormField
+            component={PasswordInput}
+            fieldProps={{
+              ...register('password'),
+              control,
+              label: 'Password',
+              placeholder: 'Your password',
+              required: true,
+              mt: 'md',
+            }}
           />
           <Button fullWidth mt="xl" type="submit">
             Sign in

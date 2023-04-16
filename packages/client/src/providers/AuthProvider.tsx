@@ -68,6 +68,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
       (async () => {
         const { data, error } = await getCurrentUser();
         if (error) {
+          // TODO: Spawn notification saying that session expired
           logout();
         }
 
