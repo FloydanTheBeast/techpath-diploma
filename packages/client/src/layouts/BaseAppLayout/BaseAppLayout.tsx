@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { AppShell, LoadingOverlay } from '@mantine/core';
+import { AppShell } from '@mantine/core';
 
-import { useAuth } from 'src/hooks';
 import type { NavbarLink } from 'src/types';
 
 import { Navbar } from './components';

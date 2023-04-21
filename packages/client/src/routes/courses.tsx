@@ -1,19 +1,19 @@
 import { Outlet } from 'react-router';
 
 import { RouteAccessType, appRoutes } from 'src/constants';
-import { HomePage } from 'src/pages';
+import { CoursesPage } from 'src/pages/CoursesPage';
 import { RouteProps } from 'src/types';
 
 export const ROUTES: RouteProps[] = [
   {
     index: true,
-    element: <HomePage />,
-    accessRoles: [RouteAccessType.inherit],
+    element: <CoursesPage />,
   },
 ];
-export const HOME_ROUTE: RouteProps = {
-  path: appRoutes.app.index,
+
+export const COURSES_ROUTE: RouteProps = {
+  path: appRoutes.courses.index,
   element: <Outlet />,
   childRoutes: ROUTES,
-  accessRoles: [RouteAccessType.unauthorized, RouteAccessType.anyAuthorized],
+  accessRoles: [RouteAccessType.anyAuthorized],
 };

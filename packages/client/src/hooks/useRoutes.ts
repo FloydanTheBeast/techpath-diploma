@@ -5,12 +5,10 @@ import _ from 'lodash';
 import { RouteAccessType } from 'src/constants';
 import type { RouteProps } from 'src/types';
 
-import { useAuth } from './useAuth';
 import { useCurrentUser } from './useCurrentUser';
 
 export const useRoutes = (routesTree: RouteProps[]): RouteProps[] => {
-  const { isAuthenticated } = useAuth();
-  const { permissions } = useCurrentUser();
+  const { isAuthorized, permissions } = useCurrentUser();
 
   const checkRouteAccess = React.useCallback(
     ({ accessRoles }: RouteProps): boolean => {
@@ -18,7 +16,7 @@ export const useRoutes = (routesTree: RouteProps[]): RouteProps[] => {
         accessRoles?.some(accessRole => {
           switch (accessRole) {
             case RouteAccessType.unauthorized:
-              return !isAuthenticated;
+              return !isAuthorized;
             case RouteAccessType.anyAuthorized:
               return Object.values(permissions).some(Boolean);
             case RouteAccessType.hasAdminRole:
@@ -31,7 +29,7 @@ export const useRoutes = (routesTree: RouteProps[]): RouteProps[] => {
         }) ?? true
       );
     },
-    [permissions, isAuthenticated],
+    [permissions, isAuthorized],
   );
 
   const routesTreeWalker = React.useCallback(
@@ -39,22 +37,26 @@ export const useRoutes = (routesTree: RouteProps[]): RouteProps[] => {
       if (!routesTree) return [];
 
       return routesTree
-        .filter(route => checkRouteAccess(route))
-        .map(route => {
-          let accessPermissions = route.accessRoles || [];
+        .map(({ accessRoles, childRoutes, ...routeProps }) => {
+          accessRoles = accessRoles || [];
+
           const shouldInheritPermissions =
-            _.isEmpty(route.accessRoles) || route.accessRoles?.includes(RouteAccessType.inherit);
+            _.isEmpty(accessRoles) || accessRoles?.includes(RouteAccessType.inherit);
 
           if (shouldInheritPermissions) {
-            accessPermissions = parentPermissions;
+            accessRoles = [
+              ...parentPermissions,
+              ...accessRoles.filter(role => role !== RouteAccessType.inherit),
+            ];
           }
 
           return {
-            ...route,
-            element: route.element,
-            childRoutes: routesTreeWalker(route.childRoutes, accessPermissions),
+            ...routeProps,
+            accessRoles,
+            childRoutes: routesTreeWalker(childRoutes, accessRoles),
           };
-        });
+        })
+        .filter(checkRouteAccess);
     },
     [checkRouteAccess],
   );

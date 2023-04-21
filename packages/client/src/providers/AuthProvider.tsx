@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useApolloClient } from '@apollo/client';
 import { useLocalStorage } from '@mantine/hooks';
 import { SignInMutationVariables, useSignInMutation } from '@shared/graphql';
 import { Nullable } from '@shared/types';
@@ -21,6 +22,7 @@ export const AuthContext = React.createContext<AuthContextType>({
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   // const { spawnNotification } = useNotifications();
+  const apolloClient = useApolloClient();
   const navigate = useNavigate();
   const [signInMutation] = useSignInMutation();
 
@@ -42,6 +44,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const logout: AuthContextType['logout'] = () => {
     removeAccessToken();
     setIsAuthenticated(false);
+    apolloClient.clearStore();
     navigate(appRoutes.auth.index);
   };
 

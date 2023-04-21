@@ -3,17 +3,20 @@ import React from 'react';
 import {
   Avatar,
   Box,
+  Code,
   Group,
   NavLink,
   Navbar as NavbarBase,
   Popover,
+  Sx,
   Text,
   ThemeIcon,
+  Title,
   UnstyledButton,
   rem,
 } from '@mantine/core';
 import { getUserFullName } from '@shared/utils';
-import { IconChevronRight, IconLogout, IconUser } from '@tabler/icons-react';
+import { IconChevronRight, IconLogout, IconRoute, IconUser } from '@tabler/icons-react';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 
 import { useAuth, useCurrentUser } from 'src/hooks';
@@ -24,12 +27,31 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
+  const { permissions } = useCurrentUser();
   const { logout } = useAuth();
   const { currentUser } = useCurrentUser();
   const location = useLocation();
 
   return (
     <NavbarBase width={{ base: 300 }} p="xs">
+      <NavbarBase.Section sx={headerSectionStyles}>
+        <Group sx={headerStyles} position="apart">
+          <Group>
+            <ThemeIcon color="yellow" variant="gradient">
+              <IconRoute size="2rem" />
+            </ThemeIcon>
+            <Title size={24} weight={500}>
+              <Text span variant="gradient" gradient={{ from: 'indigo', to: 'cyan', deg: 45 }}>
+                {/* FIXME: Come up with a name */}
+                MOOC
+              </Text>
+              {permissions.isAdmin && '.admin'}
+            </Title>
+          </Group>
+          {/* FIXME: Pull version from config */}
+          <Code sx={{ fontWeight: 700 }}>v0.0.1</Code>
+        </Group>
+      </NavbarBase.Section>
       <NavbarBase.Section grow>
         {navbarLinks.map(link => (
           <NavLink
@@ -37,12 +59,13 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
             label={link.label}
             icon={
               <ThemeIcon color="blue" variant="light">
-                <link.icon size="1rem" stroke={2} />
+                <link.icon size="1.25rem" stroke={2} />
               </ThemeIcon>
             }
             component={Link}
             to={link.path}
             active={!!matchPath({ path: link.path, end: true }, location.pathname)}
+            disabled={link.disabled}
           />
         ))}
       </NavbarBase.Section>
@@ -103,3 +126,14 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
     </NavbarBase>
   );
 };
+
+const headerSectionStyles: Sx = theme => ({
+  borderBottom: `${rem(1)} solid ${
+    theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[2]
+  }`,
+  marginBottom: `calc(${theme.spacing.md})`,
+});
+
+const headerStyles: Sx = theme => ({
+  paddingBottom: theme.spacing.md,
+});

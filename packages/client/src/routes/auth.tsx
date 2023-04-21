@@ -9,14 +9,17 @@ export const ROUTES: RouteProps[] = [
   {
     index: true,
     element: <Navigate to={appRoutes.auth.signin} replace />,
+    accessRoles: [RouteAccessType.inherit],
   },
   {
     path: appRoutes.auth.signin,
     element: <SignInPage />,
+    accessRoles: [RouteAccessType.inherit],
   },
   {
     path: appRoutes.auth.signup,
     element: <SignUpPage />,
+    accessRoles: [RouteAccessType.inherit],
   },
 ];
 
