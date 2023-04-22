@@ -6,7 +6,7 @@ import { SignInMutationVariables, useSignInMutation } from '@shared/graphql';
 import { Nullable } from '@shared/types';
 import { useNavigate } from 'react-router';
 
-import { ACCESS_TOKEN_STORAGE_KEY, appRoutes } from 'src/constants';
+import { ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY, appRoutes } from 'src/constants';
 
 export interface AuthContextType {
   isAuthenticated: boolean;
@@ -38,11 +38,13 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
   const signIn: AuthContextType['signIn'] = async loginData => {
     const { data } = await signInMutation({ variables: { data: loginData } });
     setAccessToken(data?.signIn.accessToken);
+    localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, data?.signIn.refreshToken ?? '');
     setIsAuthenticated(true);
   };
 
   const logout: AuthContextType['logout'] = () => {
     removeAccessToken();
+    localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
     setIsAuthenticated(false);
     apolloClient.clearStore();
     navigate(appRoutes.auth.index);

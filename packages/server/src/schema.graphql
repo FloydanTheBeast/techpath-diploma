@@ -15,6 +15,8 @@ type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
   description: String
   url: String!
   price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
+  platform: CoursePlatform @relationship(type: "OWNED_BY_PLATFORM", direction: OUT)
+  languages: [CourseLanguage!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -25,6 +27,22 @@ type CoursePrice {
   currency: String
 }
 
-type SkillTag {
+type CoursePlatform {
   id: ID! @id
+  name: String! @unique
+  url: String! @unique
+  logoUrl: String
+  courses: [Course!]! @relationship(type: "OWNED_BY_PLATFORM", direction: IN)
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
+
+type CourseLanguage {
+  name: String! @unique
+  countryCodeISO: String! @unique
+  courses: [Course!]! @relationship(type: "TRANSLATED_INTO", direction: IN)
+}
+
+# type SkillTag {
+#   id: ID! @id
+# }

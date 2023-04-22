@@ -15,3 +15,7 @@ export const courses = {
 export const roadmaps = {
   index: '/roadmaps',
 };
+
+export const coursePlatforms = {
+  index: '/coursePlatforms',
+};

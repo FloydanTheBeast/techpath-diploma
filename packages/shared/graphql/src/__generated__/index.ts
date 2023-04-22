@@ -22,6 +22,14 @@ export type AuthSessionResponse = {
   accessTokenExpiresIn: Scalars['Float'];
   refreshToken: Scalars['String'];
   refreshTokenExpiresIn: Scalars['Float'];
+};
+
+export type AuthSessionWithUserResponse = {
+  __typename?: 'AuthSessionWithUserResponse';
+  accessToken: Scalars['String'];
+  accessTokenExpiresIn: Scalars['Float'];
+  refreshToken: Scalars['String'];
+  refreshTokenExpiresIn: Scalars['Float'];
   user: UserResponse;
 };
 
@@ -30,12 +38,56 @@ export type Course = {
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   id: Scalars['ID'];
+  languages: Array<CourseLanguage>;
+  languagesAggregate?: Maybe<CourseCourseLanguageLanguagesAggregationSelection>;
+  languagesConnection: CourseLanguagesConnection;
+  platform?: Maybe<CoursePlatform>;
+  platformAggregate?: Maybe<CourseCoursePlatformPlatformAggregationSelection>;
+  platformConnection: CoursePlatformConnection;
   price?: Maybe<CoursePrice>;
   priceAggregate?: Maybe<CourseCoursePricePriceAggregationSelection>;
   priceConnection: CoursePriceConnection;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
   url: Scalars['String'];
+};
+
+export type CourseLanguagesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseLanguageOptions>;
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type CourseLanguagesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type CourseLanguagesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CourseLanguagesConnectionSort>>;
+  where?: InputMaybe<CourseLanguagesConnectionWhere>;
+};
+
+export type CoursePlatformArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CoursePlatformOptions>;
+  where?: InputMaybe<CoursePlatformWhere>;
+};
+
+export type CoursePlatformAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CoursePlatformWhere>;
+};
+
+export type CoursePlatformConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CoursePlatformConnectionSort>>;
+  where?: InputMaybe<CoursePlatformConnectionWhere>;
 };
 
 export type CoursePriceArgs = {
@@ -69,7 +121,14 @@ export type CourseAggregateSelection = {
 };
 
 export type CourseConnectInput = {
+  languages?: InputMaybe<Array<CourseLanguagesConnectFieldInput>>;
+  platform?: InputMaybe<CoursePlatformConnectFieldInput>;
   price?: InputMaybe<CoursePriceConnectFieldInput>;
+};
+
+export type CourseConnectOrCreateInput = {
+  languages?: InputMaybe<Array<CourseLanguagesConnectOrCreateFieldInput>>;
+  platform?: InputMaybe<CoursePlatformConnectOrCreateFieldInput>;
 };
 
 export type CourseConnectOrCreateWhere = {
@@ -78,6 +137,34 @@ export type CourseConnectOrCreateWhere = {
 
 export type CourseConnectWhere = {
   node: CourseWhere;
+};
+
+export type CourseCourseLanguageLanguagesAggregationSelection = {
+  __typename?: 'CourseCourseLanguageLanguagesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<CourseCourseLanguageLanguagesNodeAggregateSelection>;
+};
+
+export type CourseCourseLanguageLanguagesNodeAggregateSelection = {
+  __typename?: 'CourseCourseLanguageLanguagesNodeAggregateSelection';
+  countryCodeISO: StringAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
+};
+
+export type CourseCoursePlatformPlatformAggregationSelection = {
+  __typename?: 'CourseCoursePlatformPlatformAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<CourseCoursePlatformPlatformNodeAggregateSelection>;
+};
+
+export type CourseCoursePlatformPlatformNodeAggregateSelection = {
+  __typename?: 'CourseCoursePlatformPlatformNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  logoUrl: StringAggregateSelectionNullable;
+  name: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
 };
 
 export type CourseCoursePricePriceAggregationSelection = {
@@ -94,16 +181,22 @@ export type CourseCoursePricePriceNodeAggregateSelection = {
 
 export type CourseCreateInput = {
   description?: InputMaybe<Scalars['String']>;
+  languages?: InputMaybe<CourseLanguagesFieldInput>;
+  platform?: InputMaybe<CoursePlatformFieldInput>;
   price?: InputMaybe<CoursePriceFieldInput>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
 
 export type CourseDeleteInput = {
+  languages?: InputMaybe<Array<CourseLanguagesDeleteFieldInput>>;
+  platform?: InputMaybe<CoursePlatformDeleteFieldInput>;
   price?: InputMaybe<CoursePriceDeleteFieldInput>;
 };
 
 export type CourseDisconnectInput = {
+  languages?: InputMaybe<Array<CourseLanguagesDisconnectFieldInput>>;
+  platform?: InputMaybe<CoursePlatformDisconnectFieldInput>;
   price?: InputMaybe<CoursePriceDisconnectFieldInput>;
 };
 
@@ -111,6 +204,432 @@ export type CourseEdge = {
   __typename?: 'CourseEdge';
   cursor: Scalars['String'];
   node: Course;
+};
+
+export type CourseLanguage = {
+  __typename?: 'CourseLanguage';
+  countryCodeISO: Scalars['String'];
+  courses: Array<Course>;
+  coursesAggregate?: Maybe<CourseLanguageCourseCoursesAggregationSelection>;
+  coursesConnection: CourseLanguageCoursesConnection;
+  name: Scalars['String'];
+};
+
+export type CourseLanguageCoursesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseOptions>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type CourseLanguageCoursesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type CourseLanguageCoursesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CourseLanguageCoursesConnectionSort>>;
+  where?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+};
+
+export type CourseLanguageAggregateSelection = {
+  __typename?: 'CourseLanguageAggregateSelection';
+  count: Scalars['Int'];
+  countryCodeISO: StringAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
+};
+
+export type CourseLanguageConnectInput = {
+  courses?: InputMaybe<Array<CourseLanguageCoursesConnectFieldInput>>;
+};
+
+export type CourseLanguageConnectOrCreateInput = {
+  courses?: InputMaybe<Array<CourseLanguageCoursesConnectOrCreateFieldInput>>;
+};
+
+export type CourseLanguageConnectOrCreateWhere = {
+  node: CourseLanguageUniqueWhere;
+};
+
+export type CourseLanguageConnectWhere = {
+  node: CourseLanguageWhere;
+};
+
+export type CourseLanguageCourseCoursesAggregationSelection = {
+  __typename?: 'CourseLanguageCourseCoursesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<CourseLanguageCourseCoursesNodeAggregateSelection>;
+};
+
+export type CourseLanguageCourseCoursesNodeAggregateSelection = {
+  __typename?: 'CourseLanguageCourseCoursesNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
+export type CourseLanguageCoursesAggregateInput = {
+  AND?: InputMaybe<Array<CourseLanguageCoursesAggregateInput>>;
+  NOT?: InputMaybe<CourseLanguageCoursesAggregateInput>;
+  OR?: InputMaybe<Array<CourseLanguageCoursesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<CourseLanguageCoursesNodeAggregationWhereInput>;
+};
+
+export type CourseLanguageCoursesConnectFieldInput = {
+  connect?: InputMaybe<Array<CourseConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseConnectWhere>;
+};
+
+export type CourseLanguageCoursesConnectOrCreateFieldInput = {
+  onCreate: CourseLanguageCoursesConnectOrCreateFieldInputOnCreate;
+  where: CourseConnectOrCreateWhere;
+};
+
+export type CourseLanguageCoursesConnectOrCreateFieldInputOnCreate = {
+  node: CourseOnCreateInput;
+};
+
+export type CourseLanguageCoursesConnection = {
+  __typename?: 'CourseLanguageCoursesConnection';
+  edges: Array<CourseLanguageCoursesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CourseLanguageCoursesConnectionSort = {
+  node?: InputMaybe<CourseSort>;
+};
+
+export type CourseLanguageCoursesConnectionWhere = {
+  AND?: InputMaybe<Array<CourseLanguageCoursesConnectionWhere>>;
+  NOT?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+  OR?: InputMaybe<Array<CourseLanguageCoursesConnectionWhere>>;
+  node?: InputMaybe<CourseWhere>;
+};
+
+export type CourseLanguageCoursesCreateFieldInput = {
+  node: CourseCreateInput;
+};
+
+export type CourseLanguageCoursesDeleteFieldInput = {
+  delete?: InputMaybe<CourseDeleteInput>;
+  where?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+};
+
+export type CourseLanguageCoursesDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseDisconnectInput>;
+  where?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+};
+
+export type CourseLanguageCoursesFieldInput = {
+  connect?: InputMaybe<Array<CourseLanguageCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseLanguageCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseLanguageCoursesCreateFieldInput>>;
+};
+
+export type CourseLanguageCoursesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CourseLanguageCoursesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CourseLanguageCoursesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CourseLanguageCoursesNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type CourseLanguageCoursesRelationship = {
+  __typename?: 'CourseLanguageCoursesRelationship';
+  cursor: Scalars['String'];
+  node: Course;
+};
+
+export type CourseLanguageCoursesUpdateConnectionInput = {
+  node?: InputMaybe<CourseUpdateInput>;
+};
+
+export type CourseLanguageCoursesUpdateFieldInput = {
+  connect?: InputMaybe<Array<CourseLanguageCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseLanguageCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseLanguageCoursesCreateFieldInput>>;
+  delete?: InputMaybe<Array<CourseLanguageCoursesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<CourseLanguageCoursesDisconnectFieldInput>>;
+  update?: InputMaybe<CourseLanguageCoursesUpdateConnectionInput>;
+  where?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+};
+
+export type CourseLanguageCreateInput = {
+  countryCodeISO: Scalars['String'];
+  courses?: InputMaybe<CourseLanguageCoursesFieldInput>;
+  name: Scalars['String'];
+};
+
+export type CourseLanguageDeleteInput = {
+  courses?: InputMaybe<Array<CourseLanguageCoursesDeleteFieldInput>>;
+};
+
+export type CourseLanguageDisconnectInput = {
+  courses?: InputMaybe<Array<CourseLanguageCoursesDisconnectFieldInput>>;
+};
+
+export type CourseLanguageOnCreateInput = {
+  countryCodeISO: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type CourseLanguageOptions = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  /** Specify one or more CourseLanguageSort objects to sort CourseLanguages by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<CourseLanguageSort>>;
+};
+
+export type CourseLanguageRelationInput = {
+  courses?: InputMaybe<Array<CourseLanguageCoursesCreateFieldInput>>;
+};
+
+/** Fields to sort CourseLanguages by. The order in which sorts are applied is not guaranteed when specifying many fields in one CourseLanguageSort object. */
+export type CourseLanguageSort = {
+  countryCodeISO?: InputMaybe<SortDirection>;
+  name?: InputMaybe<SortDirection>;
+};
+
+export type CourseLanguageUniqueWhere = {
+  countryCodeISO?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type CourseLanguageUpdateInput = {
+  countryCodeISO?: InputMaybe<Scalars['String']>;
+  courses?: InputMaybe<Array<CourseLanguageCoursesUpdateFieldInput>>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type CourseLanguageWhere = {
+  AND?: InputMaybe<Array<CourseLanguageWhere>>;
+  NOT?: InputMaybe<CourseLanguageWhere>;
+  OR?: InputMaybe<Array<CourseLanguageWhere>>;
+  countryCodeISO?: InputMaybe<Scalars['String']>;
+  countryCodeISO_CONTAINS?: InputMaybe<Scalars['String']>;
+  countryCodeISO_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  countryCodeISO_IN?: InputMaybe<Array<Scalars['String']>>;
+  countryCodeISO_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  coursesAggregate?: InputMaybe<CourseLanguageCoursesAggregateInput>;
+  /** Return CourseLanguages where all of the related CourseLanguageCoursesConnections match this filter */
+  coursesConnection_ALL?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+  /** Return CourseLanguages where none of the related CourseLanguageCoursesConnections match this filter */
+  coursesConnection_NONE?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+  /** Return CourseLanguages where one of the related CourseLanguageCoursesConnections match this filter */
+  coursesConnection_SINGLE?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+  /** Return CourseLanguages where some of the related CourseLanguageCoursesConnections match this filter */
+  coursesConnection_SOME?: InputMaybe<CourseLanguageCoursesConnectionWhere>;
+  /** Return CourseLanguages where all of the related Courses match this filter */
+  courses_ALL?: InputMaybe<CourseWhere>;
+  /** Return CourseLanguages where none of the related Courses match this filter */
+  courses_NONE?: InputMaybe<CourseWhere>;
+  /** Return CourseLanguages where one of the related Courses match this filter */
+  courses_SINGLE?: InputMaybe<CourseWhere>;
+  /** Return CourseLanguages where some of the related Courses match this filter */
+  courses_SOME?: InputMaybe<CourseWhere>;
+  name?: InputMaybe<Scalars['String']>;
+  name_CONTAINS?: InputMaybe<Scalars['String']>;
+  name_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  name_IN?: InputMaybe<Array<Scalars['String']>>;
+  name_STARTS_WITH?: InputMaybe<Scalars['String']>;
+};
+
+export type CourseLanguagesAggregateInput = {
+  AND?: InputMaybe<Array<CourseLanguagesAggregateInput>>;
+  NOT?: InputMaybe<CourseLanguagesAggregateInput>;
+  OR?: InputMaybe<Array<CourseLanguagesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<CourseLanguagesNodeAggregationWhereInput>;
+};
+
+export type CourseLanguagesConnectFieldInput = {
+  connect?: InputMaybe<Array<CourseLanguageConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseLanguageConnectWhere>;
+};
+
+export type CourseLanguagesConnectOrCreateFieldInput = {
+  onCreate: CourseLanguagesConnectOrCreateFieldInputOnCreate;
+  where: CourseLanguageConnectOrCreateWhere;
+};
+
+export type CourseLanguagesConnectOrCreateFieldInputOnCreate = {
+  node: CourseLanguageOnCreateInput;
+};
+
+export type CourseLanguagesConnection = {
+  __typename?: 'CourseLanguagesConnection';
+  edges: Array<CourseLanguagesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CourseLanguagesConnectionSort = {
+  node?: InputMaybe<CourseLanguageSort>;
+};
+
+export type CourseLanguagesConnectionWhere = {
+  AND?: InputMaybe<Array<CourseLanguagesConnectionWhere>>;
+  NOT?: InputMaybe<CourseLanguagesConnectionWhere>;
+  OR?: InputMaybe<Array<CourseLanguagesConnectionWhere>>;
+  node?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type CourseLanguagesCreateFieldInput = {
+  node: CourseLanguageCreateInput;
+};
+
+export type CourseLanguagesDeleteFieldInput = {
+  delete?: InputMaybe<CourseLanguageDeleteInput>;
+  where?: InputMaybe<CourseLanguagesConnectionWhere>;
+};
+
+export type CourseLanguagesDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseLanguageDisconnectInput>;
+  where?: InputMaybe<CourseLanguagesConnectionWhere>;
+};
+
+export type CourseLanguagesFieldInput = {
+  connect?: InputMaybe<Array<CourseLanguagesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseLanguagesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseLanguagesCreateFieldInput>>;
+};
+
+export type CourseLanguagesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CourseLanguagesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CourseLanguagesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CourseLanguagesNodeAggregationWhereInput>>;
+  countryCodeISO_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type CourseLanguagesRelationship = {
+  __typename?: 'CourseLanguagesRelationship';
+  cursor: Scalars['String'];
+  node: CourseLanguage;
+};
+
+export type CourseLanguagesUpdateConnectionInput = {
+  node?: InputMaybe<CourseLanguageUpdateInput>;
+};
+
+export type CourseLanguagesUpdateFieldInput = {
+  connect?: InputMaybe<Array<CourseLanguagesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseLanguagesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseLanguagesCreateFieldInput>>;
+  delete?: InputMaybe<Array<CourseLanguagesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<CourseLanguagesDisconnectFieldInput>>;
+  update?: InputMaybe<CourseLanguagesUpdateConnectionInput>;
+  where?: InputMaybe<CourseLanguagesConnectionWhere>;
 };
 
 export type CourseOnCreateInput = {
@@ -124,6 +643,518 @@ export type CourseOptions = {
   offset?: InputMaybe<Scalars['Int']>;
   /** Specify one or more CourseSort objects to sort Courses by. The sorts will be applied in the order in which they are arranged in the array. */
   sort?: InputMaybe<Array<CourseSort>>;
+};
+
+export type CoursePlatform = {
+  __typename?: 'CoursePlatform';
+  courses: Array<Course>;
+  coursesAggregate?: Maybe<CoursePlatformCourseCoursesAggregationSelection>;
+  coursesConnection: CoursePlatformCoursesConnection;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  logoUrl?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  url: Scalars['String'];
+};
+
+export type CoursePlatformCoursesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseOptions>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type CoursePlatformCoursesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type CoursePlatformCoursesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CoursePlatformCoursesConnectionSort>>;
+  where?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+};
+
+export type CoursePlatformAggregateInput = {
+  AND?: InputMaybe<Array<CoursePlatformAggregateInput>>;
+  NOT?: InputMaybe<CoursePlatformAggregateInput>;
+  OR?: InputMaybe<Array<CoursePlatformAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<CoursePlatformNodeAggregationWhereInput>;
+};
+
+export type CoursePlatformAggregateSelection = {
+  __typename?: 'CoursePlatformAggregateSelection';
+  count: Scalars['Int'];
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  logoUrl: StringAggregateSelectionNullable;
+  name: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
+export type CoursePlatformConnectFieldInput = {
+  connect?: InputMaybe<CoursePlatformConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CoursePlatformConnectWhere>;
+};
+
+export type CoursePlatformConnectInput = {
+  courses?: InputMaybe<Array<CoursePlatformCoursesConnectFieldInput>>;
+};
+
+export type CoursePlatformConnectOrCreateFieldInput = {
+  onCreate: CoursePlatformConnectOrCreateFieldInputOnCreate;
+  where: CoursePlatformConnectOrCreateWhere;
+};
+
+export type CoursePlatformConnectOrCreateFieldInputOnCreate = {
+  node: CoursePlatformOnCreateInput;
+};
+
+export type CoursePlatformConnectOrCreateInput = {
+  courses?: InputMaybe<Array<CoursePlatformCoursesConnectOrCreateFieldInput>>;
+};
+
+export type CoursePlatformConnectOrCreateWhere = {
+  node: CoursePlatformUniqueWhere;
+};
+
+export type CoursePlatformConnectWhere = {
+  node: CoursePlatformWhere;
+};
+
+export type CoursePlatformConnection = {
+  __typename?: 'CoursePlatformConnection';
+  edges: Array<CoursePlatformRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CoursePlatformConnectionSort = {
+  node?: InputMaybe<CoursePlatformSort>;
+};
+
+export type CoursePlatformConnectionWhere = {
+  AND?: InputMaybe<Array<CoursePlatformConnectionWhere>>;
+  NOT?: InputMaybe<CoursePlatformConnectionWhere>;
+  OR?: InputMaybe<Array<CoursePlatformConnectionWhere>>;
+  node?: InputMaybe<CoursePlatformWhere>;
+};
+
+export type CoursePlatformCourseCoursesAggregationSelection = {
+  __typename?: 'CoursePlatformCourseCoursesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<CoursePlatformCourseCoursesNodeAggregateSelection>;
+};
+
+export type CoursePlatformCourseCoursesNodeAggregateSelection = {
+  __typename?: 'CoursePlatformCourseCoursesNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
+export type CoursePlatformCoursesAggregateInput = {
+  AND?: InputMaybe<Array<CoursePlatformCoursesAggregateInput>>;
+  NOT?: InputMaybe<CoursePlatformCoursesAggregateInput>;
+  OR?: InputMaybe<Array<CoursePlatformCoursesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<CoursePlatformCoursesNodeAggregationWhereInput>;
+};
+
+export type CoursePlatformCoursesConnectFieldInput = {
+  connect?: InputMaybe<Array<CourseConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseConnectWhere>;
+};
+
+export type CoursePlatformCoursesConnectOrCreateFieldInput = {
+  onCreate: CoursePlatformCoursesConnectOrCreateFieldInputOnCreate;
+  where: CourseConnectOrCreateWhere;
+};
+
+export type CoursePlatformCoursesConnectOrCreateFieldInputOnCreate = {
+  node: CourseOnCreateInput;
+};
+
+export type CoursePlatformCoursesConnection = {
+  __typename?: 'CoursePlatformCoursesConnection';
+  edges: Array<CoursePlatformCoursesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CoursePlatformCoursesConnectionSort = {
+  node?: InputMaybe<CourseSort>;
+};
+
+export type CoursePlatformCoursesConnectionWhere = {
+  AND?: InputMaybe<Array<CoursePlatformCoursesConnectionWhere>>;
+  NOT?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+  OR?: InputMaybe<Array<CoursePlatformCoursesConnectionWhere>>;
+  node?: InputMaybe<CourseWhere>;
+};
+
+export type CoursePlatformCoursesCreateFieldInput = {
+  node: CourseCreateInput;
+};
+
+export type CoursePlatformCoursesDeleteFieldInput = {
+  delete?: InputMaybe<CourseDeleteInput>;
+  where?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+};
+
+export type CoursePlatformCoursesDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseDisconnectInput>;
+  where?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+};
+
+export type CoursePlatformCoursesFieldInput = {
+  connect?: InputMaybe<Array<CoursePlatformCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CoursePlatformCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CoursePlatformCoursesCreateFieldInput>>;
+};
+
+export type CoursePlatformCoursesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CoursePlatformCoursesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CoursePlatformCoursesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CoursePlatformCoursesNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type CoursePlatformCoursesRelationship = {
+  __typename?: 'CoursePlatformCoursesRelationship';
+  cursor: Scalars['String'];
+  node: Course;
+};
+
+export type CoursePlatformCoursesUpdateConnectionInput = {
+  node?: InputMaybe<CourseUpdateInput>;
+};
+
+export type CoursePlatformCoursesUpdateFieldInput = {
+  connect?: InputMaybe<Array<CoursePlatformCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CoursePlatformCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CoursePlatformCoursesCreateFieldInput>>;
+  delete?: InputMaybe<Array<CoursePlatformCoursesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<CoursePlatformCoursesDisconnectFieldInput>>;
+  update?: InputMaybe<CoursePlatformCoursesUpdateConnectionInput>;
+  where?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+};
+
+export type CoursePlatformCreateFieldInput = {
+  node: CoursePlatformCreateInput;
+};
+
+export type CoursePlatformCreateInput = {
+  courses?: InputMaybe<CoursePlatformCoursesFieldInput>;
+  logoUrl?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type CoursePlatformDeleteFieldInput = {
+  delete?: InputMaybe<CoursePlatformDeleteInput>;
+  where?: InputMaybe<CoursePlatformConnectionWhere>;
+};
+
+export type CoursePlatformDeleteInput = {
+  courses?: InputMaybe<Array<CoursePlatformCoursesDeleteFieldInput>>;
+};
+
+export type CoursePlatformDisconnectFieldInput = {
+  disconnect?: InputMaybe<CoursePlatformDisconnectInput>;
+  where?: InputMaybe<CoursePlatformConnectionWhere>;
+};
+
+export type CoursePlatformDisconnectInput = {
+  courses?: InputMaybe<Array<CoursePlatformCoursesDisconnectFieldInput>>;
+};
+
+export type CoursePlatformEdge = {
+  __typename?: 'CoursePlatformEdge';
+  cursor: Scalars['String'];
+  node: CoursePlatform;
+};
+
+export type CoursePlatformFieldInput = {
+  connect?: InputMaybe<CoursePlatformConnectFieldInput>;
+  connectOrCreate?: InputMaybe<CoursePlatformConnectOrCreateFieldInput>;
+  create?: InputMaybe<CoursePlatformCreateFieldInput>;
+};
+
+export type CoursePlatformNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CoursePlatformNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CoursePlatformNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CoursePlatformNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  logoUrl_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  logoUrl_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  logoUrl_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  logoUrl_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  logoUrl_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  logoUrl_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  logoUrl_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  logoUrl_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  logoUrl_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  logoUrl_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  logoUrl_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  logoUrl_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  logoUrl_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  logoUrl_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  logoUrl_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type CoursePlatformOnCreateInput = {
+  logoUrl?: InputMaybe<Scalars['String']>;
+  name: Scalars['String'];
+  url: Scalars['String'];
+};
+
+export type CoursePlatformOptions = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  /** Specify one or more CoursePlatformSort objects to sort CoursePlatforms by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<CoursePlatformSort>>;
+};
+
+export type CoursePlatformRelationInput = {
+  courses?: InputMaybe<Array<CoursePlatformCoursesCreateFieldInput>>;
+};
+
+export type CoursePlatformRelationship = {
+  __typename?: 'CoursePlatformRelationship';
+  cursor: Scalars['String'];
+  node: CoursePlatform;
+};
+
+/** Fields to sort CoursePlatforms by. The order in which sorts are applied is not guaranteed when specifying many fields in one CoursePlatformSort object. */
+export type CoursePlatformSort = {
+  createdAt?: InputMaybe<SortDirection>;
+  id?: InputMaybe<SortDirection>;
+  logoUrl?: InputMaybe<SortDirection>;
+  name?: InputMaybe<SortDirection>;
+  updatedAt?: InputMaybe<SortDirection>;
+  url?: InputMaybe<SortDirection>;
+};
+
+export type CoursePlatformUniqueWhere = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type CoursePlatformUpdateConnectionInput = {
+  node?: InputMaybe<CoursePlatformUpdateInput>;
+};
+
+export type CoursePlatformUpdateFieldInput = {
+  connect?: InputMaybe<CoursePlatformConnectFieldInput>;
+  connectOrCreate?: InputMaybe<CoursePlatformConnectOrCreateFieldInput>;
+  create?: InputMaybe<CoursePlatformCreateFieldInput>;
+  delete?: InputMaybe<CoursePlatformDeleteFieldInput>;
+  disconnect?: InputMaybe<CoursePlatformDisconnectFieldInput>;
+  update?: InputMaybe<CoursePlatformUpdateConnectionInput>;
+  where?: InputMaybe<CoursePlatformConnectionWhere>;
+};
+
+export type CoursePlatformUpdateInput = {
+  courses?: InputMaybe<Array<CoursePlatformCoursesUpdateFieldInput>>;
+  logoUrl?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type CoursePlatformWhere = {
+  AND?: InputMaybe<Array<CoursePlatformWhere>>;
+  NOT?: InputMaybe<CoursePlatformWhere>;
+  OR?: InputMaybe<Array<CoursePlatformWhere>>;
+  coursesAggregate?: InputMaybe<CoursePlatformCoursesAggregateInput>;
+  /** Return CoursePlatforms where all of the related CoursePlatformCoursesConnections match this filter */
+  coursesConnection_ALL?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+  /** Return CoursePlatforms where none of the related CoursePlatformCoursesConnections match this filter */
+  coursesConnection_NONE?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+  /** Return CoursePlatforms where one of the related CoursePlatformCoursesConnections match this filter */
+  coursesConnection_SINGLE?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+  /** Return CoursePlatforms where some of the related CoursePlatformCoursesConnections match this filter */
+  coursesConnection_SOME?: InputMaybe<CoursePlatformCoursesConnectionWhere>;
+  /** Return CoursePlatforms where all of the related Courses match this filter */
+  courses_ALL?: InputMaybe<CourseWhere>;
+  /** Return CoursePlatforms where none of the related Courses match this filter */
+  courses_NONE?: InputMaybe<CourseWhere>;
+  /** Return CoursePlatforms where one of the related Courses match this filter */
+  courses_SINGLE?: InputMaybe<CourseWhere>;
+  /** Return CoursePlatforms where some of the related Courses match this filter */
+  courses_SOME?: InputMaybe<CourseWhere>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  createdAt_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_IN?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdAt_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_LTE?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_CONTAINS?: InputMaybe<Scalars['ID']>;
+  id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
+  id_IN?: InputMaybe<Array<Scalars['ID']>>;
+  id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
+  logoUrl?: InputMaybe<Scalars['String']>;
+  logoUrl_CONTAINS?: InputMaybe<Scalars['String']>;
+  logoUrl_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  logoUrl_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  logoUrl_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_CONTAINS?: InputMaybe<Scalars['String']>;
+  name_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  name_IN?: InputMaybe<Array<Scalars['String']>>;
+  name_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_IN?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updatedAt_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_LTE?: InputMaybe<Scalars['DateTime']>;
+  url?: InputMaybe<Scalars['String']>;
+  url_CONTAINS?: InputMaybe<Scalars['String']>;
+  url_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  url_IN?: InputMaybe<Array<Scalars['String']>>;
+  url_STARTS_WITH?: InputMaybe<Scalars['String']>;
+};
+
+export type CoursePlatformsConnection = {
+  __typename?: 'CoursePlatformsConnection';
+  edges: Array<CoursePlatformEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
 };
 
 export type CoursePrice = {
@@ -537,6 +1568,8 @@ export type CoursePricesConnection = {
 };
 
 export type CourseRelationInput = {
+  languages?: InputMaybe<Array<CourseLanguagesCreateFieldInput>>;
+  platform?: InputMaybe<CoursePlatformCreateFieldInput>;
   price?: InputMaybe<CoursePriceCreateFieldInput>;
 };
 
@@ -556,6 +1589,8 @@ export type CourseUniqueWhere = {
 
 export type CourseUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  languages?: InputMaybe<Array<CourseLanguagesUpdateFieldInput>>;
+  platform?: InputMaybe<CoursePlatformUpdateFieldInput>;
   price?: InputMaybe<CoursePriceUpdateFieldInput>;
   title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
@@ -581,6 +1616,28 @@ export type CourseWhere = {
   id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
   id_IN?: InputMaybe<Array<Scalars['ID']>>;
   id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
+  languagesAggregate?: InputMaybe<CourseLanguagesAggregateInput>;
+  /** Return Courses where all of the related CourseLanguagesConnections match this filter */
+  languagesConnection_ALL?: InputMaybe<CourseLanguagesConnectionWhere>;
+  /** Return Courses where none of the related CourseLanguagesConnections match this filter */
+  languagesConnection_NONE?: InputMaybe<CourseLanguagesConnectionWhere>;
+  /** Return Courses where one of the related CourseLanguagesConnections match this filter */
+  languagesConnection_SINGLE?: InputMaybe<CourseLanguagesConnectionWhere>;
+  /** Return Courses where some of the related CourseLanguagesConnections match this filter */
+  languagesConnection_SOME?: InputMaybe<CourseLanguagesConnectionWhere>;
+  /** Return Courses where all of the related CourseLanguages match this filter */
+  languages_ALL?: InputMaybe<CourseLanguageWhere>;
+  /** Return Courses where none of the related CourseLanguages match this filter */
+  languages_NONE?: InputMaybe<CourseLanguageWhere>;
+  /** Return Courses where one of the related CourseLanguages match this filter */
+  languages_SINGLE?: InputMaybe<CourseLanguageWhere>;
+  /** Return Courses where some of the related CourseLanguages match this filter */
+  languages_SOME?: InputMaybe<CourseLanguageWhere>;
+  platform?: InputMaybe<CoursePlatformWhere>;
+  platformAggregate?: InputMaybe<CoursePlatformAggregateInput>;
+  platformConnection?: InputMaybe<CoursePlatformConnectionWhere>;
+  platformConnection_NOT?: InputMaybe<CoursePlatformConnectionWhere>;
+  platform_NOT?: InputMaybe<CoursePlatformWhere>;
   price?: InputMaybe<CoursePriceWhere>;
   priceAggregate?: InputMaybe<CoursePriceAggregateInput>;
   priceConnection?: InputMaybe<CoursePriceConnectionWhere>;
@@ -611,6 +1668,18 @@ export type CoursesConnection = {
   totalCount: Scalars['Int'];
 };
 
+export type CreateCourseLanguagesMutationResponse = {
+  __typename?: 'CreateCourseLanguagesMutationResponse';
+  courseLanguages: Array<CourseLanguage>;
+  info: CreateInfo;
+};
+
+export type CreateCoursePlatformsMutationResponse = {
+  __typename?: 'CreateCoursePlatformsMutationResponse';
+  coursePlatforms: Array<CoursePlatform>;
+  info: CreateInfo;
+};
+
 export type CreateCoursePricesMutationResponse = {
   __typename?: 'CreateCoursePricesMutationResponse';
   coursePrices: Array<CoursePrice>;
@@ -628,12 +1697,6 @@ export type CreateInfo = {
   bookmark?: Maybe<Scalars['String']>;
   nodesCreated: Scalars['Int'];
   relationshipsCreated: Scalars['Int'];
-};
-
-export type CreateSkillTagsMutationResponse = {
-  __typename?: 'CreateSkillTagsMutationResponse';
-  info: CreateInfo;
-  skillTags: Array<SkillTag>;
 };
 
 export type CreateUsersMutationResponse = {
@@ -677,22 +1740,35 @@ export type IntAggregateSelectionNullable = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createCourseLanguages: CreateCourseLanguagesMutationResponse;
+  createCoursePlatforms: CreateCoursePlatformsMutationResponse;
   createCoursePrices: CreateCoursePricesMutationResponse;
   createCourses: CreateCoursesMutationResponse;
-  createSkillTags: CreateSkillTagsMutationResponse;
   createUsers: CreateUsersMutationResponse;
+  deleteCourseLanguages: DeleteInfo;
+  deleteCoursePlatforms: DeleteInfo;
   deleteCoursePrices: DeleteInfo;
   deleteCourses: DeleteInfo;
-  deleteSkillTags: DeleteInfo;
   deleteUsers: DeleteInfo;
+  /** Refresh user auth session */
+  refreshSession: AuthSessionResponse;
   /** Sign in existing user */
-  signIn: AuthSessionResponse;
+  signIn: AuthSessionWithUserResponse;
   /** Sign up new common user */
-  signUp: AuthSessionResponse;
+  signUp: AuthSessionWithUserResponse;
+  updateCourseLanguages: UpdateCourseLanguagesMutationResponse;
+  updateCoursePlatforms: UpdateCoursePlatformsMutationResponse;
   updateCoursePrices: UpdateCoursePricesMutationResponse;
   updateCourses: UpdateCoursesMutationResponse;
-  updateSkillTags: UpdateSkillTagsMutationResponse;
   updateUsers: UpdateUsersMutationResponse;
+};
+
+export type MutationCreateCourseLanguagesArgs = {
+  input: Array<CourseLanguageCreateInput>;
+};
+
+export type MutationCreateCoursePlatformsArgs = {
+  input: Array<CoursePlatformCreateInput>;
 };
 
 export type MutationCreateCoursePricesArgs = {
@@ -703,12 +1779,18 @@ export type MutationCreateCoursesArgs = {
   input: Array<CourseCreateInput>;
 };
 
-export type MutationCreateSkillTagsArgs = {
-  input: Array<SkillTagCreateInput>;
-};
-
 export type MutationCreateUsersArgs = {
   input: Array<UserCreateInput>;
+};
+
+export type MutationDeleteCourseLanguagesArgs = {
+  delete?: InputMaybe<CourseLanguageDeleteInput>;
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type MutationDeleteCoursePlatformsArgs = {
+  delete?: InputMaybe<CoursePlatformDeleteInput>;
+  where?: InputMaybe<CoursePlatformWhere>;
 };
 
 export type MutationDeleteCoursePricesArgs = {
@@ -721,12 +1803,12 @@ export type MutationDeleteCoursesArgs = {
   where?: InputMaybe<CourseWhere>;
 };
 
-export type MutationDeleteSkillTagsArgs = {
-  where?: InputMaybe<SkillTagWhere>;
-};
-
 export type MutationDeleteUsersArgs = {
   where?: InputMaybe<UserWhere>;
+};
+
+export type MutationRefreshSessionArgs = {
+  refreshToken: Scalars['String'];
 };
 
 export type MutationSignInArgs = {
@@ -735,6 +1817,26 @@ export type MutationSignInArgs = {
 
 export type MutationSignUpArgs = {
   data: UserSignUpInput;
+};
+
+export type MutationUpdateCourseLanguagesArgs = {
+  connect?: InputMaybe<CourseLanguageConnectInput>;
+  connectOrCreate?: InputMaybe<CourseLanguageConnectOrCreateInput>;
+  create?: InputMaybe<CourseLanguageRelationInput>;
+  delete?: InputMaybe<CourseLanguageDeleteInput>;
+  disconnect?: InputMaybe<CourseLanguageDisconnectInput>;
+  update?: InputMaybe<CourseLanguageUpdateInput>;
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type MutationUpdateCoursePlatformsArgs = {
+  connect?: InputMaybe<CoursePlatformConnectInput>;
+  connectOrCreate?: InputMaybe<CoursePlatformConnectOrCreateInput>;
+  create?: InputMaybe<CoursePlatformRelationInput>;
+  delete?: InputMaybe<CoursePlatformDeleteInput>;
+  disconnect?: InputMaybe<CoursePlatformDisconnectInput>;
+  update?: InputMaybe<CoursePlatformUpdateInput>;
+  where?: InputMaybe<CoursePlatformWhere>;
 };
 
 export type MutationUpdateCoursePricesArgs = {
@@ -749,16 +1851,12 @@ export type MutationUpdateCoursePricesArgs = {
 
 export type MutationUpdateCoursesArgs = {
   connect?: InputMaybe<CourseConnectInput>;
+  connectOrCreate?: InputMaybe<CourseConnectOrCreateInput>;
   create?: InputMaybe<CourseRelationInput>;
   delete?: InputMaybe<CourseDeleteInput>;
   disconnect?: InputMaybe<CourseDisconnectInput>;
   update?: InputMaybe<CourseUpdateInput>;
   where?: InputMaybe<CourseWhere>;
-};
-
-export type MutationUpdateSkillTagsArgs = {
-  update?: InputMaybe<SkillTagUpdateInput>;
-  where?: InputMaybe<SkillTagWhere>;
 };
 
 export type MutationUpdateUsersArgs = {
@@ -777,6 +1875,12 @@ export type PageInfo = {
 
 export type Query = {
   __typename?: 'Query';
+  courseLanguages: Array<CourseLanguage>;
+  courseLanguagesAggregate: CourseLanguageAggregateSelection;
+  courseLanguagesConnection: CourseLanguagesConnection;
+  coursePlatforms: Array<CoursePlatform>;
+  coursePlatformsAggregate: CoursePlatformAggregateSelection;
+  coursePlatformsConnection: CoursePlatformsConnection;
   coursePrices: Array<CoursePrice>;
   coursePricesAggregate: CoursePriceAggregateSelection;
   coursePricesConnection: CoursePricesConnection;
@@ -784,12 +1888,41 @@ export type Query = {
   coursesAggregate: CourseAggregateSelection;
   coursesConnection: CoursesConnection;
   currentUser: UserResponse;
-  skillTags: Array<SkillTag>;
-  skillTagsAggregate: SkillTagAggregateSelection;
-  skillTagsConnection: SkillTagsConnection;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
+};
+
+export type QueryCourseLanguagesArgs = {
+  options?: InputMaybe<CourseLanguageOptions>;
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type QueryCourseLanguagesAggregateArgs = {
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type QueryCourseLanguagesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<InputMaybe<CourseLanguageSort>>>;
+  where?: InputMaybe<CourseLanguageWhere>;
+};
+
+export type QueryCoursePlatformsArgs = {
+  options?: InputMaybe<CoursePlatformOptions>;
+  where?: InputMaybe<CoursePlatformWhere>;
+};
+
+export type QueryCoursePlatformsAggregateArgs = {
+  where?: InputMaybe<CoursePlatformWhere>;
+};
+
+export type QueryCoursePlatformsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<InputMaybe<CoursePlatformSort>>>;
+  where?: InputMaybe<CoursePlatformWhere>;
 };
 
 export type QueryCoursePricesArgs = {
@@ -824,22 +1957,6 @@ export type QueryCoursesConnectionArgs = {
   where?: InputMaybe<CourseWhere>;
 };
 
-export type QuerySkillTagsArgs = {
-  options?: InputMaybe<SkillTagOptions>;
-  where?: InputMaybe<SkillTagWhere>;
-};
-
-export type QuerySkillTagsAggregateArgs = {
-  where?: InputMaybe<SkillTagWhere>;
-};
-
-export type QuerySkillTagsConnectionArgs = {
-  after?: InputMaybe<Scalars['String']>;
-  first?: InputMaybe<Scalars['Int']>;
-  sort?: InputMaybe<Array<InputMaybe<SkillTagSort>>>;
-  where?: InputMaybe<SkillTagWhere>;
-};
-
 export type QueryUsersArgs = {
   options?: InputMaybe<UserOptions>;
   where?: InputMaybe<UserWhere>;
@@ -854,63 +1971,6 @@ export type QueryUsersConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<InputMaybe<UserSort>>>;
   where?: InputMaybe<UserWhere>;
-};
-
-export type SkillTag = {
-  __typename?: 'SkillTag';
-  id: Scalars['ID'];
-};
-
-export type SkillTagAggregateSelection = {
-  __typename?: 'SkillTagAggregateSelection';
-  count: Scalars['Int'];
-  id: IdAggregateSelectionNonNullable;
-};
-
-export type SkillTagCreateInput = {
-  /** Appears because this input type would be empty otherwise because this type is composed of just generated and/or relationship properties. See https://neo4j.com/docs/graphql-manual/current/troubleshooting/faqs/ */
-  _emptyInput?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type SkillTagEdge = {
-  __typename?: 'SkillTagEdge';
-  cursor: Scalars['String'];
-  node: SkillTag;
-};
-
-export type SkillTagOptions = {
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  /** Specify one or more SkillTagSort objects to sort SkillTags by. The sorts will be applied in the order in which they are arranged in the array. */
-  sort?: InputMaybe<Array<SkillTagSort>>;
-};
-
-/** Fields to sort SkillTags by. The order in which sorts are applied is not guaranteed when specifying many fields in one SkillTagSort object. */
-export type SkillTagSort = {
-  id?: InputMaybe<SortDirection>;
-};
-
-export type SkillTagUpdateInput = {
-  /** Appears because this input type would be empty otherwise because this type is composed of just generated and/or relationship properties. See https://neo4j.com/docs/graphql-manual/current/troubleshooting/faqs/ */
-  _emptyInput?: InputMaybe<Scalars['Boolean']>;
-};
-
-export type SkillTagWhere = {
-  AND?: InputMaybe<Array<SkillTagWhere>>;
-  NOT?: InputMaybe<SkillTagWhere>;
-  OR?: InputMaybe<Array<SkillTagWhere>>;
-  id?: InputMaybe<Scalars['ID']>;
-  id_CONTAINS?: InputMaybe<Scalars['ID']>;
-  id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
-  id_IN?: InputMaybe<Array<Scalars['ID']>>;
-  id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
-};
-
-export type SkillTagsConnection = {
-  __typename?: 'SkillTagsConnection';
-  edges: Array<SkillTagEdge>;
-  pageInfo: PageInfo;
-  totalCount: Scalars['Int'];
 };
 
 export enum SortDirection {
@@ -932,6 +1992,18 @@ export type StringAggregateSelectionNullable = {
   shortest?: Maybe<Scalars['String']>;
 };
 
+export type UpdateCourseLanguagesMutationResponse = {
+  __typename?: 'UpdateCourseLanguagesMutationResponse';
+  courseLanguages: Array<CourseLanguage>;
+  info: UpdateInfo;
+};
+
+export type UpdateCoursePlatformsMutationResponse = {
+  __typename?: 'UpdateCoursePlatformsMutationResponse';
+  coursePlatforms: Array<CoursePlatform>;
+  info: UpdateInfo;
+};
+
 export type UpdateCoursePricesMutationResponse = {
   __typename?: 'UpdateCoursePricesMutationResponse';
   coursePrices: Array<CoursePrice>;
@@ -951,12 +2023,6 @@ export type UpdateInfo = {
   nodesDeleted: Scalars['Int'];
   relationshipsCreated: Scalars['Int'];
   relationshipsDeleted: Scalars['Int'];
-};
-
-export type UpdateSkillTagsMutationResponse = {
-  __typename?: 'UpdateSkillTagsMutationResponse';
-  info: UpdateInfo;
-  skillTags: Array<SkillTag>;
 };
 
 export type UpdateUsersMutationResponse = {
@@ -1103,6 +2169,22 @@ export type UserInfoFragment = {
   roles: Array<string>;
 };
 
+export type SessionInfoFragment = {
+  __typename?: 'AuthSessionResponse';
+  accessToken: string;
+  accessTokenExpiresIn: number;
+  refreshToken: string;
+  refreshTokenExpiresIn: number;
+};
+
+export type SessionWithUserInfoFragment = {
+  __typename?: 'AuthSessionWithUserResponse';
+  accessToken: string;
+  accessTokenExpiresIn: number;
+  refreshToken: string;
+  refreshTokenExpiresIn: number;
+};
+
 export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type CurrentUserQuery = {
@@ -1124,7 +2206,7 @@ export type SignInMutationVariables = Exact<{
 export type SignInMutation = {
   __typename?: 'Mutation';
   signIn: {
-    __typename?: 'AuthSessionResponse';
+    __typename?: 'AuthSessionWithUserResponse';
     accessToken: string;
     accessTokenExpiresIn: number;
     refreshToken: string;
@@ -1140,6 +2222,40 @@ export type SignInMutation = {
   };
 };
 
+export type CoursePlatformInfoFragment = {
+  __typename?: 'CoursePlatform';
+  id: string;
+  name: string;
+  url: string;
+  logoUrl?: string | null;
+  createdAt: any;
+  updatedAt?: any | null;
+};
+
+export type GetCoursePlatformsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetCoursePlatformsQuery = {
+  __typename?: 'Query';
+  coursePlatforms: Array<{
+    __typename?: 'CoursePlatform';
+    id: string;
+    name: string;
+    url: string;
+    logoUrl?: string | null;
+    createdAt: any;
+    updatedAt?: any | null;
+  }>;
+};
+
+export type DeleteCoursePlatformByIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type DeleteCoursePlatformByIdMutation = {
+  __typename?: 'Mutation';
+  deleteCoursePlatforms: { __typename?: 'DeleteInfo'; nodesDeleted: number };
+};
+
 export type CourseInfoFragment = {
   __typename?: 'Course';
   id: string;
@@ -1149,6 +2265,13 @@ export type CourseInfoFragment = {
   createdAt: any;
   updatedAt?: any | null;
   price?: { __typename?: 'CoursePrice'; currency?: string | null; price?: number | null } | null;
+  platform?: {
+    __typename?: 'CoursePlatform';
+    id: string;
+    name: string;
+    logoUrl?: string | null;
+    url: string;
+  } | null;
 };
 
 export type GetCoursesQueryVariables = Exact<{
@@ -1167,6 +2290,13 @@ export type GetCoursesQuery = {
     createdAt: any;
     updatedAt?: any | null;
     price?: { __typename?: 'CoursePrice'; currency?: string | null; price?: number | null } | null;
+    platform?: {
+      __typename?: 'CoursePlatform';
+      id: string;
+      name: string;
+      logoUrl?: string | null;
+      url: string;
+    } | null;
   }>;
 };
 
@@ -1211,6 +2341,68 @@ export const UserInfoFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode;
+export const SessionInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SessionInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AuthSessionResponse' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accessTokenExpiresIn' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiresIn' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const SessionWithUserInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SessionWithUserInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AuthSessionWithUserResponse' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accessTokenExpiresIn' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiresIn' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const CoursePlatformInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CoursePlatformInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CoursePlatform' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
 export const CourseInfoFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -1235,6 +2427,19 @@ export const CourseInfoFragmentDoc = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
               ],
             },
           },
@@ -1351,10 +2556,7 @@ export const SignInDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'accessTokenExpiresIn' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiresIn' } },
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SessionWithUserInfo' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'user' },
@@ -1383,6 +2585,23 @@ export const SignInDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'SessionWithUserInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'AuthSessionWithUserResponse' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'accessTokenExpiresIn' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiresIn' } },
         ],
       },
     },
@@ -1418,6 +2637,184 @@ export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
 export type SignInMutationOptions = Apollo.BaseMutationOptions<
   SignInMutation,
   SignInMutationVariables
+>;
+export const GetCoursePlatformsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetCoursePlatforms' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'coursePlatforms' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'CoursePlatformInfo' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CoursePlatformInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'CoursePlatform' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useGetCoursePlatformsQuery__
+ *
+ * To run a query within a React component, call `useGetCoursePlatformsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCoursePlatformsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCoursePlatformsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCoursePlatformsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetCoursePlatformsQuery, GetCoursePlatformsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCoursePlatformsQuery, GetCoursePlatformsQueryVariables>(
+    GetCoursePlatformsDocument,
+    options,
+  );
+}
+export function useGetCoursePlatformsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetCoursePlatformsQuery,
+    GetCoursePlatformsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCoursePlatformsQuery, GetCoursePlatformsQueryVariables>(
+    GetCoursePlatformsDocument,
+    options,
+  );
+}
+export type GetCoursePlatformsQueryHookResult = ReturnType<typeof useGetCoursePlatformsQuery>;
+export type GetCoursePlatformsLazyQueryHookResult = ReturnType<
+  typeof useGetCoursePlatformsLazyQuery
+>;
+export type GetCoursePlatformsQueryResult = Apollo.QueryResult<
+  GetCoursePlatformsQuery,
+  GetCoursePlatformsQueryVariables
+>;
+export const DeleteCoursePlatformByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteCoursePlatformById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteCoursePlatforms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'nodesDeleted' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type DeleteCoursePlatformByIdMutationFn = Apollo.MutationFunction<
+  DeleteCoursePlatformByIdMutation,
+  DeleteCoursePlatformByIdMutationVariables
+>;
+
+/**
+ * __useDeleteCoursePlatformByIdMutation__
+ *
+ * To run a mutation, you first call `useDeleteCoursePlatformByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteCoursePlatformByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteCoursePlatformByIdMutation, { data, loading, error }] = useDeleteCoursePlatformByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteCoursePlatformByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DeleteCoursePlatformByIdMutation,
+    DeleteCoursePlatformByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    DeleteCoursePlatformByIdMutation,
+    DeleteCoursePlatformByIdMutationVariables
+  >(DeleteCoursePlatformByIdDocument, options);
+}
+export type DeleteCoursePlatformByIdMutationHookResult = ReturnType<
+  typeof useDeleteCoursePlatformByIdMutation
+>;
+export type DeleteCoursePlatformByIdMutationResult =
+  Apollo.MutationResult<DeleteCoursePlatformByIdMutation>;
+export type DeleteCoursePlatformByIdMutationOptions = Apollo.BaseMutationOptions<
+  DeleteCoursePlatformByIdMutation,
+  DeleteCoursePlatformByIdMutationVariables
 >;
 export const GetCoursesDocument = {
   kind: 'Document',
@@ -1485,6 +2882,19 @@ export const GetCoursesDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
               ],
             },
           },

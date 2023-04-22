@@ -16,6 +16,7 @@ export const useCurrentUser = () => {
   } = useCurrentUserQuery({
     skip: !isAuthenticated,
     initialFetchPolicy: 'network-only',
+    notifyOnNetworkStatusChange: true,
   });
   const currentUser = data?.currentUser;
 

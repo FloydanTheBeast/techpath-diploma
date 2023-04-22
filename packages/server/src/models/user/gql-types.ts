@@ -38,8 +38,6 @@ export class UserSignInInput {
 
 @ObjectType()
 export class AuthSessionResponse {
-  @Field(() => UserResponse)
-  user: User;
   @Field()
   accessToken: string;
   @Field()
@@ -48,4 +46,10 @@ export class AuthSessionResponse {
   refreshToken: string;
   @Field()
   refreshTokenExpiresIn: number;
+}
+
+@ObjectType()
+export class AuthSessionWithUserResponse extends AuthSessionResponse {
+  @Field(() => UserResponse)
+  user: User;
 }

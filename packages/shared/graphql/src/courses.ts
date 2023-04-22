@@ -12,6 +12,12 @@ export const COURSE_INFO_FRAGMENT = gql`
       currency
       price
     }
+    platform {
+      id
+      name
+      logoUrl
+      url
+    }
   }
 `;
 

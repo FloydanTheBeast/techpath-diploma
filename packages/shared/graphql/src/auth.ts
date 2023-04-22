@@ -10,6 +10,24 @@ export const USER_INFO_FRAGMENT = gql`
   }
 `;
 
+export const SESSION_INFO_FRAGMENT = gql`
+  fragment SessionInfo on AuthSessionResponse {
+    accessToken
+    accessTokenExpiresIn
+    refreshToken
+    refreshTokenExpiresIn
+  }
+`;
+
+export const SESSION_WITH_USER_INFO_FRAGMENT = gql`
+  fragment SessionWithUserInfo on AuthSessionWithUserResponse {
+    accessToken
+    accessTokenExpiresIn
+    refreshToken
+    refreshTokenExpiresIn
+  }
+`;
+
 export const CURRENT_USER_QUERY = gql`
   query CurrentUser {
     currentUser {
@@ -22,14 +40,12 @@ export const CURRENT_USER_QUERY = gql`
 export const SIGN_IN_USER_MUTATION = gql`
   mutation SignIn($data: UserSignInInput!) {
     signIn(data: $data) {
-      accessToken
-      accessTokenExpiresIn
-      refreshToken
-      refreshTokenExpiresIn
+      ...SessionWithUserInfo
       user {
         ...UserInfo
       }
     }
   }
+  ${SESSION_WITH_USER_INFO_FRAGMENT}
   ${USER_INFO_FRAGMENT}
 `;
