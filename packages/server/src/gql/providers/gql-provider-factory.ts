@@ -1,16 +1,19 @@
 import { Neo4jGraphQL } from '@neo4j/graphql';
-import { Neo4jGraphQLAuthJWTPlugin } from '@neo4j/graphql-plugin-auth';
 import { ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigService } from '@nestjs/config';
 import { GqlModuleAsyncOptions } from '@nestjs/graphql';
+import { JwtService } from '@nestjs/jwt';
+import { ForbiddenError } from 'apollo-server';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
 import neo4j from 'neo4j-driver';
 
+import { Neo4GqlAuthPlugin } from './neo4j-gql-auth.plugin';
 import { AppConfig } from '../../common/types';
 import { typeDefs } from '../type-defs';
 
 export const gqlProviderFactory: GqlModuleAsyncOptions<ApolloDriverConfig>['useFactory'] = async (
   configService: ConfigService<AppConfig>,
+  jwtService: JwtService,
 ) => {
   // FIXME: Use driver from outside source
   const driver = neo4j.driver(
@@ -28,9 +31,10 @@ export const gqlProviderFactory: GqlModuleAsyncOptions<ApolloDriverConfig>['useF
       // TODO: Write own auth plugin
       // ref: https://neo4j.com/docs/graphql-manual/current/auth/setup/#_configuration,
       // https://github.com/neo4j/graphql/blob/dev/packages/plugins/graphql-plugin-auth/src/Neo4jGraphQLAuthJWTPlugin.ts
-      auth: new Neo4jGraphQLAuthJWTPlugin({
-        secret: configService.getOrThrow('JWT_ACCESS_SECRET'),
-      }),
+      auth: new Neo4GqlAuthPlugin(
+        { secret: configService.getOrThrow('JWT_ACCESS_SECRET') },
+        jwtService,
+      ),
     },
   });
 
@@ -44,6 +48,14 @@ export const gqlProviderFactory: GqlModuleAsyncOptions<ApolloDriverConfig>['useF
     plugins: [ApolloServerPluginLandingPageLocalDefault()],
     introspection: true,
     autoSchemaFile: true,
+    formatError: error => {
+      if (error.message === 'Forbidden') {
+        return new ForbiddenError(error.message, {
+          response: { statusCode: 403, message: error.message },
+        });
+      }
+      return error;
+    },
     schema,
   };
 };

@@ -12,7 +12,7 @@ export const ContentPageLayout: React.FC<React.PropsWithChildren<ContentPageLayo
 }) => {
   return (
     <Paper shadow="xl" sx={{ height: '100%', padding: 32 }}>
-      <Title>{title}</Title>
+      <Title mb="1rem">{title}</Title>
       {children}
     </Paper>
   );

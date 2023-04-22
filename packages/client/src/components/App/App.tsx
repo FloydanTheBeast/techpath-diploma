@@ -13,6 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 import { ACCESS_TOKEN_STORAGE_KEY } from 'src/constants';
 import { AuthProvider } from 'src/providers';
+import { ModalsProvider } from 'src/providers/ModalsProvider';
 
 import { AppRouter } from '../AppRouter';
 
@@ -43,7 +44,9 @@ export const App: React.FC = () => {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <AuthProvider>
-          <AppRouter />
+          <ModalsProvider>
+            <AppRouter />
+          </ModalsProvider>
         </AuthProvider>
       </BrowserRouter>
     </ApolloProvider>
