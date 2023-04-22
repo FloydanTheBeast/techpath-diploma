@@ -1,12 +1,7 @@
 import React from 'react';
 
 import { Button, Flex, Group, Title } from '@mantine/core';
-import {
-  IconCircleArrowLeftFilled,
-  IconCircleKey,
-  IconCircleKeyFilled,
-  IconKey,
-} from '@tabler/icons-react';
+import { IconCircleArrowLeftFilled, IconCircleKeyFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 
 import { appRoutes } from 'src/constants';

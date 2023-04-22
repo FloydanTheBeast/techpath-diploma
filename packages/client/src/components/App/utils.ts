@@ -12,8 +12,7 @@ export const refreshToken = async () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          query: `
-        mutation RefreshSession($refreshToken: String!) {
+          query: `mutation RefreshSession($refreshToken: String!) {
           refreshSession(refreshToken: $refreshToken) {
             accessToken
             refreshToken

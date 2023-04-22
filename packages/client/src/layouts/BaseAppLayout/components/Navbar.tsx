@@ -49,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
             </Title>
           </Group>
           {/* FIXME: Pull version from config */}
-          <Code sx={{ fontWeight: 700 }}>v0.0.1</Code>
+          <Code sx={{ fontWeight: 700 }}>v0.0.1-&alpha;</Code>
         </Group>
       </NavbarBase.Section>
       <NavbarBase.Section grow>

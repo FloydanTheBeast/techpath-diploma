@@ -31,8 +31,8 @@ export const GET_COURSES_QUERY = gql`
 `;
 
 export const CREATE_COURSE_MUTATION = gql`
-  mutation CreateCourse($course: CourseCreateInput!) {
-    createCourses(input: [$course]) {
+  mutation CreateCourse($input: CourseCreateInput!) {
+    createCourses(input: [$input]) {
       courses {
         id
       }

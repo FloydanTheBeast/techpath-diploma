@@ -98,7 +98,7 @@ export const CoursesPage: React.FC = () => {
             mantineTableHeadCellProps: {
               align: 'center',
             },
-            minSize: 50,
+            minSize: 80,
           },
         }}
         columns={columns}

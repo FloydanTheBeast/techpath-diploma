@@ -18,7 +18,7 @@ export const CreateCourseModal: React.FC = () => {
   const onSubmit: SubmitHandler<CreateCourseFormData> = async formData => {
     switchClosability(false);
     try {
-      await createCourse({ variables: { course: formData }, refetchQueries: [GetCoursesDocument] });
+      await createCourse({ variables: { input: formData }, refetchQueries: [GetCoursesDocument] });
       closeModal();
     } catch (error) {
       // TODO: Spawn notification
@@ -63,11 +63,13 @@ export const CreateCourseModal: React.FC = () => {
             mb: 'md',
           }}
         />
-        <Group spacing="1rem" position="center">
-          <Button onClick={() => closeModal()} variant="light" color="red">
+        <Group spacing="1rem" position="right">
+          <Button onClick={() => closeModal()} variant="outline" color="red">
             Cancel
           </Button>
-          <Button type="submit">Create</Button>
+          <Button type="submit" variant="light">
+            Create
+          </Button>
         </Group>
       </form>
     </Modal>

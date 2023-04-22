@@ -20,6 +20,16 @@ export const GET_COURSE_PLATFORMS_QUERY = gql`
   ${COURSE_PLATFORM_INFO_FRAGMENT}
 `;
 
+export const CREATE_COURSE_PLATFORM_MUTATION = gql`
+  mutation CreateCoursePlatform($input: CoursePlatformCreateInput!) {
+    createCoursePlatforms(input: [$input]) {
+      coursePlatforms {
+        id
+      }
+    }
+  }
+`;
+
 export const DELETE_COURSE_PLATFORM_BY_ID_MUTATION = gql`
   mutation DeleteCoursePlatformById($id: ID!) {
     deleteCoursePlatforms(where: { id: $id }) {

@@ -17,7 +17,7 @@ import {
 } from '@tabler/icons-react';
 import { MRT_ColumnDef } from 'mantine-react-table';
 
-import { ContentPageLayout, CreateCourseModal, DataGrid } from 'src/components';
+import { ContentPageLayout, CreateCoursePlatformModal, DataGrid } from 'src/components';
 import { ModalId } from 'src/constants';
 import { useModal } from 'src/hooks';
 
@@ -60,7 +60,7 @@ const columns: MRT_ColumnDef<Partial<CoursePlatformInfoFragment>>[] = [
 ];
 
 export const CoursePlatformsPage: React.FC = () => {
-  const { openModal } = useModal(ModalId.CreateCourseModal);
+  const { openModal } = useModal(ModalId.CreateCoursePlatformModal);
   const { data, loading: loadingCourses } = useGetCoursePlatformsQuery({
     notifyOnNetworkStatusChange: true,
   });
@@ -80,7 +80,7 @@ export const CoursePlatformsPage: React.FC = () => {
   const coursePlatforms = data?.coursePlatforms;
 
   return (
-    <ContentPageLayout title="Courses">
+    <ContentPageLayout title="Course Platforms">
       <DataGrid
         displayColumnDefOptions={{
           'mrt-row-actions': {
@@ -121,13 +121,13 @@ export const CoursePlatformsPage: React.FC = () => {
               variant="outline"
               // color="green"
             >
-              Create new course platform
+              Create new platform
             </Button>
           );
         }}
       />
 
-      <CreateCourseModal />
+      <CreateCoursePlatformModal />
     </ContentPageLayout>
   );
 };

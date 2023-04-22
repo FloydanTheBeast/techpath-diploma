@@ -2248,6 +2248,18 @@ export type GetCoursePlatformsQuery = {
   }>;
 };
 
+export type CreateCoursePlatformMutationVariables = Exact<{
+  input: CoursePlatformCreateInput;
+}>;
+
+export type CreateCoursePlatformMutation = {
+  __typename?: 'Mutation';
+  createCoursePlatforms: {
+    __typename?: 'CreateCoursePlatformsMutationResponse';
+    coursePlatforms: Array<{ __typename?: 'CoursePlatform'; id: string }>;
+  };
+};
+
 export type DeleteCoursePlatformByIdMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2302,7 +2314,7 @@ export type GetCoursesQuery = {
 };
 
 export type CreateCourseMutationVariables = Exact<{
-  course: CourseCreateInput;
+  input: CourseCreateInput;
 }>;
 
 export type CreateCourseMutation = {
@@ -2786,6 +2798,101 @@ export type GetCoursePlatformsQueryResult = Apollo.QueryResult<
   GetCoursePlatformsQuery,
   GetCoursePlatformsQueryVariables
 >;
+export const CreateCoursePlatformDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateCoursePlatform' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CoursePlatformCreateInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createCoursePlatforms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: {
+                  kind: 'ListValue',
+                  values: [{ kind: 'Variable', name: { kind: 'Name', value: 'input' } }],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'coursePlatforms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type CreateCoursePlatformMutationFn = Apollo.MutationFunction<
+  CreateCoursePlatformMutation,
+  CreateCoursePlatformMutationVariables
+>;
+
+/**
+ * __useCreateCoursePlatformMutation__
+ *
+ * To run a mutation, you first call `useCreateCoursePlatformMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCoursePlatformMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createCoursePlatformMutation, { data, loading, error }] = useCreateCoursePlatformMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateCoursePlatformMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateCoursePlatformMutation,
+    CreateCoursePlatformMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateCoursePlatformMutation, CreateCoursePlatformMutationVariables>(
+    CreateCoursePlatformDocument,
+    options,
+  );
+}
+export type CreateCoursePlatformMutationHookResult = ReturnType<
+  typeof useCreateCoursePlatformMutation
+>;
+export type CreateCoursePlatformMutationResult =
+  Apollo.MutationResult<CreateCoursePlatformMutation>;
+export type CreateCoursePlatformMutationOptions = Apollo.BaseMutationOptions<
+  CreateCoursePlatformMutation,
+  CreateCoursePlatformMutationVariables
+>;
 export const DeleteCoursePlatformByIdDocument = {
   kind: 'Document',
   definitions: [
@@ -3011,7 +3118,7 @@ export const CreateCourseDocument = {
       variableDefinitions: [
         {
           kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'course' } },
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
           type: {
             kind: 'NonNullType',
             type: { kind: 'NamedType', name: { kind: 'Name', value: 'CourseCreateInput' } },
@@ -3030,7 +3137,7 @@ export const CreateCourseDocument = {
                 name: { kind: 'Name', value: 'input' },
                 value: {
                   kind: 'ListValue',
-                  values: [{ kind: 'Variable', name: { kind: 'Name', value: 'course' } }],
+                  values: [{ kind: 'Variable', name: { kind: 'Name', value: 'input' } }],
                 },
               },
             ],
@@ -3071,7 +3178,7 @@ export type CreateCourseMutationFn = Apollo.MutationFunction<
  * @example
  * const [createCourseMutation, { data, loading, error }] = useCreateCourseMutation({
  *   variables: {
- *      course: // value for 'course'
+ *      input: // value for 'input'
  *   },
  * });
  */
