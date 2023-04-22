@@ -5,9 +5,9 @@ import {
   Box,
   Code,
   Group,
+  Menu,
   NavLink,
   Navbar as NavbarBase,
-  Popover,
   Sx,
   Text,
   ThemeIcon,
@@ -78,8 +78,8 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
             }`,
           })}
         >
-          <Popover position="right-end" width={200}>
-            <Popover.Target>
+          <Menu position="right-end" shadow="md" width={200} withArrow>
+            <Menu.Target>
               <UnstyledButton
                 sx={theme => ({
                   display: 'block',
@@ -108,19 +108,16 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
                   <IconChevronRight size={rem(18)} />
                 </Group>
               </UnstyledButton>
-            </Popover.Target>
-            <Popover.Dropdown sx={{ width: 200 }}>
+            </Menu.Target>
+            <Menu.Dropdown>
+              <Menu.Label>Application</Menu.Label>
               {/* TODO */}
-              <NavLink icon={<IconUser stroke={1} size="1rem" />} label="Profile" disabled />
-              <NavLink
-                icon={<IconLogout stroke={1} size="1rem" />}
-                onClick={() => logout()}
-                color="red"
-                label="Log out"
-                active
-              />
-            </Popover.Dropdown>
-          </Popover>
+              <Menu.Item icon={<IconUser size={14} />}>Profile</Menu.Item>
+              <Menu.Item icon={<IconLogout size={14} />} onClick={() => logout()} color="red">
+                Logout
+              </Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
         </Box>
       </NavbarBase.Section>
     </NavbarBase>

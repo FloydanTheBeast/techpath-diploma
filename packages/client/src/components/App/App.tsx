@@ -49,7 +49,6 @@ const errorHandlerMiddleware = onError(({ graphQLErrors, operation, forward }) =
             typeof val?.accessToken === 'string' && typeof val?.refreshToken === 'string',
         )
         .flatMap(({ accessToken, refreshToken }) => {
-          console.log('Refreshed');
           localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, accessToken);
           localStorage.setItem(REFRESH_TOKEN_STORAGE_KEY, refreshToken);
 
