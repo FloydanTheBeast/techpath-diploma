@@ -16,12 +16,10 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
   loading,
   ...props
 }) => {
-  const {
-    classes: { title },
-  } = useStyles();
+  const { classes } = useStyles();
 
   return (
-    <MantineModal size="lg" classNames={{ title }} {...props}>
+    <MantineModal size="lg" classNames={classes} {...props}>
       <LoadingOverlay visible={Boolean(loading)} />
       {children}
     </MantineModal>
@@ -29,6 +27,9 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
 };
 
 const useStyles = createStyles(theme => ({
+  inner: {
+    boxSizing: 'border-box',
+  },
   title: {
     font: `16px ${theme.fontFamily}`,
     fontWeight: 500,

@@ -10,7 +10,7 @@ import { BaseAppLayout } from '../BaseAppLayout';
 const navbarLinks: NavbarLink[] = [
   { label: 'Dashboard', path: appRoutes.app.index, icon: IconLayoutDashboard, disabled: true },
   { label: 'Courses', path: appRoutes.courses.index, icon: IconCertificate },
-  { label: 'Course platforms', path: appRoutes.coursePlatforms.index, icon: IconWorldWww },
+  { label: 'Course Platforms', path: appRoutes.coursePlatforms.index, icon: IconWorldWww },
 ];
 
 export const AdminAppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {

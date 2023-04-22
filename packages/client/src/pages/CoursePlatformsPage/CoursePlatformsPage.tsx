@@ -3,9 +3,12 @@ import React from 'react';
 import { ActionIcon, Button, Group, Image, ThemeIcon, Tooltip } from '@mantine/core';
 import {
   CoursePlatformInfoFragment,
+  GetCoursePlatformsDocument,
   GetCoursesDocument,
+  useCreateCoursePlatformMutation,
   useDeleteCourseByIdMutation,
   useGetCoursePlatformsQuery,
+  useUpdateCoursePlatformByIdMutation,
 } from '@shared/graphql';
 import { Nullable } from '@shared/types';
 import {
@@ -17,11 +20,16 @@ import {
 } from '@tabler/icons-react';
 import { MRT_ColumnDef } from 'mantine-react-table';
 
-import { ContentPageLayout, CreateCoursePlatformModal, DataGrid } from 'src/components';
+import {
+  ContentPageLayout,
+  CreateUpdateCoursePlatformModal,
+  CreateUpdateCoursePlatformModalArgs,
+  DataGrid,
+} from 'src/components';
 import { ModalId } from 'src/constants';
 import { useModal } from 'src/hooks';
 
-const columns: MRT_ColumnDef<Partial<CoursePlatformInfoFragment>>[] = [
+const columns: MRT_ColumnDef<CoursePlatformInfoFragment>[] = [
   {
     header: 'Id',
     accessorKey: 'id',
@@ -60,10 +68,15 @@ const columns: MRT_ColumnDef<Partial<CoursePlatformInfoFragment>>[] = [
 ];
 
 export const CoursePlatformsPage: React.FC = () => {
-  const { openModal } = useModal(ModalId.CreateCoursePlatformModal);
+  const { openModal, switchClosability, closeModal } =
+    useModal<CreateUpdateCoursePlatformModalArgs>(ModalId.CreateCoursePlatformModal);
   const { data, loading: loadingCourses } = useGetCoursePlatformsQuery({
     notifyOnNetworkStatusChange: true,
   });
+  const [createCoursePlatform, { loading: creatingCoursePlatform }] =
+    useCreateCoursePlatformMutation();
+  const [updateCoursePlatform, { loading: updatingCoursePlatform }] =
+    useUpdateCoursePlatformByIdMutation();
   const [deleteCourse] = useDeleteCourseByIdMutation();
 
   const handleCoursePlatformDelete = async (id: Nullable<string>) => {
@@ -78,6 +91,40 @@ export const CoursePlatformsPage: React.FC = () => {
   };
 
   const coursePlatforms = data?.coursePlatforms;
+
+  const handleCreateFormSubmit: CreateUpdateCoursePlatformModalArgs['onSubmit'] =
+    async formData => {
+      switchClosability(false);
+      try {
+        await createCoursePlatform({
+          variables: { input: formData },
+          refetchQueries: [GetCoursePlatformsDocument],
+        });
+        closeModal();
+      } catch (error) {
+        // TODO: Spawn notification
+      } finally {
+        switchClosability(true);
+      }
+    };
+
+  const handleUpdateFormSubmit = async (
+    formData: Parameters<CreateUpdateCoursePlatformModalArgs['onSubmit']>[0],
+    id: string,
+  ) => {
+    switchClosability(false);
+    try {
+      await updateCoursePlatform({
+        variables: { id, input: formData },
+        refetchQueries: [GetCoursePlatformsDocument],
+      });
+      closeModal();
+    } catch (error) {
+      // TODO: Spawn notification
+    } finally {
+      switchClosability(true);
+    }
+  };
 
   return (
     <ContentPageLayout title="Course Platforms">
@@ -95,18 +142,30 @@ export const CoursePlatformsPage: React.FC = () => {
         state={{ isLoading: loadingCourses }}
         enableColumnOrdering
         enableEditing
-        renderRowActions={({ row }) => (
+        renderRowActions={({
+          row: {
+            original: { id, name, url, logoUrl },
+          },
+        }) => (
           <Group position="center">
             <Tooltip withArrow position="left" label="Edit">
-              <ActionIcon onClick={console.log}>
+              <ActionIcon
+                onClick={() =>
+                  openModal(ModalId.CreateCoursePlatformModal, {
+                    onSubmit: formData => handleUpdateFormSubmit(formData, id),
+                    defaultValues: {
+                      name,
+                      url,
+                      logoUrl,
+                    },
+                  })
+                }
+              >
                 <IconEdit stroke={1.5} />
               </ActionIcon>
             </Tooltip>
             <Tooltip withArrow position="right" label="Delete">
-              <ActionIcon
-                color="red"
-                onClick={async () => await handleCoursePlatformDelete(row.original.id)}
-              >
+              <ActionIcon color="red" onClick={async () => await handleCoursePlatformDelete(id)}>
                 <IconTrash stroke={1.5} />
               </ActionIcon>
             </Tooltip>
@@ -115,11 +174,11 @@ export const CoursePlatformsPage: React.FC = () => {
         renderTopToolbarCustomActions={() => {
           return (
             <Button
-              onClick={() => openModal()}
+              onClick={() =>
+                openModal(ModalId.CreateCoursePlatformModal, { onSubmit: handleCreateFormSubmit })
+              }
               leftIcon={<IconDatabasePlus size="1rem" />}
-              // compact
               variant="outline"
-              // color="green"
             >
               Create new platform
             </Button>
@@ -127,7 +186,7 @@ export const CoursePlatformsPage: React.FC = () => {
         }}
       />
 
-      <CreateCoursePlatformModal />
+      <CreateUpdateCoursePlatformModal loading={creatingCoursePlatform || updatingCoursePlatform} />
     </ContentPageLayout>
   );
 };

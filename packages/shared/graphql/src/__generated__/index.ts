@@ -2260,6 +2260,19 @@ export type CreateCoursePlatformMutation = {
   };
 };
 
+export type UpdateCoursePlatformByIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+  input?: InputMaybe<CoursePlatformUpdateInput>;
+}>;
+
+export type UpdateCoursePlatformByIdMutation = {
+  __typename?: 'Mutation';
+  updateCoursePlatforms: {
+    __typename?: 'UpdateCoursePlatformsMutationResponse';
+    coursePlatforms: Array<{ __typename?: 'CoursePlatform'; id: string }>;
+  };
+};
+
 export type DeleteCoursePlatformByIdMutationVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2892,6 +2905,118 @@ export type CreateCoursePlatformMutationResult =
 export type CreateCoursePlatformMutationOptions = Apollo.BaseMutationOptions<
   CreateCoursePlatformMutation,
   CreateCoursePlatformMutationVariables
+>;
+export const UpdateCoursePlatformByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateCoursePlatformById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'CoursePlatformUpdateInput' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateCoursePlatforms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                    },
+                  ],
+                },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'update' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'coursePlatforms' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type UpdateCoursePlatformByIdMutationFn = Apollo.MutationFunction<
+  UpdateCoursePlatformByIdMutation,
+  UpdateCoursePlatformByIdMutationVariables
+>;
+
+/**
+ * __useUpdateCoursePlatformByIdMutation__
+ *
+ * To run a mutation, you first call `useUpdateCoursePlatformByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCoursePlatformByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCoursePlatformByIdMutation, { data, loading, error }] = useUpdateCoursePlatformByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateCoursePlatformByIdMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateCoursePlatformByIdMutation,
+    UpdateCoursePlatformByIdMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    UpdateCoursePlatformByIdMutation,
+    UpdateCoursePlatformByIdMutationVariables
+  >(UpdateCoursePlatformByIdDocument, options);
+}
+export type UpdateCoursePlatformByIdMutationHookResult = ReturnType<
+  typeof useUpdateCoursePlatformByIdMutation
+>;
+export type UpdateCoursePlatformByIdMutationResult =
+  Apollo.MutationResult<UpdateCoursePlatformByIdMutation>;
+export type UpdateCoursePlatformByIdMutationOptions = Apollo.BaseMutationOptions<
+  UpdateCoursePlatformByIdMutation,
+  UpdateCoursePlatformByIdMutationVariables
 >;
 export const DeleteCoursePlatformByIdDocument = {
   kind: 'Document',

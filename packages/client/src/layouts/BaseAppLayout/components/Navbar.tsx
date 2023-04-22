@@ -16,7 +16,7 @@ import {
   rem,
 } from '@mantine/core';
 import { getUserFullName } from '@shared/utils';
-import { IconChevronRight, IconLogout, IconRoute, IconUser } from '@tabler/icons-react';
+import { IconChevronRight, IconLogout, IconRoute, IconUserCircle } from '@tabler/icons-react';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 
 import { useAuth, useCurrentUser } from 'src/hooks';
@@ -112,7 +112,9 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
             <Menu.Dropdown>
               <Menu.Label>Application</Menu.Label>
               {/* TODO */}
-              <Menu.Item icon={<IconUser size={14} />}>Profile</Menu.Item>
+              <Menu.Item icon={<IconUserCircle size={14} />} disabled>
+                Profile
+              </Menu.Item>
               <Menu.Item icon={<IconLogout size={14} />} onClick={() => logout()} color="red">
                 Logout
               </Menu.Item>

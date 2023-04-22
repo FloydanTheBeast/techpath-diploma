@@ -10,7 +10,7 @@ export const DataGrid = <TData extends Record<string, unknown>>({
 }: React.ComponentProps<typeof MantineReactTable<TData>>) => {
   return (
     <MantineReactTable<(typeof props)['data'][0]>
-      // eslint-disable-next-line react/jsx-no-undef
+      mantineProgressProps={{ sx: { display: 'none' } }}
       renderEmptyRowsFallback={() => (
         <Group c="dimmed" position="center" spacing={2} my={16}>
           <Text>No data</Text>
