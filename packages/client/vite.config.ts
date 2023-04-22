@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
@@ -20,6 +21,12 @@ export default defineConfig({
     react(),
     viteTsConfigPaths({
       root: '../../',
+    }),
+    checker({
+      typescript: {
+        tsconfigPath: 'tsconfig.app.json',
+      },
+      enableBuild: false,
     }),
     // FIXME: Temporary workaround for `Cannot access before initialization` error
     {
