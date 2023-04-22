@@ -2170,14 +2170,6 @@ export type UserInfoFragment = {
 };
 
 export type SessionInfoFragment = {
-  __typename?: 'AuthSessionResponse';
-  accessToken: string;
-  accessTokenExpiresIn: number;
-  refreshToken: string;
-  refreshTokenExpiresIn: number;
-};
-
-export type SessionWithUserInfoFragment = {
   __typename?: 'AuthSessionWithUserResponse';
   accessToken: string;
   accessTokenExpiresIn: number;
@@ -2220,6 +2212,15 @@ export type SignInMutation = {
       roles: Array<string>;
     };
   };
+};
+
+export type RefreshSessionMutationVariables = Exact<{
+  refreshToken: Scalars['String'];
+}>;
+
+export type RefreshSessionMutation = {
+  __typename?: 'Mutation';
+  refreshSession: { __typename?: 'AuthSessionResponse'; accessToken: string; refreshToken: string };
 };
 
 export type CoursePlatformInfoFragment = {
@@ -2347,25 +2348,6 @@ export const SessionInfoFragmentDoc = {
     {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'SessionInfo' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'AuthSessionResponse' } },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'accessTokenExpiresIn' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'refreshTokenExpiresIn' } },
-        ],
-      },
-    },
-  ],
-} as unknown as DocumentNode;
-export const SessionWithUserInfoFragmentDoc = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SessionWithUserInfo' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'AuthSessionWithUserResponse' },
@@ -2556,7 +2538,7 @@ export const SignInDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SessionWithUserInfo' } },
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'SessionInfo' } },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'user' },
@@ -2590,7 +2572,7 @@ export const SignInDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'SessionWithUserInfo' },
+      name: { kind: 'Name', value: 'SessionInfo' },
       typeCondition: {
         kind: 'NamedType',
         name: { kind: 'Name', value: 'AuthSessionWithUserResponse' },
@@ -2637,6 +2619,86 @@ export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
 export type SignInMutationOptions = Apollo.BaseMutationOptions<
   SignInMutation,
   SignInMutationVariables
+>;
+export const RefreshSessionDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'RefreshSession' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'refreshToken' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'refreshSession' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'refreshToken' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'refreshToken' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'accessToken' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'refreshToken' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type RefreshSessionMutationFn = Apollo.MutationFunction<
+  RefreshSessionMutation,
+  RefreshSessionMutationVariables
+>;
+
+/**
+ * __useRefreshSessionMutation__
+ *
+ * To run a mutation, you first call `useRefreshSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRefreshSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [refreshSessionMutation, { data, loading, error }] = useRefreshSessionMutation({
+ *   variables: {
+ *      refreshToken: // value for 'refreshToken'
+ *   },
+ * });
+ */
+export function useRefreshSessionMutation(
+  baseOptions?: Apollo.MutationHookOptions<RefreshSessionMutation, RefreshSessionMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RefreshSessionMutation, RefreshSessionMutationVariables>(
+    RefreshSessionDocument,
+    options,
+  );
+}
+export type RefreshSessionMutationHookResult = ReturnType<typeof useRefreshSessionMutation>;
+export type RefreshSessionMutationResult = Apollo.MutationResult<RefreshSessionMutation>;
+export type RefreshSessionMutationOptions = Apollo.BaseMutationOptions<
+  RefreshSessionMutation,
+  RefreshSessionMutationVariables
 >;
 export const GetCoursePlatformsDocument = {
   kind: 'Document',
