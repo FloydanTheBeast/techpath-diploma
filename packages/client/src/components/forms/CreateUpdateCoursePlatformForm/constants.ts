@@ -13,7 +13,7 @@ export const createCoursePlatformValidationSchema: yup.ObjectSchema<CreateUpdate
       .url()
       .test({
         name: 'is-image-url',
-        message: ({ label }) => `${label} must point to image`,
+        message: ({ label }) => `${label} must point to an image`,
         test: val =>
           !val ||
           ['jpg', 'jpeg', 'tiff', 'png', 'gif', 'bmp'].includes(val?.split('.').at(-1) ?? ''),

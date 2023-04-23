@@ -2256,7 +2256,9 @@ export type CoursePlatformInfoFragment = {
   updatedAt?: any | null;
 };
 
-export type GetCoursePlatformsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCoursePlatformsQueryVariables = Exact<{
+  where?: InputMaybe<CoursePlatformWhere>;
+}>;
 
 export type GetCoursePlatformsQuery = {
   __typename?: 'Query';
@@ -2883,12 +2885,26 @@ export const GetCoursePlatformsDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'GetCoursePlatforms' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'CoursePlatformWhere' } },
+        },
+      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'coursePlatforms' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -2930,6 +2946,7 @@ export const GetCoursePlatformsDocument = {
  * @example
  * const { data, loading, error } = useGetCoursePlatformsQuery({
  *   variables: {
+ *      where: // value for 'where'
  *   },
  * });
  */

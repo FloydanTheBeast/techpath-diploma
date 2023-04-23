@@ -61,7 +61,7 @@ export const SignUpPage: React.FC = () => {
         </Anchor>
       </Text>
 
-      <Paper withBorder shadow="md" p={30} mt={30} radius="md" sx={{ width: 420 }} pos="relative">
+      <Paper withBorder shadow="xl" p={30} mt={30} radius="md" sx={{ width: 420 }} pos="relative">
         <LoadingOverlay visible={isSubmitting} />
         <form onSubmit={handleSubmit(onSubmit)}>
           <Stack>

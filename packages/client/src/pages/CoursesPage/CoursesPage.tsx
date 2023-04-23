@@ -60,16 +60,19 @@ const columns: MRT_ColumnDef<CourseInfoFragment>[] = [
   {
     header: 'Url',
     accessorFn: ({ url }) => (
-      <Button
-        component="a"
-        href={url}
-        target="_blank"
-        compact
-        variant="subtle"
-        leftIcon={<IconExternalLink size="0.9rem" />}
-      >
-        {url}
-      </Button>
+      <Tooltip label={url} withArrow openDelay={300}>
+        <Button
+          maw={300}
+          component="a"
+          href={url}
+          target="_blank"
+          compact
+          variant="subtle"
+          leftIcon={<IconExternalLink size="0.9rem" />}
+        >
+          {url}
+        </Button>
+      </Tooltip>
     ),
   },
   {
@@ -96,11 +99,19 @@ export const CoursesPage: React.FC = () => {
   const [updateCourse, { loading: updatingCourse }] = useUpdateCourseByIdMutation();
   const [deleteCourse] = useDeleteCourseByIdMutation();
 
-  const handleCreateFormSubmit: CreateUpdateCourseModalArgs['onSubmit'] = async formData => {
+  const handleCreateFormSubmit: CreateUpdateCourseModalArgs['onSubmit'] = async ({
+    platformId,
+    ...formData
+  }) => {
     switchClosability(false);
     try {
       await createCourse({
-        variables: { input: formData },
+        variables: {
+          input: {
+            ...formData,
+            platform: platformId ? { connect: { where: { node: { id: platformId } } } } : undefined,
+          },
+        },
         refetchQueries: [GetCoursesDocument],
       });
       closeModal();
@@ -112,13 +123,19 @@ export const CoursesPage: React.FC = () => {
   };
 
   const handleUpdateFormSubmit = async (
-    formData: Parameters<CreateUpdateCourseModalArgs['onSubmit']>[0],
+    { platformId, ...formData }: Parameters<CreateUpdateCourseModalArgs['onSubmit']>[0],
     id: string,
   ) => {
     switchClosability(false);
     try {
       await updateCourse({
-        variables: { id, input: formData },
+        variables: {
+          id,
+          input: {
+            ...formData,
+            platform: platformId ? { connect: { where: { node: { id: platformId } } } } : undefined,
+          },
+        },
         refetchQueries: [GetCoursesDocument],
       });
       closeModal();
@@ -160,7 +177,7 @@ export const CoursesPage: React.FC = () => {
         enableEditing
         renderRowActions={({
           row: {
-            original: { id, title, url, description },
+            original: { id, title, url, description, platform },
           },
         }) => (
           <Group position="center">
@@ -173,6 +190,7 @@ export const CoursesPage: React.FC = () => {
                       title,
                       url,
                       description,
+                      platformId: platform?.id,
                     },
                   })
                 }

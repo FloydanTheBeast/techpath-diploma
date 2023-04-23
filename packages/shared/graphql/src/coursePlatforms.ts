@@ -12,8 +12,8 @@ export const COURSE_PLATFORM_INFO_FRAGMENT = gql`
 `;
 
 export const GET_COURSE_PLATFORMS_QUERY = gql`
-  query GetCoursePlatforms {
-    coursePlatforms {
+  query GetCoursePlatforms($where: CoursePlatformWhere) {
+    coursePlatforms(where: $where) {
       ...CoursePlatformInfo
     }
   }
