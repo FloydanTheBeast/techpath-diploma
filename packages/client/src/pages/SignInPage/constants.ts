@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { SignInFormData } from './types';
+import type { SignInFormData } from './types';
 
 export const signInFormValidationSchema: yup.ObjectSchema<SignInFormData> = yup.object({
   email: yup.string().email().required(),

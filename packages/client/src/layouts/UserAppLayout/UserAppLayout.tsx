@@ -13,7 +13,6 @@ const navbarLinks: NavbarLink[] = [
     label: 'Explore courses',
     path: appRoutes.courses.index,
     icon: IconCertificate,
-    disabled: true,
   },
   { label: 'Explore roadmaps', path: appRoutes.roadmaps.index, icon: IconSitemap, disabled: true },
 ];

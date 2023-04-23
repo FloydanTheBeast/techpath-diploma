@@ -79,17 +79,6 @@ export const CoursePlatformsPage: React.FC = () => {
     useUpdateCoursePlatformByIdMutation();
   const [deleteCourse] = useDeleteCourseByIdMutation();
 
-  const handleCoursePlatformDelete = async (id: Nullable<string>) => {
-    if (!id) {
-      return;
-    }
-
-    // TODO: Confirmation modal
-    if (window.confirm('Are you sure you want to delete the course platform?')) {
-      await deleteCourse({ variables: { id }, refetchQueries: [GetCoursesDocument] });
-    }
-  };
-
   const coursePlatforms = data?.coursePlatforms;
 
   const handleCreateFormSubmit: CreateUpdateCoursePlatformModalArgs['onSubmit'] =
@@ -126,6 +115,17 @@ export const CoursePlatformsPage: React.FC = () => {
     }
   };
 
+  const handleCoursePlatformDelete = async (id: Nullable<string>) => {
+    if (!id) {
+      return;
+    }
+
+    // TODO: Confirmation modal
+    if (window.confirm('Are you sure you want to delete the course platform?')) {
+      await deleteCourse({ variables: { id }, refetchQueries: [GetCoursesDocument] });
+    }
+  };
+
   return (
     <ContentPageLayout title="Course Platforms">
       <DataGrid
@@ -134,7 +134,7 @@ export const CoursePlatformsPage: React.FC = () => {
             mantineTableHeadCellProps: {
               align: 'center',
             },
-            size: 30,
+            size: 80,
           },
         }}
         columns={columns}
