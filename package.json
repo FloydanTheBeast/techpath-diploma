@@ -4,7 +4,8 @@
   "license": "MIT",
   "scripts": {
     "gql-codegen:client": "nx run shared-graphql:gql-codegen",
-    "gql-codegen:server": "nx run server:generate-typings"
+    "gql-codegen:server": "nx run server:generate-typings",
+    "release": "standard-version"
   },
   "private": true,
   "dependencies": {
@@ -98,6 +99,7 @@
     "nx": "15.8.5",
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
+    "standard-version": "^9.5.0",
     "ts-jest": "^29.0.5",
     "ts-node": "10.9.1",
     "typescript": "~4.9.5",
