@@ -1,3 +1,3 @@
 import type { CoursePlatformCreateInput } from '@shared/graphql';
 
-export type CreateCoursePlatformFormData = Omit<CoursePlatformCreateInput, 'courses'>;
+export type CreateUpdateCoursePlatformFormData = Omit<CoursePlatformCreateInput, 'courses'>;

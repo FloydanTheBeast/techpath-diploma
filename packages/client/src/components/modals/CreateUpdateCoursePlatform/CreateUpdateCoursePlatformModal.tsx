@@ -11,7 +11,7 @@ import { CreateUpdateCoursePlatformModalArgs } from './types';
 
 export const CreateUpdateCoursePlatformModal: React.FC<Partial<ModalProps>> = props => {
   const { isOpen, closeModal, args } = useModal<CreateUpdateCoursePlatformModalArgs>(
-    ModalId.CreateCoursePlatformModal,
+    ModalId.CreateUpdateCoursePlatformModal,
   );
 
   const isUpdate = !_.isEmpty(args?.defaultValues);

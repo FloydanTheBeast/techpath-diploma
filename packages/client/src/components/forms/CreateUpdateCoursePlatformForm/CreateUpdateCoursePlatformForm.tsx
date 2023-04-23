@@ -2,28 +2,19 @@ import React from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Group, TextInput } from '@mantine/core';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import { CoursePlatformLogo, FormField } from 'src/components/common';
 import { useDebounce } from 'src/hooks';
+import { CreateUpdateFormProps } from 'src/types';
 
 import { createCoursePlatformValidationSchema } from './constants';
-import type { CreateCoursePlatformFormData } from './types';
+import type { CreateUpdateCoursePlatformFormData } from './types';
 
-type CreateEditCoursePlatformFormProps = {
-  onSubmit: SubmitHandler<CreateCoursePlatformFormData>;
-  onCancel: () => void;
-  defaultValues?: CreateCoursePlatformFormData;
-  isUpdate?: boolean;
-};
-
-export const CreateUpdateCoursePlatformForm: React.FC<CreateEditCoursePlatformFormProps> = ({
-  onSubmit,
-  onCancel,
-  defaultValues,
-  isUpdate,
-}) => {
-  const { register, handleSubmit, control, watch } = useForm<CreateCoursePlatformFormData>({
+export const CreateUpdateCoursePlatformForm: React.FC<
+  CreateUpdateFormProps<CreateUpdateCoursePlatformFormData>
+> = ({ onSubmit, onCancel, defaultValues, isUpdate }) => {
+  const { register, handleSubmit, control, watch } = useForm<CreateUpdateCoursePlatformFormData>({
     resolver: yupResolver(createCoursePlatformValidationSchema),
     defaultValues,
   });

@@ -1,2 +1,2 @@
-export * from './CreateCourse';
+export * from './CreateUpdateCourse';
 export * from './CreateUpdateCoursePlatform';

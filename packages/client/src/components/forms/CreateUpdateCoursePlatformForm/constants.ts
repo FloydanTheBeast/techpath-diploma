@@ -1,8 +1,8 @@
 import * as yup from 'yup';
 
-import { CreateCoursePlatformFormData } from './types';
+import { CreateUpdateCoursePlatformFormData } from './types';
 
-export const createCoursePlatformValidationSchema: yup.ObjectSchema<CreateCoursePlatformFormData> =
+export const createCoursePlatformValidationSchema: yup.ObjectSchema<CreateUpdateCoursePlatformFormData> =
   yup.object({
     name: yup.string().required(),
     url: yup.string().url().required(),

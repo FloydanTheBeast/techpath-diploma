@@ -69,7 +69,7 @@ const columns: MRT_ColumnDef<CoursePlatformInfoFragment>[] = [
 
 export const CoursePlatformsPage: React.FC = () => {
   const { openModal, switchClosability, closeModal } =
-    useModal<CreateUpdateCoursePlatformModalArgs>(ModalId.CreateCoursePlatformModal);
+    useModal<CreateUpdateCoursePlatformModalArgs>(ModalId.CreateUpdateCoursePlatformModal);
   const { data, loading: loadingCourses } = useGetCoursePlatformsQuery({
     notifyOnNetworkStatusChange: true,
   });
@@ -151,7 +151,7 @@ export const CoursePlatformsPage: React.FC = () => {
             <Tooltip withArrow position="left" label="Edit">
               <ActionIcon
                 onClick={() =>
-                  openModal(ModalId.CreateCoursePlatformModal, {
+                  openModal(ModalId.CreateUpdateCoursePlatformModal, {
                     onSubmit: formData => handleUpdateFormSubmit(formData, id),
                     defaultValues: {
                       name,
@@ -175,7 +175,9 @@ export const CoursePlatformsPage: React.FC = () => {
           return (
             <Button
               onClick={() =>
-                openModal(ModalId.CreateCoursePlatformModal, { onSubmit: handleCreateFormSubmit })
+                openModal(ModalId.CreateUpdateCoursePlatformModal, {
+                  onSubmit: handleCreateFormSubmit,
+                })
               }
               leftIcon={<IconDatabasePlus size="1rem" />}
               variant="outline"

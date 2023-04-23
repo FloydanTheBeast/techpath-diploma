@@ -4,18 +4,26 @@ import { ActionIcon, Box, Button, Group, Popover, Text, Tooltip } from '@mantine
 import {
   CourseInfoFragment,
   GetCoursesDocument,
+  useCreateCourseMutation,
   useDeleteCourseByIdMutation,
   useGetCoursesQuery,
+  useUpdateCourseByIdMutation,
 } from '@shared/graphql';
 import { Nullable } from '@shared/types';
 import { IconDatabasePlus, IconEdit, IconExternalLink, IconTrash } from '@tabler/icons-react';
 import { MRT_ColumnDef } from 'mantine-react-table';
 
-import { ContentPageLayout, CoursePlatformLogo, CreateCourseModal, DataGrid } from 'src/components';
+import {
+  ContentPageLayout,
+  CoursePlatformLogo,
+  CreateUpdateCourseModal,
+  DataGrid,
+} from 'src/components';
+import { CreateUpdateCourseModalArgs } from 'src/components/modals/CreateUpdateCourse/types';
 import { ModalId } from 'src/constants';
 import { useModal } from 'src/hooks';
 
-const columns: MRT_ColumnDef<Partial<CourseInfoFragment>>[] = [
+const columns: MRT_ColumnDef<CourseInfoFragment>[] = [
   {
     header: 'Id',
     accessorKey: 'id',
@@ -50,10 +58,6 @@ const columns: MRT_ColumnDef<Partial<CourseInfoFragment>>[] = [
     size: 30,
   },
   {
-    header: 'Description',
-    accessorKey: 'description',
-  },
-  {
     header: 'Url',
     accessorFn: ({ url }) => (
       <Button
@@ -68,14 +72,62 @@ const columns: MRT_ColumnDef<Partial<CourseInfoFragment>>[] = [
       </Button>
     ),
   },
+  {
+    header: 'Description',
+    accessorFn: ({ description }) => (
+      <Tooltip label={description} width={300} multiline withArrow openDelay={500} withinPortal>
+        <Text lineClamp={3} sx={{ cursor: 'help' }}>
+          {description}
+        </Text>
+      </Tooltip>
+    ),
+    size: 300,
+  },
 ];
 
 export const CoursesPage: React.FC = () => {
-  const { openModal } = useModal(ModalId.CreateCourseModal);
+  const { openModal, closeModal, switchClosability } = useModal<CreateUpdateCourseModalArgs>(
+    ModalId.CreateUpdateCourseModal,
+  );
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     notifyOnNetworkStatusChange: true,
   });
+  const [createCourse, { loading: creatingCourse }] = useCreateCourseMutation();
+  const [updateCourse, { loading: updatingCourse }] = useUpdateCourseByIdMutation();
   const [deleteCourse] = useDeleteCourseByIdMutation();
+
+  const handleCreateFormSubmit: CreateUpdateCourseModalArgs['onSubmit'] = async formData => {
+    switchClosability(false);
+    try {
+      await createCourse({
+        variables: { input: formData },
+        refetchQueries: [GetCoursesDocument],
+      });
+      closeModal();
+    } catch (error) {
+      // TODO: Spawn notification
+    } finally {
+      switchClosability(true);
+    }
+  };
+
+  const handleUpdateFormSubmit = async (
+    formData: Parameters<CreateUpdateCourseModalArgs['onSubmit']>[0],
+    id: string,
+  ) => {
+    switchClosability(false);
+    try {
+      await updateCourse({
+        variables: { id, input: formData },
+        refetchQueries: [GetCoursesDocument],
+      });
+      closeModal();
+    } catch (error) {
+      // TODO: Spawn notification
+    } finally {
+      switchClosability(true);
+    }
+  };
 
   const handleCourseDelete = async (id: Nullable<string>) => {
     if (!id) {
@@ -106,18 +158,30 @@ export const CoursesPage: React.FC = () => {
         state={{ isLoading: loadingCourses }}
         enableColumnOrdering
         enableEditing
-        renderRowActions={({ row }) => (
+        renderRowActions={({
+          row: {
+            original: { id, title, url, description },
+          },
+        }) => (
           <Group position="center">
             <Tooltip withArrow position="left" label="Edit">
-              <ActionIcon onClick={console.log}>
+              <ActionIcon
+                onClick={() =>
+                  openModal(ModalId.CreateUpdateCourseModal, {
+                    onSubmit: formData => handleUpdateFormSubmit(formData, id),
+                    defaultValues: {
+                      title,
+                      url,
+                      description,
+                    },
+                  })
+                }
+              >
                 <IconEdit stroke={1.5} />
               </ActionIcon>
             </Tooltip>
             <Tooltip withArrow position="right" label="Delete">
-              <ActionIcon
-                color="red"
-                onClick={async () => await handleCourseDelete(row.original.id)}
-              >
+              <ActionIcon color="red" onClick={async () => await handleCourseDelete(id)}>
                 <IconTrash stroke={1.5} />
               </ActionIcon>
             </Tooltip>
@@ -126,11 +190,13 @@ export const CoursesPage: React.FC = () => {
         renderTopToolbarCustomActions={() => {
           return (
             <Button
-              onClick={() => openModal()}
+              onClick={() =>
+                openModal(ModalId.CreateUpdateCourseModal, {
+                  onSubmit: handleCreateFormSubmit,
+                })
+              }
               leftIcon={<IconDatabasePlus size="1rem" />}
-              // compact
               variant="outline"
-              // color="green"
             >
               Create new course
             </Button>
@@ -138,7 +204,7 @@ export const CoursesPage: React.FC = () => {
         }}
       />
 
-      <CreateCourseModal />
+      <CreateUpdateCourseModal loading={creatingCourse || updatingCourse} />
     </ContentPageLayout>
   );
 };

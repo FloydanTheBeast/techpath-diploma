@@ -40,6 +40,16 @@ export const CREATE_COURSE_MUTATION = gql`
   }
 `;
 
+export const UPDATE_COURSE_BY_ID_MUTATION = gql`
+  mutation UpdateCourseById($id: ID!, $input: CourseUpdateInput) {
+    updateCourses(where: { id: $id }, update: $input) {
+      courses {
+        id
+      }
+    }
+  }
+`;
+
 export const DELETE_COURSE_BY_ID_MUTATION = gql`
   mutation DeleteCourseById($id: ID!) {
     deleteCourses(where: { id: $id }, delete: { price: { where: {} } }) {

@@ -1,2 +1,2 @@
-export * from './CreateCoursePlatformModal';
+export * from './CreateUpdateCoursePlatformModal';
 export * from './types';

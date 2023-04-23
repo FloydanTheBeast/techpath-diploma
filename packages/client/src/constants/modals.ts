@@ -1,4 +1,4 @@
 export enum ModalId {
-  CreateCourseModal = 1,
-  CreateCoursePlatformModal,
+  CreateUpdateCourseModal = 1,
+  CreateUpdateCoursePlatformModal,
 }

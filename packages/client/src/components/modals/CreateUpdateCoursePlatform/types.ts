@@ -1,6 +1,6 @@
 import type { CreateUpdateCoursePlatformForm } from 'src/components/forms';
+import type { CreateUpdateModalArgs } from 'src/types';
 
-export type CreateUpdateCoursePlatformModalArgs = {
-  onSubmit: React.ComponentProps<typeof CreateUpdateCoursePlatformForm>['onSubmit'];
-  defaultValues?: React.ComponentProps<typeof CreateUpdateCoursePlatformForm>['defaultValues'];
-};
+export type CreateUpdateCoursePlatformModalArgs = CreateUpdateModalArgs<
+  typeof CreateUpdateCoursePlatformForm
+>;
