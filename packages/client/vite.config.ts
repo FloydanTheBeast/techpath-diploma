@@ -4,6 +4,8 @@ import { defineConfig } from 'vite';
 import checker from 'vite-plugin-checker';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
+import packageJson from '../../package.json';
+
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/client',
 
@@ -15,6 +17,10 @@ export default defineConfig({
   preview: {
     port: 4300,
     host: 'localhost',
+  },
+
+  define: {
+    APP_VERSION: JSON.stringify(packageJson.version),
   },
 
   plugins: [

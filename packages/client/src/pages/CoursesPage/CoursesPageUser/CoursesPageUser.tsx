@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex, Grid, SimpleGrid } from '@mantine/core';
+import { SimpleGrid } from '@mantine/core';
 import { useGetCoursesQuery } from '@shared/graphql';
 
 import { ContentPageLayout, DataGrid } from 'src/components';

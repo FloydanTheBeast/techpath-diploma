@@ -111,28 +111,30 @@ export const CoursesPageAdmin: React.FC = () => {
           },
         }) => (
           <Group position="center">
-            <Tooltip withArrow position="left" label="Edit">
-              <ActionIcon
-                onClick={() =>
-                  openModal(ModalId.CreateUpdateCourseModal, {
-                    onSubmit: formData => handleUpdateFormSubmit(formData, id),
-                    defaultValues: {
-                      title,
-                      url,
-                      description,
-                      platformId: platform?.id,
-                    },
-                  })
-                }
-              >
-                <IconEdit stroke={1.5} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip withArrow position="right" label="Delete">
-              <ActionIcon color="red" onClick={async () => await handleCourseDelete(id)}>
-                <IconTrash stroke={1.5} />
-              </ActionIcon>
-            </Tooltip>
+            <Button.Group>
+              <Tooltip withArrow position="left" label="Edit">
+                <ActionIcon
+                  onClick={() =>
+                    openModal(ModalId.CreateUpdateCourseModal, {
+                      onSubmit: formData => handleUpdateFormSubmit(formData, id),
+                      defaultValues: {
+                        title,
+                        url,
+                        description,
+                        platformId: platform?.id,
+                      },
+                    })
+                  }
+                >
+                  <IconEdit stroke={1.5} />
+                </ActionIcon>
+              </Tooltip>
+              <Tooltip withArrow position="right" label="Delete">
+                <ActionIcon color="red" onClick={async () => await handleCourseDelete(id)}>
+                  <IconTrash stroke={1.5} />
+                </ActionIcon>
+              </Tooltip>
+            </Button.Group>
           </Group>
         )}
         renderTopToolbarCustomActions={() => {

@@ -48,8 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
               {permissions.isAdmin && '.admin'}
             </Title>
           </Group>
-          {/* FIXME: Pull version from config */}
-          <Code sx={{ fontWeight: 700 }}>v0.0.1-&alpha;</Code>
+          <Code sx={{ fontWeight: 700 }}>v{APP_VERSION}</Code>
         </Group>
       </NavbarBase.Section>
       <NavbarBase.Section grow>

@@ -11,7 +11,8 @@
       "@shared/types": ["packages/shared/types/src/index.ts"],
       "@shared/utils": ["packages/shared/utils/src/index.ts"],
       "src/*": ["packages/client/src/*"]
-    }
+    },
+    "resolveJsonModule": true
   },
   "files": [],
   "include": [],
