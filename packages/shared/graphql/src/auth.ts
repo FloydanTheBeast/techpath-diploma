@@ -41,6 +41,19 @@ export const SIGN_IN_USER_MUTATION = gql`
   ${USER_INFO_FRAGMENT}
 `;
 
+export const SIGN_UP_USER_MUTATION = gql`
+  mutation SignUp($data: UserSignUpInput!) {
+    signUp(data: $data) {
+      ...SessionInfo
+      user {
+        ...UserInfo
+      }
+    }
+  }
+  ${SESSION_INFO_FRAGMENT}
+  ${USER_INFO_FRAGMENT}
+`;
+
 export const REFRESH_SESSION_MUTATION = gql`
   mutation RefreshSession($refreshToken: String!) {
     refreshSession(refreshToken: $refreshToken) {
