@@ -3,13 +3,23 @@ services:
   neo4j:
     image: neo4j:latest
     ports: 
-      - 7474:7474
+      # Port for neo4j web DB inspection tool
+      - 7474:7474 
+      # Actual database port
       - 7687:7687
     volumes:
       - neo4j_db:/data/
+      - neo4j_plugins:/plugins/
     env_file:
       - ./packages/server/.env
+    environment:
+      - NEO4JLABS_PLUGINS=["apoc"]
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+      - NEO4J_apoc_uuid_enabled=true
 
 volumes:
   neo4j_db:
-    name: diploma_db
+    name: neo4j_db
+  neo4j_plugins:
+    name: neo4j_plugins

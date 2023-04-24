@@ -1,8 +1,10 @@
-import { gql } from 'apollo-server';
+import { readFileSync } from 'fs';
+import path from 'path';
+import { cwd } from 'process';
 
-export const typeDefs = gql`
-  type User {
-    email: String!
-    password: String!
-  }
-`;
+const SCHEMA_FILENAME = 'schema.graphql';
+
+// load GraphQL type definitions from schema.graphql file
+export const typeDefs = readFileSync(
+  path.resolve(cwd(), 'packages/server/src', SCHEMA_FILENAME),
+).toString('utf-8');

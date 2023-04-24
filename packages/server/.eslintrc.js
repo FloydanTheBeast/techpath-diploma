@@ -1,5 +1,6 @@
 module.exports = {
   extends: ['../../.eslintrc.js'],
+  ignorePatterns: ['!**/*', 'src/ogm-types.ts'],
   overrides: [
     {
       files: ['*.ts', '*.tsx', '*.js', '*.jsx'],

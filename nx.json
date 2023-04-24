@@ -1,7 +1,4 @@
 {
-  "affected": {
-    "defaultBase": "main"
-  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/nx-cloud",
@@ -10,6 +7,9 @@
         "accessToken": "NjBmZjEwZWEtOWRkNy00ZGYyLWI1NzQtODk3N2FkOTk5MmY0fHJlYWQtd3JpdGU="
       }
     }
+  },
+  "affected": {
+    "defaultBase": "main"
   },
   "extends": "nx/presets/npm.json",
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
@@ -35,11 +35,7 @@
       "inputs": ["default", "^default", "{workspaceRoot}/jest.preset.js"]
     },
     "lint": {
-      "inputs": [
-        "default",
-        "{workspaceRoot}/.eslintrc.json",
-        "{workspaceRoot}/.eslintignore"
-      ]
+      "inputs": ["default", "{workspaceRoot}/.eslintrc.json", "{workspaceRoot}/.eslintignore"]
     }
   }
 }

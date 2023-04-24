@@ -1,7 +1,10 @@
 /// <reference types="vitest" />
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import checker from 'vite-plugin-checker';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
+
+import packageJson from '../../package.json';
 
 export default defineConfig({
   cacheDir: '../../node_modules/.vite/client',
@@ -16,11 +19,34 @@ export default defineConfig({
     host: 'localhost',
   },
 
+  define: {
+    APP_VERSION: JSON.stringify(packageJson.version),
+  },
+
   plugins: [
     react(),
     viteTsConfigPaths({
       root: '../../',
     }),
+    checker({
+      typescript: {
+        tsconfigPath: 'tsconfig.app.json',
+      },
+      enableBuild: false,
+    }),
+    // FIXME: Temporary workaround for `Cannot access before initialization` error
+    {
+      name: 'singleHMR',
+      handleHotUpdate({ modules }) {
+        modules.map(m => {
+          m.importedModules = new Set();
+          m.importers = new Set();
+          return m;
+        });
+
+        return modules;
+      },
+    },
   ],
 
   // Uncomment this if you are using workers.
