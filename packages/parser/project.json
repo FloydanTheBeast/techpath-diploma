@@ -1,0 +1,50 @@
+{
+  "name": "parser",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/parser/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/packages/parser",
+        "main": "packages/parser/src/main.ts",
+        "tsConfig": "packages/parser/tsconfig.app.json",
+        "assets": ["packages/parser/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "packages/parser/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "parser:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "parser:build:development"
+        },
+        "production": {
+          "buildTarget": "parser:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/parser/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

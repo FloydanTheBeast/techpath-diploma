@@ -11,15 +11,47 @@ services:
       - neo4j_db:/data/
       - neo4j_plugins:/plugins/
     env_file:
-      - ./packages/server/.env
+      - .env
     environment:
       - NEO4JLABS_PLUGINS=["apoc"]
       - NEO4J_apoc_export_file_enabled=true
       - NEO4J_apoc_import_file_enabled=true
       - NEO4J_apoc_uuid_enabled=true
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    # FIXME Provide .env file
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - backend
+  data-processor:
+    build:
+      context: ./packages/dataProcessor
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbitmq
+    networks:
+      - backend
+    env_file:
+      - .env
 
+networks:
+  backend:
+    driver: bridge
 volumes:
   neo4j_db:
+    driver: local
     name: neo4j_db
   neo4j_plugins:
+    driver: local
     name: neo4j_plugins
+  rabbitmq_data:
+    driver: local
+    name: rabbitmq_data

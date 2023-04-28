@@ -1,7 +1,9 @@
+import path from 'path';
+
 import type { CodegenConfig } from '@graphql-codegen/cli';
 import { config as dotenvConfig } from 'dotenv';
 
-dotenvConfig();
+dotenvConfig({ path: path.resolve('.env') });
 
 const { GRAPHQL_API_URL } = process.env;
 
