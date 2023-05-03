@@ -4,6 +4,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { StepikParser } from '../common/parsers/stepik';
 import { AppConfig } from '../common/types';
 import configuration from '../config';
 
@@ -32,6 +33,14 @@ import configuration from '../config';
     ]),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: 'PARSERS',
+      useFactory: (...parsers) => parsers,
+      inject: [StepikParser],
+    },
+    StepikParser,
+  ],
 })
 export class AppModule {}

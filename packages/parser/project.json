@@ -14,7 +14,6 @@
         "outputPath": "dist/packages/parser",
         "main": "packages/parser/src/main.ts",
         "tsConfig": "packages/parser/tsconfig.app.json",
-        "assets": ["packages/parser/src/assets"],
         "isolatedConfig": true,
         "webpackConfig": "packages/parser/webpack.config.js"
       },

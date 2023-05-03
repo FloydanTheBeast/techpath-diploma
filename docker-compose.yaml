@@ -1,10 +1,10 @@
-version: '3.8'
+version: '3.9'
 services:
   neo4j:
     image: neo4j:latest
     ports: 
       # Port for neo4j web DB inspection tool
-      - 7474:7474 
+      - 7474:7474
       # Actual database port
       - 7687:7687
     volumes:
@@ -17,6 +17,13 @@ services:
       - NEO4J_apoc_export_file_enabled=true
       - NEO4J_apoc_import_file_enabled=true
       - NEO4J_apoc_uuid_enabled=true
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
+      interval: 7s
+      timeout: 5s
+      retries: 3
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
@@ -36,11 +43,16 @@ services:
       context: ./packages/dataProcessor
       dockerfile: Dockerfile
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_started
+      neo4j:
+        condition: service_healthy
     networks:
       - backend
     env_file:
       - .env
+    volumes:
+      - ./packages/dataProcessor:/usr/src/dataProcessor
 
 networks:
   backend:

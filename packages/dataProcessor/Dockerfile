@@ -1,6 +1,6 @@
 FROM python:3
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/dataProcessor
 
 # Without this setting, Python never prints anything out.
 ENV PYTHONUNBUFFERED=1

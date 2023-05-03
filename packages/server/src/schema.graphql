@@ -13,7 +13,7 @@ type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
   id: ID! @id
   title: String!
   description: String
-  url: String!
+  url: String! @unique
   price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
   platform: CoursePlatform @relationship(type: "OWNED_BY_PLATFORM", direction: OUT)
   languages: [CourseLanguage!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
@@ -24,7 +24,7 @@ type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
 type CoursePrice {
   course: Course @relationship(type: "HAS_PRICE", direction: IN)
   price: Int
-  currency: String
+  currencyCodeISO: String
 }
 
 type CoursePlatform {
