@@ -175,7 +175,7 @@ export type CourseCoursePricePriceAggregationSelection = {
 
 export type CourseCoursePricePriceNodeAggregateSelection = {
   __typename?: 'CourseCoursePricePriceNodeAggregateSelection';
-  currency: StringAggregateSelectionNullable;
+  currencyCodeISO: StringAggregateSelectionNullable;
   price: IntAggregateSelectionNullable;
 };
 
@@ -1162,7 +1162,7 @@ export type CoursePrice = {
   course?: Maybe<Course>;
   courseAggregate?: Maybe<CoursePriceCourseCourseAggregationSelection>;
   courseConnection: CoursePriceCourseConnection;
-  currency?: Maybe<Scalars['String']>;
+  currencyCodeISO?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Int']>;
 };
 
@@ -1200,7 +1200,7 @@ export type CoursePriceAggregateInput = {
 export type CoursePriceAggregateSelection = {
   __typename?: 'CoursePriceAggregateSelection';
   count: Scalars['Int'];
-  currency: StringAggregateSelectionNullable;
+  currencyCodeISO: StringAggregateSelectionNullable;
   price: IntAggregateSelectionNullable;
 };
 
@@ -1420,7 +1420,7 @@ export type CoursePriceCreateFieldInput = {
 
 export type CoursePriceCreateInput = {
   course?: InputMaybe<CoursePriceCourseFieldInput>;
-  currency?: InputMaybe<Scalars['String']>;
+  currencyCodeISO?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Int']>;
 };
 
@@ -1457,21 +1457,21 @@ export type CoursePriceNodeAggregationWhereInput = {
   AND?: InputMaybe<Array<CoursePriceNodeAggregationWhereInput>>;
   NOT?: InputMaybe<CoursePriceNodeAggregationWhereInput>;
   OR?: InputMaybe<Array<CoursePriceNodeAggregationWhereInput>>;
-  currency_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
-  currency_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
-  currency_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
-  currency_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
-  currency_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
-  currency_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
-  currency_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
-  currency_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
-  currency_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
-  currency_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
-  currency_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
-  currency_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
-  currency_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
-  currency_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
-  currency_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  currencyCodeISO_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  currencyCodeISO_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  currencyCodeISO_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  currencyCodeISO_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  currencyCodeISO_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  currencyCodeISO_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
   price_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
   price_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
   price_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
@@ -1513,7 +1513,7 @@ export type CoursePriceRelationship = {
 
 /** Fields to sort CoursePrices by. The order in which sorts are applied is not guaranteed when specifying many fields in one CoursePriceSort object. */
 export type CoursePriceSort = {
-  currency?: InputMaybe<SortDirection>;
+  currencyCodeISO?: InputMaybe<SortDirection>;
   price?: InputMaybe<SortDirection>;
 };
 
@@ -1532,7 +1532,7 @@ export type CoursePriceUpdateFieldInput = {
 
 export type CoursePriceUpdateInput = {
   course?: InputMaybe<CoursePriceCourseUpdateFieldInput>;
-  currency?: InputMaybe<Scalars['String']>;
+  currencyCodeISO?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Int']>;
   price_DECREMENT?: InputMaybe<Scalars['Int']>;
   price_INCREMENT?: InputMaybe<Scalars['Int']>;
@@ -1547,11 +1547,11 @@ export type CoursePriceWhere = {
   courseConnection?: InputMaybe<CoursePriceCourseConnectionWhere>;
   courseConnection_NOT?: InputMaybe<CoursePriceCourseConnectionWhere>;
   course_NOT?: InputMaybe<CourseWhere>;
-  currency?: InputMaybe<Scalars['String']>;
-  currency_CONTAINS?: InputMaybe<Scalars['String']>;
-  currency_ENDS_WITH?: InputMaybe<Scalars['String']>;
-  currency_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
-  currency_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  currencyCodeISO?: InputMaybe<Scalars['String']>;
+  currencyCodeISO_CONTAINS?: InputMaybe<Scalars['String']>;
+  currencyCodeISO_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  currencyCodeISO_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  currencyCodeISO_STARTS_WITH?: InputMaybe<Scalars['String']>;
   price?: InputMaybe<Scalars['Int']>;
   price_GT?: InputMaybe<Scalars['Int']>;
   price_GTE?: InputMaybe<Scalars['Int']>;
@@ -1585,6 +1585,7 @@ export type CourseSort = {
 
 export type CourseUniqueWhere = {
   id?: InputMaybe<Scalars['ID']>;
+  url?: InputMaybe<Scalars['String']>;
 };
 
 export type CourseUpdateInput = {
@@ -2315,7 +2316,11 @@ export type CourseInfoFragment = {
   url: string;
   createdAt: any;
   updatedAt?: any | null;
-  price?: { __typename?: 'CoursePrice'; currency?: string | null; price?: number | null } | null;
+  price?: {
+    __typename?: 'CoursePrice';
+    currencyCodeISO?: string | null;
+    price?: number | null;
+  } | null;
   platform?: {
     __typename?: 'CoursePlatform';
     id: string;
@@ -2340,7 +2345,11 @@ export type GetCoursesQuery = {
     url: string;
     createdAt: any;
     updatedAt?: any | null;
-    price?: { __typename?: 'CoursePrice'; currency?: string | null; price?: number | null } | null;
+    price?: {
+      __typename?: 'CoursePrice';
+      currencyCodeISO?: string | null;
+      price?: number | null;
+    } | null;
     platform?: {
       __typename?: 'CoursePlatform';
       id: string;
@@ -2349,6 +2358,7 @@ export type GetCoursesQuery = {
       url: string;
     } | null;
   }>;
+  coursesAggregate: { __typename?: 'CourseAggregateSelection'; count: number };
 };
 
 export type CreateCourseMutationVariables = Exact<{
@@ -2470,7 +2480,7 @@ export const CourseInfoFragmentDoc = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
               ],
             },
@@ -3320,6 +3330,21 @@ export const GetCoursesDocument = {
               selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } }],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'coursesAggregate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+            },
+          },
         ],
       },
     },
@@ -3342,7 +3367,7 @@ export const GetCoursesDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'currency' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'price' } },
               ],
             },

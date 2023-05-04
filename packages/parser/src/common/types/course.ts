@@ -5,7 +5,7 @@ export type UnprocessedCourse = {
   title: string;
   description: string;
   url: string;
-  price: Nullable<Pick<CoursePrice, 'currency' | 'price'>>;
+  price: Nullable<Pick<CoursePrice, 'currencyCodeISO' | 'price'>>;
   platform: string;
   languages: Nullable<string[]>;
 };

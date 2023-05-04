@@ -22,6 +22,7 @@ export const BaseAppLayout: React.FC<React.PropsWithChildren<BaseAppLayoutProps>
         main: {
           backgroundColor:
             theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+          maxHeight: '100vh',
         },
       })}
     >

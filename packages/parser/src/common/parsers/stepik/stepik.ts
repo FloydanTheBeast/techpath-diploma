@@ -41,7 +41,7 @@ export class StepikParser extends BaseParser {
       price: courseData.price
         ? {
             price: courseData.price,
-            currency: 'RUB',
+            currencyCodeISO: 'RUB',
           }
         : null,
     };

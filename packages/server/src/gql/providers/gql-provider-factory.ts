@@ -17,7 +17,7 @@ export const gqlProviderFactory: GqlModuleAsyncOptions<ApolloDriverConfig>['useF
 ) => {
   // FIXME: Use driver from outside source
   const driver = neo4j.driver(
-    configService.getOrThrow('NEO4J_URI'),
+    configService.getOrThrow('NEO4J_LOCALHOST_URI'),
     neo4j.auth.basic(
       configService.getOrThrow('NEO4J_USER'),
       configService.getOrThrow('NEO4J_PASSWORD'),
