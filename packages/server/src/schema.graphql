@@ -5,6 +5,7 @@ type User {
   roles: [String!]!
   firstName: String!
   lastName: String!
+  createdRoadmaps: [Roadmap!]! @relationship(type: "CREATED_BY", direction: IN)
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -41,6 +42,61 @@ type CourseLanguage {
   name: String! @unique
   countryCodeISO: String! @unique
   courses: [Course!]! @relationship(type: "TRANSLATED_INTO", direction: IN)
+}
+
+type Roadmap
+  @auth(rules: [{ operations: [CREATE], roles: ["admin"] }])
+  @exclude(operations: [CREATE]) {
+  id: ID! @id
+  title: String!
+  description: String
+  node: RoadmapNode! @relationship(type: "CONSISTS_OF", direction: OUT)
+  nodes: [RoadmapNode!]
+    @cypher(
+      statement: """
+      MATCH (this)-[:CONSISTS_OF]->(n:RoadmapNode)
+      MATCH (n)<-[:HAS_CHILD *0..]->(n1:RoadmapNode)
+      RETURN n1
+      """
+    )
+  edges: [RoadmapEdge!]
+    @cypher(
+      statement: """
+      MATCH (this)-[:CONSISTS_OF]->(n:RoadmapNode)
+      MATCH path=(n)<-[:HAS_CHILD *1..]->(:RoadmapNode)
+      UNWIND relationships(path) AS r
+      RETURN DISTINCT { id: r.id, source: startNode(r).id, target: endNode(r).id, targetHandle: r.targetHandle }
+      """
+    )
+  createdBy: User! @relationship(type: "CREATED_BY", direction: OUT)
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
+}
+
+type RoadmapNode {
+  id: ID! @id
+  title: String!
+  description: String
+  type: String!
+  positionX: Float!
+  positionY: Float!
+  childNodes: [RoadmapNode!]!
+    @relationship(type: "HAS_CHILD", properties: "HasChild", direction: OUT)
+  parentNodes: [RoadmapNode!]!
+    @relationship(type: "HAS_CHILD", properties: "HasChild", direction: IN)
+  roadmap: Roadmap @relationship(type: "CONSISTS_OF", direction: IN)
+}
+
+interface HasChild @relationshipProperties {
+  id: String!
+  targetHandle: String
+}
+
+type RoadmapEdge @exclude {
+  id: String!
+  source: String!
+  target: String!
+  targetHandle: String
 }
 
 # type SkillTag {

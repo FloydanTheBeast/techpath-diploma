@@ -1700,6 +1700,19 @@ export type CreateInfo = {
   relationshipsCreated: Scalars['Int'];
 };
 
+export type CreateRoadmapInput = {
+  description?: InputMaybe<Scalars['String']>;
+  edges: Array<RoadmapEdgeInput>;
+  nodes: Array<RoadmapNodeInput>;
+  title: Scalars['String'];
+};
+
+export type CreateRoadmapNodesMutationResponse = {
+  __typename?: 'CreateRoadmapNodesMutationResponse';
+  info: CreateInfo;
+  roadmapNodes: Array<RoadmapNode>;
+};
+
 export type CreateUsersMutationResponse = {
   __typename?: 'CreateUsersMutationResponse';
   info: CreateInfo;
@@ -1725,10 +1738,54 @@ export type DeleteInfo = {
   relationshipsDeleted: Scalars['Int'];
 };
 
+export type HasChild = {
+  id: Scalars['String'];
+  targetHandle?: Maybe<Scalars['String']>;
+};
+
+export type HasChildCreateInput = {
+  id: Scalars['String'];
+  targetHandle?: InputMaybe<Scalars['String']>;
+};
+
+export type HasChildSort = {
+  id?: InputMaybe<SortDirection>;
+  targetHandle?: InputMaybe<SortDirection>;
+};
+
+export type HasChildUpdateInput = {
+  id?: InputMaybe<Scalars['String']>;
+  targetHandle?: InputMaybe<Scalars['String']>;
+};
+
+export type HasChildWhere = {
+  AND?: InputMaybe<Array<HasChildWhere>>;
+  NOT?: InputMaybe<HasChildWhere>;
+  OR?: InputMaybe<Array<HasChildWhere>>;
+  id?: InputMaybe<Scalars['String']>;
+  id_CONTAINS?: InputMaybe<Scalars['String']>;
+  id_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  id_IN?: InputMaybe<Array<Scalars['String']>>;
+  id_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  targetHandle?: InputMaybe<Scalars['String']>;
+  targetHandle_CONTAINS?: InputMaybe<Scalars['String']>;
+  targetHandle_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  targetHandle_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  targetHandle_STARTS_WITH?: InputMaybe<Scalars['String']>;
+};
+
 export type IdAggregateSelectionNonNullable = {
   __typename?: 'IDAggregateSelectionNonNullable';
   longest: Scalars['ID'];
   shortest: Scalars['ID'];
+};
+
+export type IntAggregateSelectionNonNullable = {
+  __typename?: 'IntAggregateSelectionNonNullable';
+  average: Scalars['Float'];
+  max: Scalars['Int'];
+  min: Scalars['Int'];
+  sum: Scalars['Int'];
 };
 
 export type IntAggregateSelectionNullable = {
@@ -1745,11 +1802,15 @@ export type Mutation = {
   createCoursePlatforms: CreateCoursePlatformsMutationResponse;
   createCoursePrices: CreateCoursePricesMutationResponse;
   createCourses: CreateCoursesMutationResponse;
+  createRoadmap: Scalars['Boolean'];
+  createRoadmapNodes: CreateRoadmapNodesMutationResponse;
   createUsers: CreateUsersMutationResponse;
   deleteCourseLanguages: DeleteInfo;
   deleteCoursePlatforms: DeleteInfo;
   deleteCoursePrices: DeleteInfo;
   deleteCourses: DeleteInfo;
+  deleteRoadmapNodes: DeleteInfo;
+  deleteRoadmaps: DeleteInfo;
   deleteUsers: DeleteInfo;
   /** Refresh user auth session */
   refreshSession: AuthSessionResponse;
@@ -1761,6 +1822,8 @@ export type Mutation = {
   updateCoursePlatforms: UpdateCoursePlatformsMutationResponse;
   updateCoursePrices: UpdateCoursePricesMutationResponse;
   updateCourses: UpdateCoursesMutationResponse;
+  updateRoadmapNodes: UpdateRoadmapNodesMutationResponse;
+  updateRoadmaps: UpdateRoadmapsMutationResponse;
   updateUsers: UpdateUsersMutationResponse;
 };
 
@@ -1778,6 +1841,14 @@ export type MutationCreateCoursePricesArgs = {
 
 export type MutationCreateCoursesArgs = {
   input: Array<CourseCreateInput>;
+};
+
+export type MutationCreateRoadmapArgs = {
+  data: CreateRoadmapInput;
+};
+
+export type MutationCreateRoadmapNodesArgs = {
+  input: Array<RoadmapNodeCreateInput>;
 };
 
 export type MutationCreateUsersArgs = {
@@ -1804,7 +1875,18 @@ export type MutationDeleteCoursesArgs = {
   where?: InputMaybe<CourseWhere>;
 };
 
+export type MutationDeleteRoadmapNodesArgs = {
+  delete?: InputMaybe<RoadmapNodeDeleteInput>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type MutationDeleteRoadmapsArgs = {
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
 export type MutationDeleteUsersArgs = {
+  delete?: InputMaybe<UserDeleteInput>;
   where?: InputMaybe<UserWhere>;
 };
 
@@ -1860,7 +1942,32 @@ export type MutationUpdateCoursesArgs = {
   where?: InputMaybe<CourseWhere>;
 };
 
+export type MutationUpdateRoadmapNodesArgs = {
+  connect?: InputMaybe<RoadmapNodeConnectInput>;
+  connectOrCreate?: InputMaybe<RoadmapNodeConnectOrCreateInput>;
+  create?: InputMaybe<RoadmapNodeRelationInput>;
+  delete?: InputMaybe<RoadmapNodeDeleteInput>;
+  disconnect?: InputMaybe<RoadmapNodeDisconnectInput>;
+  update?: InputMaybe<RoadmapNodeUpdateInput>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type MutationUpdateRoadmapsArgs = {
+  connect?: InputMaybe<RoadmapConnectInput>;
+  connectOrCreate?: InputMaybe<RoadmapConnectOrCreateInput>;
+  create?: InputMaybe<RoadmapRelationInput>;
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  disconnect?: InputMaybe<RoadmapDisconnectInput>;
+  update?: InputMaybe<RoadmapUpdateInput>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
 export type MutationUpdateUsersArgs = {
+  connect?: InputMaybe<UserConnectInput>;
+  connectOrCreate?: InputMaybe<UserConnectOrCreateInput>;
+  create?: InputMaybe<UserRelationInput>;
+  delete?: InputMaybe<UserDeleteInput>;
+  disconnect?: InputMaybe<UserDisconnectInput>;
   update?: InputMaybe<UserUpdateInput>;
   where?: InputMaybe<UserWhere>;
 };
@@ -1889,6 +1996,12 @@ export type Query = {
   coursesAggregate: CourseAggregateSelection;
   coursesConnection: CoursesConnection;
   currentUser: UserResponse;
+  roadmapNodes: Array<RoadmapNode>;
+  roadmapNodesAggregate: RoadmapNodeAggregateSelection;
+  roadmapNodesConnection: RoadmapNodesConnection;
+  roadmaps: Array<Roadmap>;
+  roadmapsAggregate: RoadmapAggregateSelection;
+  roadmapsConnection: RoadmapsConnection;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
@@ -1958,6 +2071,38 @@ export type QueryCoursesConnectionArgs = {
   where?: InputMaybe<CourseWhere>;
 };
 
+export type QueryRoadmapNodesArgs = {
+  options?: InputMaybe<RoadmapNodeOptions>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type QueryRoadmapNodesAggregateArgs = {
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type QueryRoadmapNodesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<InputMaybe<RoadmapNodeSort>>>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type QueryRoadmapsArgs = {
+  options?: InputMaybe<RoadmapOptions>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type QueryRoadmapsAggregateArgs = {
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type QueryRoadmapsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<InputMaybe<RoadmapSort>>>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
 export type QueryUsersArgs = {
   options?: InputMaybe<UserOptions>;
   where?: InputMaybe<UserWhere>;
@@ -1972,6 +2117,1504 @@ export type QueryUsersConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<InputMaybe<UserSort>>>;
   where?: InputMaybe<UserWhere>;
+};
+
+export type Roadmap = {
+  __typename?: 'Roadmap';
+  createdAt: Scalars['DateTime'];
+  createdBy: User;
+  createdByAggregate?: Maybe<RoadmapUserCreatedByAggregationSelection>;
+  createdByConnection: RoadmapCreatedByConnection;
+  description?: Maybe<Scalars['String']>;
+  edges?: Maybe<Array<RoadmapEdge>>;
+  id: Scalars['ID'];
+  node: RoadmapNode;
+  nodeAggregate?: Maybe<RoadmapRoadmapNodeNodeAggregationSelection>;
+  nodeConnection: RoadmapNodeConnection;
+  nodes?: Maybe<Array<RoadmapNode>>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type RoadmapCreatedByArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<UserOptions>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type RoadmapCreatedByAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type RoadmapCreatedByConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapCreatedByConnectionSort>>;
+  where?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+};
+
+export type RoadmapNodeArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapNodeOptions>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapNodeConnectionSort>>;
+  where?: InputMaybe<RoadmapNodeConnectionWhere>;
+};
+
+export type RoadmapAggregateSelection = {
+  __typename?: 'RoadmapAggregateSelection';
+  count: Scalars['Int'];
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type RoadmapConnectInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByConnectFieldInput>;
+  node?: InputMaybe<RoadmapNodeConnectFieldInput>;
+};
+
+export type RoadmapConnectOrCreateInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByConnectOrCreateFieldInput>;
+  node?: InputMaybe<RoadmapNodeConnectOrCreateFieldInput>;
+};
+
+export type RoadmapConnectOrCreateWhere = {
+  node: RoadmapUniqueWhere;
+};
+
+export type RoadmapConnectWhere = {
+  node: RoadmapWhere;
+};
+
+export type RoadmapCreateInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByFieldInput>;
+  description?: InputMaybe<Scalars['String']>;
+  node?: InputMaybe<RoadmapNodeFieldInput>;
+  title: Scalars['String'];
+};
+
+export type RoadmapCreatedByAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapCreatedByAggregateInput>>;
+  NOT?: InputMaybe<RoadmapCreatedByAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapCreatedByAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<RoadmapCreatedByNodeAggregationWhereInput>;
+};
+
+export type RoadmapCreatedByConnectFieldInput = {
+  connect?: InputMaybe<UserConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<UserConnectWhere>;
+};
+
+export type RoadmapCreatedByConnectOrCreateFieldInput = {
+  onCreate: RoadmapCreatedByConnectOrCreateFieldInputOnCreate;
+  where: UserConnectOrCreateWhere;
+};
+
+export type RoadmapCreatedByConnectOrCreateFieldInputOnCreate = {
+  node: UserOnCreateInput;
+};
+
+export type RoadmapCreatedByConnection = {
+  __typename?: 'RoadmapCreatedByConnection';
+  edges: Array<RoadmapCreatedByRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapCreatedByConnectionSort = {
+  node?: InputMaybe<UserSort>;
+};
+
+export type RoadmapCreatedByConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapCreatedByConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapCreatedByConnectionWhere>>;
+  node?: InputMaybe<UserWhere>;
+};
+
+export type RoadmapCreatedByCreateFieldInput = {
+  node: UserCreateInput;
+};
+
+export type RoadmapCreatedByDeleteFieldInput = {
+  delete?: InputMaybe<UserDeleteInput>;
+  where?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+};
+
+export type RoadmapCreatedByDisconnectFieldInput = {
+  disconnect?: InputMaybe<UserDisconnectInput>;
+  where?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+};
+
+export type RoadmapCreatedByFieldInput = {
+  connect?: InputMaybe<RoadmapCreatedByConnectFieldInput>;
+  connectOrCreate?: InputMaybe<RoadmapCreatedByConnectOrCreateFieldInput>;
+  create?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
+};
+
+export type RoadmapCreatedByNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapCreatedByNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapCreatedByNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapCreatedByNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  email_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  email_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  firstName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  lastName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type RoadmapCreatedByRelationship = {
+  __typename?: 'RoadmapCreatedByRelationship';
+  cursor: Scalars['String'];
+  node: User;
+};
+
+export type RoadmapCreatedByUpdateConnectionInput = {
+  node?: InputMaybe<UserUpdateInput>;
+};
+
+export type RoadmapCreatedByUpdateFieldInput = {
+  connect?: InputMaybe<RoadmapCreatedByConnectFieldInput>;
+  connectOrCreate?: InputMaybe<RoadmapCreatedByConnectOrCreateFieldInput>;
+  create?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
+  delete?: InputMaybe<RoadmapCreatedByDeleteFieldInput>;
+  disconnect?: InputMaybe<RoadmapCreatedByDisconnectFieldInput>;
+  update?: InputMaybe<RoadmapCreatedByUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+};
+
+export type RoadmapDeleteInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByDeleteFieldInput>;
+  node?: InputMaybe<RoadmapNodeDeleteFieldInput>;
+};
+
+export type RoadmapDisconnectInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByDisconnectFieldInput>;
+  node?: InputMaybe<RoadmapNodeDisconnectFieldInput>;
+};
+
+export type RoadmapEdge = {
+  __typename?: 'RoadmapEdge';
+  id: Scalars['String'];
+  source: Scalars['String'];
+  target: Scalars['String'];
+  targetHandle?: Maybe<Scalars['String']>;
+};
+
+export type RoadmapEdgeInput = {
+  id: Scalars['ID'];
+  source: Scalars['String'];
+  target: Scalars['String'];
+  targetHandle?: InputMaybe<Scalars['String']>;
+};
+
+export type RoadmapNode = {
+  __typename?: 'RoadmapNode';
+  childNodes: Array<RoadmapNode>;
+  childNodesAggregate?: Maybe<RoadmapNodeRoadmapNodeChildNodesAggregationSelection>;
+  childNodesConnection: RoadmapNodeChildNodesConnection;
+  description?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  parentNodes: Array<RoadmapNode>;
+  parentNodesAggregate?: Maybe<RoadmapNodeRoadmapNodeParentNodesAggregationSelection>;
+  parentNodesConnection: RoadmapNodeParentNodesConnection;
+  positionX: Scalars['Int'];
+  positionY: Scalars['Int'];
+  roadmap?: Maybe<Roadmap>;
+  roadmapAggregate?: Maybe<RoadmapNodeRoadmapRoadmapAggregationSelection>;
+  roadmapConnection: RoadmapNodeRoadmapConnection;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type RoadmapNodeChildNodesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapNodeOptions>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeChildNodesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeChildNodesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapNodeChildNodesConnectionSort>>;
+  where?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+};
+
+export type RoadmapNodeParentNodesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapNodeOptions>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeParentNodesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeParentNodesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapNodeParentNodesConnectionSort>>;
+  where?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+};
+
+export type RoadmapNodeRoadmapArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapOptions>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type RoadmapNodeRoadmapAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type RoadmapNodeRoadmapConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapNodeRoadmapConnectionSort>>;
+  where?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+};
+
+export type RoadmapNodeAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapNodeAggregateInput>>;
+  NOT?: InputMaybe<RoadmapNodeAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapNodeAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<RoadmapNodeNodeAggregationWhereInput>;
+};
+
+export type RoadmapNodeAggregateSelection = {
+  __typename?: 'RoadmapNodeAggregateSelection';
+  count: Scalars['Int'];
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  positionX: IntAggregateSelectionNonNullable;
+  positionY: IntAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  type: StringAggregateSelectionNonNullable;
+};
+
+export type RoadmapNodeChildNodesAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapNodeChildNodesAggregateInput>>;
+  NOT?: InputMaybe<RoadmapNodeChildNodesAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapNodeChildNodesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  edge?: InputMaybe<RoadmapNodeChildNodesEdgeAggregationWhereInput>;
+  node?: InputMaybe<RoadmapNodeChildNodesNodeAggregationWhereInput>;
+};
+
+export type RoadmapNodeChildNodesConnectFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeConnectInput>>;
+  edge: HasChildCreateInput;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapNodeConnectWhere>;
+};
+
+export type RoadmapNodeChildNodesConnectOrCreateFieldInput = {
+  onCreate: RoadmapNodeChildNodesConnectOrCreateFieldInputOnCreate;
+  where: RoadmapNodeConnectOrCreateWhere;
+};
+
+export type RoadmapNodeChildNodesConnectOrCreateFieldInputOnCreate = {
+  edge: HasChildCreateInput;
+  node: RoadmapNodeOnCreateInput;
+};
+
+export type RoadmapNodeChildNodesConnection = {
+  __typename?: 'RoadmapNodeChildNodesConnection';
+  edges: Array<RoadmapNodeChildNodesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapNodeChildNodesConnectionSort = {
+  edge?: InputMaybe<HasChildSort>;
+  node?: InputMaybe<RoadmapNodeSort>;
+};
+
+export type RoadmapNodeChildNodesConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapNodeChildNodesConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapNodeChildNodesConnectionWhere>>;
+  edge?: InputMaybe<HasChildWhere>;
+  node?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeChildNodesCreateFieldInput = {
+  edge: HasChildCreateInput;
+  node: RoadmapNodeCreateInput;
+};
+
+export type RoadmapNodeChildNodesDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapNodeDeleteInput>;
+  where?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+};
+
+export type RoadmapNodeChildNodesDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapNodeDisconnectInput>;
+  where?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+};
+
+export type RoadmapNodeChildNodesEdgeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeChildNodesEdgeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeChildNodesEdgeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeChildNodesEdgeAggregationWhereInput>>;
+  id_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  id_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  targetHandle_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapNodeChildNodesFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeChildNodesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapNodeChildNodesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapNodeChildNodesCreateFieldInput>>;
+};
+
+export type RoadmapNodeChildNodesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeChildNodesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeChildNodesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeChildNodesNodeAggregationWhereInput>>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_GT?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_LT?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_GT?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_LT?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_GT?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_LT?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_GT?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_LT?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_GT?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_LT?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_GT?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_LT?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  type_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  type_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapNodeChildNodesRelationship = HasChild & {
+  __typename?: 'RoadmapNodeChildNodesRelationship';
+  cursor: Scalars['String'];
+  id: Scalars['String'];
+  node: RoadmapNode;
+  targetHandle?: Maybe<Scalars['String']>;
+};
+
+export type RoadmapNodeChildNodesUpdateConnectionInput = {
+  edge?: InputMaybe<HasChildUpdateInput>;
+  node?: InputMaybe<RoadmapNodeUpdateInput>;
+};
+
+export type RoadmapNodeChildNodesUpdateFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeChildNodesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapNodeChildNodesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapNodeChildNodesCreateFieldInput>>;
+  delete?: InputMaybe<Array<RoadmapNodeChildNodesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<RoadmapNodeChildNodesDisconnectFieldInput>>;
+  update?: InputMaybe<RoadmapNodeChildNodesUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+};
+
+export type RoadmapNodeConnectFieldInput = {
+  connect?: InputMaybe<RoadmapNodeConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapNodeConnectWhere>;
+};
+
+export type RoadmapNodeConnectInput = {
+  childNodes?: InputMaybe<Array<RoadmapNodeChildNodesConnectFieldInput>>;
+  parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesConnectFieldInput>>;
+  roadmap?: InputMaybe<RoadmapNodeRoadmapConnectFieldInput>;
+};
+
+export type RoadmapNodeConnectOrCreateFieldInput = {
+  onCreate: RoadmapNodeConnectOrCreateFieldInputOnCreate;
+  where: RoadmapNodeConnectOrCreateWhere;
+};
+
+export type RoadmapNodeConnectOrCreateFieldInputOnCreate = {
+  node: RoadmapNodeOnCreateInput;
+};
+
+export type RoadmapNodeConnectOrCreateInput = {
+  childNodes?: InputMaybe<Array<RoadmapNodeChildNodesConnectOrCreateFieldInput>>;
+  parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesConnectOrCreateFieldInput>>;
+  roadmap?: InputMaybe<RoadmapNodeRoadmapConnectOrCreateFieldInput>;
+};
+
+export type RoadmapNodeConnectOrCreateWhere = {
+  node: RoadmapNodeUniqueWhere;
+};
+
+export type RoadmapNodeConnectWhere = {
+  node: RoadmapNodeWhere;
+};
+
+export type RoadmapNodeConnection = {
+  __typename?: 'RoadmapNodeConnection';
+  edges: Array<RoadmapNodeRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapNodeConnectionSort = {
+  node?: InputMaybe<RoadmapNodeSort>;
+};
+
+export type RoadmapNodeConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapNodeConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapNodeConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapNodeConnectionWhere>>;
+  node?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeCreateFieldInput = {
+  node: RoadmapNodeCreateInput;
+};
+
+export type RoadmapNodeCreateInput = {
+  childNodes?: InputMaybe<RoadmapNodeChildNodesFieldInput>;
+  description?: InputMaybe<Scalars['String']>;
+  parentNodes?: InputMaybe<RoadmapNodeParentNodesFieldInput>;
+  positionX: Scalars['Int'];
+  positionY: Scalars['Int'];
+  roadmap?: InputMaybe<RoadmapNodeRoadmapFieldInput>;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type RoadmapNodeDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapNodeDeleteInput>;
+  where?: InputMaybe<RoadmapNodeConnectionWhere>;
+};
+
+export type RoadmapNodeDeleteInput = {
+  childNodes?: InputMaybe<Array<RoadmapNodeChildNodesDeleteFieldInput>>;
+  parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesDeleteFieldInput>>;
+  roadmap?: InputMaybe<RoadmapNodeRoadmapDeleteFieldInput>;
+};
+
+export type RoadmapNodeDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapNodeDisconnectInput>;
+  where?: InputMaybe<RoadmapNodeConnectionWhere>;
+};
+
+export type RoadmapNodeDisconnectInput = {
+  childNodes?: InputMaybe<Array<RoadmapNodeChildNodesDisconnectFieldInput>>;
+  parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesDisconnectFieldInput>>;
+  roadmap?: InputMaybe<RoadmapNodeRoadmapDisconnectFieldInput>;
+};
+
+export type RoadmapNodeEdge = {
+  __typename?: 'RoadmapNodeEdge';
+  cursor: Scalars['String'];
+  node: RoadmapNode;
+};
+
+export type RoadmapNodeFieldInput = {
+  connect?: InputMaybe<RoadmapNodeConnectFieldInput>;
+  connectOrCreate?: InputMaybe<RoadmapNodeConnectOrCreateFieldInput>;
+  create?: InputMaybe<RoadmapNodeCreateFieldInput>;
+};
+
+export type RoadmapNodeInput = {
+  description?: InputMaybe<Scalars['String']>;
+  id: Scalars['ID'];
+  position: RoadmapNodePositionInput;
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type RoadmapNodeNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeNodeAggregationWhereInput>>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_GT?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_LT?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_GT?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_LT?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_GT?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_LT?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_GT?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_LT?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_GT?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_LT?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_GT?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_LT?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  type_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  type_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapNodeOnCreateInput = {
+  description?: InputMaybe<Scalars['String']>;
+  positionX: Scalars['Int'];
+  positionY: Scalars['Int'];
+  title: Scalars['String'];
+  type: Scalars['String'];
+};
+
+export type RoadmapNodeOptions = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  /** Specify one or more RoadmapNodeSort objects to sort RoadmapNodes by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<RoadmapNodeSort>>;
+};
+
+export type RoadmapNodeParentNodesAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapNodeParentNodesAggregateInput>>;
+  NOT?: InputMaybe<RoadmapNodeParentNodesAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapNodeParentNodesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  edge?: InputMaybe<RoadmapNodeParentNodesEdgeAggregationWhereInput>;
+  node?: InputMaybe<RoadmapNodeParentNodesNodeAggregationWhereInput>;
+};
+
+export type RoadmapNodeParentNodesConnectFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeConnectInput>>;
+  edge: HasChildCreateInput;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapNodeConnectWhere>;
+};
+
+export type RoadmapNodeParentNodesConnectOrCreateFieldInput = {
+  onCreate: RoadmapNodeParentNodesConnectOrCreateFieldInputOnCreate;
+  where: RoadmapNodeConnectOrCreateWhere;
+};
+
+export type RoadmapNodeParentNodesConnectOrCreateFieldInputOnCreate = {
+  edge: HasChildCreateInput;
+  node: RoadmapNodeOnCreateInput;
+};
+
+export type RoadmapNodeParentNodesConnection = {
+  __typename?: 'RoadmapNodeParentNodesConnection';
+  edges: Array<RoadmapNodeParentNodesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapNodeParentNodesConnectionSort = {
+  edge?: InputMaybe<HasChildSort>;
+  node?: InputMaybe<RoadmapNodeSort>;
+};
+
+export type RoadmapNodeParentNodesConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapNodeParentNodesConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapNodeParentNodesConnectionWhere>>;
+  edge?: InputMaybe<HasChildWhere>;
+  node?: InputMaybe<RoadmapNodeWhere>;
+};
+
+export type RoadmapNodeParentNodesCreateFieldInput = {
+  edge: HasChildCreateInput;
+  node: RoadmapNodeCreateInput;
+};
+
+export type RoadmapNodeParentNodesDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapNodeDeleteInput>;
+  where?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+};
+
+export type RoadmapNodeParentNodesDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapNodeDisconnectInput>;
+  where?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+};
+
+export type RoadmapNodeParentNodesEdgeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeParentNodesEdgeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeParentNodesEdgeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeParentNodesEdgeAggregationWhereInput>>;
+  id_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  id_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  id_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  id_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  id_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  targetHandle_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  targetHandle_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  targetHandle_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  targetHandle_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapNodeParentNodesFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeParentNodesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapNodeParentNodesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapNodeParentNodesCreateFieldInput>>;
+};
+
+export type RoadmapNodeParentNodesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeParentNodesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeParentNodesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeParentNodesNodeAggregationWhereInput>>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  positionX_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_GT?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_LT?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_GT?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_LT?: InputMaybe<Scalars['Int']>;
+  positionX_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_GT?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_LT?: InputMaybe<Scalars['Int']>;
+  positionX_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  positionY_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_GT?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_LT?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_GT?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_LT?: InputMaybe<Scalars['Int']>;
+  positionY_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_GT?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_LT?: InputMaybe<Scalars['Int']>;
+  positionY_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  type_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  type_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  type_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  type_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  type_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapNodeParentNodesRelationship = HasChild & {
+  __typename?: 'RoadmapNodeParentNodesRelationship';
+  cursor: Scalars['String'];
+  id: Scalars['String'];
+  node: RoadmapNode;
+  targetHandle?: Maybe<Scalars['String']>;
+};
+
+export type RoadmapNodeParentNodesUpdateConnectionInput = {
+  edge?: InputMaybe<HasChildUpdateInput>;
+  node?: InputMaybe<RoadmapNodeUpdateInput>;
+};
+
+export type RoadmapNodeParentNodesUpdateFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeParentNodesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapNodeParentNodesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapNodeParentNodesCreateFieldInput>>;
+  delete?: InputMaybe<Array<RoadmapNodeParentNodesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<RoadmapNodeParentNodesDisconnectFieldInput>>;
+  update?: InputMaybe<RoadmapNodeParentNodesUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+};
+
+export type RoadmapNodePositionInput = {
+  x: Scalars['Float'];
+  y: Scalars['Float'];
+};
+
+export type RoadmapNodeRelationInput = {
+  childNodes?: InputMaybe<Array<RoadmapNodeChildNodesCreateFieldInput>>;
+  parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesCreateFieldInput>>;
+  roadmap?: InputMaybe<RoadmapNodeRoadmapCreateFieldInput>;
+};
+
+export type RoadmapNodeRelationship = {
+  __typename?: 'RoadmapNodeRelationship';
+  cursor: Scalars['String'];
+  node: RoadmapNode;
+};
+
+export type RoadmapNodeRoadmapAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapNodeRoadmapAggregateInput>>;
+  NOT?: InputMaybe<RoadmapNodeRoadmapAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapNodeRoadmapAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<RoadmapNodeRoadmapNodeAggregationWhereInput>;
+};
+
+export type RoadmapNodeRoadmapConnectFieldInput = {
+  connect?: InputMaybe<RoadmapConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapConnectWhere>;
+};
+
+export type RoadmapNodeRoadmapConnectOrCreateFieldInput = {
+  onCreate: RoadmapNodeRoadmapConnectOrCreateFieldInputOnCreate;
+  where: RoadmapConnectOrCreateWhere;
+};
+
+export type RoadmapNodeRoadmapConnectOrCreateFieldInputOnCreate = {
+  node: RoadmapOnCreateInput;
+};
+
+export type RoadmapNodeRoadmapConnection = {
+  __typename?: 'RoadmapNodeRoadmapConnection';
+  edges: Array<RoadmapNodeRoadmapRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapNodeRoadmapConnectionSort = {
+  node?: InputMaybe<RoadmapSort>;
+};
+
+export type RoadmapNodeRoadmapConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapNodeRoadmapConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapNodeRoadmapConnectionWhere>>;
+  node?: InputMaybe<RoadmapWhere>;
+};
+
+export type RoadmapNodeRoadmapCreateFieldInput = {
+  node: RoadmapCreateInput;
+};
+
+export type RoadmapNodeRoadmapDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  where?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+};
+
+export type RoadmapNodeRoadmapDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapDisconnectInput>;
+  where?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+};
+
+export type RoadmapNodeRoadmapFieldInput = {
+  connect?: InputMaybe<RoadmapNodeRoadmapConnectFieldInput>;
+  connectOrCreate?: InputMaybe<RoadmapNodeRoadmapConnectOrCreateFieldInput>;
+  create?: InputMaybe<RoadmapNodeRoadmapCreateFieldInput>;
+};
+
+export type RoadmapNodeRoadmapNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeRoadmapNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeRoadmapNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeRoadmapNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type RoadmapNodeRoadmapNodeChildNodesAggregationSelection = {
+  __typename?: 'RoadmapNodeRoadmapNodeChildNodesAggregationSelection';
+  count: Scalars['Int'];
+  edge?: Maybe<RoadmapNodeRoadmapNodeChildNodesEdgeAggregateSelection>;
+  node?: Maybe<RoadmapNodeRoadmapNodeChildNodesNodeAggregateSelection>;
+};
+
+export type RoadmapNodeRoadmapNodeChildNodesEdgeAggregateSelection = {
+  __typename?: 'RoadmapNodeRoadmapNodeChildNodesEdgeAggregateSelection';
+  id: StringAggregateSelectionNonNullable;
+  targetHandle: StringAggregateSelectionNullable;
+};
+
+export type RoadmapNodeRoadmapNodeChildNodesNodeAggregateSelection = {
+  __typename?: 'RoadmapNodeRoadmapNodeChildNodesNodeAggregateSelection';
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  positionX: IntAggregateSelectionNonNullable;
+  positionY: IntAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  type: StringAggregateSelectionNonNullable;
+};
+
+export type RoadmapNodeRoadmapNodeParentNodesAggregationSelection = {
+  __typename?: 'RoadmapNodeRoadmapNodeParentNodesAggregationSelection';
+  count: Scalars['Int'];
+  edge?: Maybe<RoadmapNodeRoadmapNodeParentNodesEdgeAggregateSelection>;
+  node?: Maybe<RoadmapNodeRoadmapNodeParentNodesNodeAggregateSelection>;
+};
+
+export type RoadmapNodeRoadmapNodeParentNodesEdgeAggregateSelection = {
+  __typename?: 'RoadmapNodeRoadmapNodeParentNodesEdgeAggregateSelection';
+  id: StringAggregateSelectionNonNullable;
+  targetHandle: StringAggregateSelectionNullable;
+};
+
+export type RoadmapNodeRoadmapNodeParentNodesNodeAggregateSelection = {
+  __typename?: 'RoadmapNodeRoadmapNodeParentNodesNodeAggregateSelection';
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  positionX: IntAggregateSelectionNonNullable;
+  positionY: IntAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  type: StringAggregateSelectionNonNullable;
+};
+
+export type RoadmapNodeRoadmapRelationship = {
+  __typename?: 'RoadmapNodeRoadmapRelationship';
+  cursor: Scalars['String'];
+  node: Roadmap;
+};
+
+export type RoadmapNodeRoadmapRoadmapAggregationSelection = {
+  __typename?: 'RoadmapNodeRoadmapRoadmapAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<RoadmapNodeRoadmapRoadmapNodeAggregateSelection>;
+};
+
+export type RoadmapNodeRoadmapRoadmapNodeAggregateSelection = {
+  __typename?: 'RoadmapNodeRoadmapRoadmapNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type RoadmapNodeRoadmapUpdateConnectionInput = {
+  node?: InputMaybe<RoadmapUpdateInput>;
+};
+
+export type RoadmapNodeRoadmapUpdateFieldInput = {
+  connect?: InputMaybe<RoadmapNodeRoadmapConnectFieldInput>;
+  connectOrCreate?: InputMaybe<RoadmapNodeRoadmapConnectOrCreateFieldInput>;
+  create?: InputMaybe<RoadmapNodeRoadmapCreateFieldInput>;
+  delete?: InputMaybe<RoadmapNodeRoadmapDeleteFieldInput>;
+  disconnect?: InputMaybe<RoadmapNodeRoadmapDisconnectFieldInput>;
+  update?: InputMaybe<RoadmapNodeRoadmapUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+};
+
+/** Fields to sort RoadmapNodes by. The order in which sorts are applied is not guaranteed when specifying many fields in one RoadmapNodeSort object. */
+export type RoadmapNodeSort = {
+  description?: InputMaybe<SortDirection>;
+  id?: InputMaybe<SortDirection>;
+  positionX?: InputMaybe<SortDirection>;
+  positionY?: InputMaybe<SortDirection>;
+  title?: InputMaybe<SortDirection>;
+  type?: InputMaybe<SortDirection>;
+};
+
+export type RoadmapNodeUniqueWhere = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+export type RoadmapNodeUpdateConnectionInput = {
+  node?: InputMaybe<RoadmapNodeUpdateInput>;
+};
+
+export type RoadmapNodeUpdateFieldInput = {
+  connect?: InputMaybe<RoadmapNodeConnectFieldInput>;
+  connectOrCreate?: InputMaybe<RoadmapNodeConnectOrCreateFieldInput>;
+  create?: InputMaybe<RoadmapNodeCreateFieldInput>;
+  delete?: InputMaybe<RoadmapNodeDeleteFieldInput>;
+  disconnect?: InputMaybe<RoadmapNodeDisconnectFieldInput>;
+  update?: InputMaybe<RoadmapNodeUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapNodeConnectionWhere>;
+};
+
+export type RoadmapNodeUpdateInput = {
+  childNodes?: InputMaybe<Array<RoadmapNodeChildNodesUpdateFieldInput>>;
+  description?: InputMaybe<Scalars['String']>;
+  parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesUpdateFieldInput>>;
+  positionX?: InputMaybe<Scalars['Int']>;
+  positionX_DECREMENT?: InputMaybe<Scalars['Int']>;
+  positionX_INCREMENT?: InputMaybe<Scalars['Int']>;
+  positionY?: InputMaybe<Scalars['Int']>;
+  positionY_DECREMENT?: InputMaybe<Scalars['Int']>;
+  positionY_INCREMENT?: InputMaybe<Scalars['Int']>;
+  roadmap?: InputMaybe<RoadmapNodeRoadmapUpdateFieldInput>;
+  title?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+};
+
+export type RoadmapNodeWhere = {
+  AND?: InputMaybe<Array<RoadmapNodeWhere>>;
+  NOT?: InputMaybe<RoadmapNodeWhere>;
+  OR?: InputMaybe<Array<RoadmapNodeWhere>>;
+  childNodesAggregate?: InputMaybe<RoadmapNodeChildNodesAggregateInput>;
+  /** Return RoadmapNodes where all of the related RoadmapNodeChildNodesConnections match this filter */
+  childNodesConnection_ALL?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+  /** Return RoadmapNodes where none of the related RoadmapNodeChildNodesConnections match this filter */
+  childNodesConnection_NONE?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+  /** Return RoadmapNodes where one of the related RoadmapNodeChildNodesConnections match this filter */
+  childNodesConnection_SINGLE?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+  /** Return RoadmapNodes where some of the related RoadmapNodeChildNodesConnections match this filter */
+  childNodesConnection_SOME?: InputMaybe<RoadmapNodeChildNodesConnectionWhere>;
+  /** Return RoadmapNodes where all of the related RoadmapNodes match this filter */
+  childNodes_ALL?: InputMaybe<RoadmapNodeWhere>;
+  /** Return RoadmapNodes where none of the related RoadmapNodes match this filter */
+  childNodes_NONE?: InputMaybe<RoadmapNodeWhere>;
+  /** Return RoadmapNodes where one of the related RoadmapNodes match this filter */
+  childNodes_SINGLE?: InputMaybe<RoadmapNodeWhere>;
+  /** Return RoadmapNodes where some of the related RoadmapNodes match this filter */
+  childNodes_SOME?: InputMaybe<RoadmapNodeWhere>;
+  description?: InputMaybe<Scalars['String']>;
+  description_CONTAINS?: InputMaybe<Scalars['String']>;
+  description_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  description_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_CONTAINS?: InputMaybe<Scalars['ID']>;
+  id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
+  id_IN?: InputMaybe<Array<Scalars['ID']>>;
+  id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
+  parentNodesAggregate?: InputMaybe<RoadmapNodeParentNodesAggregateInput>;
+  /** Return RoadmapNodes where all of the related RoadmapNodeParentNodesConnections match this filter */
+  parentNodesConnection_ALL?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+  /** Return RoadmapNodes where none of the related RoadmapNodeParentNodesConnections match this filter */
+  parentNodesConnection_NONE?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+  /** Return RoadmapNodes where one of the related RoadmapNodeParentNodesConnections match this filter */
+  parentNodesConnection_SINGLE?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+  /** Return RoadmapNodes where some of the related RoadmapNodeParentNodesConnections match this filter */
+  parentNodesConnection_SOME?: InputMaybe<RoadmapNodeParentNodesConnectionWhere>;
+  /** Return RoadmapNodes where all of the related RoadmapNodes match this filter */
+  parentNodes_ALL?: InputMaybe<RoadmapNodeWhere>;
+  /** Return RoadmapNodes where none of the related RoadmapNodes match this filter */
+  parentNodes_NONE?: InputMaybe<RoadmapNodeWhere>;
+  /** Return RoadmapNodes where one of the related RoadmapNodes match this filter */
+  parentNodes_SINGLE?: InputMaybe<RoadmapNodeWhere>;
+  /** Return RoadmapNodes where some of the related RoadmapNodes match this filter */
+  parentNodes_SOME?: InputMaybe<RoadmapNodeWhere>;
+  positionX?: InputMaybe<Scalars['Int']>;
+  positionX_GT?: InputMaybe<Scalars['Int']>;
+  positionX_GTE?: InputMaybe<Scalars['Int']>;
+  positionX_IN?: InputMaybe<Array<Scalars['Int']>>;
+  positionX_LT?: InputMaybe<Scalars['Int']>;
+  positionX_LTE?: InputMaybe<Scalars['Int']>;
+  positionY?: InputMaybe<Scalars['Int']>;
+  positionY_GT?: InputMaybe<Scalars['Int']>;
+  positionY_GTE?: InputMaybe<Scalars['Int']>;
+  positionY_IN?: InputMaybe<Array<Scalars['Int']>>;
+  positionY_LT?: InputMaybe<Scalars['Int']>;
+  positionY_LTE?: InputMaybe<Scalars['Int']>;
+  roadmap?: InputMaybe<RoadmapWhere>;
+  roadmapAggregate?: InputMaybe<RoadmapNodeRoadmapAggregateInput>;
+  roadmapConnection?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+  roadmapConnection_NOT?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+  roadmap_NOT?: InputMaybe<RoadmapWhere>;
+  title?: InputMaybe<Scalars['String']>;
+  title_CONTAINS?: InputMaybe<Scalars['String']>;
+  title_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  title_IN?: InputMaybe<Array<Scalars['String']>>;
+  title_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<Scalars['String']>;
+  type_CONTAINS?: InputMaybe<Scalars['String']>;
+  type_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  type_IN?: InputMaybe<Array<Scalars['String']>>;
+  type_STARTS_WITH?: InputMaybe<Scalars['String']>;
+};
+
+export type RoadmapNodesConnection = {
+  __typename?: 'RoadmapNodesConnection';
+  edges: Array<RoadmapNodeEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapOnCreateInput = {
+  description?: InputMaybe<Scalars['String']>;
+  title: Scalars['String'];
+};
+
+export type RoadmapOptions = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  /** Specify one or more RoadmapSort objects to sort Roadmaps by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<RoadmapSort>>;
+};
+
+export type RoadmapRelationInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
+  node?: InputMaybe<RoadmapNodeCreateFieldInput>;
+};
+
+export type RoadmapRoadmapNodeNodeAggregationSelection = {
+  __typename?: 'RoadmapRoadmapNodeNodeAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<RoadmapRoadmapNodeNodeNodeAggregateSelection>;
+};
+
+export type RoadmapRoadmapNodeNodeNodeAggregateSelection = {
+  __typename?: 'RoadmapRoadmapNodeNodeNodeAggregateSelection';
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  positionX: IntAggregateSelectionNonNullable;
+  positionY: IntAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  type: StringAggregateSelectionNonNullable;
+};
+
+/** Fields to sort Roadmaps by. The order in which sorts are applied is not guaranteed when specifying many fields in one RoadmapSort object. */
+export type RoadmapSort = {
+  createdAt?: InputMaybe<SortDirection>;
+  description?: InputMaybe<SortDirection>;
+  id?: InputMaybe<SortDirection>;
+  title?: InputMaybe<SortDirection>;
+  updatedAt?: InputMaybe<SortDirection>;
+};
+
+export type RoadmapUniqueWhere = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+export type RoadmapUpdateInput = {
+  createdBy?: InputMaybe<RoadmapCreatedByUpdateFieldInput>;
+  description?: InputMaybe<Scalars['String']>;
+  node?: InputMaybe<RoadmapNodeUpdateFieldInput>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type RoadmapUserCreatedByAggregationSelection = {
+  __typename?: 'RoadmapUserCreatedByAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<RoadmapUserCreatedByNodeAggregateSelection>;
+};
+
+export type RoadmapUserCreatedByNodeAggregateSelection = {
+  __typename?: 'RoadmapUserCreatedByNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  email: StringAggregateSelectionNonNullable;
+  firstName: StringAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  lastName: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type RoadmapWhere = {
+  AND?: InputMaybe<Array<RoadmapWhere>>;
+  NOT?: InputMaybe<RoadmapWhere>;
+  OR?: InputMaybe<Array<RoadmapWhere>>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  createdAt_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_IN?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdAt_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdBy?: InputMaybe<UserWhere>;
+  createdByAggregate?: InputMaybe<RoadmapCreatedByAggregateInput>;
+  createdByConnection?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+  createdByConnection_NOT?: InputMaybe<RoadmapCreatedByConnectionWhere>;
+  createdBy_NOT?: InputMaybe<UserWhere>;
+  description?: InputMaybe<Scalars['String']>;
+  description_CONTAINS?: InputMaybe<Scalars['String']>;
+  description_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  description_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+  description_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_CONTAINS?: InputMaybe<Scalars['ID']>;
+  id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
+  id_IN?: InputMaybe<Array<Scalars['ID']>>;
+  id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
+  node?: InputMaybe<RoadmapNodeWhere>;
+  nodeAggregate?: InputMaybe<RoadmapNodeAggregateInput>;
+  nodeConnection?: InputMaybe<RoadmapNodeConnectionWhere>;
+  nodeConnection_NOT?: InputMaybe<RoadmapNodeConnectionWhere>;
+  node_NOT?: InputMaybe<RoadmapNodeWhere>;
+  title?: InputMaybe<Scalars['String']>;
+  title_CONTAINS?: InputMaybe<Scalars['String']>;
+  title_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  title_IN?: InputMaybe<Array<Scalars['String']>>;
+  title_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_IN?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updatedAt_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type RoadmapsConnection = {
+  __typename?: 'RoadmapsConnection';
+  edges: Array<RoadmapEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
 };
 
 export enum SortDirection {
@@ -2026,6 +3669,18 @@ export type UpdateInfo = {
   relationshipsDeleted: Scalars['Int'];
 };
 
+export type UpdateRoadmapNodesMutationResponse = {
+  __typename?: 'UpdateRoadmapNodesMutationResponse';
+  info: UpdateInfo;
+  roadmapNodes: Array<RoadmapNode>;
+};
+
+export type UpdateRoadmapsMutationResponse = {
+  __typename?: 'UpdateRoadmapsMutationResponse';
+  info: UpdateInfo;
+  roadmaps: Array<Roadmap>;
+};
+
 export type UpdateUsersMutationResponse = {
   __typename?: 'UpdateUsersMutationResponse';
   info: UpdateInfo;
@@ -2035,12 +3690,34 @@ export type UpdateUsersMutationResponse = {
 export type User = {
   __typename?: 'User';
   createdAt: Scalars['DateTime'];
+  createdRoadmaps: Array<Roadmap>;
+  createdRoadmapsAggregate?: Maybe<UserRoadmapCreatedRoadmapsAggregationSelection>;
+  createdRoadmapsConnection: UserCreatedRoadmapsConnection;
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['ID'];
   lastName: Scalars['String'];
   roles: Array<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type UserCreatedRoadmapsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapOptions>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserCreatedRoadmapsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserCreatedRoadmapsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserCreatedRoadmapsConnectionSort>>;
+  where?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
 };
 
 export type UserAggregateSelection = {
@@ -2054,17 +3731,191 @@ export type UserAggregateSelection = {
   updatedAt: DateTimeAggregateSelectionNullable;
 };
 
+export type UserConnectInput = {
+  createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
+};
+
+export type UserConnectOrCreateInput = {
+  createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectOrCreateFieldInput>>;
+};
+
+export type UserConnectOrCreateWhere = {
+  node: UserUniqueWhere;
+};
+
+export type UserConnectWhere = {
+  node: UserWhere;
+};
+
 export type UserCreateInput = {
+  createdRoadmaps?: InputMaybe<UserCreatedRoadmapsFieldInput>;
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   roles: Array<Scalars['String']>;
 };
 
+export type UserCreatedRoadmapsAggregateInput = {
+  AND?: InputMaybe<Array<UserCreatedRoadmapsAggregateInput>>;
+  NOT?: InputMaybe<UserCreatedRoadmapsAggregateInput>;
+  OR?: InputMaybe<Array<UserCreatedRoadmapsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserCreatedRoadmapsNodeAggregationWhereInput>;
+};
+
+export type UserCreatedRoadmapsConnectFieldInput = {
+  connect?: InputMaybe<Array<RoadmapConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapConnectWhere>;
+};
+
+export type UserCreatedRoadmapsConnectOrCreateFieldInput = {
+  onCreate: UserCreatedRoadmapsConnectOrCreateFieldInputOnCreate;
+  where: RoadmapConnectOrCreateWhere;
+};
+
+export type UserCreatedRoadmapsConnectOrCreateFieldInputOnCreate = {
+  node: RoadmapOnCreateInput;
+};
+
+export type UserCreatedRoadmapsConnection = {
+  __typename?: 'UserCreatedRoadmapsConnection';
+  edges: Array<UserCreatedRoadmapsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserCreatedRoadmapsConnectionSort = {
+  node?: InputMaybe<RoadmapSort>;
+};
+
+export type UserCreatedRoadmapsConnectionWhere = {
+  AND?: InputMaybe<Array<UserCreatedRoadmapsConnectionWhere>>;
+  NOT?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+  OR?: InputMaybe<Array<UserCreatedRoadmapsConnectionWhere>>;
+  node?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserCreatedRoadmapsCreateFieldInput = {
+  node: RoadmapCreateInput;
+};
+
+export type UserCreatedRoadmapsDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  where?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+};
+
+export type UserCreatedRoadmapsDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapDisconnectInput>;
+  where?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+};
+
+export type UserCreatedRoadmapsFieldInput = {
+  connect?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreatedRoadmapsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
+};
+
+export type UserCreatedRoadmapsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserCreatedRoadmapsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserCreatedRoadmapsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserCreatedRoadmapsNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserCreatedRoadmapsRelationship = {
+  __typename?: 'UserCreatedRoadmapsRelationship';
+  cursor: Scalars['String'];
+  node: Roadmap;
+};
+
+export type UserCreatedRoadmapsUpdateConnectionInput = {
+  node?: InputMaybe<RoadmapUpdateInput>;
+};
+
+export type UserCreatedRoadmapsUpdateFieldInput = {
+  connect?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserCreatedRoadmapsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserCreatedRoadmapsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<UserCreatedRoadmapsDisconnectFieldInput>>;
+  update?: InputMaybe<UserCreatedRoadmapsUpdateConnectionInput>;
+  where?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+};
+
+export type UserDeleteInput = {
+  createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDeleteFieldInput>>;
+};
+
+export type UserDisconnectInput = {
+  createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDisconnectFieldInput>>;
+};
+
 export type UserEdge = {
   __typename?: 'UserEdge';
   cursor: Scalars['String'];
   node: User;
+};
+
+export type UserOnCreateInput = {
+  email: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  roles: Array<Scalars['String']>;
 };
 
 export type UserOptions = {
@@ -2074,13 +3925,34 @@ export type UserOptions = {
   sort?: InputMaybe<Array<UserSort>>;
 };
 
+export type UserRelationInput = {
+  createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
+};
+
 export type UserResponse = {
   __typename?: 'UserResponse';
+  createdAt: Scalars['String'];
   email: Scalars['String'];
   firstName: Scalars['String'];
   id: Scalars['String'];
   lastName: Scalars['String'];
   roles: Array<Scalars['String']>;
+  updatedAt: Scalars['String'];
+};
+
+export type UserRoadmapCreatedRoadmapsAggregationSelection = {
+  __typename?: 'UserRoadmapCreatedRoadmapsAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserRoadmapCreatedRoadmapsNodeAggregateSelection>;
+};
+
+export type UserRoadmapCreatedRoadmapsNodeAggregateSelection = {
+  __typename?: 'UserRoadmapCreatedRoadmapsNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
 };
 
 export type UserSignInInput = {
@@ -2105,7 +3977,13 @@ export type UserSort = {
   updatedAt?: InputMaybe<SortDirection>;
 };
 
+export type UserUniqueWhere = {
+  email?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export type UserUpdateInput = {
+  createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsUpdateFieldInput>>;
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
@@ -2124,6 +4002,23 @@ export type UserWhere = {
   createdAt_IN?: InputMaybe<Array<Scalars['DateTime']>>;
   createdAt_LT?: InputMaybe<Scalars['DateTime']>;
   createdAt_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdRoadmapsAggregate?: InputMaybe<UserCreatedRoadmapsAggregateInput>;
+  /** Return Users where all of the related UserCreatedRoadmapsConnections match this filter */
+  createdRoadmapsConnection_ALL?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+  /** Return Users where none of the related UserCreatedRoadmapsConnections match this filter */
+  createdRoadmapsConnection_NONE?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+  /** Return Users where one of the related UserCreatedRoadmapsConnections match this filter */
+  createdRoadmapsConnection_SINGLE?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+  /** Return Users where some of the related UserCreatedRoadmapsConnections match this filter */
+  createdRoadmapsConnection_SOME?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+  /** Return Users where all of the related Roadmaps match this filter */
+  createdRoadmaps_ALL?: InputMaybe<RoadmapWhere>;
+  /** Return Users where none of the related Roadmaps match this filter */
+  createdRoadmaps_NONE?: InputMaybe<RoadmapWhere>;
+  /** Return Users where one of the related Roadmaps match this filter */
+  createdRoadmaps_SINGLE?: InputMaybe<RoadmapWhere>;
+  /** Return Users where some of the related Roadmaps match this filter */
+  createdRoadmaps_SOME?: InputMaybe<RoadmapWhere>;
   email?: InputMaybe<Scalars['String']>;
   email_CONTAINS?: InputMaybe<Scalars['String']>;
   email_ENDS_WITH?: InputMaybe<Scalars['String']>;
@@ -2395,6 +4290,90 @@ export type DeleteCourseByIdMutation = {
   deleteCourses: { __typename?: 'DeleteInfo'; nodesDeleted: number };
 };
 
+export type RoadmapNodeInfoFragment = {
+  __typename?: 'RoadmapNode';
+  id: string;
+  title: string;
+  description?: string | null;
+  type: string;
+  positionX: number;
+  positionY: number;
+};
+
+export type RoadmapEdgeInfoFragment = {
+  __typename?: 'RoadmapEdge';
+  id: string;
+  source: string;
+  target: string;
+  targetHandle?: string | null;
+};
+
+export type RoadmapInfoFragment = {
+  __typename?: 'Roadmap';
+  id: string;
+  title: string;
+  createdAt: any;
+  updatedAt?: any | null;
+  createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+};
+
+export type GetRoadmapsQueryVariables = Exact<{
+  where?: InputMaybe<RoadmapWhere>;
+  options?: InputMaybe<RoadmapOptions>;
+}>;
+
+export type GetRoadmapsQuery = {
+  __typename?: 'Query';
+  roadmaps: Array<{
+    __typename?: 'Roadmap';
+    id: string;
+    title: string;
+    createdAt: any;
+    updatedAt?: any | null;
+    createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+  }>;
+  roadmapsAggregate: { __typename?: 'RoadmapAggregateSelection'; count: number };
+};
+
+export type GetRoadmapByIdQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetRoadmapByIdQuery = {
+  __typename?: 'Query';
+  roadmaps: Array<{
+    __typename?: 'Roadmap';
+    id: string;
+    title: string;
+    description?: string | null;
+    createdAt: any;
+    updatedAt?: any | null;
+    nodes?: Array<{
+      __typename?: 'RoadmapNode';
+      id: string;
+      title: string;
+      description?: string | null;
+      type: string;
+      positionX: number;
+      positionY: number;
+    }> | null;
+    edges?: Array<{
+      __typename?: 'RoadmapEdge';
+      id: string;
+      source: string;
+      target: string;
+      targetHandle?: string | null;
+    }> | null;
+    createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+  }>;
+};
+
+export type CreateRoadmapMutationVariables = Exact<{
+  data: CreateRoadmapInput;
+}>;
+
+export type CreateRoadmapMutation = { __typename?: 'Mutation'; createRoadmap: boolean };
+
 export const UserInfoFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -2498,6 +4477,77 @@ export const CourseInfoFragmentDoc = {
               ],
             },
           },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const RoadmapNodeInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapNodeInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapNode' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'positionX' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'positionY' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const RoadmapEdgeInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapEdgeInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapEdge' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'source' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'targetHandle' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const RoadmapInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Roadmap' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
         ],
       },
     },
@@ -3735,4 +5785,364 @@ export type DeleteCourseByIdMutationResult = Apollo.MutationResult<DeleteCourseB
 export type DeleteCourseByIdMutationOptions = Apollo.BaseMutationOptions<
   DeleteCourseByIdMutation,
   DeleteCourseByIdMutationVariables
+>;
+export const GetRoadmapsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetRoadmaps' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapWhere' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'options' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapOptions' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'roadmaps' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'options' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'options' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'RoadmapInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'roadmapsAggregate' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'count' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Roadmap' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useGetRoadmapsQuery__
+ *
+ * To run a query within a React component, call `useGetRoadmapsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoadmapsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoadmapsQuery({
+ *   variables: {
+ *      where: // value for 'where'
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useGetRoadmapsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetRoadmapsQuery, GetRoadmapsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetRoadmapsQuery, GetRoadmapsQueryVariables>(GetRoadmapsDocument, options);
+}
+export function useGetRoadmapsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetRoadmapsQuery, GetRoadmapsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetRoadmapsQuery, GetRoadmapsQueryVariables>(
+    GetRoadmapsDocument,
+    options,
+  );
+}
+export type GetRoadmapsQueryHookResult = ReturnType<typeof useGetRoadmapsQuery>;
+export type GetRoadmapsLazyQueryHookResult = ReturnType<typeof useGetRoadmapsLazyQuery>;
+export type GetRoadmapsQueryResult = Apollo.QueryResult<
+  GetRoadmapsQuery,
+  GetRoadmapsQueryVariables
+>;
+export const GetRoadmapByIdDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetRoadmapById' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'roadmaps' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: {
+                  kind: 'ObjectValue',
+                  fields: [
+                    {
+                      kind: 'ObjectField',
+                      name: { kind: 'Name', value: 'id' },
+                      value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+                    },
+                  ],
+                },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'nodes' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'RoadmapNodeInfo' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'edges' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'RoadmapEdgeInfo' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'createdBy' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapNodeInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapNode' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'positionX' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'positionY' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapEdgeInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapEdge' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'source' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'target' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'targetHandle' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useGetRoadmapByIdQuery__
+ *
+ * To run a query within a React component, call `useGetRoadmapByIdQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRoadmapByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRoadmapByIdQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetRoadmapByIdQuery(
+  baseOptions: Apollo.QueryHookOptions<GetRoadmapByIdQuery, GetRoadmapByIdQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetRoadmapByIdQuery, GetRoadmapByIdQueryVariables>(
+    GetRoadmapByIdDocument,
+    options,
+  );
+}
+export function useGetRoadmapByIdLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetRoadmapByIdQuery, GetRoadmapByIdQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetRoadmapByIdQuery, GetRoadmapByIdQueryVariables>(
+    GetRoadmapByIdDocument,
+    options,
+  );
+}
+export type GetRoadmapByIdQueryHookResult = ReturnType<typeof useGetRoadmapByIdQuery>;
+export type GetRoadmapByIdLazyQueryHookResult = ReturnType<typeof useGetRoadmapByIdLazyQuery>;
+export type GetRoadmapByIdQueryResult = Apollo.QueryResult<
+  GetRoadmapByIdQuery,
+  GetRoadmapByIdQueryVariables
+>;
+export const CreateRoadmapDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateRoadmap' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateRoadmapInput' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createRoadmap' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'data' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'data' } },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type CreateRoadmapMutationFn = Apollo.MutationFunction<
+  CreateRoadmapMutation,
+  CreateRoadmapMutationVariables
+>;
+
+/**
+ * __useCreateRoadmapMutation__
+ *
+ * To run a mutation, you first call `useCreateRoadmapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateRoadmapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createRoadmapMutation, { data, loading, error }] = useCreateRoadmapMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateRoadmapMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateRoadmapMutation, CreateRoadmapMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateRoadmapMutation, CreateRoadmapMutationVariables>(
+    CreateRoadmapDocument,
+    options,
+  );
+}
+export type CreateRoadmapMutationHookResult = ReturnType<typeof useCreateRoadmapMutation>;
+export type CreateRoadmapMutationResult = Apollo.MutationResult<CreateRoadmapMutation>;
+export type CreateRoadmapMutationOptions = Apollo.BaseMutationOptions<
+  CreateRoadmapMutation,
+  CreateRoadmapMutationVariables
 >;

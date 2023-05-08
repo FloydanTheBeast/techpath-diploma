@@ -38,6 +38,9 @@ export const DataGrid = <TData extends Record<string, unknown>>({
   return (
     <MantineReactTable<(typeof props)['data'][0]>
       mantineProgressProps={{ sx: { display: 'none' } }}
+      mantineTopToolbarProps={
+        !props.renderTopToolbarCustomActions ? { sx: { display: 'none' } } : {}
+      }
       renderEmptyRowsFallback={() => (
         <Group c="dimmed" position="center" spacing={2} my={16}>
           <Text>No data</Text>

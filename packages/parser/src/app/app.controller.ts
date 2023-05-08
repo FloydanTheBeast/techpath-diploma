@@ -3,7 +3,6 @@ import { ClientProxy } from '@nestjs/microservices';
 
 import { AppService } from './app.service';
 import { BaseParser } from '../common/parsers/baseParser';
-import { StepikParser } from '../common/parsers/stepik';
 
 @Controller()
 export class AppController {

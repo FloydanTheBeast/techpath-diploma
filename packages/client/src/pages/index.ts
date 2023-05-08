@@ -4,3 +4,6 @@ export * from './NotFoundPage';
 export * from './HomePage';
 export * from './CoursesPage';
 export * from './CoursePlatformsPage';
+export * from './RoadmapsPage';
+export * from './NewRoadmapPage';
+export * from './RoadmapDetailsPage';

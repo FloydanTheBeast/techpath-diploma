@@ -14,6 +14,10 @@ export class UserResponse implements Omit<User, 'password'> {
   lastName: string;
   @Field(() => [String])
   roles: string[];
+  @Field()
+  createdAt: string;
+  @Field()
+  updatedAt: string;
 }
 
 @InputType()

@@ -12,7 +12,7 @@
       "@shared/utils": ["packages/shared/utils/src/index.ts"],
       "src/*": ["packages/client/src/*"]
     },
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
   "files": [],
   "include": [],

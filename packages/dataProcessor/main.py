@@ -48,6 +48,8 @@ try:
         result = tx.run("""
             MERGE (c:Course {url: $course.url})
             ON CREATE SET c.id = apoc.create.uuid()
+            ON CREATE SET c.createdAt = datetime.realtime()
+            ON UPDATE SET c.updatedAt = datetime.realtime()
             SET c.title = $course.title
             SET c.description = $course.description
 

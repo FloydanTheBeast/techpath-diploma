@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 import configuration from './configuration';
 import { IS_PRODUCTION } from '../common/constants/misc';
 import { GqlModule } from '../gql';
-import { UserModule } from '../models/user/user.module';
+import { RoadmapModule, UserModule } from '../models';
 
 const delayMiddleware = (_req: Request, _res: Response, next: () => void) => setTimeout(next, 350);
 
@@ -17,6 +17,7 @@ const delayMiddleware = (_req: Request, _res: Response, next: () => void) => set
       load: [configuration],
     }),
     UserModule,
+    RoadmapModule,
     GqlModule,
   ],
   controllers: [AppController],
