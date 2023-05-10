@@ -9,7 +9,7 @@ export const COURSE_INFO_FRAGMENT = gql`
     createdAt
     updatedAt
     price {
-      currency
+      currencyCodeISO
       price
     }
     platform {
@@ -25,6 +25,9 @@ export const GET_COURSES_QUERY = gql`
   query GetCourses($where: CourseWhere, $options: CourseOptions) {
     courses(where: $where, options: $options) {
       ...CourseInfo
+    }
+    coursesAggregate(where: $where) {
+      count
     }
   }
   ${COURSE_INFO_FRAGMENT}

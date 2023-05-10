@@ -4,7 +4,7 @@ import type { AppConfig } from '../common/types';
 
 const configuration: ConfigFactory<AppConfig> = () => {
   return {
-    NEO4J_URI: process.env.NEO4J_URI,
+    NEO4J_LOCALHOST_URI: process.env.NEO4J_LOCALHOST_URI,
     NEO4J_AUTH: process.env.NEO4J_AUTH,
     NEO4J_USER: process.env.NEO4J_USER,
     NEO4J_PASSWORD: process.env.NEO4J_PASSWORD,

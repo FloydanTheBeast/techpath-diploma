@@ -5,3 +5,7 @@ export enum RouteAccessType {
   hasAdminRole = 'hasAdminRole',
   hasUserRole = 'hasUserRole',
 }
+
+export enum RouteEntityType {
+  roadmap = 'roadmapId',
+}

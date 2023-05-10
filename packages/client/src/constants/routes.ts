@@ -1,3 +1,5 @@
+import { RouteEntityType } from './reactRouter';
+
 export const app = {
   index: '/',
 };
@@ -14,6 +16,8 @@ export const courses = {
 
 export const roadmaps = {
   index: '/roadmaps',
+  new: '/roadmaps/new',
+  details: `/roadmaps/:${RouteEntityType.roadmap}`,
 };
 
 export const coursePlatforms = {

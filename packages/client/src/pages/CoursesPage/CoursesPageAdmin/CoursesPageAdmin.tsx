@@ -14,7 +14,8 @@ import { IconDatabasePlus, IconEdit, IconTrash } from '@tabler/icons-react';
 import { ContentPageLayout, CreateUpdateCourseModal, DataGrid } from 'src/components';
 import { CreateUpdateCourseModalArgs } from 'src/components/modals/CreateUpdateCourse/types';
 import { ModalId } from 'src/constants';
-import { useModal } from 'src/hooks';
+import { useModal, usePagination, usePaginationQueryOptions } from 'src/hooks';
+import { PaginationActionType } from 'src/providers';
 
 import { COURSES_TABLE_COLUMNS } from '../constants';
 
@@ -22,7 +23,13 @@ export const CoursesPageAdmin: React.FC = () => {
   const { openModal, closeModal, switchClosability } = useModal<CreateUpdateCourseModalArgs>(
     ModalId.CreateUpdateCourseModal,
   );
+  const paginationOptions = usePaginationQueryOptions();
+  const { paginationState, dispatchPaginationState } = usePagination();
+
   const { data, loading: loadingCourses } = useGetCoursesQuery({
+    variables: {
+      options: paginationOptions,
+    },
     notifyOnNetworkStatusChange: true,
   });
   const [createCourse, { loading: creatingCourse }] = useCreateCourseMutation();
@@ -89,6 +96,15 @@ export const CoursesPageAdmin: React.FC = () => {
 
   const courses = data?.courses;
 
+  React.useEffect(() => {
+    if (!loadingCourses) {
+      dispatchPaginationState({
+        type: PaginationActionType.changeCount,
+        payload: { count: data?.coursesAggregate.count || 0 },
+      });
+    }
+  }, [dispatchPaginationState, loadingCourses, data?.coursesAggregate.count]);
+
   return (
     <ContentPageLayout title="Courses">
       <DataGrid
@@ -105,6 +121,7 @@ export const CoursesPageAdmin: React.FC = () => {
         state={{ isLoading: loadingCourses }}
         enableColumnOrdering
         enableEditing
+        rowCount={paginationState.count}
         renderRowActions={({
           row: {
             original: { id, title, url, description, platform },

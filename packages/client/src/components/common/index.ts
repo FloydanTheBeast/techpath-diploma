@@ -5,3 +5,4 @@ export * from './Modal';
 export * from './CoursePlatformLogo';
 export * from './DataViewSwitch';
 export * from './CourseCard';
+export * from './RoadmapNodes';

@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/FloydanTheBeast/diploma/compare/v0.1.0...v0.2.0) (2023-05-10)
+
+
+### Features
+
+* **client|server:** Implement roadmaps ([3cb877b](https://github.com/FloydanTheBeast/diploma/commit/3cb877b3c9179324114701b01f385523463a2b90))
+* **client:** Implement server-side pagination ([33d1477](https://github.com/FloydanTheBeast/diploma/commit/33d1477cfee8237ea5692b1dc4ea1f2bdd6a795d))
+* Improve dataProcessor, add topic classifier ([a1911ea](https://github.com/FloydanTheBeast/diploma/commit/a1911ea436bd90c6d46042b853650aa50b23dc65))
+* **parser:** Implement basic Stepik parser, improve configs ([4711969](https://github.com/FloydanTheBeast/diploma/commit/4711969cd179cf97ba3b06ea3556f617bfd554a3))
+
 ## 0.1.0 (2023-04-23)
 
 ### Features

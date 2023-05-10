@@ -70,9 +70,7 @@ const columns: MRT_ColumnDef<CoursePlatformInfoFragment>[] = [
 export const CoursePlatformsPage: React.FC = () => {
   const { openModal, switchClosability, closeModal } =
     useModal<CreateUpdateCoursePlatformModalArgs>(ModalId.CreateUpdateCoursePlatformModal);
-  const { data, loading: loadingCourses } = useGetCoursePlatformsQuery({
-    notifyOnNetworkStatusChange: true,
-  });
+  const { data, loading: loadingCourses } = useGetCoursePlatformsQuery();
   const [createCoursePlatform, { loading: creatingCoursePlatform }] =
     useCreateCoursePlatformMutation();
   const [updateCoursePlatform, { loading: updatingCoursePlatform }] =
