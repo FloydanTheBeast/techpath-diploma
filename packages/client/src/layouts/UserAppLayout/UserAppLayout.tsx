@@ -14,7 +14,7 @@ const navbarLinks: NavbarLink[] = [
     path: appRoutes.courses.index,
     icon: IconCertificate,
   },
-  { label: 'Explore roadmaps', path: appRoutes.roadmaps.index, icon: IconSitemap, disabled: true },
+  { label: 'Explore roadmaps', path: appRoutes.roadmaps.index, icon: IconSitemap },
 ];
 
 export const UserAppLayout: React.FC<React.PropsWithChildren> = ({ children }) => {

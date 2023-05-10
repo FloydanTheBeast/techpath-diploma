@@ -12,6 +12,7 @@ export const ROUTES: RouteProps[] = [
   {
     path: appRoutes.roadmaps.new,
     element: <NewRoadmapPage />,
+    accessRoles: [RouteAccessType.hasAdminRole],
   },
   {
     path: appRoutes.roadmaps.details,
@@ -23,5 +24,5 @@ export const ROADMAPS_ROUTE: RouteProps = {
   path: appRoutes.roadmaps.index,
   element: <Outlet />,
   childRoutes: ROUTES,
-  accessRoles: [RouteAccessType.hasAdminRole],
+  accessRoles: [RouteAccessType.anyAuthorized],
 };

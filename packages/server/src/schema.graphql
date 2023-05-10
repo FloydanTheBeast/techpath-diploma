@@ -18,6 +18,8 @@ type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
   price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
   platform: CoursePlatform @relationship(type: "OWNED_BY_PLATFORM", direction: OUT)
   languages: [CourseLanguage!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
+  tags: [TopicTag!]!
+    @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -51,6 +53,8 @@ type Roadmap
   title: String!
   description: String
   node: RoadmapNode! @relationship(type: "CONSISTS_OF", direction: OUT)
+  tags: [TopicTag!]!
+    @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
   nodes: [RoadmapNode!]
     @cypher(
       statement: """
@@ -99,6 +103,15 @@ type RoadmapEdge @exclude {
   targetHandle: String
 }
 
-# type SkillTag {
-#   id: ID! @id
-# }
+type TopicTag {
+  id: ID! @id
+  name: String! @unique
+  courses: [Course!]!
+    @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
+  roadmaps: [Roadmap!]!
+    @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
+}
+
+interface IncludesTopic {
+  score: Float!
+}

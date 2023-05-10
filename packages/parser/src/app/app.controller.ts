@@ -14,7 +14,6 @@ export class AppController {
 
   @Get()
   getData() {
-    console.log(this.parsers);
     this.parsers.forEach(parser => parser.parse());
     return this.appService.getData();
   }

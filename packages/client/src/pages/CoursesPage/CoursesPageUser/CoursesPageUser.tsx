@@ -6,14 +6,33 @@ import { useGetCoursesQuery } from '@shared/graphql';
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { CourseCard, DataViewSwitch } from 'src/components/common';
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
+import { usePagination, usePaginationQueryOptions } from 'src/hooks';
+import { PaginationActionType } from 'src/providers';
 
 import { COURSES_TABLE_COLUMNS } from '../constants';
 
 const columns = COURSES_TABLE_COLUMNS.filter(col => !['id'].includes(col.accessorKey as string));
 
 export const CoursesPageUser: React.FC = () => {
-  const { data, loading: loadingCourses } = useGetCoursesQuery();
+  const paginationOptions = usePaginationQueryOptions();
+  const { paginationState, dispatchPaginationState } = usePagination();
+
+  const { data, loading: loadingCourses } = useGetCoursesQuery({
+    variables: {
+      options: paginationOptions,
+    },
+  });
+
   const [dataViewType, setDataViewType] = React.useState<DataViewType>(DataViewType.Table);
+
+  React.useEffect(() => {
+    if (!loadingCourses) {
+      dispatchPaginationState({
+        type: PaginationActionType.changeCount,
+        payload: { count: data?.coursesAggregate.count || 0 },
+      });
+    }
+  }, [dispatchPaginationState, loadingCourses, data?.coursesAggregate.count]);
 
   const dataView = React.useMemo(() => {
     switch (dataViewType) {
@@ -23,6 +42,7 @@ export const CoursesPageUser: React.FC = () => {
             columns={columns}
             data={data?.courses ?? []}
             state={{ isLoading: loadingCourses }}
+            rowCount={paginationState.count}
           />
         );
       case DataViewType.Grid:
@@ -41,7 +61,7 @@ export const CoursesPageUser: React.FC = () => {
           </SimpleGrid>
         );
     }
-  }, [dataViewType, data, loadingCourses]);
+  }, [dataViewType, data, loadingCourses, paginationState.count]);
 
   return (
     <ContentPageLayout

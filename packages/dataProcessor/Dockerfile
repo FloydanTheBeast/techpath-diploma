@@ -5,6 +5,8 @@ WORKDIR /usr/src/dataProcessor
 # Without this setting, Python never prints anything out.
 ENV PYTHONUNBUFFERED=1
 
+RUN pip install --upgrade pip
+
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 

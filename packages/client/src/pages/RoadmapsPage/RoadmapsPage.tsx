@@ -3,6 +3,7 @@ import React from 'react';
 import { useCurrentUser } from 'src/hooks';
 import { PaginationProvider } from 'src/providers';
 
+import { RoadmapsPageUser } from './RoadmapPageUser';
 import { RoadmapsPageAdmin } from './RoadmapsPageAdmin';
 
 export const RoadmapsPage: React.FC = () => {
@@ -17,8 +18,11 @@ export const RoadmapsPage: React.FC = () => {
   }
 
   if (permissions.isUser) {
-    // TODO
-    return null;
+    return (
+      <PaginationProvider>
+        <RoadmapsPageUser />
+      </PaginationProvider>
+    );
   }
 
   return null;

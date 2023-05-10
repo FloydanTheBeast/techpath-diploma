@@ -3,7 +3,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { User } from '../../ogm-types';
 
 @ObjectType()
-export class UserResponse implements Omit<User, 'password'> {
+export class UserResponse implements Partial<User> {
   @Field()
   id: string;
   @Field()

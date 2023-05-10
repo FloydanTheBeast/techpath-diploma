@@ -39,6 +39,7 @@ services:
     networks:
       - backend
   data-processor:
+    container_name: data-processor
     build:
       context: ./packages/dataProcessor
       dockerfile: Dockerfile
@@ -53,6 +54,15 @@ services:
       - .env
     volumes:
       - ./packages/dataProcessor:/usr/src/dataProcessor
+    stop_signal: SIGINT
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 3072M
+        reservations:
+          cpus: '0.5'
+          memory: 1024M
 
 networks:
   backend:

@@ -17,6 +17,10 @@ export class BaseParser implements Parser {
   }
 
   public processCourse<T>(course: T, converter: (course: T) => UnprocessedCourse): void {
-    this.coursesService.emit('unprocessed_course', converter(course));
+    this.emitCourseData(converter(course));
+  }
+
+  public emitCourseData(course: UnprocessedCourse): void {
+    this.coursesService.emit('unprocessed_course', course);
   }
 }

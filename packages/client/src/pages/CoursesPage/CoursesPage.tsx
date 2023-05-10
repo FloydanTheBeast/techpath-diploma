@@ -18,7 +18,11 @@ export const CoursesPage: React.FC = () => {
   }
 
   if (permissions.isUser) {
-    return <CoursesPageUser />;
+    return (
+      <PaginationProvider>
+        <CoursesPageUser />
+      </PaginationProvider>
+    );
   }
 
   return null;
