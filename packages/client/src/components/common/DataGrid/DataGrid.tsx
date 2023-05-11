@@ -10,15 +10,17 @@ import {
   MRT_PaginationState,
 } from 'mantine-react-table';
 
-import { usePagination } from 'src/hooks';
+import { usePagination, useSearch } from 'src/hooks';
 import { PaginationActionType } from 'src/providers';
 
 export const DataGrid = <TData extends Record<string, unknown>>({
   enableToolbarInternalActions = false,
+  enableGlobalFilterModes = false,
   state,
   ...props
 }: React.ComponentProps<typeof MantineReactTable<TData>>) => {
   const { paginationState, dispatchPaginationState } = usePagination();
+  const { setSearchQuery } = useSearch();
 
   const dataGridState: MRT_TableState<TData> = React.useMemo(
     () => _.defaultsDeep(_.cloneDeep(state), { pagination: paginationState }),
@@ -49,8 +51,10 @@ export const DataGrid = <TData extends Record<string, unknown>>({
       )}
       enableToolbarInternalActions={enableToolbarInternalActions}
       onPaginationChange={onPaginationChange}
+      onGlobalFilterChange={setSearchQuery}
       state={dataGridState}
       manualPagination
+      enableGlobalFilterModes={enableGlobalFilterModes}
       {...props}
     />
   );

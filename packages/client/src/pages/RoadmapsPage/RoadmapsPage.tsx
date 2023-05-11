@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useCurrentUser } from 'src/hooks';
-import { PaginationProvider } from 'src/providers';
+import { PaginationProvider, SearchProvider } from 'src/providers';
 
 import { RoadmapsPageUser } from './RoadmapPageUser';
 import { RoadmapsPageAdmin } from './RoadmapsPageAdmin';
@@ -12,7 +12,9 @@ export const RoadmapsPage: React.FC = () => {
   if (permissions.isAdmin) {
     return (
       <PaginationProvider>
-        <RoadmapsPageAdmin />
+        <SearchProvider>
+          <RoadmapsPageAdmin />
+        </SearchProvider>
       </PaginationProvider>
     );
   }
@@ -20,7 +22,9 @@ export const RoadmapsPage: React.FC = () => {
   if (permissions.isUser) {
     return (
       <PaginationProvider>
-        <RoadmapsPageUser />
+        <SearchProvider>
+          <RoadmapsPageUser />
+        </SearchProvider>
       </PaginationProvider>
     );
   }

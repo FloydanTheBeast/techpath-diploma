@@ -10,7 +10,9 @@ type User {
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
+type Course
+  @auth(rules: [{ operations: [CREATE], roles: ["admin"] }])
+  @fulltext(indexes: [{ indexName: "CourseInfo", fields: ["title", "description"] }]) {
   id: ID! @id
   title: String!
   description: String

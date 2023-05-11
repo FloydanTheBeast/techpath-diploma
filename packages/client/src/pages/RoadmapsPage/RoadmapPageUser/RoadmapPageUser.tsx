@@ -7,7 +7,7 @@ import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { RouteEntityType, appRoutes } from 'src/constants';
-import { usePagination, usePaginationQueryOptions } from 'src/hooks';
+import { usePagination, usePaginationQueryOptions, useSearchQueryOptions } from 'src/hooks';
 import { PaginationActionType } from 'src/providers';
 
 import { ROADMAPS_TABLE_COLUMNS } from '../constants';
@@ -15,9 +15,11 @@ import { ROADMAPS_TABLE_COLUMNS } from '../constants';
 export const RoadmapsPageUser: React.FC = () => {
   const { paginationState, dispatchPaginationState } = usePagination();
   const paginationOptions = usePaginationQueryOptions();
+  const searchOptions = useSearchQueryOptions(['title', 'description']);
 
   const { data, loading: loadingRoadmaps } = useGetRoadmapsQuery({
     variables: {
+      where: searchOptions,
       options: paginationOptions,
     },
   });
@@ -40,6 +42,10 @@ export const RoadmapsPageUser: React.FC = () => {
         columns={ROADMAPS_TABLE_COLUMNS}
         data={roadmaps ?? []}
         rowCount={paginationState.count}
+        initialState={{
+          showGlobalFilter: true,
+        }}
+        positionGlobalFilter="left"
         enableRowActions
         renderRowActionMenuItems={({ row }) => (
           <Menu.Item

@@ -47,6 +47,9 @@ export type Course = {
   price?: Maybe<CoursePrice>;
   priceAggregate?: Maybe<CourseCoursePricePriceAggregationSelection>;
   priceConnection: CoursePriceConnection;
+  tags: Array<TopicTag>;
+  tagsAggregate?: Maybe<CourseTopicTagTagsAggregationSelection>;
+  tagsConnection: CourseTagsConnection;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
   url: Scalars['String'];
@@ -109,6 +112,25 @@ export type CoursePriceConnectionArgs = {
   where?: InputMaybe<CoursePriceConnectionWhere>;
 };
 
+export type CourseTagsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<TopicTagOptions>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type CourseTagsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type CourseTagsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CourseTagsConnectionSort>>;
+  where?: InputMaybe<CourseTagsConnectionWhere>;
+};
+
 export type CourseAggregateSelection = {
   __typename?: 'CourseAggregateSelection';
   count: Scalars['Int'];
@@ -124,11 +146,13 @@ export type CourseConnectInput = {
   languages?: InputMaybe<Array<CourseLanguagesConnectFieldInput>>;
   platform?: InputMaybe<CoursePlatformConnectFieldInput>;
   price?: InputMaybe<CoursePriceConnectFieldInput>;
+  tags?: InputMaybe<Array<CourseTagsConnectFieldInput>>;
 };
 
 export type CourseConnectOrCreateInput = {
   languages?: InputMaybe<Array<CourseLanguagesConnectOrCreateFieldInput>>;
   platform?: InputMaybe<CoursePlatformConnectOrCreateFieldInput>;
+  tags?: InputMaybe<Array<CourseTagsConnectOrCreateFieldInput>>;
 };
 
 export type CourseConnectOrCreateWhere = {
@@ -137,6 +161,10 @@ export type CourseConnectOrCreateWhere = {
 
 export type CourseConnectWhere = {
   node: CourseWhere;
+};
+
+export type CourseCourseInfoFulltext = {
+  phrase: Scalars['String'];
 };
 
 export type CourseCourseLanguageLanguagesAggregationSelection = {
@@ -184,6 +212,7 @@ export type CourseCreateInput = {
   languages?: InputMaybe<CourseLanguagesFieldInput>;
   platform?: InputMaybe<CoursePlatformFieldInput>;
   price?: InputMaybe<CoursePriceFieldInput>;
+  tags?: InputMaybe<CourseTagsFieldInput>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
@@ -192,18 +221,43 @@ export type CourseDeleteInput = {
   languages?: InputMaybe<Array<CourseLanguagesDeleteFieldInput>>;
   platform?: InputMaybe<CoursePlatformDeleteFieldInput>;
   price?: InputMaybe<CoursePriceDeleteFieldInput>;
+  tags?: InputMaybe<Array<CourseTagsDeleteFieldInput>>;
 };
 
 export type CourseDisconnectInput = {
   languages?: InputMaybe<Array<CourseLanguagesDisconnectFieldInput>>;
   platform?: InputMaybe<CoursePlatformDisconnectFieldInput>;
   price?: InputMaybe<CoursePriceDisconnectFieldInput>;
+  tags?: InputMaybe<Array<CourseTagsDisconnectFieldInput>>;
 };
 
 export type CourseEdge = {
   __typename?: 'CourseEdge';
   cursor: Scalars['String'];
   node: Course;
+};
+
+export type CourseFulltext = {
+  CourseInfo?: InputMaybe<CourseCourseInfoFulltext>;
+};
+
+/** The result of a fulltext search on an index of Course */
+export type CourseFulltextResult = {
+  __typename?: 'CourseFulltextResult';
+  course: Course;
+  score: Scalars['Float'];
+};
+
+/** The input for sorting a fulltext query on an index of Course */
+export type CourseFulltextSort = {
+  course?: InputMaybe<CourseSort>;
+  score?: InputMaybe<SortDirection>;
+};
+
+/** The input for filtering a fulltext query on an index of Course */
+export type CourseFulltextWhere = {
+  course?: InputMaybe<CourseWhere>;
+  score?: InputMaybe<FloatWhere>;
 };
 
 export type CourseLanguage = {
@@ -1571,6 +1625,7 @@ export type CourseRelationInput = {
   languages?: InputMaybe<Array<CourseLanguagesCreateFieldInput>>;
   platform?: InputMaybe<CoursePlatformCreateFieldInput>;
   price?: InputMaybe<CoursePriceCreateFieldInput>;
+  tags?: InputMaybe<Array<CourseTagsCreateFieldInput>>;
 };
 
 /** Fields to sort Courses by. The order in which sorts are applied is not guaranteed when specifying many fields in one CourseSort object. */
@@ -1583,6 +1638,165 @@ export type CourseSort = {
   url?: InputMaybe<SortDirection>;
 };
 
+export type CourseTagsAggregateInput = {
+  AND?: InputMaybe<Array<CourseTagsAggregateInput>>;
+  NOT?: InputMaybe<CourseTagsAggregateInput>;
+  OR?: InputMaybe<Array<CourseTagsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  edge?: InputMaybe<CourseTagsEdgeAggregationWhereInput>;
+  node?: InputMaybe<CourseTagsNodeAggregationWhereInput>;
+};
+
+export type CourseTagsConnectFieldInput = {
+  connect?: InputMaybe<Array<TopicTagConnectInput>>;
+  edge: IncludesTopicCreateInput;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<TopicTagConnectWhere>;
+};
+
+export type CourseTagsConnectOrCreateFieldInput = {
+  onCreate: CourseTagsConnectOrCreateFieldInputOnCreate;
+  where: TopicTagConnectOrCreateWhere;
+};
+
+export type CourseTagsConnectOrCreateFieldInputOnCreate = {
+  edge: IncludesTopicCreateInput;
+  node: TopicTagOnCreateInput;
+};
+
+export type CourseTagsConnection = {
+  __typename?: 'CourseTagsConnection';
+  edges: Array<CourseTagsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CourseTagsConnectionSort = {
+  edge?: InputMaybe<IncludesTopicSort>;
+  node?: InputMaybe<TopicTagSort>;
+};
+
+export type CourseTagsConnectionWhere = {
+  AND?: InputMaybe<Array<CourseTagsConnectionWhere>>;
+  NOT?: InputMaybe<CourseTagsConnectionWhere>;
+  OR?: InputMaybe<Array<CourseTagsConnectionWhere>>;
+  edge?: InputMaybe<IncludesTopicWhere>;
+  node?: InputMaybe<TopicTagWhere>;
+};
+
+export type CourseTagsCreateFieldInput = {
+  edge: IncludesTopicCreateInput;
+  node: TopicTagCreateInput;
+};
+
+export type CourseTagsDeleteFieldInput = {
+  delete?: InputMaybe<TopicTagDeleteInput>;
+  where?: InputMaybe<CourseTagsConnectionWhere>;
+};
+
+export type CourseTagsDisconnectFieldInput = {
+  disconnect?: InputMaybe<TopicTagDisconnectInput>;
+  where?: InputMaybe<CourseTagsConnectionWhere>;
+};
+
+export type CourseTagsEdgeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CourseTagsEdgeAggregationWhereInput>>;
+  NOT?: InputMaybe<CourseTagsEdgeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CourseTagsEdgeAggregationWhereInput>>;
+  score_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MAX_GT?: InputMaybe<Scalars['Float']>;
+  score_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_LT?: InputMaybe<Scalars['Float']>;
+  score_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MIN_GT?: InputMaybe<Scalars['Float']>;
+  score_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_LT?: InputMaybe<Scalars['Float']>;
+  score_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_SUM_GT?: InputMaybe<Scalars['Float']>;
+  score_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_LT?: InputMaybe<Scalars['Float']>;
+  score_SUM_LTE?: InputMaybe<Scalars['Float']>;
+};
+
+export type CourseTagsFieldInput = {
+  connect?: InputMaybe<Array<CourseTagsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseTagsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseTagsCreateFieldInput>>;
+};
+
+export type CourseTagsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CourseTagsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CourseTagsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CourseTagsNodeAggregationWhereInput>>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type CourseTagsRelationship = IncludesTopic & {
+  __typename?: 'CourseTagsRelationship';
+  cursor: Scalars['String'];
+  node: TopicTag;
+  score: Scalars['Float'];
+};
+
+export type CourseTagsUpdateConnectionInput = {
+  edge?: InputMaybe<IncludesTopicUpdateInput>;
+  node?: InputMaybe<TopicTagUpdateInput>;
+};
+
+export type CourseTagsUpdateFieldInput = {
+  connect?: InputMaybe<Array<CourseTagsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseTagsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseTagsCreateFieldInput>>;
+  delete?: InputMaybe<Array<CourseTagsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<CourseTagsDisconnectFieldInput>>;
+  update?: InputMaybe<CourseTagsUpdateConnectionInput>;
+  where?: InputMaybe<CourseTagsConnectionWhere>;
+};
+
+export type CourseTopicTagTagsAggregationSelection = {
+  __typename?: 'CourseTopicTagTagsAggregationSelection';
+  count: Scalars['Int'];
+  edge?: Maybe<CourseTopicTagTagsEdgeAggregateSelection>;
+  node?: Maybe<CourseTopicTagTagsNodeAggregateSelection>;
+};
+
+export type CourseTopicTagTagsEdgeAggregateSelection = {
+  __typename?: 'CourseTopicTagTagsEdgeAggregateSelection';
+  score: FloatAggregateSelectionNonNullable;
+};
+
+export type CourseTopicTagTagsNodeAggregateSelection = {
+  __typename?: 'CourseTopicTagTagsNodeAggregateSelection';
+  id: IdAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
+};
+
 export type CourseUniqueWhere = {
   id?: InputMaybe<Scalars['ID']>;
   url?: InputMaybe<Scalars['String']>;
@@ -1593,6 +1807,7 @@ export type CourseUpdateInput = {
   languages?: InputMaybe<Array<CourseLanguagesUpdateFieldInput>>;
   platform?: InputMaybe<CoursePlatformUpdateFieldInput>;
   price?: InputMaybe<CoursePriceUpdateFieldInput>;
+  tags?: InputMaybe<Array<CourseTagsUpdateFieldInput>>;
   title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
 };
@@ -1644,6 +1859,23 @@ export type CourseWhere = {
   priceConnection?: InputMaybe<CoursePriceConnectionWhere>;
   priceConnection_NOT?: InputMaybe<CoursePriceConnectionWhere>;
   price_NOT?: InputMaybe<CoursePriceWhere>;
+  tagsAggregate?: InputMaybe<CourseTagsAggregateInput>;
+  /** Return Courses where all of the related CourseTagsConnections match this filter */
+  tagsConnection_ALL?: InputMaybe<CourseTagsConnectionWhere>;
+  /** Return Courses where none of the related CourseTagsConnections match this filter */
+  tagsConnection_NONE?: InputMaybe<CourseTagsConnectionWhere>;
+  /** Return Courses where one of the related CourseTagsConnections match this filter */
+  tagsConnection_SINGLE?: InputMaybe<CourseTagsConnectionWhere>;
+  /** Return Courses where some of the related CourseTagsConnections match this filter */
+  tagsConnection_SOME?: InputMaybe<CourseTagsConnectionWhere>;
+  /** Return Courses where all of the related TopicTags match this filter */
+  tags_ALL?: InputMaybe<TopicTagWhere>;
+  /** Return Courses where none of the related TopicTags match this filter */
+  tags_NONE?: InputMaybe<TopicTagWhere>;
+  /** Return Courses where one of the related TopicTags match this filter */
+  tags_SINGLE?: InputMaybe<TopicTagWhere>;
+  /** Return Courses where some of the related TopicTags match this filter */
+  tags_SOME?: InputMaybe<TopicTagWhere>;
   title?: InputMaybe<Scalars['String']>;
   title_CONTAINS?: InputMaybe<Scalars['String']>;
   title_ENDS_WITH?: InputMaybe<Scalars['String']>;
@@ -1713,6 +1945,12 @@ export type CreateRoadmapNodesMutationResponse = {
   roadmapNodes: Array<RoadmapNode>;
 };
 
+export type CreateTopicTagsMutationResponse = {
+  __typename?: 'CreateTopicTagsMutationResponse';
+  info: CreateInfo;
+  topicTags: Array<TopicTag>;
+};
+
 export type CreateUsersMutationResponse = {
   __typename?: 'CreateUsersMutationResponse';
   info: CreateInfo;
@@ -1736,6 +1974,20 @@ export type DeleteInfo = {
   bookmark?: Maybe<Scalars['String']>;
   nodesDeleted: Scalars['Int'];
   relationshipsDeleted: Scalars['Int'];
+};
+
+export type FloatAggregateSelectionNonNullable = {
+  __typename?: 'FloatAggregateSelectionNonNullable';
+  average: Scalars['Float'];
+  max: Scalars['Float'];
+  min: Scalars['Float'];
+  sum: Scalars['Float'];
+};
+
+/** The input for filtering a float */
+export type FloatWhere = {
+  max?: InputMaybe<Scalars['Float']>;
+  min?: InputMaybe<Scalars['Float']>;
 };
 
 export type HasChild = {
@@ -1780,12 +2032,36 @@ export type IdAggregateSelectionNonNullable = {
   shortest: Scalars['ID'];
 };
 
-export type IntAggregateSelectionNonNullable = {
-  __typename?: 'IntAggregateSelectionNonNullable';
-  average: Scalars['Float'];
-  max: Scalars['Int'];
-  min: Scalars['Int'];
-  sum: Scalars['Int'];
+export type IncludesTopic = {
+  score: Scalars['Float'];
+};
+
+export type IncludesTopicCreateInput = {
+  score: Scalars['Float'];
+};
+
+export type IncludesTopicSort = {
+  score?: InputMaybe<SortDirection>;
+};
+
+export type IncludesTopicUpdateInput = {
+  score?: InputMaybe<Scalars['Float']>;
+  score_ADD?: InputMaybe<Scalars['Float']>;
+  score_DIVIDE?: InputMaybe<Scalars['Float']>;
+  score_MULTIPLY?: InputMaybe<Scalars['Float']>;
+  score_SUBTRACT?: InputMaybe<Scalars['Float']>;
+};
+
+export type IncludesTopicWhere = {
+  AND?: InputMaybe<Array<IncludesTopicWhere>>;
+  NOT?: InputMaybe<IncludesTopicWhere>;
+  OR?: InputMaybe<Array<IncludesTopicWhere>>;
+  score?: InputMaybe<Scalars['Float']>;
+  score_GT?: InputMaybe<Scalars['Float']>;
+  score_GTE?: InputMaybe<Scalars['Float']>;
+  score_IN?: InputMaybe<Array<Scalars['Float']>>;
+  score_LT?: InputMaybe<Scalars['Float']>;
+  score_LTE?: InputMaybe<Scalars['Float']>;
 };
 
 export type IntAggregateSelectionNullable = {
@@ -1804,6 +2080,7 @@ export type Mutation = {
   createCourses: CreateCoursesMutationResponse;
   createRoadmap: Scalars['Boolean'];
   createRoadmapNodes: CreateRoadmapNodesMutationResponse;
+  createTopicTags: CreateTopicTagsMutationResponse;
   createUsers: CreateUsersMutationResponse;
   deleteCourseLanguages: DeleteInfo;
   deleteCoursePlatforms: DeleteInfo;
@@ -1811,6 +2088,7 @@ export type Mutation = {
   deleteCourses: DeleteInfo;
   deleteRoadmapNodes: DeleteInfo;
   deleteRoadmaps: DeleteInfo;
+  deleteTopicTags: DeleteInfo;
   deleteUsers: DeleteInfo;
   /** Refresh user auth session */
   refreshSession: AuthSessionResponse;
@@ -1824,6 +2102,7 @@ export type Mutation = {
   updateCourses: UpdateCoursesMutationResponse;
   updateRoadmapNodes: UpdateRoadmapNodesMutationResponse;
   updateRoadmaps: UpdateRoadmapsMutationResponse;
+  updateTopicTags: UpdateTopicTagsMutationResponse;
   updateUsers: UpdateUsersMutationResponse;
 };
 
@@ -1849,6 +2128,10 @@ export type MutationCreateRoadmapArgs = {
 
 export type MutationCreateRoadmapNodesArgs = {
   input: Array<RoadmapNodeCreateInput>;
+};
+
+export type MutationCreateTopicTagsArgs = {
+  input: Array<TopicTagCreateInput>;
 };
 
 export type MutationCreateUsersArgs = {
@@ -1883,6 +2166,11 @@ export type MutationDeleteRoadmapNodesArgs = {
 export type MutationDeleteRoadmapsArgs = {
   delete?: InputMaybe<RoadmapDeleteInput>;
   where?: InputMaybe<RoadmapWhere>;
+};
+
+export type MutationDeleteTopicTagsArgs = {
+  delete?: InputMaybe<TopicTagDeleteInput>;
+  where?: InputMaybe<TopicTagWhere>;
 };
 
 export type MutationDeleteUsersArgs = {
@@ -1962,6 +2250,16 @@ export type MutationUpdateRoadmapsArgs = {
   where?: InputMaybe<RoadmapWhere>;
 };
 
+export type MutationUpdateTopicTagsArgs = {
+  connect?: InputMaybe<TopicTagConnectInput>;
+  connectOrCreate?: InputMaybe<TopicTagConnectOrCreateInput>;
+  create?: InputMaybe<TopicTagRelationInput>;
+  delete?: InputMaybe<TopicTagDeleteInput>;
+  disconnect?: InputMaybe<TopicTagDisconnectInput>;
+  update?: InputMaybe<TopicTagUpdateInput>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
 export type MutationUpdateUsersArgs = {
   connect?: InputMaybe<UserConnectInput>;
   connectOrCreate?: InputMaybe<UserConnectOrCreateInput>;
@@ -1995,6 +2293,7 @@ export type Query = {
   courses: Array<Course>;
   coursesAggregate: CourseAggregateSelection;
   coursesConnection: CoursesConnection;
+  coursesFulltextCourseInfo: Array<CourseFulltextResult>;
   currentUser: UserResponse;
   roadmapNodes: Array<RoadmapNode>;
   roadmapNodesAggregate: RoadmapNodeAggregateSelection;
@@ -2002,6 +2301,9 @@ export type Query = {
   roadmaps: Array<Roadmap>;
   roadmapsAggregate: RoadmapAggregateSelection;
   roadmapsConnection: RoadmapsConnection;
+  topicTags: Array<TopicTag>;
+  topicTagsAggregate: TopicTagAggregateSelection;
+  topicTagsConnection: TopicTagsConnection;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
@@ -2071,6 +2373,14 @@ export type QueryCoursesConnectionArgs = {
   where?: InputMaybe<CourseWhere>;
 };
 
+export type QueryCoursesFulltextCourseInfoArgs = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  phrase: Scalars['String'];
+  sort?: InputMaybe<Array<CourseFulltextSort>>;
+  where?: InputMaybe<CourseFulltextWhere>;
+};
+
 export type QueryRoadmapNodesArgs = {
   options?: InputMaybe<RoadmapNodeOptions>;
   where?: InputMaybe<RoadmapNodeWhere>;
@@ -2103,6 +2413,22 @@ export type QueryRoadmapsConnectionArgs = {
   where?: InputMaybe<RoadmapWhere>;
 };
 
+export type QueryTopicTagsArgs = {
+  options?: InputMaybe<TopicTagOptions>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type QueryTopicTagsAggregateArgs = {
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type QueryTopicTagsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<InputMaybe<TopicTagSort>>>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
 export type QueryUsersArgs = {
   options?: InputMaybe<UserOptions>;
   where?: InputMaybe<UserWhere>;
@@ -2132,6 +2458,9 @@ export type Roadmap = {
   nodeAggregate?: Maybe<RoadmapRoadmapNodeNodeAggregationSelection>;
   nodeConnection: RoadmapNodeConnection;
   nodes?: Maybe<Array<RoadmapNode>>;
+  tags: Array<TopicTag>;
+  tagsAggregate?: Maybe<RoadmapTopicTagTagsAggregationSelection>;
+  tagsConnection: RoadmapTagsConnection;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -2174,6 +2503,25 @@ export type RoadmapNodeConnectionArgs = {
   where?: InputMaybe<RoadmapNodeConnectionWhere>;
 };
 
+export type RoadmapTagsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<TopicTagOptions>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type RoadmapTagsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type RoadmapTagsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapTagsConnectionSort>>;
+  where?: InputMaybe<RoadmapTagsConnectionWhere>;
+};
+
 export type RoadmapAggregateSelection = {
   __typename?: 'RoadmapAggregateSelection';
   count: Scalars['Int'];
@@ -2187,11 +2535,13 @@ export type RoadmapAggregateSelection = {
 export type RoadmapConnectInput = {
   createdBy?: InputMaybe<RoadmapCreatedByConnectFieldInput>;
   node?: InputMaybe<RoadmapNodeConnectFieldInput>;
+  tags?: InputMaybe<Array<RoadmapTagsConnectFieldInput>>;
 };
 
 export type RoadmapConnectOrCreateInput = {
   createdBy?: InputMaybe<RoadmapCreatedByConnectOrCreateFieldInput>;
   node?: InputMaybe<RoadmapNodeConnectOrCreateFieldInput>;
+  tags?: InputMaybe<Array<RoadmapTagsConnectOrCreateFieldInput>>;
 };
 
 export type RoadmapConnectOrCreateWhere = {
@@ -2206,6 +2556,7 @@ export type RoadmapCreateInput = {
   createdBy?: InputMaybe<RoadmapCreatedByFieldInput>;
   description?: InputMaybe<Scalars['String']>;
   node?: InputMaybe<RoadmapNodeFieldInput>;
+  tags?: InputMaybe<RoadmapTagsFieldInput>;
   title: Scalars['String'];
 };
 
@@ -2369,11 +2720,13 @@ export type RoadmapCreatedByUpdateFieldInput = {
 export type RoadmapDeleteInput = {
   createdBy?: InputMaybe<RoadmapCreatedByDeleteFieldInput>;
   node?: InputMaybe<RoadmapNodeDeleteFieldInput>;
+  tags?: InputMaybe<Array<RoadmapTagsDeleteFieldInput>>;
 };
 
 export type RoadmapDisconnectInput = {
   createdBy?: InputMaybe<RoadmapCreatedByDisconnectFieldInput>;
   node?: InputMaybe<RoadmapNodeDisconnectFieldInput>;
+  tags?: InputMaybe<Array<RoadmapTagsDisconnectFieldInput>>;
 };
 
 export type RoadmapEdge = {
@@ -2401,8 +2754,8 @@ export type RoadmapNode = {
   parentNodes: Array<RoadmapNode>;
   parentNodesAggregate?: Maybe<RoadmapNodeRoadmapNodeParentNodesAggregationSelection>;
   parentNodesConnection: RoadmapNodeParentNodesConnection;
-  positionX: Scalars['Int'];
-  positionY: Scalars['Int'];
+  positionX: Scalars['Float'];
+  positionY: Scalars['Float'];
   roadmap?: Maybe<Roadmap>;
   roadmapAggregate?: Maybe<RoadmapNodeRoadmapRoadmapAggregationSelection>;
   roadmapConnection: RoadmapNodeRoadmapConnection;
@@ -2484,8 +2837,8 @@ export type RoadmapNodeAggregateSelection = {
   count: Scalars['Int'];
   description: StringAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
-  positionX: IntAggregateSelectionNonNullable;
-  positionY: IntAggregateSelectionNonNullable;
+  positionX: FloatAggregateSelectionNonNullable;
+  positionY: FloatAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   type: StringAggregateSelectionNonNullable;
 };
@@ -2622,41 +2975,41 @@ export type RoadmapNodeChildNodesNodeAggregationWhereInput = {
   positionX_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   positionX_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   positionX_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  positionX_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_GT?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_LT?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_GT?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_LT?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_GT?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_LT?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_GT?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_LT?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_GT?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_LT?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_GT?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_LT?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_LTE?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  positionY_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_GT?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_LT?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_GT?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_LT?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_GT?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_LT?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_GT?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_LT?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_GT?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_LT?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_GT?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_LT?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_LTE?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -2774,8 +3127,8 @@ export type RoadmapNodeCreateInput = {
   childNodes?: InputMaybe<RoadmapNodeChildNodesFieldInput>;
   description?: InputMaybe<Scalars['String']>;
   parentNodes?: InputMaybe<RoadmapNodeParentNodesFieldInput>;
-  positionX: Scalars['Int'];
-  positionY: Scalars['Int'];
+  positionX: Scalars['Float'];
+  positionY: Scalars['Float'];
   roadmap?: InputMaybe<RoadmapNodeRoadmapFieldInput>;
   title: Scalars['String'];
   type: Scalars['String'];
@@ -2847,41 +3200,41 @@ export type RoadmapNodeNodeAggregationWhereInput = {
   positionX_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   positionX_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   positionX_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  positionX_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_GT?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_LT?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_GT?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_LT?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_GT?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_LT?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_GT?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_LT?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_GT?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_LT?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_GT?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_LT?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_LTE?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  positionY_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_GT?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_LT?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_GT?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_LT?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_GT?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_LT?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_GT?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_LT?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_GT?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_LT?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_GT?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_LT?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_LTE?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -2916,8 +3269,8 @@ export type RoadmapNodeNodeAggregationWhereInput = {
 
 export type RoadmapNodeOnCreateInput = {
   description?: InputMaybe<Scalars['String']>;
-  positionX: Scalars['Int'];
-  positionY: Scalars['Int'];
+  positionX: Scalars['Float'];
+  positionY: Scalars['Float'];
   title: Scalars['String'];
   type: Scalars['String'];
 };
@@ -3061,41 +3414,41 @@ export type RoadmapNodeParentNodesNodeAggregationWhereInput = {
   positionX_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   positionX_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   positionX_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  positionX_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_GT?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_LT?: InputMaybe<Scalars['Int']>;
-  positionX_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_GT?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_LT?: InputMaybe<Scalars['Int']>;
-  positionX_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_GT?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_LT?: InputMaybe<Scalars['Int']>;
-  positionX_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionX_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_GT?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_LT?: InputMaybe<Scalars['Float']>;
+  positionX_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_GT?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_LT?: InputMaybe<Scalars['Float']>;
+  positionX_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_GT?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_LT?: InputMaybe<Scalars['Float']>;
+  positionX_SUM_LTE?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   positionY_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  positionY_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_GT?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_LT?: InputMaybe<Scalars['Int']>;
-  positionY_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_GT?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_LT?: InputMaybe<Scalars['Int']>;
-  positionY_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_GT?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_LT?: InputMaybe<Scalars['Int']>;
-  positionY_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  positionY_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_GT?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_LT?: InputMaybe<Scalars['Float']>;
+  positionY_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_GT?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_LT?: InputMaybe<Scalars['Float']>;
+  positionY_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_GT?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_LT?: InputMaybe<Scalars['Float']>;
+  positionY_SUM_LTE?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -3307,8 +3660,8 @@ export type RoadmapNodeRoadmapNodeChildNodesNodeAggregateSelection = {
   __typename?: 'RoadmapNodeRoadmapNodeChildNodesNodeAggregateSelection';
   description: StringAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
-  positionX: IntAggregateSelectionNonNullable;
-  positionY: IntAggregateSelectionNonNullable;
+  positionX: FloatAggregateSelectionNonNullable;
+  positionY: FloatAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   type: StringAggregateSelectionNonNullable;
 };
@@ -3330,8 +3683,8 @@ export type RoadmapNodeRoadmapNodeParentNodesNodeAggregateSelection = {
   __typename?: 'RoadmapNodeRoadmapNodeParentNodesNodeAggregateSelection';
   description: StringAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
-  positionX: IntAggregateSelectionNonNullable;
-  positionY: IntAggregateSelectionNonNullable;
+  positionX: FloatAggregateSelectionNonNullable;
+  positionY: FloatAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   type: StringAggregateSelectionNonNullable;
 };
@@ -3403,12 +3756,16 @@ export type RoadmapNodeUpdateInput = {
   childNodes?: InputMaybe<Array<RoadmapNodeChildNodesUpdateFieldInput>>;
   description?: InputMaybe<Scalars['String']>;
   parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesUpdateFieldInput>>;
-  positionX?: InputMaybe<Scalars['Int']>;
-  positionX_DECREMENT?: InputMaybe<Scalars['Int']>;
-  positionX_INCREMENT?: InputMaybe<Scalars['Int']>;
-  positionY?: InputMaybe<Scalars['Int']>;
-  positionY_DECREMENT?: InputMaybe<Scalars['Int']>;
-  positionY_INCREMENT?: InputMaybe<Scalars['Int']>;
+  positionX?: InputMaybe<Scalars['Float']>;
+  positionX_ADD?: InputMaybe<Scalars['Float']>;
+  positionX_DIVIDE?: InputMaybe<Scalars['Float']>;
+  positionX_MULTIPLY?: InputMaybe<Scalars['Float']>;
+  positionX_SUBTRACT?: InputMaybe<Scalars['Float']>;
+  positionY?: InputMaybe<Scalars['Float']>;
+  positionY_ADD?: InputMaybe<Scalars['Float']>;
+  positionY_DIVIDE?: InputMaybe<Scalars['Float']>;
+  positionY_MULTIPLY?: InputMaybe<Scalars['Float']>;
+  positionY_SUBTRACT?: InputMaybe<Scalars['Float']>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapUpdateFieldInput>;
   title?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
@@ -3462,18 +3819,18 @@ export type RoadmapNodeWhere = {
   parentNodes_SINGLE?: InputMaybe<RoadmapNodeWhere>;
   /** Return RoadmapNodes where some of the related RoadmapNodes match this filter */
   parentNodes_SOME?: InputMaybe<RoadmapNodeWhere>;
-  positionX?: InputMaybe<Scalars['Int']>;
-  positionX_GT?: InputMaybe<Scalars['Int']>;
-  positionX_GTE?: InputMaybe<Scalars['Int']>;
-  positionX_IN?: InputMaybe<Array<Scalars['Int']>>;
-  positionX_LT?: InputMaybe<Scalars['Int']>;
-  positionX_LTE?: InputMaybe<Scalars['Int']>;
-  positionY?: InputMaybe<Scalars['Int']>;
-  positionY_GT?: InputMaybe<Scalars['Int']>;
-  positionY_GTE?: InputMaybe<Scalars['Int']>;
-  positionY_IN?: InputMaybe<Array<Scalars['Int']>>;
-  positionY_LT?: InputMaybe<Scalars['Int']>;
-  positionY_LTE?: InputMaybe<Scalars['Int']>;
+  positionX?: InputMaybe<Scalars['Float']>;
+  positionX_GT?: InputMaybe<Scalars['Float']>;
+  positionX_GTE?: InputMaybe<Scalars['Float']>;
+  positionX_IN?: InputMaybe<Array<Scalars['Float']>>;
+  positionX_LT?: InputMaybe<Scalars['Float']>;
+  positionX_LTE?: InputMaybe<Scalars['Float']>;
+  positionY?: InputMaybe<Scalars['Float']>;
+  positionY_GT?: InputMaybe<Scalars['Float']>;
+  positionY_GTE?: InputMaybe<Scalars['Float']>;
+  positionY_IN?: InputMaybe<Array<Scalars['Float']>>;
+  positionY_LT?: InputMaybe<Scalars['Float']>;
+  positionY_LTE?: InputMaybe<Scalars['Float']>;
   roadmap?: InputMaybe<RoadmapWhere>;
   roadmapAggregate?: InputMaybe<RoadmapNodeRoadmapAggregateInput>;
   roadmapConnection?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
@@ -3513,6 +3870,7 @@ export type RoadmapOptions = {
 export type RoadmapRelationInput = {
   createdBy?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
   node?: InputMaybe<RoadmapNodeCreateFieldInput>;
+  tags?: InputMaybe<Array<RoadmapTagsCreateFieldInput>>;
 };
 
 export type RoadmapRoadmapNodeNodeAggregationSelection = {
@@ -3525,8 +3883,8 @@ export type RoadmapRoadmapNodeNodeNodeAggregateSelection = {
   __typename?: 'RoadmapRoadmapNodeNodeNodeAggregateSelection';
   description: StringAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
-  positionX: IntAggregateSelectionNonNullable;
-  positionY: IntAggregateSelectionNonNullable;
+  positionX: FloatAggregateSelectionNonNullable;
+  positionY: FloatAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   type: StringAggregateSelectionNonNullable;
 };
@@ -3540,6 +3898,165 @@ export type RoadmapSort = {
   updatedAt?: InputMaybe<SortDirection>;
 };
 
+export type RoadmapTagsAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapTagsAggregateInput>>;
+  NOT?: InputMaybe<RoadmapTagsAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapTagsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  edge?: InputMaybe<RoadmapTagsEdgeAggregationWhereInput>;
+  node?: InputMaybe<RoadmapTagsNodeAggregationWhereInput>;
+};
+
+export type RoadmapTagsConnectFieldInput = {
+  connect?: InputMaybe<Array<TopicTagConnectInput>>;
+  edge: IncludesTopicCreateInput;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<TopicTagConnectWhere>;
+};
+
+export type RoadmapTagsConnectOrCreateFieldInput = {
+  onCreate: RoadmapTagsConnectOrCreateFieldInputOnCreate;
+  where: TopicTagConnectOrCreateWhere;
+};
+
+export type RoadmapTagsConnectOrCreateFieldInputOnCreate = {
+  edge: IncludesTopicCreateInput;
+  node: TopicTagOnCreateInput;
+};
+
+export type RoadmapTagsConnection = {
+  __typename?: 'RoadmapTagsConnection';
+  edges: Array<RoadmapTagsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapTagsConnectionSort = {
+  edge?: InputMaybe<IncludesTopicSort>;
+  node?: InputMaybe<TopicTagSort>;
+};
+
+export type RoadmapTagsConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapTagsConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapTagsConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapTagsConnectionWhere>>;
+  edge?: InputMaybe<IncludesTopicWhere>;
+  node?: InputMaybe<TopicTagWhere>;
+};
+
+export type RoadmapTagsCreateFieldInput = {
+  edge: IncludesTopicCreateInput;
+  node: TopicTagCreateInput;
+};
+
+export type RoadmapTagsDeleteFieldInput = {
+  delete?: InputMaybe<TopicTagDeleteInput>;
+  where?: InputMaybe<RoadmapTagsConnectionWhere>;
+};
+
+export type RoadmapTagsDisconnectFieldInput = {
+  disconnect?: InputMaybe<TopicTagDisconnectInput>;
+  where?: InputMaybe<RoadmapTagsConnectionWhere>;
+};
+
+export type RoadmapTagsEdgeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapTagsEdgeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapTagsEdgeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapTagsEdgeAggregationWhereInput>>;
+  score_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MAX_GT?: InputMaybe<Scalars['Float']>;
+  score_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_LT?: InputMaybe<Scalars['Float']>;
+  score_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MIN_GT?: InputMaybe<Scalars['Float']>;
+  score_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_LT?: InputMaybe<Scalars['Float']>;
+  score_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_SUM_GT?: InputMaybe<Scalars['Float']>;
+  score_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_LT?: InputMaybe<Scalars['Float']>;
+  score_SUM_LTE?: InputMaybe<Scalars['Float']>;
+};
+
+export type RoadmapTagsFieldInput = {
+  connect?: InputMaybe<Array<RoadmapTagsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapTagsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapTagsCreateFieldInput>>;
+};
+
+export type RoadmapTagsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapTagsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapTagsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapTagsNodeAggregationWhereInput>>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapTagsRelationship = IncludesTopic & {
+  __typename?: 'RoadmapTagsRelationship';
+  cursor: Scalars['String'];
+  node: TopicTag;
+  score: Scalars['Float'];
+};
+
+export type RoadmapTagsUpdateConnectionInput = {
+  edge?: InputMaybe<IncludesTopicUpdateInput>;
+  node?: InputMaybe<TopicTagUpdateInput>;
+};
+
+export type RoadmapTagsUpdateFieldInput = {
+  connect?: InputMaybe<Array<RoadmapTagsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapTagsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapTagsCreateFieldInput>>;
+  delete?: InputMaybe<Array<RoadmapTagsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<RoadmapTagsDisconnectFieldInput>>;
+  update?: InputMaybe<RoadmapTagsUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapTagsConnectionWhere>;
+};
+
+export type RoadmapTopicTagTagsAggregationSelection = {
+  __typename?: 'RoadmapTopicTagTagsAggregationSelection';
+  count: Scalars['Int'];
+  edge?: Maybe<RoadmapTopicTagTagsEdgeAggregateSelection>;
+  node?: Maybe<RoadmapTopicTagTagsNodeAggregateSelection>;
+};
+
+export type RoadmapTopicTagTagsEdgeAggregateSelection = {
+  __typename?: 'RoadmapTopicTagTagsEdgeAggregateSelection';
+  score: FloatAggregateSelectionNonNullable;
+};
+
+export type RoadmapTopicTagTagsNodeAggregateSelection = {
+  __typename?: 'RoadmapTopicTagTagsNodeAggregateSelection';
+  id: IdAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
+};
+
 export type RoadmapUniqueWhere = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -3548,6 +4065,7 @@ export type RoadmapUpdateInput = {
   createdBy?: InputMaybe<RoadmapCreatedByUpdateFieldInput>;
   description?: InputMaybe<Scalars['String']>;
   node?: InputMaybe<RoadmapNodeUpdateFieldInput>;
+  tags?: InputMaybe<Array<RoadmapTagsUpdateFieldInput>>;
   title?: InputMaybe<Scalars['String']>;
 };
 
@@ -3597,6 +4115,23 @@ export type RoadmapWhere = {
   nodeConnection?: InputMaybe<RoadmapNodeConnectionWhere>;
   nodeConnection_NOT?: InputMaybe<RoadmapNodeConnectionWhere>;
   node_NOT?: InputMaybe<RoadmapNodeWhere>;
+  tagsAggregate?: InputMaybe<RoadmapTagsAggregateInput>;
+  /** Return Roadmaps where all of the related RoadmapTagsConnections match this filter */
+  tagsConnection_ALL?: InputMaybe<RoadmapTagsConnectionWhere>;
+  /** Return Roadmaps where none of the related RoadmapTagsConnections match this filter */
+  tagsConnection_NONE?: InputMaybe<RoadmapTagsConnectionWhere>;
+  /** Return Roadmaps where one of the related RoadmapTagsConnections match this filter */
+  tagsConnection_SINGLE?: InputMaybe<RoadmapTagsConnectionWhere>;
+  /** Return Roadmaps where some of the related RoadmapTagsConnections match this filter */
+  tagsConnection_SOME?: InputMaybe<RoadmapTagsConnectionWhere>;
+  /** Return Roadmaps where all of the related TopicTags match this filter */
+  tags_ALL?: InputMaybe<TopicTagWhere>;
+  /** Return Roadmaps where none of the related TopicTags match this filter */
+  tags_NONE?: InputMaybe<TopicTagWhere>;
+  /** Return Roadmaps where one of the related TopicTags match this filter */
+  tags_SINGLE?: InputMaybe<TopicTagWhere>;
+  /** Return Roadmaps where some of the related TopicTags match this filter */
+  tags_SOME?: InputMaybe<TopicTagWhere>;
   title?: InputMaybe<Scalars['String']>;
   title_CONTAINS?: InputMaybe<Scalars['String']>;
   title_ENDS_WITH?: InputMaybe<Scalars['String']>;
@@ -3634,6 +4169,603 @@ export type StringAggregateSelectionNullable = {
   __typename?: 'StringAggregateSelectionNullable';
   longest?: Maybe<Scalars['String']>;
   shortest?: Maybe<Scalars['String']>;
+};
+
+export type TopicTag = {
+  __typename?: 'TopicTag';
+  courses: Array<Course>;
+  coursesAggregate?: Maybe<TopicTagCourseCoursesAggregationSelection>;
+  coursesConnection: TopicTagCoursesConnection;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  roadmaps: Array<Roadmap>;
+  roadmapsAggregate?: Maybe<TopicTagRoadmapRoadmapsAggregationSelection>;
+  roadmapsConnection: TopicTagRoadmapsConnection;
+};
+
+export type TopicTagCoursesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseOptions>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type TopicTagCoursesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type TopicTagCoursesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<TopicTagCoursesConnectionSort>>;
+  where?: InputMaybe<TopicTagCoursesConnectionWhere>;
+};
+
+export type TopicTagRoadmapsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapOptions>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type TopicTagRoadmapsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type TopicTagRoadmapsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<TopicTagRoadmapsConnectionSort>>;
+  where?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+};
+
+export type TopicTagAggregateSelection = {
+  __typename?: 'TopicTagAggregateSelection';
+  count: Scalars['Int'];
+  id: IdAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
+};
+
+export type TopicTagConnectInput = {
+  courses?: InputMaybe<Array<TopicTagCoursesConnectFieldInput>>;
+  roadmaps?: InputMaybe<Array<TopicTagRoadmapsConnectFieldInput>>;
+};
+
+export type TopicTagConnectOrCreateInput = {
+  courses?: InputMaybe<Array<TopicTagCoursesConnectOrCreateFieldInput>>;
+  roadmaps?: InputMaybe<Array<TopicTagRoadmapsConnectOrCreateFieldInput>>;
+};
+
+export type TopicTagConnectOrCreateWhere = {
+  node: TopicTagUniqueWhere;
+};
+
+export type TopicTagConnectWhere = {
+  node: TopicTagWhere;
+};
+
+export type TopicTagCourseCoursesAggregationSelection = {
+  __typename?: 'TopicTagCourseCoursesAggregationSelection';
+  count: Scalars['Int'];
+  edge?: Maybe<TopicTagCourseCoursesEdgeAggregateSelection>;
+  node?: Maybe<TopicTagCourseCoursesNodeAggregateSelection>;
+};
+
+export type TopicTagCourseCoursesEdgeAggregateSelection = {
+  __typename?: 'TopicTagCourseCoursesEdgeAggregateSelection';
+  score: FloatAggregateSelectionNonNullable;
+};
+
+export type TopicTagCourseCoursesNodeAggregateSelection = {
+  __typename?: 'TopicTagCourseCoursesNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
+export type TopicTagCoursesAggregateInput = {
+  AND?: InputMaybe<Array<TopicTagCoursesAggregateInput>>;
+  NOT?: InputMaybe<TopicTagCoursesAggregateInput>;
+  OR?: InputMaybe<Array<TopicTagCoursesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  edge?: InputMaybe<TopicTagCoursesEdgeAggregationWhereInput>;
+  node?: InputMaybe<TopicTagCoursesNodeAggregationWhereInput>;
+};
+
+export type TopicTagCoursesConnectFieldInput = {
+  connect?: InputMaybe<Array<CourseConnectInput>>;
+  edge: IncludesTopicCreateInput;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseConnectWhere>;
+};
+
+export type TopicTagCoursesConnectOrCreateFieldInput = {
+  onCreate: TopicTagCoursesConnectOrCreateFieldInputOnCreate;
+  where: CourseConnectOrCreateWhere;
+};
+
+export type TopicTagCoursesConnectOrCreateFieldInputOnCreate = {
+  edge: IncludesTopicCreateInput;
+  node: CourseOnCreateInput;
+};
+
+export type TopicTagCoursesConnection = {
+  __typename?: 'TopicTagCoursesConnection';
+  edges: Array<TopicTagCoursesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type TopicTagCoursesConnectionSort = {
+  edge?: InputMaybe<IncludesTopicSort>;
+  node?: InputMaybe<CourseSort>;
+};
+
+export type TopicTagCoursesConnectionWhere = {
+  AND?: InputMaybe<Array<TopicTagCoursesConnectionWhere>>;
+  NOT?: InputMaybe<TopicTagCoursesConnectionWhere>;
+  OR?: InputMaybe<Array<TopicTagCoursesConnectionWhere>>;
+  edge?: InputMaybe<IncludesTopicWhere>;
+  node?: InputMaybe<CourseWhere>;
+};
+
+export type TopicTagCoursesCreateFieldInput = {
+  edge: IncludesTopicCreateInput;
+  node: CourseCreateInput;
+};
+
+export type TopicTagCoursesDeleteFieldInput = {
+  delete?: InputMaybe<CourseDeleteInput>;
+  where?: InputMaybe<TopicTagCoursesConnectionWhere>;
+};
+
+export type TopicTagCoursesDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseDisconnectInput>;
+  where?: InputMaybe<TopicTagCoursesConnectionWhere>;
+};
+
+export type TopicTagCoursesEdgeAggregationWhereInput = {
+  AND?: InputMaybe<Array<TopicTagCoursesEdgeAggregationWhereInput>>;
+  NOT?: InputMaybe<TopicTagCoursesEdgeAggregationWhereInput>;
+  OR?: InputMaybe<Array<TopicTagCoursesEdgeAggregationWhereInput>>;
+  score_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MAX_GT?: InputMaybe<Scalars['Float']>;
+  score_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_LT?: InputMaybe<Scalars['Float']>;
+  score_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MIN_GT?: InputMaybe<Scalars['Float']>;
+  score_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_LT?: InputMaybe<Scalars['Float']>;
+  score_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_SUM_GT?: InputMaybe<Scalars['Float']>;
+  score_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_LT?: InputMaybe<Scalars['Float']>;
+  score_SUM_LTE?: InputMaybe<Scalars['Float']>;
+};
+
+export type TopicTagCoursesFieldInput = {
+  connect?: InputMaybe<Array<TopicTagCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<TopicTagCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<TopicTagCoursesCreateFieldInput>>;
+};
+
+export type TopicTagCoursesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<TopicTagCoursesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<TopicTagCoursesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<TopicTagCoursesNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type TopicTagCoursesRelationship = IncludesTopic & {
+  __typename?: 'TopicTagCoursesRelationship';
+  cursor: Scalars['String'];
+  node: Course;
+  score: Scalars['Float'];
+};
+
+export type TopicTagCoursesUpdateConnectionInput = {
+  edge?: InputMaybe<IncludesTopicUpdateInput>;
+  node?: InputMaybe<CourseUpdateInput>;
+};
+
+export type TopicTagCoursesUpdateFieldInput = {
+  connect?: InputMaybe<Array<TopicTagCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<TopicTagCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<TopicTagCoursesCreateFieldInput>>;
+  delete?: InputMaybe<Array<TopicTagCoursesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<TopicTagCoursesDisconnectFieldInput>>;
+  update?: InputMaybe<TopicTagCoursesUpdateConnectionInput>;
+  where?: InputMaybe<TopicTagCoursesConnectionWhere>;
+};
+
+export type TopicTagCreateInput = {
+  courses?: InputMaybe<TopicTagCoursesFieldInput>;
+  name: Scalars['String'];
+  roadmaps?: InputMaybe<TopicTagRoadmapsFieldInput>;
+};
+
+export type TopicTagDeleteInput = {
+  courses?: InputMaybe<Array<TopicTagCoursesDeleteFieldInput>>;
+  roadmaps?: InputMaybe<Array<TopicTagRoadmapsDeleteFieldInput>>;
+};
+
+export type TopicTagDisconnectInput = {
+  courses?: InputMaybe<Array<TopicTagCoursesDisconnectFieldInput>>;
+  roadmaps?: InputMaybe<Array<TopicTagRoadmapsDisconnectFieldInput>>;
+};
+
+export type TopicTagEdge = {
+  __typename?: 'TopicTagEdge';
+  cursor: Scalars['String'];
+  node: TopicTag;
+};
+
+export type TopicTagOnCreateInput = {
+  name: Scalars['String'];
+};
+
+export type TopicTagOptions = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  /** Specify one or more TopicTagSort objects to sort TopicTags by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<TopicTagSort>>;
+};
+
+export type TopicTagRelationInput = {
+  courses?: InputMaybe<Array<TopicTagCoursesCreateFieldInput>>;
+  roadmaps?: InputMaybe<Array<TopicTagRoadmapsCreateFieldInput>>;
+};
+
+export type TopicTagRoadmapRoadmapsAggregationSelection = {
+  __typename?: 'TopicTagRoadmapRoadmapsAggregationSelection';
+  count: Scalars['Int'];
+  edge?: Maybe<TopicTagRoadmapRoadmapsEdgeAggregateSelection>;
+  node?: Maybe<TopicTagRoadmapRoadmapsNodeAggregateSelection>;
+};
+
+export type TopicTagRoadmapRoadmapsEdgeAggregateSelection = {
+  __typename?: 'TopicTagRoadmapRoadmapsEdgeAggregateSelection';
+  score: FloatAggregateSelectionNonNullable;
+};
+
+export type TopicTagRoadmapRoadmapsNodeAggregateSelection = {
+  __typename?: 'TopicTagRoadmapRoadmapsNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type TopicTagRoadmapsAggregateInput = {
+  AND?: InputMaybe<Array<TopicTagRoadmapsAggregateInput>>;
+  NOT?: InputMaybe<TopicTagRoadmapsAggregateInput>;
+  OR?: InputMaybe<Array<TopicTagRoadmapsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  edge?: InputMaybe<TopicTagRoadmapsEdgeAggregationWhereInput>;
+  node?: InputMaybe<TopicTagRoadmapsNodeAggregationWhereInput>;
+};
+
+export type TopicTagRoadmapsConnectFieldInput = {
+  connect?: InputMaybe<Array<RoadmapConnectInput>>;
+  edge: IncludesTopicCreateInput;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapConnectWhere>;
+};
+
+export type TopicTagRoadmapsConnectOrCreateFieldInput = {
+  onCreate: TopicTagRoadmapsConnectOrCreateFieldInputOnCreate;
+  where: RoadmapConnectOrCreateWhere;
+};
+
+export type TopicTagRoadmapsConnectOrCreateFieldInputOnCreate = {
+  edge: IncludesTopicCreateInput;
+  node: RoadmapOnCreateInput;
+};
+
+export type TopicTagRoadmapsConnection = {
+  __typename?: 'TopicTagRoadmapsConnection';
+  edges: Array<TopicTagRoadmapsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type TopicTagRoadmapsConnectionSort = {
+  edge?: InputMaybe<IncludesTopicSort>;
+  node?: InputMaybe<RoadmapSort>;
+};
+
+export type TopicTagRoadmapsConnectionWhere = {
+  AND?: InputMaybe<Array<TopicTagRoadmapsConnectionWhere>>;
+  NOT?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+  OR?: InputMaybe<Array<TopicTagRoadmapsConnectionWhere>>;
+  edge?: InputMaybe<IncludesTopicWhere>;
+  node?: InputMaybe<RoadmapWhere>;
+};
+
+export type TopicTagRoadmapsCreateFieldInput = {
+  edge: IncludesTopicCreateInput;
+  node: RoadmapCreateInput;
+};
+
+export type TopicTagRoadmapsDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  where?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+};
+
+export type TopicTagRoadmapsDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapDisconnectInput>;
+  where?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+};
+
+export type TopicTagRoadmapsEdgeAggregationWhereInput = {
+  AND?: InputMaybe<Array<TopicTagRoadmapsEdgeAggregationWhereInput>>;
+  NOT?: InputMaybe<TopicTagRoadmapsEdgeAggregationWhereInput>;
+  OR?: InputMaybe<Array<TopicTagRoadmapsEdgeAggregationWhereInput>>;
+  score_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  score_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MAX_GT?: InputMaybe<Scalars['Float']>;
+  score_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  score_MAX_LT?: InputMaybe<Scalars['Float']>;
+  score_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_MIN_GT?: InputMaybe<Scalars['Float']>;
+  score_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  score_MIN_LT?: InputMaybe<Scalars['Float']>;
+  score_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  score_SUM_GT?: InputMaybe<Scalars['Float']>;
+  score_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  score_SUM_LT?: InputMaybe<Scalars['Float']>;
+  score_SUM_LTE?: InputMaybe<Scalars['Float']>;
+};
+
+export type TopicTagRoadmapsFieldInput = {
+  connect?: InputMaybe<Array<TopicTagRoadmapsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<TopicTagRoadmapsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<TopicTagRoadmapsCreateFieldInput>>;
+};
+
+export type TopicTagRoadmapsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<TopicTagRoadmapsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<TopicTagRoadmapsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<TopicTagRoadmapsNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type TopicTagRoadmapsRelationship = IncludesTopic & {
+  __typename?: 'TopicTagRoadmapsRelationship';
+  cursor: Scalars['String'];
+  node: Roadmap;
+  score: Scalars['Float'];
+};
+
+export type TopicTagRoadmapsUpdateConnectionInput = {
+  edge?: InputMaybe<IncludesTopicUpdateInput>;
+  node?: InputMaybe<RoadmapUpdateInput>;
+};
+
+export type TopicTagRoadmapsUpdateFieldInput = {
+  connect?: InputMaybe<Array<TopicTagRoadmapsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<TopicTagRoadmapsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<TopicTagRoadmapsCreateFieldInput>>;
+  delete?: InputMaybe<Array<TopicTagRoadmapsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<TopicTagRoadmapsDisconnectFieldInput>>;
+  update?: InputMaybe<TopicTagRoadmapsUpdateConnectionInput>;
+  where?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+};
+
+/** Fields to sort TopicTags by. The order in which sorts are applied is not guaranteed when specifying many fields in one TopicTagSort object. */
+export type TopicTagSort = {
+  id?: InputMaybe<SortDirection>;
+  name?: InputMaybe<SortDirection>;
+};
+
+export type TopicTagUniqueWhere = {
+  id?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+};
+
+export type TopicTagUpdateInput = {
+  courses?: InputMaybe<Array<TopicTagCoursesUpdateFieldInput>>;
+  name?: InputMaybe<Scalars['String']>;
+  roadmaps?: InputMaybe<Array<TopicTagRoadmapsUpdateFieldInput>>;
+};
+
+export type TopicTagWhere = {
+  AND?: InputMaybe<Array<TopicTagWhere>>;
+  NOT?: InputMaybe<TopicTagWhere>;
+  OR?: InputMaybe<Array<TopicTagWhere>>;
+  coursesAggregate?: InputMaybe<TopicTagCoursesAggregateInput>;
+  /** Return TopicTags where all of the related TopicTagCoursesConnections match this filter */
+  coursesConnection_ALL?: InputMaybe<TopicTagCoursesConnectionWhere>;
+  /** Return TopicTags where none of the related TopicTagCoursesConnections match this filter */
+  coursesConnection_NONE?: InputMaybe<TopicTagCoursesConnectionWhere>;
+  /** Return TopicTags where one of the related TopicTagCoursesConnections match this filter */
+  coursesConnection_SINGLE?: InputMaybe<TopicTagCoursesConnectionWhere>;
+  /** Return TopicTags where some of the related TopicTagCoursesConnections match this filter */
+  coursesConnection_SOME?: InputMaybe<TopicTagCoursesConnectionWhere>;
+  /** Return TopicTags where all of the related Courses match this filter */
+  courses_ALL?: InputMaybe<CourseWhere>;
+  /** Return TopicTags where none of the related Courses match this filter */
+  courses_NONE?: InputMaybe<CourseWhere>;
+  /** Return TopicTags where one of the related Courses match this filter */
+  courses_SINGLE?: InputMaybe<CourseWhere>;
+  /** Return TopicTags where some of the related Courses match this filter */
+  courses_SOME?: InputMaybe<CourseWhere>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_CONTAINS?: InputMaybe<Scalars['ID']>;
+  id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
+  id_IN?: InputMaybe<Array<Scalars['ID']>>;
+  id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  name_CONTAINS?: InputMaybe<Scalars['String']>;
+  name_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  name_IN?: InputMaybe<Array<Scalars['String']>>;
+  name_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  roadmapsAggregate?: InputMaybe<TopicTagRoadmapsAggregateInput>;
+  /** Return TopicTags where all of the related TopicTagRoadmapsConnections match this filter */
+  roadmapsConnection_ALL?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+  /** Return TopicTags where none of the related TopicTagRoadmapsConnections match this filter */
+  roadmapsConnection_NONE?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+  /** Return TopicTags where one of the related TopicTagRoadmapsConnections match this filter */
+  roadmapsConnection_SINGLE?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+  /** Return TopicTags where some of the related TopicTagRoadmapsConnections match this filter */
+  roadmapsConnection_SOME?: InputMaybe<TopicTagRoadmapsConnectionWhere>;
+  /** Return TopicTags where all of the related Roadmaps match this filter */
+  roadmaps_ALL?: InputMaybe<RoadmapWhere>;
+  /** Return TopicTags where none of the related Roadmaps match this filter */
+  roadmaps_NONE?: InputMaybe<RoadmapWhere>;
+  /** Return TopicTags where one of the related Roadmaps match this filter */
+  roadmaps_SINGLE?: InputMaybe<RoadmapWhere>;
+  /** Return TopicTags where some of the related Roadmaps match this filter */
+  roadmaps_SOME?: InputMaybe<RoadmapWhere>;
+};
+
+export type TopicTagsConnection = {
+  __typename?: 'TopicTagsConnection';
+  edges: Array<TopicTagEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
 };
 
 export type UpdateCourseLanguagesMutationResponse = {
@@ -3679,6 +4811,12 @@ export type UpdateRoadmapsMutationResponse = {
   __typename?: 'UpdateRoadmapsMutationResponse';
   info: UpdateInfo;
   roadmaps: Array<Roadmap>;
+};
+
+export type UpdateTopicTagsMutationResponse = {
+  __typename?: 'UpdateTopicTagsMutationResponse';
+  info: UpdateInfo;
+  topicTags: Array<TopicTag>;
 };
 
 export type UpdateUsersMutationResponse = {
@@ -4254,6 +5392,42 @@ export type GetCoursesQuery = {
     } | null;
   }>;
   coursesAggregate: { __typename?: 'CourseAggregateSelection'; count: number };
+};
+
+export type SearchCoursesQueryVariables = Exact<{
+  searchQuery: Scalars['String'];
+  where?: InputMaybe<CourseFulltextWhere>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type SearchCoursesQuery = {
+  __typename?: 'Query';
+  coursesFulltextCourseInfo: Array<{
+    __typename?: 'CourseFulltextResult';
+    score: number;
+    course: {
+      __typename?: 'Course';
+      id: string;
+      title: string;
+      description?: string | null;
+      url: string;
+      createdAt: any;
+      updatedAt?: any | null;
+      price?: {
+        __typename?: 'CoursePrice';
+        currencyCodeISO?: string | null;
+        price?: number | null;
+      } | null;
+      platform?: {
+        __typename?: 'CoursePlatform';
+        id: string;
+        name: string;
+        logoUrl?: string | null;
+        url: string;
+      } | null;
+    };
+  }>;
 };
 
 export type CreateCourseMutationVariables = Exact<{
@@ -5476,6 +6650,172 @@ export function useGetCoursesLazyQuery(
 export type GetCoursesQueryHookResult = ReturnType<typeof useGetCoursesQuery>;
 export type GetCoursesLazyQueryHookResult = ReturnType<typeof useGetCoursesLazyQuery>;
 export type GetCoursesQueryResult = Apollo.QueryResult<GetCoursesQuery, GetCoursesQueryVariables>;
+export const SearchCoursesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SearchCourses' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'searchQuery' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'CourseFulltextWhere' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'coursesFulltextCourseInfo' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'phrase' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'searchQuery' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'course' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'score' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Course' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useSearchCoursesQuery__
+ *
+ * To run a query within a React component, call `useSearchCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchCoursesQuery({
+ *   variables: {
+ *      searchQuery: // value for 'searchQuery'
+ *      where: // value for 'where'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useSearchCoursesQuery(
+  baseOptions: Apollo.QueryHookOptions<SearchCoursesQuery, SearchCoursesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SearchCoursesQuery, SearchCoursesQueryVariables>(
+    SearchCoursesDocument,
+    options,
+  );
+}
+export function useSearchCoursesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SearchCoursesQuery, SearchCoursesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SearchCoursesQuery, SearchCoursesQueryVariables>(
+    SearchCoursesDocument,
+    options,
+  );
+}
+export type SearchCoursesQueryHookResult = ReturnType<typeof useSearchCoursesQuery>;
+export type SearchCoursesLazyQueryHookResult = ReturnType<typeof useSearchCoursesLazyQuery>;
+export type SearchCoursesQueryResult = Apollo.QueryResult<
+  SearchCoursesQuery,
+  SearchCoursesQueryVariables
+>;
 export const CreateCourseDocument = {
   kind: 'Document',
   definitions: [

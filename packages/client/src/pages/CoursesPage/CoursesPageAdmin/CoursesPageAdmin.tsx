@@ -14,7 +14,12 @@ import { IconDatabasePlus, IconEdit, IconTrash } from '@tabler/icons-react';
 import { ContentPageLayout, CreateUpdateCourseModal, DataGrid } from 'src/components';
 import { CreateUpdateCourseModalArgs } from 'src/components/modals/CreateUpdateCourse/types';
 import { ModalId } from 'src/constants';
-import { useModal, usePagination, usePaginationQueryOptions } from 'src/hooks';
+import {
+  useModal,
+  usePagination,
+  usePaginationQueryOptions,
+  useSearchQueryOptions,
+} from 'src/hooks';
 import { PaginationActionType } from 'src/providers';
 
 import { COURSES_TABLE_COLUMNS } from '../constants';
@@ -25,9 +30,11 @@ export const CoursesPageAdmin: React.FC = () => {
   );
   const paginationOptions = usePaginationQueryOptions();
   const { paginationState, dispatchPaginationState } = usePagination();
+  const searchOptions = useSearchQueryOptions(['title', 'description']);
 
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     variables: {
+      where: searchOptions,
       options: paginationOptions,
     },
     notifyOnNetworkStatusChange: true,
@@ -122,6 +129,10 @@ export const CoursesPageAdmin: React.FC = () => {
         enableColumnOrdering
         enableEditing
         rowCount={paginationState.count}
+        initialState={{
+          showGlobalFilter: true,
+        }}
+        positionGlobalFilter="left"
         renderRowActions={({
           row: {
             original: { id, title, url, description, platform },

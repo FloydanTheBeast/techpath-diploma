@@ -6,7 +6,7 @@ import { useGetCoursesQuery } from '@shared/graphql';
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { CourseCard, DataViewSwitch } from 'src/components/common';
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
-import { usePagination, usePaginationQueryOptions } from 'src/hooks';
+import { usePagination, usePaginationQueryOptions, useSearchQueryOptions } from 'src/hooks';
 import { PaginationActionType } from 'src/providers';
 
 import { COURSES_TABLE_COLUMNS } from '../constants';
@@ -16,9 +16,11 @@ const columns = COURSES_TABLE_COLUMNS.filter(col => !['id'].includes(col.accesso
 export const CoursesPageUser: React.FC = () => {
   const paginationOptions = usePaginationQueryOptions();
   const { paginationState, dispatchPaginationState } = usePagination();
+  const searchOptions = useSearchQueryOptions(['title', 'description']);
 
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     variables: {
+      where: searchOptions,
       options: paginationOptions,
     },
   });
@@ -41,6 +43,10 @@ export const CoursesPageUser: React.FC = () => {
           <DataGrid
             columns={columns}
             data={data?.courses ?? []}
+            initialState={{
+              showGlobalFilter: true,
+            }}
+            positionGlobalFilter="left"
             state={{ isLoading: loadingCourses }}
             rowCount={paginationState.count}
           />
