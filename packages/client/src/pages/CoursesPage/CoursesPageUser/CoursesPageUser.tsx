@@ -71,11 +71,12 @@ export const CoursesPageUser: React.FC = () => {
             </SimpleGrid>
             <Center>
               <Pagination
-                total={paginationState.count / paginationState.pageSize}
+                total={Math.ceil(paginationState.count / paginationState.pageSize)}
+                defaultValue={paginationState.pageIndex + 1}
                 onChange={page =>
                   dispatchPaginationState({
                     type: PaginationActionType.changePagination,
-                    payload: { pageIndex: page },
+                    payload: { pageIndex: page - 1 },
                   })
                 }
               />
@@ -83,14 +84,7 @@ export const CoursesPageUser: React.FC = () => {
           </Box>
         );
     }
-  }, [
-    dataViewType,
-    data,
-    loadingCourses,
-    paginationState.count,
-    dispatchPaginationState,
-    paginationState.pageSize,
-  ]);
+  }, [dataViewType, data, loadingCourses, dispatchPaginationState, paginationState]);
 
   return (
     <ContentPageLayout

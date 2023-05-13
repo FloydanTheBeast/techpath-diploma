@@ -46,7 +46,7 @@ export const CourseDetailsPage: React.FC = () => {
         {loadingCourse ? (
           <Skeleton h={300} w={400} />
         ) : (
-          <Paper withBorder shadow="sm" p={16} w={400}>
+          <Paper withBorder shadow="sm" p={16} w={400} miw={400}>
             <Stack>
               <Stack spacing={8}>
                 <Title size="h3">Platform</Title>
@@ -58,7 +58,7 @@ export const CourseDetailsPage: React.FC = () => {
               <Divider variant="dashed" />
               <Stack spacing={8}>
                 <Title size="h3">Topics</Title>
-                <Flex gap={8}>
+                <Flex gap={8} wrap="wrap">
                   {course?.tags.map(tag => (
                     <Badge key={tag.id} variant="dot" size="md">
                       {tag.name}
