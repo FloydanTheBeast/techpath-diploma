@@ -12,6 +12,7 @@ export const auth = {
 
 export const courses = {
   index: '/courses',
+  details: `/courses/:${RouteEntityType.course}`,
 };
 
 export const roadmaps = {

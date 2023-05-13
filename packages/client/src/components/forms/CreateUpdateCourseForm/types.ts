@@ -6,4 +6,5 @@ export type CreateUpdateCourseFormData = Pick<
   'title' | 'description' | 'url'
 > & {
   platformId: Nullable<string>;
+  topicTagsIds: Nullable<string[]>;
 };

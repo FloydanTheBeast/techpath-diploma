@@ -8,4 +8,5 @@ export enum RouteAccessType {
 
 export enum RouteEntityType {
   roadmap = 'roadmapId',
+  course = 'courseId',
 }

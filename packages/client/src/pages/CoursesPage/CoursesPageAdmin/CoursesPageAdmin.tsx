@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ActionIcon, Button, Group, Tooltip } from '@mantine/core';
+import { Button, Menu } from '@mantine/core';
 import {
   GetCoursesDocument,
   useCreateCourseMutation,
@@ -9,11 +9,12 @@ import {
   useUpdateCourseByIdMutation,
 } from '@shared/graphql';
 import { Nullable } from '@shared/types';
-import { IconDatabasePlus, IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconDatabasePlus, IconEdit, IconListDetails, IconTrash } from '@tabler/icons-react';
+import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, CreateUpdateCourseModal, DataGrid } from 'src/components';
 import { CreateUpdateCourseModalArgs } from 'src/components/modals/CreateUpdateCourse/types';
-import { ModalId } from 'src/constants';
+import { ModalId, RouteEntityType, appRoutes } from 'src/constants';
 import {
   useModal,
   usePagination,
@@ -45,6 +46,7 @@ export const CoursesPageAdmin: React.FC = () => {
 
   const handleCreateFormSubmit: CreateUpdateCourseModalArgs['onSubmit'] = async ({
     platformId,
+    topicTagsIds,
     ...formData
   }) => {
     switchClosability(false);
@@ -54,6 +56,11 @@ export const CoursesPageAdmin: React.FC = () => {
           input: {
             ...formData,
             platform: platformId ? { connect: { where: { node: { id: platformId } } } } : undefined,
+            tags: {
+              connect: topicTagsIds
+                ? topicTagsIds.map(tag => ({ where: { node: { id: tag } } }))
+                : undefined,
+            },
           },
         },
         refetchQueries: [GetCoursesDocument],
@@ -67,7 +74,11 @@ export const CoursesPageAdmin: React.FC = () => {
   };
 
   const handleUpdateFormSubmit = async (
-    { platformId, ...formData }: Parameters<CreateUpdateCourseModalArgs['onSubmit']>[0],
+    {
+      platformId,
+      topicTagsIds,
+      ...formData
+    }: Parameters<CreateUpdateCourseModalArgs['onSubmit']>[0],
     id: string,
   ) => {
     switchClosability(false);
@@ -78,6 +89,14 @@ export const CoursesPageAdmin: React.FC = () => {
           input: {
             ...formData,
             platform: platformId ? { connect: { where: { node: { id: platformId } } } } : undefined,
+          },
+          disconnect: {
+            tags: [{ where: {} }],
+          },
+          connect: {
+            tags: topicTagsIds
+              ? topicTagsIds.map(tag => ({ where: { node: { id: tag } } }))
+              : undefined,
           },
         },
         refetchQueries: [GetCoursesDocument],
@@ -127,43 +146,48 @@ export const CoursesPageAdmin: React.FC = () => {
         data={courses ?? []}
         state={{ isLoading: loadingCourses }}
         enableColumnOrdering
-        enableEditing
         rowCount={paginationState.count}
         initialState={{
           showGlobalFilter: true,
         }}
         positionGlobalFilter="left"
-        renderRowActions={({
+        enableRowActions
+        renderRowActionMenuItems={({
           row: {
-            original: { id, title, url, description, platform },
+            original: { id, title, url, description, platform, tags },
           },
         }) => (
-          <Group position="center">
-            <Button.Group>
-              <Tooltip withArrow position="left" label="Edit">
-                <ActionIcon
-                  onClick={() =>
-                    openModal(ModalId.CreateUpdateCourseModal, {
-                      onSubmit: formData => handleUpdateFormSubmit(formData, id),
-                      defaultValues: {
-                        title,
-                        url,
-                        description,
-                        platformId: platform?.id,
-                      },
-                    })
-                  }
-                >
-                  <IconEdit stroke={1.5} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip withArrow position="right" label="Delete">
-                <ActionIcon color="red" onClick={async () => await handleCourseDelete(id)}>
-                  <IconTrash stroke={1.5} />
-                </ActionIcon>
-              </Tooltip>
-            </Button.Group>
-          </Group>
+          <React.Fragment>
+            <Menu.Item
+              icon={<IconListDetails />}
+              component={Link}
+              to={generatePath(appRoutes.courses.details, {
+                [RouteEntityType.course]: id,
+              })}
+            >
+              View details
+            </Menu.Item>
+            <Menu.Item
+              icon={<IconEdit />}
+              onClick={() =>
+                openModal(ModalId.CreateUpdateCourseModal, {
+                  onSubmit: formData => handleUpdateFormSubmit(formData, id),
+                  defaultValues: {
+                    title,
+                    url,
+                    description,
+                    platformId: platform?.id,
+                    topicTagsIds: tags.map(tag => tag.id),
+                  },
+                })
+              }
+            >
+              Edit course
+            </Menu.Item>
+            <Menu.Item icon={<IconTrash />} onClick={async () => await handleCourseDelete(id)}>
+              Delete course
+            </Menu.Item>
+          </React.Fragment>
         )}
         renderTopToolbarCustomActions={() => {
           return (

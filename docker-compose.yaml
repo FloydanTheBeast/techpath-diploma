@@ -63,6 +63,8 @@ services:
         reservations:
           cpus: '0.5'
           memory: 1024M
+    profiles:
+      - tools
 
 networks:
   backend:

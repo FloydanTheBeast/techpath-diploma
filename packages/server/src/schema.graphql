@@ -115,5 +115,5 @@ type TopicTag {
 }
 
 interface IncludesTopic {
-  score: Float!
+  score: Float
 }

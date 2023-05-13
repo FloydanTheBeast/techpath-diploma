@@ -94,7 +94,7 @@ class ThreadedConsumer(threading.Thread):
     @staticmethod
     def classify(res):
         return list(filter(lambda x: x[1] >= 0.5, list(
-            zip(res['labels'], res['scores']))))
+            zip(res['labels'], res['scores']))))[:5]  # Pick maximum of 5 topics
 
     def createCourse(self, tx, course):
         result = tx.run("""

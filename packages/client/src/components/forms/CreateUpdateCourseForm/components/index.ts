@@ -1,1 +1,1 @@
-export * from './PlatformSearchItem';
+export * from './PlatformSelectItem';

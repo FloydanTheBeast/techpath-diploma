@@ -18,6 +18,10 @@ export const COURSE_INFO_FRAGMENT = gql`
       logoUrl
       url
     }
+    tags {
+      id
+      name
+    }
   }
 `;
 
@@ -61,8 +65,13 @@ export const CREATE_COURSE_MUTATION = gql`
 `;
 
 export const UPDATE_COURSE_BY_ID_MUTATION = gql`
-  mutation UpdateCourseById($id: ID!, $input: CourseUpdateInput) {
-    updateCourses(where: { id: $id }, update: $input) {
+  mutation UpdateCourseById(
+    $id: ID!
+    $input: CourseUpdateInput
+    $connect: CourseConnectInput
+    $disconnect: CourseDisconnectInput
+  ) {
+    updateCourses(where: { id: $id }, update: $input, connect: $connect, disconnect: $disconnect) {
       courses {
         id
       }

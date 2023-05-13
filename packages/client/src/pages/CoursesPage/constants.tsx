@@ -1,4 +1,15 @@
-import { ActionIcon, Box, Button, Group, Popover, Text, Tooltip } from '@mantine/core';
+import {
+  ActionIcon,
+  Badge,
+  Box,
+  Button,
+  Chip,
+  Flex,
+  Group,
+  Popover,
+  Text,
+  Tooltip,
+} from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
 import { IconExternalLink } from '@tabler/icons-react';
 import { MRT_ColumnDef } from 'mantine-react-table';
@@ -61,11 +72,22 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
     header: 'Description',
     accessorFn: ({ description }) => (
       <Tooltip label={description} width={300} multiline withArrow openDelay={500} withinPortal>
-        <Text lineClamp={3} sx={{ cursor: 'help' }}>
+        <Text lineClamp={3} sx={{ cursor: 'help', width: 400 }}>
           {description}
         </Text>
       </Tooltip>
     ),
-    size: 300,
+  },
+  {
+    header: 'Topics',
+    accessorFn: ({ tags }) => (
+      <Flex gap="sm" sx={{ textTransform: 'capitalize' }} maw={500} wrap="wrap">
+        {tags.map(tag => (
+          <Badge key={tag.id} variant="dot" size="md">
+            {tag.name}
+          </Badge>
+        ))}
+      </Flex>
+    ),
   },
 ];
