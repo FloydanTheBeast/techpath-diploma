@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { SimpleGrid } from '@mantine/core';
+import { Box, Center, Pagination, SimpleGrid, Skeleton } from '@mantine/core';
 import { useGetCoursesQuery } from '@shared/graphql';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
-import { CourseCard, DataViewSwitch } from 'src/components/common';
+import { COURSE_CARD_HEIGHT, CourseCard, DataViewSwitch } from 'src/components/common';
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
 import { usePagination, usePaginationQueryOptions, useSearchQueryOptions } from 'src/hooks';
 import { PaginationActionType } from 'src/providers';
@@ -53,21 +53,44 @@ export const CoursesPageUser: React.FC = () => {
         );
       case DataViewType.Grid:
         return (
-          <SimpleGrid
-            breakpoints={[
-              { minWidth: 'xs', cols: 1 },
-              { minWidth: 'sm', cols: 2 },
-              { minWidth: 'lg', cols: 3 },
-              { minWidth: 'xl', cols: 4 },
-            ]}
-          >
-            {data?.courses.map(course => (
-              <CourseCard key={course.id} course={course} />
-            ))}
-          </SimpleGrid>
+          <Box>
+            <SimpleGrid
+              breakpoints={[
+                { minWidth: 'xs', cols: 1 },
+                { minWidth: 'sm', cols: 2 },
+                { minWidth: 'lg', cols: 3 },
+                { minWidth: 'xl', cols: 4 },
+              ]}
+              mb={32}
+            >
+              {loadingCourses
+                ? new Array(paginationState.pageSize)
+                    .fill(0)
+                    .map((_, i) => <Skeleton key={i} h={COURSE_CARD_HEIGHT} />)
+                : data?.courses.map(course => <CourseCard key={course.id} course={course} />)}
+            </SimpleGrid>
+            <Center>
+              <Pagination
+                total={paginationState.count / paginationState.pageSize}
+                onChange={page =>
+                  dispatchPaginationState({
+                    type: PaginationActionType.changePagination,
+                    payload: { pageIndex: page },
+                  })
+                }
+              />
+            </Center>
+          </Box>
         );
     }
-  }, [dataViewType, data, loadingCourses, paginationState.count]);
+  }, [
+    dataViewType,
+    data,
+    loadingCourses,
+    paginationState.count,
+    dispatchPaginationState,
+    paginationState.pageSize,
+  ]);
 
   return (
     <ContentPageLayout
