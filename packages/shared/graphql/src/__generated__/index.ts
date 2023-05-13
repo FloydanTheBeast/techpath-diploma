@@ -37,6 +37,7 @@ export type Course = {
   __typename?: 'Course';
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
+  difficulty?: Maybe<CourseDifficulty>;
   id: Scalars['ID'];
   languages: Array<CourseLanguage>;
   languagesAggregate?: Maybe<CourseCourseLanguageLanguagesAggregationSelection>;
@@ -209,6 +210,7 @@ export type CourseCoursePricePriceNodeAggregateSelection = {
 
 export type CourseCreateInput = {
   description?: InputMaybe<Scalars['String']>;
+  difficulty?: InputMaybe<CourseDifficulty>;
   languages?: InputMaybe<CourseLanguagesFieldInput>;
   platform?: InputMaybe<CoursePlatformFieldInput>;
   price?: InputMaybe<CoursePriceFieldInput>;
@@ -223,6 +225,12 @@ export type CourseDeleteInput = {
   price?: InputMaybe<CoursePriceDeleteFieldInput>;
   tags?: InputMaybe<Array<CourseTagsDeleteFieldInput>>;
 };
+
+export enum CourseDifficulty {
+  Advanced = 'ADVANCED',
+  Beginner = 'BEGINNER',
+  Intermediate = 'INTERMEDIATE',
+}
 
 export type CourseDisconnectInput = {
   languages?: InputMaybe<Array<CourseLanguagesDisconnectFieldInput>>;
@@ -690,6 +698,7 @@ export type CourseLanguagesUpdateFieldInput = {
 
 export type CourseOnCreateInput = {
   description?: InputMaybe<Scalars['String']>;
+  difficulty?: InputMaybe<CourseDifficulty>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
@@ -1639,6 +1648,7 @@ export type CourseRelationInput = {
 export type CourseSort = {
   createdAt?: InputMaybe<SortDirection>;
   description?: InputMaybe<SortDirection>;
+  difficulty?: InputMaybe<SortDirection>;
   id?: InputMaybe<SortDirection>;
   title?: InputMaybe<SortDirection>;
   updatedAt?: InputMaybe<SortDirection>;
@@ -1811,6 +1821,7 @@ export type CourseUniqueWhere = {
 
 export type CourseUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
+  difficulty?: InputMaybe<CourseDifficulty>;
   languages?: InputMaybe<Array<CourseLanguagesUpdateFieldInput>>;
   platform?: InputMaybe<CoursePlatformUpdateFieldInput>;
   price?: InputMaybe<CoursePriceUpdateFieldInput>;
@@ -1835,6 +1846,8 @@ export type CourseWhere = {
   description_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   description_MATCHES?: InputMaybe<Scalars['String']>;
   description_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  difficulty?: InputMaybe<CourseDifficulty>;
+  difficulty_IN?: InputMaybe<Array<InputMaybe<CourseDifficulty>>>;
   id?: InputMaybe<Scalars['ID']>;
   id_CONTAINS?: InputMaybe<Scalars['ID']>;
   id_ENDS_WITH?: InputMaybe<Scalars['ID']>;

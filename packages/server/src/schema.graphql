@@ -5,9 +5,17 @@ type User {
   roles: [String!]!
   firstName: String!
   lastName: String!
+
   createdRoadmaps: [Roadmap!]! @relationship(type: "CREATED_BY", direction: IN)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
+}
+
+enum CourseDifficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
 }
 
 type Course
@@ -17,11 +25,16 @@ type Course
   title: String!
   description: String
   url: String! @unique
+  difficulty: CourseDifficulty
+  externalRating: Float
+  externalRatingsCount: Int
+
   price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
   platform: CoursePlatform @relationship(type: "OWNED_BY_PLATFORM", direction: OUT)
   languages: [CourseLanguage!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -37,7 +50,9 @@ type CoursePlatform {
   name: String! @unique
   url: String! @unique
   logoUrl: String
+
   courses: [Course!]! @relationship(type: "OWNED_BY_PLATFORM", direction: IN)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -54,6 +69,7 @@ type Roadmap
   id: ID! @id
   title: String!
   description: String
+
   node: RoadmapNode! @relationship(type: "CONSISTS_OF", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
@@ -75,6 +91,7 @@ type Roadmap
       """
     )
   createdBy: User! @relationship(type: "CREATED_BY", direction: OUT)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -86,6 +103,7 @@ type RoadmapNode {
   type: String!
   positionX: Float!
   positionY: Float!
+
   childNodes: [RoadmapNode!]!
     @relationship(type: "HAS_CHILD", properties: "HasChild", direction: OUT)
   parentNodes: [RoadmapNode!]!
@@ -108,6 +126,7 @@ type RoadmapEdge @exclude {
 type TopicTag {
   id: ID! @id
   name: String! @unique
+
   courses: [Course!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
   roadmaps: [Roadmap!]!

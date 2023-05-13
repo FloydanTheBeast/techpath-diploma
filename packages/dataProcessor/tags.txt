@@ -1,32 +1,32 @@
-javascript
-typescript
+JavaScript
+TypeScript
 web development
 back-end development
 front-end development
 software engineering
-golang
-node.js
-REST API
+Golang
+Node.js
 full-stack development
 python
 data analysis
 data visualisation
-sql
-postgresql
-mongodb
-neo4j
-databases
+SQL
+NoSQL
+Neo4j Graph Database
+Databases
 data science
-c++
-c#
-java
-kotlin
-android development
-ios development
+C++
+C#
+Java
+Kotlin
+Android Development
+iOS development
 game development
 unreal game engine
-unity game engine
 technical interview
 machine learning
-deep learning
 artificial intelligence
+natural language processing
+software testing
+Algorithms
+Data Structures

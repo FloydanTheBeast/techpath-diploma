@@ -1,19 +1,25 @@
 #!/usr/bin/env python
-import pika
-from neo4j import GraphDatabase
 from os import getenv
 from pathlib import Path
-import json
 import time
 import threading
+import json
+import functools
+
+import pika
+from neo4j import GraphDatabase
 from transformers import pipeline
 import torch
+from lxml.html.clean import Cleaner
+from lxml.html import document_fromstring
+from markdownify import markdownify as md
 
 RABBITMQ_URL = getenv('RABBITMQ_URL')
 COURSES_QUEUE = getenv('COURSES_QUEUE')
 DB_URI = getenv('NEO4J_URI')
 DB_USER = getenv('NEO4J_USER')
 DB_PASSWORD = getenv('NEO4J_PASSWORD')
+
 CLASSIFICATION_MODEL_PATH = getenv('CLASSIFICATION_MODEL_PATH')
 
 DB_AUTH = (DB_USER, DB_PASSWORD)
@@ -25,12 +31,17 @@ torch.set_num_threads(1)
 with open('./tags.txt', encoding="utf-8") as f:
     candidate_labels = [line.rstrip() for line in f]
 
-print('Initializing classifier...')
+print('Initializing classifiers...')
 
 classifier = pipeline("zero-shot-classification",
                       model=CLASSIFICATION_MODEL_PATH, num_workers=1)
 
-print('Done initializing classifier...')
+print('Done initializing classifiers...')
+
+
+def prepareText(text):
+    cleaner = Cleaner(allow_tags=[''])
+    return document_fromstring(cleaner.clean_html(text)).text_content()
 
 
 class ThreadedConsumer(threading.Thread):
@@ -40,7 +51,7 @@ class ThreadedConsumer(threading.Thread):
         self.id = id
 
         params = pika.URLParameters(
-            f'{RABBITMQ_URL}?connection_attempts=4&retry_delay=5')
+            f'{RABBITMQ_URL}?connection_attempts=4&retry_delay=5&heartbeat=0&blocked_connection_timeout=180')
         self.connection = pika.BlockingConnection(params)
 
         self.channel = self.connection.channel()
@@ -52,7 +63,13 @@ class ThreadedConsumer(threading.Thread):
         self.driver.verify_connectivity()
 
         threading.Thread(target=self.channel.basic_consume(
-            COURSES_QUEUE, on_message_callback=self.onMessage))
+            COURSES_QUEUE, on_message_callback=self.onMessage, auto_ack=False))
+
+    def ackMessage(self, channel, delivery_tag):
+        if channel.is_open:
+            channel.basic_ack(delivery_tag)
+        else:
+            pass
 
     def onMessage(self, channel, method, properties, body):
         message = json.loads(body)
@@ -65,22 +82,40 @@ class ThreadedConsumer(threading.Thread):
                 print(ex)
                 return
 
-        channel.basic_ack(delivery_tag=method.delivery_tag)
+        cb = functools.partial(self.ackMessage, channel,
+                               delivery_tag=method.delivery_tag)
+        self.connection.add_callback_threadsafe(cb)
 
     def processCourse(self, course):
         # TODO: Add language recognition
 
-        print(f'[{self.id}] Started classification')
-        res = classifier(
-            course['title'] + course['description'], candidate_labels, multi_label=True)
+        course_text = prepareText(
+            course['title'] + ". " + course['description'])
 
-        tags = self.classify(res)
-        print(f'[{self.id}] Classified tags: {tags}')
-
-        if not len(tags):
+        # Don't process courses with too little info
+        if len(course_text) < 50:
             return
 
+        print(f'[{self.id}] Started binary classification')
+
+        res_binary = classifier(
+            course_text, ['information technology'], multi_label=False)
+
+        print(f'[{self.id}] Binary classification results: {res_binary}')
+
+        if res_binary['scores'][0] < 0.5:
+            return
+
+        print(f'[{self.id}] Started multilabel classification')
+
+        res_multilabel = classifier(
+            course_text, candidate_labels, multi_label=True)
+
+        tags = self.classifyMultilabel(res_multilabel)
+        print(f'[{self.id}] Classified tags: {tags}')
+
         course['tags'] = tags
+        course['description'] = md(course['description'])
 
         # TODO: move database to config
         with self.driver.session(database="neo4j") as session:
@@ -92,7 +127,7 @@ class ThreadedConsumer(threading.Thread):
         ))
 
     @staticmethod
-    def classify(res):
+    def classifyMultilabel(res):
         return list(filter(lambda x: x[1] >= 0.5, list(
             zip(res['labels'], res['scores']))))[:5]  # Pick maximum of 5 topics
 
@@ -104,13 +139,16 @@ class ThreadedConsumer(threading.Thread):
             ON MATCH SET c.updatedAt = datetime.realtime()
             SET c.title = $course.title
             SET c.description = $course.description
+            SET c.externalRating = $course.rating
+            SET c.externalRatingsCount = $course.ratingsCount
+            SET c.difficulty = $course.difficulty
 
             WITH *
             CALL apoc.do.when(
                 $course.price IS NOT NULL,
                 "MERGE (c)-[:HAS_PRICE]->(cPrice:CoursePrice)
                 SET cPrice.price = price.price
-                SET cPrice.currencyCodeISO = price.currency
+                SET cPrice.currencyCodeISO = price.currencyCodeISO
                 RETURN cPrice",
                 "",
                 {c:c, price: $course.price})

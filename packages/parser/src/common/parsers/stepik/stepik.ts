@@ -2,12 +2,18 @@ import type { Nullable } from '@shared/types';
 import { sleep } from '@shared/utils';
 import axios from 'axios';
 
-import { StepikCourseData, StepikCoursesResponse } from './types';
+import {
+  StepikCourseData,
+  StepikCourseReviewSummary,
+  StepikCourseReviewSummaryResponse,
+  StepikCoursesResponse,
+} from './types';
+import { mapStepikDifficulty } from './utils';
 import { UnprocessedCourse } from '../../types/course';
 import { BaseParser } from '../baseParser';
 
 export class StepikParser extends BaseParser {
-  private readonly baseApiUrl = 'https://stepik.org/api/courses';
+  private readonly baseApiUrl = 'https://stepik.org/api';
   private readonly pageSize = 10;
 
   async parse() {
@@ -19,24 +25,41 @@ export class StepikParser extends BaseParser {
       try {
         res = await (
           await axios.get<StepikCoursesResponse>(
-            `${this.baseApiUrl}?page=${++page}&page_size=${this.pageSize}&is_public=true`,
+            `${this.baseApiUrl}/courses?page=${++page}&page_size=${this.pageSize}&is_public=true`,
           )
         ).data;
       } catch (error) {
         console.log(error);
       }
 
-      res?.courses.forEach(course => this.processCourse(course, this.convertCourseData));
+      res?.courses.forEach(async course => {
+        const courseReviewSummary = (
+          await axios.get<StepikCourseReviewSummaryResponse>(
+            `${this.baseApiUrl}/course-review-summaries/${course.review_summary}`,
+          )
+        ).data['course-review-summaries'][0];
+
+        if (courseReviewSummary?.count && courseReviewSummary.average < 4) {
+          return;
+        }
+
+        this.processCourse(
+          { ...course, average: courseReviewSummary?.average, count: courseReviewSummary?.count },
+          this.convertCourseData,
+        );
+      });
       await sleep(2000);
-    } while (res?.meta.has_next && page < 10);
+    } while (res?.meta.has_next && page < 5);
   }
 
-  private convertCourseData(courseData: StepikCourseData): UnprocessedCourse {
+  private convertCourseData(
+    courseData: StepikCourseData & Partial<Pick<StepikCourseReviewSummary, 'average' | 'count'>>,
+  ): UnprocessedCourse {
     return {
-      title: courseData.title,
-      description: courseData.summary,
-      url: courseData.canonical_url,
       platform: 'Stepik',
+      url: courseData.canonical_url,
+      title: courseData.title,
+      description: courseData.description,
       languages: [courseData.language],
       price: courseData.price
         ? {
@@ -44,6 +67,9 @@ export class StepikParser extends BaseParser {
             currencyCodeISO: 'RUB',
           }
         : null,
+      difficuly: mapStepikDifficulty(courseData.difficulty),
+      rating: courseData.average,
+      ratingsCount: courseData.count,
     };
   }
 }
