@@ -1,1 +1,1 @@
-export const COURSE_CARD_HEIGHT = 320;
+export const COURSE_CARD_HEIGHT = 350;

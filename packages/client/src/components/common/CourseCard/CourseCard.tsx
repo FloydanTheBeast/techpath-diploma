@@ -4,7 +4,9 @@ import {
   ActionIcon,
   Badge,
   Box,
+  Button,
   Card,
+  Center,
   Flex,
   Group,
   Menu,
@@ -14,7 +16,7 @@ import {
   rem,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
-import { IconCopy, IconDots, IconPlus } from '@tabler/icons-react';
+import { IconCopy, IconDots, IconExternalLink, IconPlus } from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
 import { RouteEntityType, appRoutes } from 'src/constants';
@@ -29,15 +31,7 @@ type CourseCardProps = {
 
 export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
   return (
-    <Card
-      bg="white"
-      radius="md"
-      p="md"
-      shadow="sm"
-      sx={cardStyles}
-      component={Link}
-      to={generatePath(appRoutes.courses.details, { [RouteEntityType.course]: course.id })}
-    >
+    <Card bg="white" radius="md" p="md" shadow="sm" sx={cardStyles}>
       <Card.Section withBorder inheritPadding py="xs" mb={16}>
         <Group position="apart">
           <CoursePlatformLogo logoUrl={course.platform?.logoUrl} />
@@ -78,6 +72,19 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           ))}
         </Flex>
       </Card.Section>
+      <Center>
+        <Button
+          compact
+          fullWidth
+          variant="light"
+          component={Link}
+          to={generatePath(appRoutes.courses.details, { [RouteEntityType.course]: course.id })}
+          target="_blank"
+          leftIcon={<IconExternalLink size="1rem" />}
+        >
+          View details
+        </Button>
+      </Center>
     </Card>
   );
 };
@@ -86,11 +93,10 @@ const cardStyles: Sx = theme => ({
   height: COURSE_CARD_HEIGHT,
   display: 'flex',
   flexFlow: 'column nowrap',
-  cursor: 'pointer',
   transition: 'all 0.2s',
   border: `1px solid ${theme.colors.gray[1]}`,
   '&:hover': {
-    borderColor: theme.colors.gray[2],
+    borderColor: theme.colors.gray[3],
     boxShadow: theme.shadows.lg,
   },
 });

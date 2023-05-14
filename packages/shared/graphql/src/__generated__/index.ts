@@ -2494,6 +2494,7 @@ export type Query = {
   topicTags: Array<TopicTag>;
   topicTagsAggregate: TopicTagAggregateSelection;
   topicTagsConnection: TopicTagsConnection;
+  userRecommendedCourses?: Maybe<Array<Course>>;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
@@ -2617,6 +2618,10 @@ export type QueryTopicTagsConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<InputMaybe<TopicTagSort>>>;
   where?: InputMaybe<TopicTagWhere>;
+};
+
+export type QueryUserRecommendedCoursesArgs = {
+  count?: InputMaybe<Scalars['Int']>;
 };
 
 export type QueryUsersArgs = {
@@ -5342,6 +5347,9 @@ export type User = {
   firstName: Scalars['String'];
   id: Scalars['ID'];
   lastName: Scalars['String'];
+  preferableTopics: Array<TopicTag>;
+  preferableTopicsAggregate?: Maybe<UserTopicTagPreferableTopicsAggregationSelection>;
+  preferableTopicsConnection: UserPreferableTopicsConnection;
   roles: Array<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
@@ -5365,6 +5373,25 @@ export type UserCreatedRoadmapsConnectionArgs = {
   where?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
 };
 
+export type UserPreferableTopicsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<TopicTagOptions>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type UserPreferableTopicsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<TopicTagWhere>;
+};
+
+export type UserPreferableTopicsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserPreferableTopicsConnectionSort>>;
+  where?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+};
+
 export type UserAggregateSelection = {
   __typename?: 'UserAggregateSelection';
   count: Scalars['Int'];
@@ -5378,10 +5405,12 @@ export type UserAggregateSelection = {
 
 export type UserConnectInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
+  preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectFieldInput>>;
 };
 
 export type UserConnectOrCreateInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectOrCreateFieldInput>>;
+  preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectOrCreateFieldInput>>;
 };
 
 export type UserConnectOrCreateWhere = {
@@ -5397,6 +5426,7 @@ export type UserCreateInput = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  preferableTopics?: InputMaybe<UserPreferableTopicsFieldInput>;
   roles: Array<Scalars['String']>;
 };
 
@@ -5544,10 +5574,12 @@ export type UserCreatedRoadmapsUpdateFieldInput = {
 
 export type UserDeleteInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDeleteFieldInput>>;
+  preferableTopics?: InputMaybe<Array<UserPreferableTopicsDeleteFieldInput>>;
 };
 
 export type UserDisconnectInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDisconnectFieldInput>>;
+  preferableTopics?: InputMaybe<Array<UserPreferableTopicsDisconnectFieldInput>>;
 };
 
 export type UserEdge = {
@@ -5570,8 +5602,116 @@ export type UserOptions = {
   sort?: InputMaybe<Array<UserSort>>;
 };
 
+export type UserPreferableTopicsAggregateInput = {
+  AND?: InputMaybe<Array<UserPreferableTopicsAggregateInput>>;
+  NOT?: InputMaybe<UserPreferableTopicsAggregateInput>;
+  OR?: InputMaybe<Array<UserPreferableTopicsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserPreferableTopicsNodeAggregationWhereInput>;
+};
+
+export type UserPreferableTopicsConnectFieldInput = {
+  connect?: InputMaybe<Array<TopicTagConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<TopicTagConnectWhere>;
+};
+
+export type UserPreferableTopicsConnectOrCreateFieldInput = {
+  onCreate: UserPreferableTopicsConnectOrCreateFieldInputOnCreate;
+  where: TopicTagConnectOrCreateWhere;
+};
+
+export type UserPreferableTopicsConnectOrCreateFieldInputOnCreate = {
+  node: TopicTagOnCreateInput;
+};
+
+export type UserPreferableTopicsConnection = {
+  __typename?: 'UserPreferableTopicsConnection';
+  edges: Array<UserPreferableTopicsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserPreferableTopicsConnectionSort = {
+  node?: InputMaybe<TopicTagSort>;
+};
+
+export type UserPreferableTopicsConnectionWhere = {
+  AND?: InputMaybe<Array<UserPreferableTopicsConnectionWhere>>;
+  NOT?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+  OR?: InputMaybe<Array<UserPreferableTopicsConnectionWhere>>;
+  node?: InputMaybe<TopicTagWhere>;
+};
+
+export type UserPreferableTopicsCreateFieldInput = {
+  node: TopicTagCreateInput;
+};
+
+export type UserPreferableTopicsDeleteFieldInput = {
+  delete?: InputMaybe<TopicTagDeleteInput>;
+  where?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+};
+
+export type UserPreferableTopicsDisconnectFieldInput = {
+  disconnect?: InputMaybe<TopicTagDisconnectInput>;
+  where?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+};
+
+export type UserPreferableTopicsFieldInput = {
+  connect?: InputMaybe<Array<UserPreferableTopicsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserPreferableTopicsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserPreferableTopicsCreateFieldInput>>;
+};
+
+export type UserPreferableTopicsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserPreferableTopicsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserPreferableTopicsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserPreferableTopicsNodeAggregationWhereInput>>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserPreferableTopicsRelationship = {
+  __typename?: 'UserPreferableTopicsRelationship';
+  cursor: Scalars['String'];
+  node: TopicTag;
+};
+
+export type UserPreferableTopicsUpdateConnectionInput = {
+  node?: InputMaybe<TopicTagUpdateInput>;
+};
+
+export type UserPreferableTopicsUpdateFieldInput = {
+  connect?: InputMaybe<Array<UserPreferableTopicsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserPreferableTopicsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserPreferableTopicsCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserPreferableTopicsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<UserPreferableTopicsDisconnectFieldInput>>;
+  update?: InputMaybe<UserPreferableTopicsUpdateConnectionInput>;
+  where?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+};
+
 export type UserRelationInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
+  preferableTopics?: InputMaybe<Array<UserPreferableTopicsCreateFieldInput>>;
 };
 
 export type UserResponse = {
@@ -5622,6 +5762,18 @@ export type UserSort = {
   updatedAt?: InputMaybe<SortDirection>;
 };
 
+export type UserTopicTagPreferableTopicsAggregationSelection = {
+  __typename?: 'UserTopicTagPreferableTopicsAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserTopicTagPreferableTopicsNodeAggregateSelection>;
+};
+
+export type UserTopicTagPreferableTopicsNodeAggregateSelection = {
+  __typename?: 'UserTopicTagPreferableTopicsNodeAggregateSelection';
+  id: IdAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
+};
+
 export type UserUniqueWhere = {
   email?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
@@ -5632,6 +5784,7 @@ export type UserUpdateInput = {
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
+  preferableTopics?: InputMaybe<Array<UserPreferableTopicsUpdateFieldInput>>;
   roles?: InputMaybe<Array<Scalars['String']>>;
   roles_POP?: InputMaybe<Scalars['Int']>;
   roles_PUSH?: InputMaybe<Array<Scalars['String']>>;
@@ -5688,6 +5841,23 @@ export type UserWhere = {
   lastName_IN?: InputMaybe<Array<Scalars['String']>>;
   lastName_MATCHES?: InputMaybe<Scalars['String']>;
   lastName_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  preferableTopicsAggregate?: InputMaybe<UserPreferableTopicsAggregateInput>;
+  /** Return Users where all of the related UserPreferableTopicsConnections match this filter */
+  preferableTopicsConnection_ALL?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+  /** Return Users where none of the related UserPreferableTopicsConnections match this filter */
+  preferableTopicsConnection_NONE?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+  /** Return Users where one of the related UserPreferableTopicsConnections match this filter */
+  preferableTopicsConnection_SINGLE?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+  /** Return Users where some of the related UserPreferableTopicsConnections match this filter */
+  preferableTopicsConnection_SOME?: InputMaybe<UserPreferableTopicsConnectionWhere>;
+  /** Return Users where all of the related TopicTags match this filter */
+  preferableTopics_ALL?: InputMaybe<TopicTagWhere>;
+  /** Return Users where none of the related TopicTags match this filter */
+  preferableTopics_NONE?: InputMaybe<TopicTagWhere>;
+  /** Return Users where one of the related TopicTags match this filter */
+  preferableTopics_SINGLE?: InputMaybe<TopicTagWhere>;
+  /** Return Users where some of the related TopicTags match this filter */
+  preferableTopics_SOME?: InputMaybe<TopicTagWhere>;
   roles?: InputMaybe<Array<Scalars['String']>>;
   roles_INCLUDES?: InputMaybe<Scalars['String']>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
@@ -6116,6 +6286,36 @@ export type GetTopicTagsQueryVariables = Exact<{
 export type GetTopicTagsQuery = {
   __typename?: 'Query';
   topicTags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+};
+
+export type GetUserRecommendedCoursesQueryVariables = Exact<{
+  count?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type GetUserRecommendedCoursesQuery = {
+  __typename?: 'Query';
+  userRecommendedCourses?: Array<{
+    __typename?: 'Course';
+    id: string;
+    title: string;
+    description?: string | null;
+    url: string;
+    createdAt: any;
+    updatedAt?: any | null;
+    price?: {
+      __typename?: 'CoursePrice';
+      currencyCodeISO?: string | null;
+      price?: number | null;
+    } | null;
+    platform?: {
+      __typename?: 'CoursePlatform';
+      id: string;
+      name: string;
+      logoUrl?: string | null;
+      url: string;
+    } | null;
+    tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+  }> | null;
 };
 
 export const UserInfoFragmentDoc = {
@@ -8320,4 +8520,143 @@ export type GetTopicTagsLazyQueryHookResult = ReturnType<typeof useGetTopicTagsL
 export type GetTopicTagsQueryResult = Apollo.QueryResult<
   GetTopicTagsQuery,
   GetTopicTagsQueryVariables
+>;
+export const GetUserRecommendedCoursesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetUserRecommendedCourses' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'count' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'userRecommendedCourses' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'count' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'count' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Course' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useGetUserRecommendedCoursesQuery__
+ *
+ * To run a query within a React component, call `useGetUserRecommendedCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserRecommendedCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserRecommendedCoursesQuery({
+ *   variables: {
+ *      count: // value for 'count'
+ *   },
+ * });
+ */
+export function useGetUserRecommendedCoursesQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetUserRecommendedCoursesQuery,
+    GetUserRecommendedCoursesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserRecommendedCoursesQuery, GetUserRecommendedCoursesQueryVariables>(
+    GetUserRecommendedCoursesDocument,
+    options,
+  );
+}
+export function useGetUserRecommendedCoursesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserRecommendedCoursesQuery,
+    GetUserRecommendedCoursesQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserRecommendedCoursesQuery,
+    GetUserRecommendedCoursesQueryVariables
+  >(GetUserRecommendedCoursesDocument, options);
+}
+export type GetUserRecommendedCoursesQueryHookResult = ReturnType<
+  typeof useGetUserRecommendedCoursesQuery
+>;
+export type GetUserRecommendedCoursesLazyQueryHookResult = ReturnType<
+  typeof useGetUserRecommendedCoursesLazyQuery
+>;
+export type GetUserRecommendedCoursesQueryResult = Apollo.QueryResult<
+  GetUserRecommendedCoursesQuery,
+  GetUserRecommendedCoursesQueryVariables
 >;

@@ -1,3 +1,15 @@
+type Query {
+  userRecommendedCourses(count: Int): [Course!]
+    @cypher(
+      statement: """
+      MATCH (u:User { id: $auth.jwt.id })-[:PREFERS_TOPIC]->(t:TopicTag)<-[:INCLUDES_TOPIC]-(c:Course)
+      RETURN c, rand() as r
+      ORDER BY r
+      LIMIT COALESCE($count, 10)
+      """
+    )
+}
+
 type User {
   id: ID! @id
   email: String! @unique
@@ -7,6 +19,7 @@ type User {
   lastName: String!
 
   createdRoadmaps: [Roadmap!]! @relationship(type: "CREATED_BY", direction: IN)
+  preferableTopics: [TopicTag!]! @relationship(type: "PREFERS_TOPIC", direction: OUT)
 
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])

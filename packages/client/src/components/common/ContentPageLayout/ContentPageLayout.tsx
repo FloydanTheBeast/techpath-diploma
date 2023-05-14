@@ -15,7 +15,9 @@ export const ContentPageLayout: React.FC<React.PropsWithChildren<ContentPageLayo
   return (
     <Paper shadow="xl" sx={{ height: '100%', padding: 32, overflowY: 'auto' }}>
       <Group position="apart">
-        <Title mb="1rem">{title}</Title>
+        <Title variant="gradient" mb="1rem">
+          {title}
+        </Title>
         {headerRightElement}
       </Group>
       {children}
