@@ -10,9 +10,11 @@ import pika
 from neo4j import GraphDatabase
 from transformers import pipeline
 import torch
-from lxml.html.clean import Cleaner
-from lxml.html import document_fromstring
-from markdownify import markdownify as md
+from lxml.html.clean import Cleaner, clean_html
+import fasttext
+
+# Currently unused
+# from pycountry import languages
 
 RABBITMQ_URL = getenv('RABBITMQ_URL')
 COURSES_QUEUE = getenv('COURSES_QUEUE')
@@ -21,27 +23,35 @@ DB_USER = getenv('NEO4J_USER')
 DB_PASSWORD = getenv('NEO4J_PASSWORD')
 
 CLASSIFICATION_MODEL_PATH = getenv('CLASSIFICATION_MODEL_PATH')
+LANGUAGE_DETECTION_MODEL_PATH = getenv('LANGUAGE_DETECTION_MODEL_PATH')
 
 DB_AUTH = (DB_USER, DB_PASSWORD)
 
 THREADS = 4
+
+ALLOWED_LANGUAGES = ['ru', 'en', 'es', 'de', 'fr', 'it']
 
 torch.set_num_threads(1)
 
 with open('./tags.txt', encoding="utf-8") as f:
     candidate_labels = [line.rstrip() for line in f]
 
-print('Initializing classifiers...')
+print('Initializing classifier')
 
 classifier = pipeline("zero-shot-classification",
                       model=CLASSIFICATION_MODEL_PATH, num_workers=1)
 
-print('Done initializing classifiers...')
+print('Done initializing classifier...')
+
+print('Initializing language detection model...')
+
+ft_model = fasttext.load_model(LANGUAGE_DETECTION_MODEL_PATH)
+
+print('Done initializing language detection model')
 
 
 def prepareText(text):
-    cleaner = Cleaner(allow_tags=[''])
-    return document_fromstring(cleaner.clean_html(text)).text_content()
+    return clean_html(text)
 
 
 class ThreadedConsumer(threading.Thread):
@@ -51,7 +61,7 @@ class ThreadedConsumer(threading.Thread):
         self.id = id
 
         params = pika.URLParameters(
-            f'{RABBITMQ_URL}?connection_attempts=4&retry_delay=5&heartbeat=0&blocked_connection_timeout=180')
+            f'{RABBITMQ_URL}?connection_attempts=4&retry_delay=5&heartbeat=180&blocked_connection_timeout=180')
         self.connection = pika.BlockingConnection(params)
 
         self.channel = self.connection.channel()
@@ -87,13 +97,24 @@ class ThreadedConsumer(threading.Thread):
         self.connection.add_callback_threadsafe(cb)
 
     def processCourse(self, course):
-        # TODO: Add language recognition
-
         course_text = prepareText(
             course['title'] + ". " + course['description'])
 
+        if not 'languages' in course or len(course['languages']) == 0:
+            print(f'[{self.id}] Started language prediction')
+            prediction = ft_model.predict(course_text.replace('\n', ''))[
+                0][0].split('__')[2]
+            course['languages'] = [prediction]
+            print(f'[{self.id}] Detected language: {prediction}')
+
+        if not course['languages'][0] in ALLOWED_LANGUAGES:
+            print(
+                f'[{self.id}] Skipping processing due to language not being in allowed list')
+            return
+
         # Don't process courses with too little info
         if len(course_text) < 50:
+            print(f'[{self.id}] Skipping processing due to info being too short')
             return
 
         print(f'[{self.id}] Started binary classification')
@@ -115,7 +136,11 @@ class ThreadedConsumer(threading.Thread):
         print(f'[{self.id}] Classified tags: {tags}')
 
         course['tags'] = tags
-        course['description'] = md(course['description'])
+
+        try:
+            course['description'] = clean_html(course['description'])
+        except:
+            pass
 
         # TODO: move database to config
         with self.driver.session(database="neo4j") as session:
@@ -160,7 +185,7 @@ class ThreadedConsumer(threading.Thread):
                 MERGE (c)-[:INCLUDES_TOPIC {score: tag[1]}]->(t)
             )
             FOREACH (lang in $course.languages | 
-                MERGE (l:CourseLanguage {countryCodeISO: lang})
+                MERGE (l:Language {countryCodeISO: lang})
                 MERGE (c)-[:TRANSLATED_INTO]->(l)
             )
             MERGE (cp:CoursePlatform {name: $course.platform})

@@ -44,7 +44,7 @@ type Course
 
   price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
   platform: CoursePlatform @relationship(type: "OWNED_BY_PLATFORM", direction: OUT)
-  languages: [CourseLanguage!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
+  languages: [Language!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
 
@@ -70,7 +70,7 @@ type CoursePlatform {
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-type CourseLanguage {
+type Language {
   name: String! @unique
   countryCodeISO: String! @unique
   courses: [Course!]! @relationship(type: "TRANSLATED_INTO", direction: IN)

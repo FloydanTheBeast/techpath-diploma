@@ -15,15 +15,16 @@ export class CourseraParser extends BaseParser {
         if (request.label === RequestLabel.coursePage) {
           // page.waitForLoadState('networkidle', { timeout: 3000 });
 
-          const title = await page.locator('h1').textContent();
+          const title = await page.locator('h1').first().textContent();
 
           await page.waitForSelector('.cds-33.css-ngtbbz.cds-35, .description p', {
-            timeout: 7500,
+            timeout: 10_000,
           });
           const description = await (
             await page.locator('.cds-33.css-ngtbbz.cds-35, .description p').allInnerTexts()
           )
-            .join(' ')
+            .map(text => `<p>${text}</p>`)
+            .join('\n')
             .replace(/\n+/g, '\n');
 
           let difficulty: Nullable<string>;
@@ -35,13 +36,13 @@ export class CourseraParser extends BaseParser {
                     '.cds-63.css-awbo3i.cds-65.cds-grid-item.cds-132 .cds-33.css-s6kthz.cds-35',
                   )
                   .all()
-              )[1]?.textContent({ timeout: 1000 })) ||
+              )[1]?.textContent({ timeout: 1_000 })) ||
               (await page
                 .locator('._16ni8zai.m-b-0.m-t-1s', {
                   hasText: /(beginner|intermidiate|advanced)/i,
                 })
                 .first()
-                .innerText({ timeout: 1000 }));
+                .innerText({ timeout: 1_000 }));
           } catch (error) {}
 
           let rating: Nullable<number>;
@@ -71,7 +72,7 @@ export class CourseraParser extends BaseParser {
             url: request.url,
             title,
             description,
-            difficuly: mapCourseraDifficulty(difficulty),
+            difficulty: mapCourseraDifficulty(difficulty),
             rating,
             ratingsCount,
           });
@@ -87,7 +88,7 @@ export class CourseraParser extends BaseParser {
     });
 
     crawler.run(
-      new Array(15)
+      new Array(20)
         .fill(0)
         .map((_, i) => `https://www.coursera.org/directory/courses?page=${i + 1}`),
     );

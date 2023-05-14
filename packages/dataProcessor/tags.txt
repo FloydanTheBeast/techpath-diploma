@@ -30,3 +30,5 @@ natural language processing
 software testing
 Algorithms
 Data Structures
+DevOps
+cybersecurity
