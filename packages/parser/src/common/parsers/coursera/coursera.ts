@@ -87,7 +87,7 @@ export class CourseraParser extends BaseParser {
     });
 
     crawler.run(
-      new Array(5)
+      new Array(15)
         .fill(0)
         .map((_, i) => `https://www.coursera.org/directory/courses?page=${i + 1}`),
     );

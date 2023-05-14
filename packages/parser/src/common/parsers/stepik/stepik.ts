@@ -49,7 +49,7 @@ export class StepikParser extends BaseParser {
         );
       });
       await sleep(2000);
-    } while (res?.meta.has_next && page < 5);
+    } while (res?.meta.has_next && page < 50);
   }
 
   private convertCourseData(

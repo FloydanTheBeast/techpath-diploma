@@ -1,3 +1,4 @@
+import { CourseInfoFragment } from '@shared/graphql';
 import type { Nullable } from '@shared/types';
 import type { Node } from 'reactflow';
 
@@ -8,7 +9,7 @@ export enum RoadmapNodeType {
 export type RoadmapNodeData = {
   title: string;
   description?: Nullable<string>;
-  courses?: any[];
+  suggestedCourses?: Nullable<CourseInfoFragment[]>;
 };
 
 export type RoadmapNode = Node<RoadmapNodeData, RoadmapNodeType>;

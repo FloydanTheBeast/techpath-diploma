@@ -38,6 +38,8 @@ export type Course = {
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   difficulty?: Maybe<CourseDifficulty>;
+  externalRating?: Maybe<Scalars['Float']>;
+  externalRatingsCount?: Maybe<Scalars['Int']>;
   id: Scalars['ID'];
   languages: Array<CourseLanguage>;
   languagesAggregate?: Maybe<CourseCourseLanguageLanguagesAggregationSelection>;
@@ -137,6 +139,8 @@ export type CourseAggregateSelection = {
   count: Scalars['Int'];
   createdAt: DateTimeAggregateSelectionNonNullable;
   description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
@@ -211,6 +215,8 @@ export type CourseCoursePricePriceNodeAggregateSelection = {
 export type CourseCreateInput = {
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<CourseDifficulty>;
+  externalRating?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount?: InputMaybe<Scalars['Int']>;
   languages?: InputMaybe<CourseLanguagesFieldInput>;
   platform?: InputMaybe<CoursePlatformFieldInput>;
   price?: InputMaybe<CoursePriceFieldInput>;
@@ -329,6 +335,8 @@ export type CourseLanguageCourseCoursesNodeAggregateSelection = {
   __typename?: 'CourseLanguageCourseCoursesNodeAggregateSelection';
   createdAt: DateTimeAggregateSelectionNonNullable;
   description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
@@ -430,6 +438,46 @@ export type CourseLanguageCoursesNodeAggregationWhereInput = {
   description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -699,6 +747,8 @@ export type CourseLanguagesUpdateFieldInput = {
 export type CourseOnCreateInput = {
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<CourseDifficulty>;
+  externalRating?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount?: InputMaybe<Scalars['Int']>;
   title: Scalars['String'];
   url: Scalars['String'];
 };
@@ -825,6 +875,8 @@ export type CoursePlatformCourseCoursesNodeAggregateSelection = {
   __typename?: 'CoursePlatformCourseCoursesNodeAggregateSelection';
   createdAt: DateTimeAggregateSelectionNonNullable;
   description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
@@ -926,6 +978,46 @@ export type CoursePlatformCoursesNodeAggregationWhereInput = {
   description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -1366,6 +1458,8 @@ export type CoursePriceCourseCourseNodeAggregateSelection = {
   __typename?: 'CoursePriceCourseCourseNodeAggregateSelection';
   createdAt: DateTimeAggregateSelectionNonNullable;
   description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
@@ -1421,6 +1515,46 @@ export type CoursePriceCourseNodeAggregationWhereInput = {
   description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -1649,6 +1783,8 @@ export type CourseSort = {
   createdAt?: InputMaybe<SortDirection>;
   description?: InputMaybe<SortDirection>;
   difficulty?: InputMaybe<SortDirection>;
+  externalRating?: InputMaybe<SortDirection>;
+  externalRatingsCount?: InputMaybe<SortDirection>;
   id?: InputMaybe<SortDirection>;
   title?: InputMaybe<SortDirection>;
   updatedAt?: InputMaybe<SortDirection>;
@@ -1822,6 +1958,14 @@ export type CourseUniqueWhere = {
 export type CourseUpdateInput = {
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<CourseDifficulty>;
+  externalRating?: InputMaybe<Scalars['Float']>;
+  externalRating_ADD?: InputMaybe<Scalars['Float']>;
+  externalRating_DIVIDE?: InputMaybe<Scalars['Float']>;
+  externalRating_MULTIPLY?: InputMaybe<Scalars['Float']>;
+  externalRating_SUBTRACT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_DECREMENT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_INCREMENT?: InputMaybe<Scalars['Int']>;
   languages?: InputMaybe<Array<CourseLanguagesUpdateFieldInput>>;
   platform?: InputMaybe<CoursePlatformUpdateFieldInput>;
   price?: InputMaybe<CoursePriceUpdateFieldInput>;
@@ -1848,6 +1992,18 @@ export type CourseWhere = {
   description_STARTS_WITH?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<CourseDifficulty>;
   difficulty_IN?: InputMaybe<Array<InputMaybe<CourseDifficulty>>>;
+  externalRating?: InputMaybe<Scalars['Float']>;
+  externalRating_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_IN?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  externalRating_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_IN?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
+  externalRatingsCount_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_LTE?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['ID']>;
   id_CONTAINS?: InputMaybe<Scalars['ID']>;
   id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
@@ -2793,6 +2949,9 @@ export type RoadmapNode = {
   roadmap?: Maybe<Roadmap>;
   roadmapAggregate?: Maybe<RoadmapNodeRoadmapRoadmapAggregationSelection>;
   roadmapConnection: RoadmapNodeRoadmapConnection;
+  suggestedCourses: Array<Course>;
+  suggestedCoursesAggregate?: Maybe<RoadmapNodeCourseSuggestedCoursesAggregationSelection>;
+  suggestedCoursesConnection: RoadmapNodeSuggestedCoursesConnection;
   title: Scalars['String'];
   type: Scalars['String'];
 };
@@ -2852,6 +3011,25 @@ export type RoadmapNodeRoadmapConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<RoadmapNodeRoadmapConnectionSort>>;
   where?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseOptions>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectionSort>>;
+  where?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
 };
 
 export type RoadmapNodeAggregateInput = {
@@ -3110,6 +3288,7 @@ export type RoadmapNodeConnectInput = {
   childNodes?: InputMaybe<Array<RoadmapNodeChildNodesConnectFieldInput>>;
   parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesConnectFieldInput>>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapConnectFieldInput>;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectFieldInput>>;
 };
 
 export type RoadmapNodeConnectOrCreateFieldInput = {
@@ -3125,6 +3304,7 @@ export type RoadmapNodeConnectOrCreateInput = {
   childNodes?: InputMaybe<Array<RoadmapNodeChildNodesConnectOrCreateFieldInput>>;
   parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesConnectOrCreateFieldInput>>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapConnectOrCreateFieldInput>;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectOrCreateFieldInput>>;
 };
 
 export type RoadmapNodeConnectOrCreateWhere = {
@@ -3153,6 +3333,24 @@ export type RoadmapNodeConnectionWhere = {
   node?: InputMaybe<RoadmapNodeWhere>;
 };
 
+export type RoadmapNodeCourseSuggestedCoursesAggregationSelection = {
+  __typename?: 'RoadmapNodeCourseSuggestedCoursesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<RoadmapNodeCourseSuggestedCoursesNodeAggregateSelection>;
+};
+
+export type RoadmapNodeCourseSuggestedCoursesNodeAggregateSelection = {
+  __typename?: 'RoadmapNodeCourseSuggestedCoursesNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
 export type RoadmapNodeCreateFieldInput = {
   node: RoadmapNodeCreateInput;
 };
@@ -3164,6 +3362,7 @@ export type RoadmapNodeCreateInput = {
   positionX: Scalars['Float'];
   positionY: Scalars['Float'];
   roadmap?: InputMaybe<RoadmapNodeRoadmapFieldInput>;
+  suggestedCourses?: InputMaybe<RoadmapNodeSuggestedCoursesFieldInput>;
   title: Scalars['String'];
   type: Scalars['String'];
 };
@@ -3177,6 +3376,7 @@ export type RoadmapNodeDeleteInput = {
   childNodes?: InputMaybe<Array<RoadmapNodeChildNodesDeleteFieldInput>>;
   parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesDeleteFieldInput>>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapDeleteFieldInput>;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCoursesDeleteFieldInput>>;
 };
 
 export type RoadmapNodeDisconnectFieldInput = {
@@ -3188,6 +3388,7 @@ export type RoadmapNodeDisconnectInput = {
   childNodes?: InputMaybe<Array<RoadmapNodeChildNodesDisconnectFieldInput>>;
   parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesDisconnectFieldInput>>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapDisconnectFieldInput>;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCoursesDisconnectFieldInput>>;
 };
 
 export type RoadmapNodeEdge = {
@@ -3206,6 +3407,7 @@ export type RoadmapNodeInput = {
   description?: InputMaybe<Scalars['String']>;
   id: Scalars['ID'];
   position: RoadmapNodePositionInput;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCourseInput>>;
   title: Scalars['String'];
   type: Scalars['String'];
 };
@@ -3547,6 +3749,7 @@ export type RoadmapNodeRelationInput = {
   childNodes?: InputMaybe<Array<RoadmapNodeChildNodesCreateFieldInput>>;
   parentNodes?: InputMaybe<Array<RoadmapNodeParentNodesCreateFieldInput>>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapCreateFieldInput>;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCoursesCreateFieldInput>>;
 };
 
 export type RoadmapNodeRelationship = {
@@ -3768,6 +3971,207 @@ export type RoadmapNodeSort = {
   type?: InputMaybe<SortDirection>;
 };
 
+export type RoadmapNodeSuggestedCourseInput = {
+  id: Scalars['String'];
+};
+
+export type RoadmapNodeSuggestedCoursesAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapNodeSuggestedCoursesAggregateInput>>;
+  NOT?: InputMaybe<RoadmapNodeSuggestedCoursesAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapNodeSuggestedCoursesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<RoadmapNodeSuggestedCoursesNodeAggregationWhereInput>;
+};
+
+export type RoadmapNodeSuggestedCoursesConnectFieldInput = {
+  connect?: InputMaybe<Array<CourseConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseConnectWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesConnectOrCreateFieldInput = {
+  onCreate: RoadmapNodeSuggestedCoursesConnectOrCreateFieldInputOnCreate;
+  where: CourseConnectOrCreateWhere;
+};
+
+export type RoadmapNodeSuggestedCoursesConnectOrCreateFieldInputOnCreate = {
+  node: CourseOnCreateInput;
+};
+
+export type RoadmapNodeSuggestedCoursesConnection = {
+  __typename?: 'RoadmapNodeSuggestedCoursesConnection';
+  edges: Array<RoadmapNodeSuggestedCoursesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapNodeSuggestedCoursesConnectionSort = {
+  node?: InputMaybe<CourseSort>;
+};
+
+export type RoadmapNodeSuggestedCoursesConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectionWhere>>;
+  node?: InputMaybe<CourseWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesCreateFieldInput = {
+  node: CourseCreateInput;
+};
+
+export type RoadmapNodeSuggestedCoursesDeleteFieldInput = {
+  delete?: InputMaybe<CourseDeleteInput>;
+  where?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseDisconnectInput>;
+  where?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+};
+
+export type RoadmapNodeSuggestedCoursesFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapNodeSuggestedCoursesCreateFieldInput>>;
+};
+
+export type RoadmapNodeSuggestedCoursesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapNodeSuggestedCoursesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapNodeSuggestedCoursesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapNodeSuggestedCoursesNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type RoadmapNodeSuggestedCoursesRelationship = {
+  __typename?: 'RoadmapNodeSuggestedCoursesRelationship';
+  cursor: Scalars['String'];
+  node: Course;
+};
+
+export type RoadmapNodeSuggestedCoursesUpdateConnectionInput = {
+  node?: InputMaybe<CourseUpdateInput>;
+};
+
+export type RoadmapNodeSuggestedCoursesUpdateFieldInput = {
+  connect?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapNodeSuggestedCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapNodeSuggestedCoursesCreateFieldInput>>;
+  delete?: InputMaybe<Array<RoadmapNodeSuggestedCoursesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<RoadmapNodeSuggestedCoursesDisconnectFieldInput>>;
+  update?: InputMaybe<RoadmapNodeSuggestedCoursesUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+};
+
 export type RoadmapNodeUniqueWhere = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -3801,6 +4205,7 @@ export type RoadmapNodeUpdateInput = {
   positionY_MULTIPLY?: InputMaybe<Scalars['Float']>;
   positionY_SUBTRACT?: InputMaybe<Scalars['Float']>;
   roadmap?: InputMaybe<RoadmapNodeRoadmapUpdateFieldInput>;
+  suggestedCourses?: InputMaybe<Array<RoadmapNodeSuggestedCoursesUpdateFieldInput>>;
   title?: InputMaybe<Scalars['String']>;
   type?: InputMaybe<Scalars['String']>;
 };
@@ -3872,6 +4277,23 @@ export type RoadmapNodeWhere = {
   roadmapConnection?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
   roadmapConnection_NOT?: InputMaybe<RoadmapNodeRoadmapConnectionWhere>;
   roadmap_NOT?: InputMaybe<RoadmapWhere>;
+  suggestedCoursesAggregate?: InputMaybe<RoadmapNodeSuggestedCoursesAggregateInput>;
+  /** Return RoadmapNodes where all of the related RoadmapNodeSuggestedCoursesConnections match this filter */
+  suggestedCoursesConnection_ALL?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+  /** Return RoadmapNodes where none of the related RoadmapNodeSuggestedCoursesConnections match this filter */
+  suggestedCoursesConnection_NONE?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+  /** Return RoadmapNodes where one of the related RoadmapNodeSuggestedCoursesConnections match this filter */
+  suggestedCoursesConnection_SINGLE?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+  /** Return RoadmapNodes where some of the related RoadmapNodeSuggestedCoursesConnections match this filter */
+  suggestedCoursesConnection_SOME?: InputMaybe<RoadmapNodeSuggestedCoursesConnectionWhere>;
+  /** Return RoadmapNodes where all of the related Courses match this filter */
+  suggestedCourses_ALL?: InputMaybe<CourseWhere>;
+  /** Return RoadmapNodes where none of the related Courses match this filter */
+  suggestedCourses_NONE?: InputMaybe<CourseWhere>;
+  /** Return RoadmapNodes where one of the related Courses match this filter */
+  suggestedCourses_SINGLE?: InputMaybe<CourseWhere>;
+  /** Return RoadmapNodes where some of the related Courses match this filter */
+  suggestedCourses_SOME?: InputMaybe<CourseWhere>;
   title?: InputMaybe<Scalars['String']>;
   title_CONTAINS?: InputMaybe<Scalars['String']>;
   title_ENDS_WITH?: InputMaybe<Scalars['String']>;
@@ -4303,6 +4725,8 @@ export type TopicTagCourseCoursesNodeAggregateSelection = {
   __typename?: 'TopicTagCourseCoursesNodeAggregateSelection';
   createdAt: DateTimeAggregateSelectionNonNullable;
   description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
   id: IdAggregateSelectionNonNullable;
   title: StringAggregateSelectionNonNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
@@ -4436,6 +4860,46 @@ export type TopicTagCoursesNodeAggregationWhereInput = {
   description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
   description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
   title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
   title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
@@ -5524,6 +5988,28 @@ export type RoadmapNodeInfoFragment = {
   type: string;
   positionX: number;
   positionY: number;
+  suggestedCourses: Array<{
+    __typename?: 'Course';
+    id: string;
+    title: string;
+    description?: string | null;
+    url: string;
+    createdAt: any;
+    updatedAt?: any | null;
+    price?: {
+      __typename?: 'CoursePrice';
+      currencyCodeISO?: string | null;
+      price?: number | null;
+    } | null;
+    platform?: {
+      __typename?: 'CoursePlatform';
+      id: string;
+      name: string;
+      logoUrl?: string | null;
+      url: string;
+    } | null;
+    tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+  }>;
 };
 
 export type RoadmapEdgeInfoFragment = {
@@ -5582,6 +6068,28 @@ export type GetRoadmapByIdQuery = {
       type: string;
       positionX: number;
       positionY: number;
+      suggestedCourses: Array<{
+        __typename?: 'Course';
+        id: string;
+        title: string;
+        description?: string | null;
+        url: string;
+        createdAt: any;
+        updatedAt?: any | null;
+        price?: {
+          __typename?: 'CoursePrice';
+          currencyCodeISO?: string | null;
+          price?: number | null;
+        } | null;
+        platform?: {
+          __typename?: 'CoursePlatform';
+          id: string;
+          name: string;
+          logoUrl?: string | null;
+          url: string;
+        } | null;
+        tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+      }>;
     }> | null;
     edges?: Array<{
       __typename?: 'RoadmapEdge';
@@ -5745,6 +6253,65 @@ export const RoadmapNodeInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'type' } },
           { kind: 'Field', name: { kind: 'Name', value: 'positionX' } },
           { kind: 'Field', name: { kind: 'Name', value: 'positionY' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'suggestedCourses' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } }],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Course' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
         ],
       },
     },
@@ -7459,6 +8026,57 @@ export const GetRoadmapByIdDocument = {
     },
     {
       kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Course' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'RoadmapNodeInfo' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapNode' } },
       selectionSet: {
@@ -7470,6 +8088,14 @@ export const GetRoadmapByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'type' } },
           { kind: 'Field', name: { kind: 'Name', value: 'positionX' } },
           { kind: 'Field', name: { kind: 'Name', value: 'positionY' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'suggestedCourses' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } }],
+            },
+          },
         ],
       },
     },

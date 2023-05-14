@@ -21,6 +21,12 @@ export class RoadmapNodePositionInput {
 }
 
 @InputType()
+export class RoadmapNodeSuggestedCourseInput {
+  @Field()
+  id: string;
+}
+
+@InputType()
 export class RoadmapNodeInput {
   @Field(() => ID)
   id: string;
@@ -32,6 +38,8 @@ export class RoadmapNodeInput {
   position: RoadmapNodePositionInput;
   @Field()
   type: string;
+  @Field(() => [RoadmapNodeSuggestedCourseInput], { nullable: true })
+  suggestedCourses: [RoadmapNodeSuggestedCourseInput];
 }
 
 @InputType()

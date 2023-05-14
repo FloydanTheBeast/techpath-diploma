@@ -17,7 +17,6 @@ export const RoadmapsPageAdmin: React.FC = () => {
   const paginationOptions = usePaginationQueryOptions();
   const searchOptions = useSearchQueryOptions(['title', 'description']);
 
-  console.log(searchOptions);
   const { data, loading: loadingRoadmaps } = useGetRoadmapsQuery({
     variables: {
       where: searchOptions,

@@ -29,9 +29,9 @@ import { v4 as uuid } from 'uuid';
 
 import { ROADMAP_NODE_TYPES } from 'src/constants';
 import { RoadmapNode, RoadmapNodeData, RoadmapNodeType } from 'src/types';
+import { isNodeOfKnownType } from 'src/utils';
 
-import { CustomControls, NodeEditor } from './components';
-import { isNodeOfKnownType } from './utils';
+import { NodeEditor } from './components';
 
 type RoadmapBuilderProps = {
   name: string;
@@ -163,10 +163,9 @@ const RoadmapBuilderInner: React.FC<RoadmapBuilderProps> = ({ name, control }) =
       onPaneClick={() => setSelectedNode(null)}
       selectNodesOnDrag={false}
     >
-      <CustomControls reactFlowRef={reactFlowRef} />
       <Background />
       <Controls />
-      <Drawer position="right" opened={opened} onClose={close}>
+      <Drawer position="right" opened={opened} onClose={close} size="lg">
         {selectedNode && <NodeEditor node={selectedNode} />}
       </Drawer>
     </ReactFlow>

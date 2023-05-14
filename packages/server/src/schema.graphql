@@ -109,6 +109,7 @@ type RoadmapNode {
   parentNodes: [RoadmapNode!]!
     @relationship(type: "HAS_CHILD", properties: "HasChild", direction: IN)
   roadmap: Roadmap @relationship(type: "CONSISTS_OF", direction: IN)
+  suggestedCourses: [Course!]! @relationship(type: "SUGGESTS_COURSE", direction: OUT)
 }
 
 interface HasChild @relationshipProperties {

@@ -1,6 +1,7 @@
 import { gql } from '@apollo/client';
 
 import { USER_INFO_FRAGMENT } from './auth';
+import { COURSE_INFO_FRAGMENT } from './courses';
 
 export const ROADMAP_NODE_INFO_FRAMENT = gql`
   fragment RoadmapNodeInfo on RoadmapNode {
@@ -10,7 +11,11 @@ export const ROADMAP_NODE_INFO_FRAMENT = gql`
     type
     positionX
     positionY
+    suggestedCourses {
+      ...CourseInfo
+    }
   }
+  ${COURSE_INFO_FRAGMENT}
 `;
 
 export const ROADMAP_EDGE_INFO_FRAMENT = gql`

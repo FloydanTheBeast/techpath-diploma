@@ -31,6 +31,14 @@ export const createRoadmapValidationSchema = yup.object({
           data: yup.object({
             title: yup.string().required(),
             description: yup.string(),
+            suggestedCourses: yup
+              .array()
+              .nullable()
+              .of(
+                yup.object({
+                  id: yup.string().required(),
+                }),
+              ),
           }),
         }),
       ),

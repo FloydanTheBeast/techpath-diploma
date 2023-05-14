@@ -29,6 +29,10 @@ export class RoadmapService {
         SET node.positionX = n.position.x
         SET node.positionY = n.position.y
         SET node.type = n.type
+        FOREACH (sg IN n.suggestedCourses |
+          MERGE (c:Course { id: sg.id })
+          MERGE (node)-[:SUGGESTS_COURSE]->(c)
+        )
       )
       
       WITH $data.nodes as nodes, rm

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Card, Center, Stack, TextInput, Textarea } from '@mantine/core';
-import { useCreateRoadmapMutation } from '@shared/graphql';
+import { GetRoadmapsDocument, useCreateRoadmapMutation } from '@shared/graphql';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { InferType } from 'yup';
@@ -23,16 +23,22 @@ export const CreateRoadmapForm: React.FC = () => {
   } = useForm<InferType<typeof createRoadmapValidationSchema>>({
     resolver: yupResolver(createRoadmapValidationSchema),
   });
-  const [createRoadmap] = useCreateRoadmapMutation();
+  const [createRoadmap] = useCreateRoadmapMutation({ refetchQueries: [GetRoadmapsDocument] });
 
   const onSubmit: SubmitHandler<
     InferType<typeof createRoadmapValidationSchema>
   > = async formData => {
-    await createRoadmap({
-      variables: {
-        data: prepareFormData(formData),
-      },
-    });
+    try {
+      await createRoadmap({
+        variables: {
+          data: prepareFormData(formData),
+        },
+      });
+    } catch (error) {
+      // TODO: Spawn notification
+      console.log(error);
+      return;
+    }
 
     navigate(appRoutes.roadmaps.index);
   };
