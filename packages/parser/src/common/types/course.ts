@@ -8,7 +8,7 @@ export type UnprocessedCourse = {
   price?: Nullable<Pick<CoursePrice, 'currencyCodeISO' | 'price'>>;
   platform: string;
   languages?: Nullable<string[]>;
-  difficuly?: Nullable<CourseDifficulty>;
+  difficulty?: Nullable<CourseDifficulty>;
   rating?: Nullable<number>;
   ratingsCount?: Nullable<number>;
 };

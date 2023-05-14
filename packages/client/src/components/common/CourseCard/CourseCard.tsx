@@ -13,12 +13,14 @@ import {
   Stack,
   Sx,
   Text,
+  ThemeIcon,
   rem,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
-import { IconCopy, IconDots, IconExternalLink, IconPlus } from '@tabler/icons-react';
+import { IconCopy, IconDots, IconExternalLink, IconPlus, IconWallet } from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
+import { DifficultyBadge } from 'src/components';
 import { RouteEntityType, appRoutes } from 'src/constants';
 
 import { CoursePlatformLogo } from '../CoursePlatformLogo';
@@ -34,7 +36,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
     <Card bg="white" radius="md" p="md" shadow="sm" sx={cardStyles}>
       <Card.Section withBorder inheritPadding py="xs" mb={16}>
         <Group position="apart">
-          <CoursePlatformLogo logoUrl={course.platform?.logoUrl} />
+          <Group>
+            <CoursePlatformLogo logoUrl={course.platform?.logoUrl} />
+            <DifficultyBadge difficulty={course.difficulty} />
+          </Group>
           <Flex>
             <Menu withinPortal position="bottom-end" shadow="sm">
               <Menu.Target>
@@ -65,8 +70,20 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
       </Stack>
       <Card.Section p="md">
         <Flex wrap="wrap" gap={8} mah={76} sx={{ overflow: 'hidden' }}>
+          {course.price && (
+            <Badge
+              pl={4}
+              pr={8}
+              size="md"
+              radius="xl"
+              leftSection={<IconWallet display="flex" size="1rem" />}
+              color="teal"
+            >
+              {course.price?.price} {course.price?.currencyCodeISO}
+            </Badge>
+          )}
           {course?.tags.map(tag => (
-            <Badge key={tag.id} variant="dot" size="sm">
+            <Badge key={tag.id} variant="dot" size="md">
               {tag.name}
             </Badge>
           ))}

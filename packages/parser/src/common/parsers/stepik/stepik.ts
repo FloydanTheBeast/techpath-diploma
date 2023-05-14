@@ -67,7 +67,7 @@ export class StepikParser extends BaseParser {
             currencyCodeISO: 'RUB',
           }
         : null,
-      difficuly: mapStepikDifficulty(courseData.difficulty),
+      difficulty: mapStepikDifficulty(courseData.difficulty),
       rating: courseData.average,
       ratingsCount: courseData.count,
     };

@@ -6030,6 +6030,7 @@ export type CourseInfoFragment = {
   url: string;
   createdAt: any;
   updatedAt?: any | null;
+  difficulty?: CourseDifficulty | null;
   price?: {
     __typename?: 'CoursePrice';
     currencyCodeISO?: string | null;
@@ -6060,6 +6061,7 @@ export type GetCoursesQuery = {
     url: string;
     createdAt: any;
     updatedAt?: any | null;
+    difficulty?: CourseDifficulty | null;
     price?: {
       __typename?: 'CoursePrice';
       currencyCodeISO?: string | null;
@@ -6097,6 +6099,7 @@ export type SearchCoursesQuery = {
       url: string;
       createdAt: any;
       updatedAt?: any | null;
+      difficulty?: CourseDifficulty | null;
       price?: {
         __typename?: 'CoursePrice';
         currencyCodeISO?: string | null;
@@ -6166,6 +6169,7 @@ export type RoadmapNodeInfoFragment = {
     url: string;
     createdAt: any;
     updatedAt?: any | null;
+    difficulty?: CourseDifficulty | null;
     price?: {
       __typename?: 'CoursePrice';
       currencyCodeISO?: string | null;
@@ -6246,6 +6250,7 @@ export type GetRoadmapByIdQuery = {
         url: string;
         createdAt: any;
         updatedAt?: any | null;
+        difficulty?: CourseDifficulty | null;
         price?: {
           __typename?: 'CoursePrice';
           currencyCodeISO?: string | null;
@@ -6302,6 +6307,7 @@ export type GetUserRecommendedCoursesQuery = {
     url: string;
     createdAt: any;
     updatedAt?: any | null;
+    difficulty?: CourseDifficulty | null;
     price?: {
       __typename?: 'CoursePrice';
       currencyCodeISO?: string | null;
@@ -6397,6 +6403,7 @@ export const CourseInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'price' },
@@ -6477,6 +6484,7 @@ export const RoadmapNodeInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'price' },
@@ -7425,6 +7433,7 @@ export const GetCoursesDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'price' },
@@ -7594,6 +7603,7 @@ export const SearchCoursesDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'price' },
@@ -8237,6 +8247,7 @@ export const GetRoadmapByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'price' },
@@ -8569,6 +8580,7 @@ export const GetUserRecommendedCoursesDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'url' } },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'price' },

@@ -13,11 +13,13 @@ import {
   Title,
 } from '@mantine/core';
 import { useGetCoursesQuery } from '@shared/graphql';
-import { IconExternalLink } from '@tabler/icons-react';
+import { IconExternalLink, IconWallet } from '@tabler/icons-react';
 import { useParams } from 'react-router';
 
 import { ContentPageLayout, CoursePlatformLogo } from 'src/components';
 import { RouteEntityType } from 'src/constants';
+
+import { NotFoundPage } from '../NotFoundPage';
 
 export const CourseDetailsPage: React.FC = () => {
   const { courseId } = useParams<{ [RouteEntityType.course]: string }>();
@@ -28,6 +30,10 @@ export const CourseDetailsPage: React.FC = () => {
   });
 
   const course = data?.courses[0];
+
+  if (!course) {
+    return <NotFoundPage />;
+  }
 
   return (
     <ContentPageLayout title={course?.title}>
@@ -56,15 +62,33 @@ export const CourseDetailsPage: React.FC = () => {
                 </Flex>
               </Stack>
               <Divider variant="dashed" />
-              <Stack spacing={8}>
-                <Title size="h3">Topics</Title>
-                <Flex gap={8} wrap="wrap">
-                  {course?.tags.map(tag => (
-                    <Badge key={tag.id} variant="dot" size="md">
-                      {tag.name}
+              <Stack spacing="md">
+                {!!course.tags.length && (
+                  <React.Fragment>
+                    <Title size="h3">Topics</Title>
+                    <Flex gap={8} wrap="wrap">
+                      {course?.tags.map(tag => (
+                        <Badge key={tag.id} variant="dot" size="md">
+                          {tag.name}
+                        </Badge>
+                      ))}
+                    </Flex>
+                  </React.Fragment>
+                )}
+                {course.price && (
+                  <Box>
+                    <Badge
+                      pl={4}
+                      pr={8}
+                      size="md"
+                      radius="xl"
+                      leftSection={<IconWallet display="flex" size="1rem" />}
+                      color="teal"
+                    >
+                      {course.price?.price} {course.price?.currencyCodeISO}
                     </Badge>
-                  ))}
-                </Flex>
+                  </Box>
+                )}
               </Stack>
               <Button
                 component="a"

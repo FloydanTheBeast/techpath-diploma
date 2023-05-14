@@ -8,6 +8,7 @@ export const COURSE_INFO_FRAGMENT = gql`
     url
     createdAt
     updatedAt
+    difficulty
     price {
       currencyCodeISO
       price
