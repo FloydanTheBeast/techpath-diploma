@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { Badge, DefaultMantineColor } from '@mantine/core';
-import { CourseDifficulty } from '@shared/graphql';
+import { Difficulty } from '@shared/graphql';
 import type { Nullable } from '@shared/types';
 
 type DifficultyBadge = {
-  difficulty: Nullable<CourseDifficulty>;
+  difficulty: Nullable<Difficulty>;
 };
 
 export const DifficultyBadge: React.FC<DifficultyBadge> = ({ difficulty }) => {
@@ -20,8 +20,8 @@ export const DifficultyBadge: React.FC<DifficultyBadge> = ({ difficulty }) => {
   );
 };
 
-const COLOR_MAPPING: Record<CourseDifficulty, DefaultMantineColor> = {
-  [CourseDifficulty.Beginner]: 'green',
-  [CourseDifficulty.Intermediate]: 'yellow',
-  [CourseDifficulty.Advanced]: 'red',
+const COLOR_MAPPING: Record<Difficulty, DefaultMantineColor> = {
+  [Difficulty.Beginner]: 'green',
+  [Difficulty.Intermediate]: 'yellow',
+  [Difficulty.Advanced]: 'red',
 };

@@ -31,6 +31,14 @@ export const ROADMAP_INFO_FRAGMENT = gql`
   fragment RoadmapInfo on Roadmap {
     id
     title
+    difficulty
+    tags {
+      id
+      name
+    }
+    languages {
+      countryCodeISO
+    }
     createdBy {
       id
       firstName
@@ -60,6 +68,14 @@ export const GET_ROADMAP_BY_ID_QUERY = gql`
       id
       title
       description
+      difficulty
+      tags {
+        id
+        name
+      }
+      languages {
+        countryCodeISO
+      }
       nodes {
         ...RoadmapNodeInfo
       }

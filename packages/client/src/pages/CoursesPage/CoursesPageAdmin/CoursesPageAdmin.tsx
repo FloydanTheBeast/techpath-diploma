@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Menu } from '@mantine/core';
 import {
   GetCoursesDocument,
+  SortDirection,
   useCreateCourseMutation,
   useDeleteCourseByIdMutation,
   useGetCoursesQuery,
@@ -36,7 +37,7 @@ export const CoursesPageAdmin: React.FC = () => {
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     variables: {
       where: searchOptions,
-      options: paginationOptions,
+      options: { ...paginationOptions, sort: [{ createdAt: SortDirection.Desc }] },
     },
     notifyOnNetworkStatusChange: true,
   });
@@ -47,6 +48,8 @@ export const CoursesPageAdmin: React.FC = () => {
   const handleCreateFormSubmit: CreateUpdateCourseModalArgs['onSubmit'] = async ({
     platformId,
     topicTagsIds,
+    languageCountryCodeISO,
+    price,
     ...formData
   }) => {
     switchClosability(false);
@@ -61,6 +64,12 @@ export const CoursesPageAdmin: React.FC = () => {
                 ? topicTagsIds.map(tag => ({ where: { node: { id: tag } } }))
                 : undefined,
             },
+            languages: languageCountryCodeISO
+              ? { connect: [{ where: { node: { countryCodeISO: languageCountryCodeISO } } }] }
+              : undefined,
+            price: price
+              ? { create: { node: { price: price.price, currencyCodeISO: price.currencyCodeISO } } }
+              : undefined,
           },
         },
         refetchQueries: [GetCoursesDocument],
@@ -77,6 +86,8 @@ export const CoursesPageAdmin: React.FC = () => {
     {
       platformId,
       topicTagsIds,
+      languageCountryCodeISO,
+      price,
       ...formData
     }: Parameters<CreateUpdateCourseModalArgs['onSubmit']>[0],
     id: string,
@@ -88,14 +99,29 @@ export const CoursesPageAdmin: React.FC = () => {
           id,
           input: {
             ...formData,
-            platform: platformId ? { connect: { where: { node: { id: platformId } } } } : undefined,
-          },
-          disconnect: {
-            tags: [{ where: {} }],
-          },
-          connect: {
-            tags: topicTagsIds
-              ? topicTagsIds.map(tag => ({ where: { node: { id: tag } } }))
+            platform: {
+              disconnect: { where: {} },
+              connect: { where: { node: { id: platformId } } },
+            },
+            price: price
+              ? {
+                  delete: { where: {} },
+                  create: { node: { price: price.price, currencyCodeISO: price.currencyCodeISO } },
+                }
+              : undefined,
+            tags: [
+              { disconnect: [{ where: {} }] },
+              {
+                connect: topicTagsIds
+                  ? topicTagsIds.map(tag => ({ where: { node: { id: tag } } }))
+                  : undefined,
+              },
+            ],
+            languages: languageCountryCodeISO
+              ? [
+                  { disconnect: [{ where: {} }] },
+                  { connect: [{ where: { node: { countryCodeISO: languageCountryCodeISO } } }] },
+                ]
               : undefined,
           },
         },
@@ -154,7 +180,7 @@ export const CoursesPageAdmin: React.FC = () => {
         enableRowActions
         renderRowActionMenuItems={({
           row: {
-            original: { id, title, url, description, platform, tags },
+            original: { id, title, url, description, platform, tags, difficulty, languages, price },
           },
         }) => (
           <React.Fragment>
@@ -178,6 +204,12 @@ export const CoursesPageAdmin: React.FC = () => {
                     description,
                     platformId: platform?.id,
                     topicTagsIds: tags.map(tag => tag.id),
+                    languageCountryCodeISO: languages[0]?.countryCodeISO,
+                    difficulty,
+                    price: {
+                      price: price?.price,
+                      currencyCodeISO: price?.currencyCodeISO,
+                    },
                   },
                 })
               }

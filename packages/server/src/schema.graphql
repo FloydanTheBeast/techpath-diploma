@@ -25,7 +25,7 @@ type User {
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-enum CourseDifficulty {
+enum Difficulty {
   BEGINNER
   INTERMEDIATE
   ADVANCED
@@ -38,7 +38,7 @@ type Course
   title: String!
   description: String
   url: String! @unique
-  difficulty: CourseDifficulty
+  difficulty: Difficulty
   externalRating: Float
   externalRatingsCount: Int
 
@@ -82,10 +82,12 @@ type Roadmap
   id: ID! @id
   title: String!
   description: String
+  difficulty: Difficulty
 
   node: RoadmapNode! @relationship(type: "CONSISTS_OF", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
+  languages: [Language!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   nodes: [RoadmapNode!]
     @cypher(
       statement: """

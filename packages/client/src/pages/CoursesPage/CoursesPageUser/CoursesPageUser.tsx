@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Box, Center, Pagination, SimpleGrid, Skeleton } from '@mantine/core';
-import { useGetCoursesQuery } from '@shared/graphql';
+import { SortDirection, useGetCoursesQuery } from '@shared/graphql';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { COURSE_CARD_HEIGHT, CourseCard, DataViewSwitch } from 'src/components/common';
@@ -21,7 +21,7 @@ export const CoursesPageUser: React.FC = () => {
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     variables: {
       where: searchOptions,
-      options: paginationOptions,
+      options: { ...paginationOptions, sort: [{ createdAt: SortDirection.Desc }] },
     },
   });
 

@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { useGetCoursesQuery } from '@shared/graphql';
 import { IconExternalLink, IconWallet } from '@tabler/icons-react';
+import _ from 'lodash';
 import { useParams } from 'react-router';
 
 import { ContentPageLayout, CoursePlatformLogo } from 'src/components';
@@ -31,12 +32,12 @@ export const CourseDetailsPage: React.FC = () => {
 
   const course = data?.courses[0];
 
-  if (!course) {
+  if (!loadingCourse && _.isNil(course)) {
     return <NotFoundPage />;
   }
 
   return (
-    <ContentPageLayout title={course?.title}>
+    <ContentPageLayout title={course?.title ?? 'Course details'}>
       <Flex>
         {loadingCourse ? (
           <Skeleton h={300} mr={32} />
@@ -52,10 +53,10 @@ export const CourseDetailsPage: React.FC = () => {
         {loadingCourse ? (
           <Skeleton h={300} w={400} />
         ) : (
-          <Paper withBorder shadow="sm" p={16} w={400} miw={400}>
+          <Paper withBorder shadow="sm" p={16} w={400} miw={400} h="fit-content">
             <Stack>
               <Stack spacing={8}>
-                <Title size="h3">Platform</Title>
+                <Title order={3}>Platform</Title>
                 <Flex align="center" gap={16}>
                   <CoursePlatformLogo logoUrl={course?.platform?.logoUrl} />
                   <Text>{course?.platform?.name}</Text>
@@ -63,9 +64,9 @@ export const CourseDetailsPage: React.FC = () => {
               </Stack>
               <Divider variant="dashed" />
               <Stack spacing="md">
-                {!!course.tags.length && (
+                {!!course?.tags.length && (
                   <React.Fragment>
-                    <Title size="h3">Topics</Title>
+                    <Title order={3}>Topics</Title>
                     <Flex gap={8} wrap="wrap">
                       {course?.tags.map(tag => (
                         <Badge key={tag.id} variant="dot" size="md">
@@ -75,7 +76,7 @@ export const CourseDetailsPage: React.FC = () => {
                     </Flex>
                   </React.Fragment>
                 )}
-                {course.price && (
+                {course?.price && (
                   <Box>
                     <Badge
                       pl={4}
@@ -85,7 +86,7 @@ export const CourseDetailsPage: React.FC = () => {
                       leftSection={<IconWallet display="flex" size="1rem" />}
                       color="teal"
                     >
-                      {course.price?.price} {course.price?.currencyCodeISO}
+                      {course.price.price} {course.price.currencyCodeISO}
                     </Badge>
                   </Box>
                 )}

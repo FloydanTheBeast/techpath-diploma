@@ -13,7 +13,6 @@ import {
   Stack,
   Sx,
   Text,
-  ThemeIcon,
   rem,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
@@ -74,9 +73,9 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
             <Badge
               pl={4}
               pr={8}
+              leftSection={<IconWallet display="flex" size="1rem" />}
               size="md"
               radius="xl"
-              leftSection={<IconWallet display="flex" size="1rem" />}
               color="teal"
             >
               {course.price?.price} {course.price?.currencyCodeISO}
@@ -96,7 +95,6 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           variant="light"
           component={Link}
           to={generatePath(appRoutes.courses.details, { [RouteEntityType.course]: course.id })}
-          target="_blank"
           leftIcon={<IconExternalLink size="1rem" />}
         >
           View details

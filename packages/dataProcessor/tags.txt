@@ -12,7 +12,7 @@ data analysis
 data visualisation
 SQL
 NoSQL
-Neo4j Graph Database
+Graph Database
 Databases
 data science
 C++
@@ -28,7 +28,7 @@ machine learning
 artificial intelligence
 natural language processing
 software testing
-Algorithms
-Data Structures
+Algorithms and Data Structures
 DevOps
 cybersecurity
+Operating Systems

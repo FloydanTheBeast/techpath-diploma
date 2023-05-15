@@ -3,18 +3,18 @@ import {
   Badge,
   Box,
   Button,
-  Chip,
   Flex,
   Group,
   Popover,
+  Rating,
   Text,
   Tooltip,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
-import { IconExternalLink } from '@tabler/icons-react';
+import { IconExternalLink, IconLanguage } from '@tabler/icons-react';
 import { MRT_ColumnDef } from 'mantine-react-table';
 
-import { CoursePlatformLogo } from 'src/components';
+import { CoursePlatformLogo, DifficultyBadge } from 'src/components';
 
 export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
   {
@@ -89,5 +89,38 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
         ))}
       </Flex>
     ),
+  },
+  {
+    header: 'Price',
+    accessorFn: ({ price }) => (price ? `${price.price} ${price.currencyCodeISO}` : 'Free'),
+  },
+  {
+    header: 'Languages',
+    accessorFn: ({ languages }) =>
+      languages.map(language => (
+        <Badge
+          key={language.countryCodeISO}
+          variant="outline"
+          pl={4}
+          pr={8}
+          leftSection={<IconLanguage display="flex" size="1rem" />}
+        >
+          {language.countryCodeISO}
+        </Badge>
+      )),
+  },
+  {
+    header: 'External rating',
+    accessorFn: ({ externalRating, externalRatingsCount }) =>
+      externalRating ? (
+        <Group>
+          <Rating value={externalRating} fractions={2} readOnly />
+          <Text>({externalRatingsCount})</Text>
+        </Group>
+      ) : null,
+  },
+  {
+    header: 'Difficulty',
+    accessorFn: ({ difficulty }) => <DifficultyBadge difficulty={difficulty} />,
   },
 ];

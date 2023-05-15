@@ -59,7 +59,9 @@ export class CourseraParser extends BaseParser {
                 await page
                   .locator('[data-test="ratings-count-without-asterisks"]')
                   .innerText({ timeout: 1000 })
-              ).split(' ')[0],
+              )
+                .split(' ')[0]
+                ?.replace(/\D/g, ''),
             );
           } catch (error) {}
 

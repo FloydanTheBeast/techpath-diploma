@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { Card, Stack, Text, Title } from '@mantine/core';
+import { Avatar, Badge, Box, Card, Flex, Group, Paper, Stack, Text, Title } from '@mantine/core';
 import { useGetRoadmapByIdQuery } from '@shared/graphql';
+import { IconLanguage } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useParams } from 'react-router';
 
-import { ContentPageLayout, RoadmapViewer } from 'src/components';
+import { ContentPageLayout, DifficultyBadge, RoadmapViewer } from 'src/components';
 import { RouteEntityType } from 'src/constants';
 import { mapGqlRoadmapNodes } from 'src/utils';
 
@@ -36,8 +37,60 @@ export const RoadmapDetailsPage: React.FC = () => {
             loading={loadingRoadmap}
           />
         </Card>
-        <Title size="h3">Description</Title>
-        <Text>{roadmap?.description}</Text>
+        <Flex>
+          <Stack w="100%">
+            <Title order={3}>Description</Title>
+            <Text>{roadmap?.description}</Text>
+          </Stack>
+          <Paper withBorder shadow="sm" p={16} w={400} miw={400} h="fit-content">
+            <Stack>
+              <Stack>
+                <Title order={3}>Topics</Title>
+                {roadmap?.tags.length ? (
+                  roadmap.tags.map(tag => (
+                    <Badge key={tag.id} variant="dot">
+                      {tag.name}
+                    </Badge>
+                  ))
+                ) : (
+                  <Text>Not specified</Text>
+                )}
+              </Stack>
+              <Stack>
+                <Title order={3}>Difficulty</Title>
+                {roadmap?.difficulty ? (
+                  <DifficultyBadge difficulty={roadmap.difficulty} />
+                ) : (
+                  <Text>Not specified</Text>
+                )}
+              </Stack>
+              <Stack>
+                <Title order={3}>Language</Title>
+                {roadmap?.languages[0] ? (
+                  <Badge
+                    variant="outline"
+                    pl={4}
+                    pr={8}
+                    leftSection={<IconLanguage display="flex" size="1rem" />}
+                  >
+                    {roadmap?.languages[0].countryCodeISO}
+                  </Badge>
+                ) : (
+                  <Text>Not specified</Text>
+                )}
+              </Stack>
+              <Stack>
+                <Title order={3}>Created by</Title>
+                <Group>
+                  <Avatar size="md" radius="xl" color="blue" />
+                  <Text>
+                    {roadmap?.createdBy.firstName} {roadmap?.createdBy.lastName}
+                  </Text>
+                </Group>
+              </Stack>
+            </Stack>
+          </Paper>
+        </Flex>
       </Stack>
     </ContentPageLayout>
   );

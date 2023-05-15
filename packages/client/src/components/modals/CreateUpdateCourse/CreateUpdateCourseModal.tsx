@@ -21,7 +21,12 @@ export const CreateUpdateCourseModal: React.FC<Partial<ModalProps>> = props => {
   const isUpdate = !_.isEmpty(args?.defaultValues);
 
   return (
-    <Modal {...props} opened={isOpen} onClose={closeModal} title="Create new course">
+    <Modal
+      {...props}
+      opened={isOpen}
+      onClose={closeModal}
+      title={`${isUpdate ? 'Update' : 'Create new'} course`}
+    >
       <CreateUpdateCourseForm
         onSubmit={args.onSubmit}
         onCancel={() => closeModal()}

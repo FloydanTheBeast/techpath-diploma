@@ -9,6 +9,11 @@ export const COURSE_INFO_FRAGMENT = gql`
     createdAt
     updatedAt
     difficulty
+    externalRating
+    externalRatingsCount
+    languages {
+      countryCodeISO
+    }
     price {
       currencyCodeISO
       price
