@@ -13,5 +13,8 @@ export const prepareFormData = (
     description: data.description,
     edges: data.roadmap.edges,
     nodes: data.roadmap.nodes.map(({ data, ...node }) => ({ ...node, ...data })),
+    difficulty: data.difficulty,
+    countryCodeISO: data.countryCodeISO,
+    tagsIds: data.topicTagsIds,
   };
 };

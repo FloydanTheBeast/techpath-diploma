@@ -1759,9 +1759,12 @@ export type CreateLanguagesMutationResponse = {
 };
 
 export type CreateRoadmapInput = {
+  countryCodeISO: Scalars['String'];
   description?: InputMaybe<Scalars['String']>;
+  difficulty: Scalars['String'];
   edges: Array<RoadmapEdgeInput>;
   nodes: Array<RoadmapNodeInput>;
+  tagsIds?: InputMaybe<Array<Scalars['String']>>;
   title: Scalars['String'];
 };
 

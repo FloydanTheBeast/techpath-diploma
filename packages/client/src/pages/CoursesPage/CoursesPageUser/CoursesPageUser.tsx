@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box, Center, Pagination, SimpleGrid, Skeleton } from '@mantine/core';
+import { Box, Center, Flex, Pagination, Select, SimpleGrid, Skeleton, rem } from '@mantine/core';
 import { SortDirection, useGetCoursesQuery } from '@shared/graphql';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
@@ -15,7 +15,7 @@ const columns = COURSES_TABLE_COLUMNS.filter(col => !['id'].includes(col.accesso
 
 export const CoursesPageUser: React.FC = () => {
   const paginationOptions = usePaginationQueryOptions();
-  const { paginationState, dispatchPaginationState } = usePagination();
+  const { paginationState, dispatchPaginationState, pageSizeOptions } = usePagination();
   const searchOptions = useSearchQueryOptions(['title', 'description']);
 
   const { data, loading: loadingCourses } = useGetCoursesQuery({
@@ -49,6 +49,7 @@ export const CoursesPageUser: React.FC = () => {
             positionGlobalFilter="left"
             state={{ isLoading: loadingCourses }}
             rowCount={paginationState.count}
+            mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
           />
         );
       case DataViewType.Grid:
@@ -69,7 +70,24 @@ export const CoursesPageUser: React.FC = () => {
                     .map((_, i) => <Skeleton key={i} h={COURSE_CARD_HEIGHT} />)
                 : data?.courses.map(course => <CourseCard key={course.id} course={course} />)}
             </SimpleGrid>
-            <Center>
+            <Flex justify="center" gap="md">
+              <Select
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  '.mantine-Select-input': { width: 90 },
+                }}
+                label="Rows per page"
+                data={pageSizeOptions.map(String)}
+                defaultValue={String(paginationState.pageSize)}
+                onChange={value =>
+                  dispatchPaginationState({
+                    type: PaginationActionType.changePagination,
+                    payload: { pageSize: Number(value) },
+                  })
+                }
+              />
               <Pagination
                 total={Math.ceil(paginationState.count / paginationState.pageSize)}
                 defaultValue={paginationState.pageIndex + 1}
@@ -80,7 +98,7 @@ export const CoursesPageUser: React.FC = () => {
                   })
                 }
               />
-            </Center>
+            </Flex>
           </Box>
         );
     }

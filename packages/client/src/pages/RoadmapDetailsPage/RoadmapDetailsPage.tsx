@@ -46,17 +46,19 @@ export const RoadmapDetailsPage: React.FC = () => {
             <Stack>
               <Stack>
                 <Title order={3}>Topics</Title>
-                {roadmap?.tags.length ? (
-                  roadmap.tags.map(tag => (
-                    <Badge key={tag.id} variant="dot">
-                      {tag.name}
-                    </Badge>
-                  ))
-                ) : (
-                  <Text>Not specified</Text>
-                )}
+                <Flex wrap="wrap" gap="xs">
+                  {roadmap?.tags.length ? (
+                    roadmap.tags.map(tag => (
+                      <Badge key={tag.id} variant="dot">
+                        {tag.name}
+                      </Badge>
+                    ))
+                  ) : (
+                    <Text>Not specified</Text>
+                  )}
+                </Flex>
               </Stack>
-              <Stack>
+              <Stack align="start">
                 <Title order={3}>Difficulty</Title>
                 {roadmap?.difficulty ? (
                   <DifficultyBadge difficulty={roadmap.difficulty} />
@@ -64,7 +66,7 @@ export const RoadmapDetailsPage: React.FC = () => {
                   <Text>Not specified</Text>
                 )}
               </Stack>
-              <Stack>
+              <Stack align="start">
                 <Title order={3}>Language</Title>
                 {roadmap?.languages[0] ? (
                   <Badge

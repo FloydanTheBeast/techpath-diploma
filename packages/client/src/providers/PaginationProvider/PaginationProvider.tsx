@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DEFAULT_PAGINATION_STATE } from './constants';
-import { PaginationContext } from './PaginationContext';
+import { PaginationContext, PaginationContextType } from './PaginationContext';
 import { PaginationAction, PaginationActionType, PaginationState } from './types';
 
 const reducer: React.Reducer<PaginationState, PaginationAction> = (state, action) => {
@@ -18,10 +18,11 @@ const reducer: React.Reducer<PaginationState, PaginationAction> = (state, action
 export const PaginationProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, DEFAULT_PAGINATION_STATE);
 
-  const contextValue = React.useMemo(
+  const contextValue: PaginationContextType = React.useMemo(
     () => ({
       paginationState: state,
       dispatchPaginationState: dispatch,
+      pageSizeOptions: new Array(5).fill(0).map((_, i) => (i + 1) * 12),
     }),
     [state, dispatch],
   );
