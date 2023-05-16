@@ -16,7 +16,14 @@ import {
   rem,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
-import { IconCopy, IconDots, IconExternalLink, IconPlus, IconWallet } from '@tabler/icons-react';
+import {
+  IconCopy,
+  IconDots,
+  IconExternalLink,
+  IconLanguage,
+  IconPlus,
+  IconWallet,
+} from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
 import { DifficultyBadge } from 'src/components';
@@ -38,6 +45,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
           <Group>
             <CoursePlatformLogo logoUrl={course.platform?.logoUrl} />
             <DifficultyBadge difficulty={course.difficulty} />
+            <Badge
+              variant="outline"
+              pl={4}
+              pr={8}
+              leftSection={<IconLanguage display="flex" size="1rem" />}
+            >
+              {course?.languages[0]?.countryCodeISO}
+            </Badge>
           </Group>
           <Flex>
             <Menu withinPortal position="bottom-end" shadow="sm">

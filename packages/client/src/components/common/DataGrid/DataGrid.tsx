@@ -27,8 +27,6 @@ export const DataGrid = <TData extends Record<string, unknown>>({
     [state, paginationState],
   );
 
-  console.log(dataGridState);
-
   const onPaginationChange = React.useCallback(
     (updater: MRT_Updater<MRT_PaginationState>) => {
       dispatchPaginationState({

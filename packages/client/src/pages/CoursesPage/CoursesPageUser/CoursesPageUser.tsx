@@ -2,8 +2,8 @@ import React from 'react';
 
 import {
   ActionIcon,
-  Box,
   Flex,
+  Menu,
   Pagination,
   Paper,
   Select,
@@ -13,11 +13,13 @@ import {
   TextInput,
 } from '@mantine/core';
 import { SortDirection, useGetCoursesQuery } from '@shared/graphql';
-import { IconSearch, IconX } from '@tabler/icons-react';
+import { IconListDetails, IconSearch, IconX } from '@tabler/icons-react';
+import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { COURSE_CARD_HEIGHT, CourseCard, DataViewSwitch } from 'src/components/common';
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
+import { RouteEntityType, appRoutes } from 'src/constants';
 import {
   usePagination,
   usePaginationQueryOptions,
@@ -54,7 +56,7 @@ export const CoursesPageUser: React.FC = () => {
     }
   }, [dispatchPaginationState, loadingCourses, data?.coursesAggregate.count]);
 
-  const dataView = React.useMemo(() => {
+  const renderDataView = () => {
     switch (dataViewType) {
       case DataViewType.Table:
         return (
@@ -68,6 +70,18 @@ export const CoursesPageUser: React.FC = () => {
             state={{ isLoading: loadingCourses }}
             rowCount={paginationState.count}
             mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
+            enableRowActions
+            renderRowActionMenuItems={({ row }) => (
+              <Menu.Item
+                icon={<IconListDetails />}
+                component={Link}
+                to={generatePath(appRoutes.courses.details, {
+                  [RouteEntityType.course]: row.original.id,
+                })}
+              >
+                View details
+              </Menu.Item>
+            )}
           />
         );
       case DataViewType.Grid:
@@ -134,21 +148,14 @@ export const CoursesPageUser: React.FC = () => {
           </Paper>
         );
     }
-  }, [
-    dataViewType,
-    data,
-    loadingCourses,
-    dispatchPaginationState,
-    paginationState,
-    pageSizeOptions,
-  ]);
+  };
 
   return (
     <ContentPageLayout
       title="Courses"
       headerRightElement={<DataViewSwitch value={dataViewType} onChange={setDataViewType} />}
     >
-      {dataView}
+      {renderDataView()}
     </ContentPageLayout>
   );
 };

@@ -1,23 +1,12 @@
 import React from 'react';
 
-import {
-  Badge,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Paper,
-  Skeleton,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Badge, Box, Button, Flex, Paper, Skeleton, Stack, Text, Title } from '@mantine/core';
 import { useGetCoursesQuery } from '@shared/graphql';
-import { IconExternalLink, IconWallet } from '@tabler/icons-react';
+import { IconExternalLink, IconLanguage, IconWallet } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useParams } from 'react-router';
 
-import { ContentPageLayout, CoursePlatformLogo } from 'src/components';
+import { ContentPageLayout, CoursePlatformLogo, DifficultyBadge } from 'src/components';
 import { RouteEntityType } from 'src/constants';
 
 import { NotFoundPage } from '../NotFoundPage';
@@ -51,18 +40,17 @@ export const CourseDetailsPage: React.FC = () => {
           </Box>
         )}
         {loadingCourse ? (
-          <Skeleton h={300} w={400} />
+          <Skeleton h={300} w={400} miw={400} />
         ) : (
           <Paper withBorder shadow="sm" p={16} w={400} miw={400} h="fit-content">
             <Stack>
-              <Stack spacing={8}>
+              <Stack>
                 <Title order={3}>Platform</Title>
                 <Flex align="center" gap={16}>
                   <CoursePlatformLogo logoUrl={course?.platform?.logoUrl} />
                   <Text>{course?.platform?.name}</Text>
                 </Flex>
               </Stack>
-              <Divider variant="dashed" />
               <Stack spacing="md">
                 {!!course?.tags.length && (
                   <React.Fragment>
@@ -89,6 +77,29 @@ export const CourseDetailsPage: React.FC = () => {
                       {course.price.price} {course.price.currencyCodeISO}
                     </Badge>
                   </Box>
+                )}
+              </Stack>
+              <Stack align="start">
+                <Title order={3}>Difficulty</Title>
+                {course?.difficulty ? (
+                  <DifficultyBadge difficulty={course.difficulty} />
+                ) : (
+                  <Text>Not specified</Text>
+                )}
+              </Stack>
+              <Stack align="start">
+                <Title order={3}>Language</Title>
+                {course?.languages[0] ? (
+                  <Badge
+                    variant="outline"
+                    pl={4}
+                    pr={8}
+                    leftSection={<IconLanguage display="flex" size="1rem" />}
+                  >
+                    {course?.languages[0].countryCodeISO}
+                  </Badge>
+                ) : (
+                  <Text>Not specified</Text>
                 )}
               </Stack>
               <Button
