@@ -10,3 +10,6 @@ export enum RouteEntityType {
   roadmap = 'roadmapId',
   course = 'courseId',
 }
+
+export const SEARCH_QUERY_STRING_NAME = 'query';
+export const SEARCH_ENTITY_QUERY_STRING_NAME = 'entity';

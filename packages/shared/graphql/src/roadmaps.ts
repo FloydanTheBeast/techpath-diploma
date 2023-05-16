@@ -63,6 +63,28 @@ export const GET_ROADMAPS_QUERY = gql`
   ${ROADMAP_INFO_FRAGMENT}
 `;
 
+export const SEARCH_ROAMAPS_QUERY = gql`
+  query SearchRoadmaps(
+    $searchQuery: String!
+    $where: RoadmapFulltextWhere
+    $limit: Int
+    $offset: Int
+  ) {
+    roadmapsFulltextRoadmapInfo(
+      phrase: $searchQuery
+      where: $where
+      limit: $limit
+      offset: $offset
+    ) {
+      roadmap {
+        ...RoadmapInfo
+      }
+      score
+    }
+  }
+  ${ROADMAP_INFO_FRAGMENT}
+`;
+
 export const GET_ROADMAP_BY_ID_QUERY = gql`
   query GetRoadmapById($id: ID!) {
     roadmaps(where: { id: $id }) {

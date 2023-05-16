@@ -43,6 +43,23 @@ export const GET_COURSES_QUERY = gql`
   ${COURSE_INFO_FRAGMENT}
 `;
 
+export const SEARCH_COURSES_QUERY = gql`
+  query SearchCourses(
+    $searchQuery: String!
+    $where: CourseFulltextWhere
+    $limit: Int
+    $offset: Int
+  ) {
+    coursesFulltextCourseInfo(phrase: $searchQuery, where: $where, limit: $limit, offset: $offset) {
+      course {
+        ...CourseInfo
+      }
+      score
+    }
+  }
+  ${COURSE_INFO_FRAGMENT}
+`;
+
 export const CREATE_COURSE_MUTATION = gql`
   mutation CreateCourse($input: CourseCreateInput!) {
     createCourses(input: [$input]) {

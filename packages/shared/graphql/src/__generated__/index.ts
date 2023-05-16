@@ -6324,6 +6324,47 @@ export type GetCoursesQuery = {
   coursesAggregate: { __typename?: 'CourseAggregateSelection'; count: number };
 };
 
+export type SearchCoursesQueryVariables = Exact<{
+  searchQuery: Scalars['String'];
+  where?: InputMaybe<CourseFulltextWhere>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type SearchCoursesQuery = {
+  __typename?: 'Query';
+  coursesFulltextCourseInfo: Array<{
+    __typename?: 'CourseFulltextResult';
+    score: number;
+    course: {
+      __typename?: 'Course';
+      id: string;
+      title: string;
+      description?: string | null;
+      url: string;
+      createdAt: any;
+      updatedAt?: any | null;
+      difficulty?: Difficulty | null;
+      externalRating?: number | null;
+      externalRatingsCount?: number | null;
+      languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
+      price?: {
+        __typename?: 'CoursePrice';
+        currencyCodeISO?: string | null;
+        price?: number | null;
+      } | null;
+      platform?: {
+        __typename?: 'CoursePlatform';
+        id: string;
+        name: string;
+        logoUrl?: string | null;
+        url: string;
+      } | null;
+      tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+    };
+  }>;
+};
+
 export type CreateCourseMutationVariables = Exact<{
   input: CourseCreateInput;
 }>;
@@ -6494,6 +6535,33 @@ export type GetRoadmapsQuery = {
     createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
   }>;
   roadmapsAggregate: { __typename?: 'RoadmapAggregateSelection'; count: number };
+};
+
+export type SearchRoadmapsQueryVariables = Exact<{
+  searchQuery: Scalars['String'];
+  where?: InputMaybe<RoadmapFulltextWhere>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type SearchRoadmapsQuery = {
+  __typename?: 'Query';
+  roadmapsFulltextRoadmapInfo: Array<{
+    __typename?: 'RoadmapFulltextResult';
+    score: number;
+    roadmap: {
+      __typename?: 'Roadmap';
+      id: string;
+      title: string;
+      description?: string | null;
+      difficulty?: Difficulty | null;
+      createdAt: any;
+      updatedAt?: any | null;
+      tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+      languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
+      createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    };
+  }>;
 };
 
 export type GetRoadmapByIdQueryVariables = Exact<{
@@ -7845,6 +7913,194 @@ export function useGetCoursesLazyQuery(
 export type GetCoursesQueryHookResult = ReturnType<typeof useGetCoursesQuery>;
 export type GetCoursesLazyQueryHookResult = ReturnType<typeof useGetCoursesLazyQuery>;
 export type GetCoursesQueryResult = Apollo.QueryResult<GetCoursesQuery, GetCoursesQueryVariables>;
+export const SearchCoursesDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SearchCourses' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'searchQuery' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'CourseFulltextWhere' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'coursesFulltextCourseInfo' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'phrase' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'searchQuery' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'course' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'score' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Course' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'languages' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useSearchCoursesQuery__
+ *
+ * To run a query within a React component, call `useSearchCoursesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchCoursesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchCoursesQuery({
+ *   variables: {
+ *      searchQuery: // value for 'searchQuery'
+ *      where: // value for 'where'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useSearchCoursesQuery(
+  baseOptions: Apollo.QueryHookOptions<SearchCoursesQuery, SearchCoursesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SearchCoursesQuery, SearchCoursesQueryVariables>(
+    SearchCoursesDocument,
+    options,
+  );
+}
+export function useSearchCoursesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SearchCoursesQuery, SearchCoursesQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SearchCoursesQuery, SearchCoursesQueryVariables>(
+    SearchCoursesDocument,
+    options,
+  );
+}
+export type SearchCoursesQueryHookResult = ReturnType<typeof useSearchCoursesQuery>;
+export type SearchCoursesLazyQueryHookResult = ReturnType<typeof useSearchCoursesLazyQuery>;
+export type SearchCoursesQueryResult = Apollo.QueryResult<
+  SearchCoursesQuery,
+  SearchCoursesQueryVariables
+>;
 export const CreateCourseDocument = {
   kind: 'Document',
   definitions: [
@@ -8639,6 +8895,179 @@ export type GetRoadmapsLazyQueryHookResult = ReturnType<typeof useGetRoadmapsLaz
 export type GetRoadmapsQueryResult = Apollo.QueryResult<
   GetRoadmapsQuery,
   GetRoadmapsQueryVariables
+>;
+export const SearchRoadmapsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'SearchRoadmaps' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'searchQuery' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+          },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'RoadmapFulltextWhere' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'roadmapsFulltextRoadmapInfo' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'phrase' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'searchQuery' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'limit' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'offset' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'roadmap' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'RoadmapInfo' } },
+                    ],
+                  },
+                },
+                { kind: 'Field', name: { kind: 'Name', value: 'score' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Roadmap' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'languages' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useSearchRoadmapsQuery__
+ *
+ * To run a query within a React component, call `useSearchRoadmapsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSearchRoadmapsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSearchRoadmapsQuery({
+ *   variables: {
+ *      searchQuery: // value for 'searchQuery'
+ *      where: // value for 'where'
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useSearchRoadmapsQuery(
+  baseOptions: Apollo.QueryHookOptions<SearchRoadmapsQuery, SearchRoadmapsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<SearchRoadmapsQuery, SearchRoadmapsQueryVariables>(
+    SearchRoadmapsDocument,
+    options,
+  );
+}
+export function useSearchRoadmapsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<SearchRoadmapsQuery, SearchRoadmapsQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<SearchRoadmapsQuery, SearchRoadmapsQueryVariables>(
+    SearchRoadmapsDocument,
+    options,
+  );
+}
+export type SearchRoadmapsQueryHookResult = ReturnType<typeof useSearchRoadmapsQuery>;
+export type SearchRoadmapsLazyQueryHookResult = ReturnType<typeof useSearchRoadmapsLazyQuery>;
+export type SearchRoadmapsQueryResult = Apollo.QueryResult<
+  SearchRoadmapsQuery,
+  SearchRoadmapsQueryVariables
 >;
 export const GetRoadmapByIdDocument = {
   kind: 'Document',

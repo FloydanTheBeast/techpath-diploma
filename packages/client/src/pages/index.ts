@@ -8,3 +8,4 @@ export * from './RoadmapsPage';
 export * from './NewRoadmapPage';
 export * from './RoadmapDetailsPage';
 export * from './CourseDetailsPage';
+export * from './GlobalSearchPage';

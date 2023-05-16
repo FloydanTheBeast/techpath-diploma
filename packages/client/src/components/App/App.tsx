@@ -10,7 +10,6 @@ import {
   fromPromise,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
-import { SpotlightProvider, spotlight } from '@mantine/spotlight';
 import { AuthSessionResponse } from '@shared/graphql';
 import { BrowserRouter } from 'react-router-dom';
 

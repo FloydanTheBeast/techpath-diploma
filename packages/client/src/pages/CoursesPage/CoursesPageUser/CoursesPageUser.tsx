@@ -103,10 +103,10 @@ export const CoursesPageUser: React.FC = () => {
               </Flex>
               <SimpleGrid
                 breakpoints={[
-                  { minWidth: 'xs', cols: 1 },
-                  { minWidth: 'sm', cols: 2 },
-                  { minWidth: 'lg', cols: 3 },
-                  { minWidth: 'xl', cols: 4 },
+                  { minWidth: 'sm', cols: 1 },
+                  { minWidth: 'lg', cols: 2 },
+                  { minWidth: 'xl', cols: 3 },
+                  { minWidth: 1920, cols: 4 },
                 ]}
               >
                 {loadingCourses

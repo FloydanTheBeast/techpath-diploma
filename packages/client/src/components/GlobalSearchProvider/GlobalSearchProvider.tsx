@@ -17,7 +17,7 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
 
   const { data, loading } = useGlobalSearchQuery({
     variables: {
-      searchQuery: searchQuery + '~', // `~` is used for fuzzy search. Ref: https://lucene.apache.org/core/2_9_4/queryparsersyntax.html
+      searchQuery: `${searchQuery}~`, // `~` is used for fuzzy search. Ref: https://lucene.apache.org/core/2_9_4/queryparsersyntax.html
       minScore: 0.5,
       limit: 7,
     },
@@ -46,7 +46,7 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
             ),
         })) ?? []),
       ].filter(Boolean) as SpotlightAction[],
-    [data],
+    [data, navigate],
   );
 
   const navigateToSearchResults = () => {

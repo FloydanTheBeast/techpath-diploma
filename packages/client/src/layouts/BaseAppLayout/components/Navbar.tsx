@@ -11,7 +11,6 @@ import {
   Navbar as NavbarBase,
   Sx,
   Text,
-  TextInput,
   ThemeIcon,
   Title,
   UnstyledButton,

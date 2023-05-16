@@ -4,7 +4,7 @@ import { AppShell } from '@mantine/core';
 
 import type { NavbarLink } from 'src/types';
 
-import { Header, Navbar } from './components';
+import { Navbar } from './components';
 
 interface BaseAppLayoutProps {
   navbarLinks: NavbarLink[];
