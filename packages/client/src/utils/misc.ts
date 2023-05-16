@@ -4,6 +4,8 @@ export const getSearchQueryOption = (
   searchQuery: string | undefined,
   fields: string | string[],
 ) => {
+  if (!searchQuery) return null;
+
   const escapedSearchQuery = _.escapeRegExp(searchQuery);
 
   const getOption = (escapedSearchQuery: string, field: string) => ({

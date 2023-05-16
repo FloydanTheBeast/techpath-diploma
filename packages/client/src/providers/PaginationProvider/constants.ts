@@ -1,6 +1,6 @@
 import { PaginationState } from './types';
 
-export const DEFAULT_PAGE_SIZE = 10;
+export const DEFAULT_PAGE_SIZE = 12;
 export const DEFAULT_PAGE_INDEX = 0;
 
 export const DEFAULT_PAGINATION_STATE: PaginationState = {

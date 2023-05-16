@@ -27,6 +27,8 @@ export const DataGrid = <TData extends Record<string, unknown>>({
     [state, paginationState],
   );
 
+  console.log(dataGridState);
+
   const onPaginationChange = React.useCallback(
     (updater: MRT_Updater<MRT_PaginationState>) => {
       dispatchPaginationState({
@@ -40,9 +42,6 @@ export const DataGrid = <TData extends Record<string, unknown>>({
   return (
     <MantineReactTable<(typeof props)['data'][0]>
       mantineProgressProps={{ sx: { display: 'none' } }}
-      mantineTopToolbarProps={
-        !props.renderTopToolbarCustomActions ? { sx: { display: 'none' } } : {}
-      }
       renderEmptyRowsFallback={() => (
         <Group c="dimmed" position="center" spacing={2} my={16}>
           <Text>No data</Text>
@@ -55,6 +54,12 @@ export const DataGrid = <TData extends Record<string, unknown>>({
       state={dataGridState}
       manualPagination
       enableGlobalFilterModes={enableGlobalFilterModes}
+      initialState={{
+        pagination: {
+          pageSize: 12,
+          pageIndex: 1,
+        },
+      }}
       {...props}
     />
   );
