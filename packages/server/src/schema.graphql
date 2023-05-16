@@ -78,7 +78,8 @@ type Language {
 
 type Roadmap
   @auth(rules: [{ operations: [CREATE], roles: ["admin"] }])
-  @exclude(operations: [CREATE]) {
+  @exclude(operations: [CREATE])
+  @fulltext(indexes: [{ indexName: "RoadmapInfo", fields: ["title", "description"] }]) {
   id: ID! @id
   title: String!
   description: String

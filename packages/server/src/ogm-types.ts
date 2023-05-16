@@ -44,6 +44,7 @@ export type Query = {
   languages: Array<Language>;
   languagesAggregate: LanguageAggregateSelection;
   languagesConnection: LanguagesConnection;
+  roadmapsFulltextRoadmapInfo: Array<RoadmapFulltextResult>;
   roadmaps: Array<Roadmap>;
   roadmapsAggregate: RoadmapAggregateSelection;
   roadmapsConnection: RoadmapsConnection;
@@ -150,13 +151,23 @@ export type QueryLanguagesConnectionArgs = {
   sort?: InputMaybe<Array<InputMaybe<LanguageSort>>>;
 };
 
+export type QueryRoadmapsFulltextRoadmapInfoArgs = {
+  phrase: Scalars["String"];
+  where?: InputMaybe<RoadmapFulltextWhere>;
+  sort?: InputMaybe<Array<RoadmapFulltextSort>>;
+  limit?: InputMaybe<Scalars["Int"]>;
+  offset?: InputMaybe<Scalars["Int"]>;
+};
+
 export type QueryRoadmapsArgs = {
   where?: InputMaybe<RoadmapWhere>;
   options?: InputMaybe<RoadmapOptions>;
+  fulltext?: InputMaybe<RoadmapFulltext>;
 };
 
 export type QueryRoadmapsAggregateArgs = {
   where?: InputMaybe<RoadmapWhere>;
+  fulltext?: InputMaybe<RoadmapFulltext>;
 };
 
 export type QueryRoadmapsConnectionArgs = {
@@ -164,6 +175,7 @@ export type QueryRoadmapsConnectionArgs = {
   after?: InputMaybe<Scalars["String"]>;
   where?: InputMaybe<RoadmapWhere>;
   sort?: InputMaybe<Array<InputMaybe<RoadmapSort>>>;
+  fulltext?: InputMaybe<RoadmapFulltext>;
 };
 
 export type QueryRoadmapNodesArgs = {
@@ -1196,6 +1208,13 @@ export type RoadmapEdgesConnection = {
   totalCount: Scalars["Int"];
   pageInfo: PageInfo;
   edges: Array<RoadmapEdgeEdge>;
+};
+
+/** The result of a fulltext search on an index of Roadmap */
+export type RoadmapFulltextResult = {
+  __typename?: "RoadmapFulltextResult";
+  score: Scalars["Float"];
+  roadmap: Roadmap;
 };
 
 export type RoadmapLanguageLanguagesAggregationSelection = {
@@ -5048,6 +5067,22 @@ export type RoadmapEdgeWhere = {
   targetHandle_NOT_ENDS_WITH?: InputMaybe<Scalars["String"]>;
 };
 
+export type RoadmapFulltext = {
+  RoadmapInfo?: InputMaybe<RoadmapRoadmapInfoFulltext>;
+};
+
+/** The input for sorting a fulltext query on an index of Roadmap */
+export type RoadmapFulltextSort = {
+  score?: InputMaybe<SortDirection>;
+  roadmap?: InputMaybe<RoadmapSort>;
+};
+
+/** The input for filtering a fulltext query on an index of Roadmap */
+export type RoadmapFulltextWhere = {
+  score?: InputMaybe<FloatWhere>;
+  roadmap?: InputMaybe<RoadmapWhere>;
+};
+
 export type RoadmapLanguagesAggregateInput = {
   count?: InputMaybe<Scalars["Int"]>;
   count_LT?: InputMaybe<Scalars["Int"]>;
@@ -7318,6 +7353,10 @@ export type RoadmapRelationInput = {
   createdBy?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
 };
 
+export type RoadmapRoadmapInfoFulltext = {
+  phrase: Scalars["String"];
+};
+
 /** Fields to sort Roadmaps by. The order in which sorts are applied is not guaranteed when specifying many fields in one RoadmapSort object. */
 export type RoadmapSort = {
   id?: InputMaybe<SortDirection>;
@@ -9571,7 +9610,7 @@ export interface RoadmapAggregateSelectionInput {
 export declare class RoadmapModel {
   public find(args?: {
     where?: RoadmapWhere;
-
+    fulltext?: RoadmapFulltext;
     options?: RoadmapOptions;
     selectionSet?: string | DocumentNode | SelectionSetNode;
     args?: any;
@@ -9605,7 +9644,7 @@ export declare class RoadmapModel {
   }): Promise<{ nodesDeleted: number; relationshipsDeleted: number }>;
   public aggregate(args: {
     where?: RoadmapWhere;
-
+    fulltext?: RoadmapFulltext;
     aggregate: RoadmapAggregateSelectionInput;
     context?: any;
     rootValue?: any;

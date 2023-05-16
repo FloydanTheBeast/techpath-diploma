@@ -31,6 +31,7 @@ export const ROADMAP_INFO_FRAGMENT = gql`
   fragment RoadmapInfo on Roadmap {
     id
     title
+    description
     difficulty
     tags {
       id
