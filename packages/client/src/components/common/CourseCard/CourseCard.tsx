@@ -10,6 +10,7 @@ import {
   Flex,
   Group,
   Menu,
+  Rating,
   Stack,
   Sx,
   Text,
@@ -72,6 +73,17 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, renderCustomActi
               </Menu.Dropdown>
             </Menu>
           </Flex>
+        </Group>
+        <Group spacing={4} mt="xs">
+          <Rating
+            size="xs"
+            value={course.reviewsAggregate?.node?.rating.average ?? undefined}
+            fractions={2}
+            readOnly
+          />
+          <Text color="dimmed" weight={300} size="sm">
+            ({course.reviewsAggregate?.count ?? 0})
+          </Text>
         </Group>
       </Card.Section>
       <Stack spacing={8} sx={cardPrimaryContentStyles}>

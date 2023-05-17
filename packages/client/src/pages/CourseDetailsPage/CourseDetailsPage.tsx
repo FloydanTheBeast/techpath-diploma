@@ -1,23 +1,47 @@
 import React from 'react';
 
-import { Badge, Box, Button, Flex, Paper, Skeleton, Stack, Text, Title } from '@mantine/core';
-import { useGetCoursesQuery } from '@shared/graphql';
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Group,
+  Paper,
+  Rating,
+  Skeleton,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
+import {
+  GetCoursesDocument,
+  useCreateUserReviewsMutation,
+  useGetCoursesQuery,
+} from '@shared/graphql';
 import { IconExternalLink, IconLanguage, IconWallet } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useParams } from 'react-router';
 
-import { ContentPageLayout, CoursePlatformLogo, DifficultyBadge } from 'src/components';
+import {
+  ContentPageLayout,
+  CoursePlatformLogo,
+  DifficultyBadge,
+  ReviewsSection,
+} from 'src/components';
 import { RouteEntityType } from 'src/constants';
+import { useCurrentUser } from 'src/hooks';
 
 import { NotFoundPage } from '../NotFoundPage';
 
 export const CourseDetailsPage: React.FC = () => {
+  const { currentUser } = useCurrentUser();
   const { courseId } = useParams<{ [RouteEntityType.course]: string }>();
   const { data, loading: loadingCourse } = useGetCoursesQuery({
     variables: {
       where: { id: courseId },
     },
   });
+  const [createReviews] = useCreateUserReviewsMutation();
 
   const course = data?.courses[0];
 
@@ -27,7 +51,7 @@ export const CourseDetailsPage: React.FC = () => {
 
   return (
     <ContentPageLayout title={course?.title ?? 'Course details'}>
-      <Flex>
+      <Flex mb={64}>
         {loadingCourse ? (
           <Skeleton h={300} mr={32} />
         ) : (
@@ -80,6 +104,33 @@ export const CourseDetailsPage: React.FC = () => {
                 )}
               </Stack>
               <Stack align="start">
+                <Title order={3}>Ratings</Title>
+                <Stack spacing="sm">
+                  <Group>
+                    <Text>Internal:</Text>
+                    <Group spacing="xs">
+                      <Rating
+                        readOnly
+                        fractions={2}
+                        value={course?.reviewsAggregate?.node?.rating.average ?? undefined}
+                      />
+                      <Text color="dimmed" weight={300}>
+                        ({course?.reviewsAggregate?.count})
+                      </Text>
+                    </Group>
+                  </Group>
+                  <Group>
+                    <Text>External:</Text>
+                    <Group spacing="xs">
+                      <Rating readOnly fractions={2} value={course?.externalRating ?? undefined} />
+                      <Text color="dimmed" weight={300}>
+                        ({course?.externalRatingsCount ?? 0})
+                      </Text>
+                    </Group>
+                  </Group>
+                </Stack>
+              </Stack>
+              <Stack align="start">
                 <Title order={3}>Difficulty</Title>
                 {course?.difficulty ? (
                   <DifficultyBadge difficulty={course.difficulty} />
@@ -115,6 +166,26 @@ export const CourseDetailsPage: React.FC = () => {
           </Paper>
         )}
       </Flex>
+      <Stack>
+        <Title order={3}>Reviews ({course?.reviewsAggregate?.count})</Title>
+        <ReviewsSection
+          onSubmitReview={async values => {
+            await createReviews({
+              variables: {
+                input: {
+                  ...values,
+                  user: { connect: { where: { node: { id: currentUser?.id } } } },
+                  course: { connect: { where: { node: { id: course?.id } } } },
+                },
+              },
+              refetchQueries: [GetCoursesDocument],
+              awaitRefetchQueries: true,
+            });
+          }}
+          refetchOnDelete={[GetCoursesDocument]}
+          reviews={course?.reviews ?? []}
+        />
+      </Stack>
     </ContentPageLayout>
   );
 };

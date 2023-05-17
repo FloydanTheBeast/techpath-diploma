@@ -66,6 +66,7 @@ type Course
       RETURN count(*) > 0
       """
     )
+  reviews: [UserReview!]! @relationship(type: "REVIEWED", direction: IN)
 
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
@@ -135,6 +136,7 @@ type Roadmap
       """
     )
   bookmarkedBy: [User!]! @relationship(type: "BOOKMARKED", direction: IN)
+  reviews: [UserReview!]! @relationship(type: "REVIEWED", direction: IN)
 
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
@@ -176,6 +178,19 @@ type TopicTag {
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
   roadmaps: [Roadmap!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
+}
+
+type UserReview {
+  id: ID! @id
+  rating: Float
+  comment: String!
+
+  course: Course @relationship(type: "REVIEWED", direction: OUT)
+  roadmap: Roadmap @relationship(type: "REVIEWED", direction: OUT)
+  user: User! @relationship(type: "REVIEWED_BY", direction: IN)
+
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
 interface IncludesTopic {

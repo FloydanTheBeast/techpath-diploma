@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client';
 
 import { COURSE_INFO_FRAGMENT } from './courses';
+import {
+  ROADMAP_USER_REVIEW_AGGREGATION_INFO_FRAGMENT,
+  USER_REVIEW_INFO_FRAGMENT,
+} from './userReviews';
 
 export const ROADMAP_NODE_INFO_FRAMENT = gql`
   fragment RoadmapNodeInfo on RoadmapNode {
@@ -47,7 +51,15 @@ export const ROADMAP_INFO_FRAGMENT = gql`
     }
     createdAt
     updatedAt
+    reviews {
+      ...UserReviewInfo
+    }
+    reviewsAggregate {
+      ...RoadmapUserReviewAggregationInfo
+    }
   }
+  ${USER_REVIEW_INFO_FRAGMENT}
+  ${ROADMAP_USER_REVIEW_AGGREGATION_INFO_FRAGMENT}
 `;
 
 export const GET_ROADMAPS_QUERY = gql`
@@ -111,8 +123,16 @@ export const GET_ROADMAP_BY_ID_QUERY = gql`
       }
       createdAt
       updatedAt
+      reviews {
+        ...UserReviewInfo
+      }
+      reviewsAggregate {
+        ...RoadmapUserReviewAggregationInfo
+      }
     }
   }
+  ${USER_REVIEW_INFO_FRAGMENT}
+  ${ROADMAP_USER_REVIEW_AGGREGATION_INFO_FRAGMENT}
   ${ROADMAP_NODE_INFO_FRAMENT}
   ${ROADMAP_EDGE_INFO_FRAMENT}
 `;

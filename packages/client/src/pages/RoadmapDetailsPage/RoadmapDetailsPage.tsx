@@ -7,23 +7,30 @@ import {
   Flex,
   Group,
   Paper,
+  Rating,
   Skeleton,
   Stack,
   Text,
   Title,
 } from '@mantine/core';
-import { useGetRoadmapByIdQuery } from '@shared/graphql';
+import {
+  GetRoadmapByIdDocument,
+  useCreateUserReviewsMutation,
+  useGetRoadmapByIdQuery,
+} from '@shared/graphql';
 import { IconLanguage } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useParams } from 'react-router';
 
-import { ContentPageLayout, DifficultyBadge, RoadmapViewer } from 'src/components';
+import { ContentPageLayout, DifficultyBadge, ReviewsSection, RoadmapViewer } from 'src/components';
 import { RouteEntityType } from 'src/constants';
+import { useCurrentUser } from 'src/hooks';
 import { mapGqlRoadmapNodes } from 'src/utils';
 
 import { NotFoundPage } from '../NotFoundPage';
 
 export const RoadmapDetailsPage: React.FC = () => {
+  const { currentUser } = useCurrentUser();
   const { roadmapId } = useParams<{ [RouteEntityType.roadmap]: string }>();
   const { data, loading: loadingRoadmap } = useGetRoadmapByIdQuery({
     variables: {
@@ -31,6 +38,7 @@ export const RoadmapDetailsPage: React.FC = () => {
     },
     skip: !roadmapId,
   });
+  const [createReviews] = useCreateUserReviewsMutation();
 
   const roadmap = data?.roadmaps[0];
 
@@ -40,7 +48,7 @@ export const RoadmapDetailsPage: React.FC = () => {
 
   return (
     <ContentPageLayout title={roadmap?.title || 'Roadmap details'}>
-      <Stack>
+      <Stack mb={64}>
         <Card h={800} withBorder p={0}>
           <RoadmapViewer
             nodes={mapGqlRoadmapNodes(roadmap?.nodes ?? [])}
@@ -75,6 +83,19 @@ export const RoadmapDetailsPage: React.FC = () => {
                       <Text>Not specified</Text>
                     )}
                   </Flex>
+                </Stack>
+                <Stack>
+                  <Title order={3}>Rating</Title>
+                  <Group spacing="xs">
+                    <Rating
+                      readOnly
+                      fractions={2}
+                      value={roadmap?.reviewsAggregate?.node?.rating.average ?? undefined}
+                    />
+                    <Text color="dimmed" weight={300}>
+                      ({roadmap?.reviewsAggregate?.count})
+                    </Text>
+                  </Group>
                 </Stack>
                 <Stack align="start">
                   <Title order={3}>Difficulty</Title>
@@ -112,6 +133,26 @@ export const RoadmapDetailsPage: React.FC = () => {
             </Paper>
           )}
         </Flex>
+      </Stack>
+      <Stack>
+        <Title order={3}>Reviews ({roadmap?.reviewsAggregate?.count})</Title>
+        <ReviewsSection
+          onSubmitReview={async values => {
+            await createReviews({
+              variables: {
+                input: {
+                  ...values,
+                  user: { connect: { where: { node: { id: currentUser?.id } } } },
+                  roadmap: { connect: { where: { node: { id: roadmap?.id } } } },
+                },
+              },
+              refetchQueries: [GetRoadmapByIdDocument],
+              awaitRefetchQueries: true,
+            });
+          }}
+          refetchOnDelete={[GetRoadmapByIdDocument]}
+          reviews={roadmap?.reviews ?? []}
+        />
       </Stack>
     </ContentPageLayout>
   );

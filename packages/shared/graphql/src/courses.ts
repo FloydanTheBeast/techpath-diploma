@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
 
+import {
+  COURSE_USER_REVIEW_AGGREGATION_INFO_FRAGMENT,
+  USER_REVIEW_INFO_FRAGMENT,
+} from './userReviews';
+
 export const COURSE_INFO_FRAGMENT = gql`
   fragment CourseInfo on Course {
     id
@@ -29,7 +34,15 @@ export const COURSE_INFO_FRAGMENT = gql`
       id
       name
     }
+    reviews {
+      ...UserReviewInfo
+    }
+    reviewsAggregate {
+      ...CourseUserReviewAggregationInfo
+    }
   }
+  ${USER_REVIEW_INFO_FRAGMENT}
+  ${COURSE_USER_REVIEW_AGGREGATION_INFO_FRAGMENT}
 `;
 
 export const GET_COURSES_QUERY = gql`

@@ -22,7 +22,7 @@ export const GlobalSearchPage: React.FC = () => {
     variables: {
       searchQuery: `${searchQuery}~`,
       where: {
-        score: { min: 0.5 },
+        score: { min: 0.8 },
       },
       limit: 50,
     },
@@ -33,7 +33,7 @@ export const GlobalSearchPage: React.FC = () => {
     variables: {
       searchQuery: `${searchQuery}~`,
       where: {
-        score: { min: 0.0 },
+        score: { min: 0.5 },
       },
       limit: 50,
     },

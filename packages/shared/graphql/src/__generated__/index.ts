@@ -54,6 +54,9 @@ export type Course = {
   price?: Maybe<CoursePrice>;
   priceAggregate?: Maybe<CourseCoursePricePriceAggregationSelection>;
   priceConnection: CoursePriceConnection;
+  reviews: Array<UserReview>;
+  reviewsAggregate?: Maybe<CourseUserReviewReviewsAggregationSelection>;
+  reviewsConnection: CourseReviewsConnection;
   tags: Array<TopicTag>;
   tagsAggregate?: Maybe<CourseTopicTagTagsAggregationSelection>;
   tagsConnection: CourseTagsConnection;
@@ -136,6 +139,25 @@ export type CoursePriceConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<CoursePriceConnectionSort>>;
   where?: InputMaybe<CoursePriceConnectionWhere>;
+};
+
+export type CourseReviewsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<UserReviewOptions>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
+export type CourseReviewsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
+export type CourseReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CourseReviewsConnectionSort>>;
+  where?: InputMaybe<CourseReviewsConnectionWhere>;
 };
 
 export type CourseTagsArgs = {
@@ -332,6 +354,7 @@ export type CourseConnectInput = {
   languages?: InputMaybe<Array<CourseLanguagesConnectFieldInput>>;
   platform?: InputMaybe<CoursePlatformConnectFieldInput>;
   price?: InputMaybe<CoursePriceConnectFieldInput>;
+  reviews?: InputMaybe<Array<CourseReviewsConnectFieldInput>>;
   tags?: InputMaybe<Array<CourseTagsConnectFieldInput>>;
 };
 
@@ -339,6 +362,7 @@ export type CourseConnectOrCreateInput = {
   bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByConnectOrCreateFieldInput>>;
   languages?: InputMaybe<Array<CourseLanguagesConnectOrCreateFieldInput>>;
   platform?: InputMaybe<CoursePlatformConnectOrCreateFieldInput>;
+  reviews?: InputMaybe<Array<CourseReviewsConnectOrCreateFieldInput>>;
   tags?: InputMaybe<Array<CourseTagsConnectOrCreateFieldInput>>;
 };
 
@@ -391,6 +415,7 @@ export type CourseCreateInput = {
   languages?: InputMaybe<CourseLanguagesFieldInput>;
   platform?: InputMaybe<CoursePlatformFieldInput>;
   price?: InputMaybe<CoursePriceFieldInput>;
+  reviews?: InputMaybe<CourseReviewsFieldInput>;
   tags?: InputMaybe<CourseTagsFieldInput>;
   title: Scalars['String'];
   url: Scalars['String'];
@@ -401,6 +426,7 @@ export type CourseDeleteInput = {
   languages?: InputMaybe<Array<CourseLanguagesDeleteFieldInput>>;
   platform?: InputMaybe<CoursePlatformDeleteFieldInput>;
   price?: InputMaybe<CoursePriceDeleteFieldInput>;
+  reviews?: InputMaybe<Array<CourseReviewsDeleteFieldInput>>;
   tags?: InputMaybe<Array<CourseTagsDeleteFieldInput>>;
 };
 
@@ -409,6 +435,7 @@ export type CourseDisconnectInput = {
   languages?: InputMaybe<Array<CourseLanguagesDisconnectFieldInput>>;
   platform?: InputMaybe<CoursePlatformDisconnectFieldInput>;
   price?: InputMaybe<CoursePriceDisconnectFieldInput>;
+  reviews?: InputMaybe<Array<CourseReviewsDisconnectFieldInput>>;
   tags?: InputMaybe<Array<CourseTagsDisconnectFieldInput>>;
 };
 
@@ -1607,7 +1634,155 @@ export type CourseRelationInput = {
   languages?: InputMaybe<Array<CourseLanguagesCreateFieldInput>>;
   platform?: InputMaybe<CoursePlatformCreateFieldInput>;
   price?: InputMaybe<CoursePriceCreateFieldInput>;
+  reviews?: InputMaybe<Array<CourseReviewsCreateFieldInput>>;
   tags?: InputMaybe<Array<CourseTagsCreateFieldInput>>;
+};
+
+export type CourseReviewsAggregateInput = {
+  AND?: InputMaybe<Array<CourseReviewsAggregateInput>>;
+  NOT?: InputMaybe<CourseReviewsAggregateInput>;
+  OR?: InputMaybe<Array<CourseReviewsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<CourseReviewsNodeAggregationWhereInput>;
+};
+
+export type CourseReviewsConnectFieldInput = {
+  connect?: InputMaybe<Array<UserReviewConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<UserReviewConnectWhere>;
+};
+
+export type CourseReviewsConnectOrCreateFieldInput = {
+  onCreate: CourseReviewsConnectOrCreateFieldInputOnCreate;
+  where: UserReviewConnectOrCreateWhere;
+};
+
+export type CourseReviewsConnectOrCreateFieldInputOnCreate = {
+  node: UserReviewOnCreateInput;
+};
+
+export type CourseReviewsConnection = {
+  __typename?: 'CourseReviewsConnection';
+  edges: Array<CourseReviewsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CourseReviewsConnectionSort = {
+  node?: InputMaybe<UserReviewSort>;
+};
+
+export type CourseReviewsConnectionWhere = {
+  AND?: InputMaybe<Array<CourseReviewsConnectionWhere>>;
+  NOT?: InputMaybe<CourseReviewsConnectionWhere>;
+  OR?: InputMaybe<Array<CourseReviewsConnectionWhere>>;
+  node?: InputMaybe<UserReviewWhere>;
+};
+
+export type CourseReviewsCreateFieldInput = {
+  node: UserReviewCreateInput;
+};
+
+export type CourseReviewsDeleteFieldInput = {
+  delete?: InputMaybe<UserReviewDeleteInput>;
+  where?: InputMaybe<CourseReviewsConnectionWhere>;
+};
+
+export type CourseReviewsDisconnectFieldInput = {
+  disconnect?: InputMaybe<UserReviewDisconnectInput>;
+  where?: InputMaybe<CourseReviewsConnectionWhere>;
+};
+
+export type CourseReviewsFieldInput = {
+  connect?: InputMaybe<Array<CourseReviewsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseReviewsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseReviewsCreateFieldInput>>;
+};
+
+export type CourseReviewsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CourseReviewsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CourseReviewsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CourseReviewsNodeAggregationWhereInput>>;
+  comment_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  comment_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  rating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  rating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  rating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  rating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  rating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  rating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  rating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  rating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  rating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  rating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  rating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  rating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  rating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CourseReviewsRelationship = {
+  __typename?: 'CourseReviewsRelationship';
+  cursor: Scalars['String'];
+  node: UserReview;
+};
+
+export type CourseReviewsUpdateConnectionInput = {
+  node?: InputMaybe<UserReviewUpdateInput>;
+};
+
+export type CourseReviewsUpdateFieldInput = {
+  connect?: InputMaybe<Array<CourseReviewsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseReviewsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseReviewsCreateFieldInput>>;
+  delete?: InputMaybe<Array<CourseReviewsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<CourseReviewsDisconnectFieldInput>>;
+  update?: InputMaybe<CourseReviewsUpdateConnectionInput>;
+  where?: InputMaybe<CourseReviewsConnectionWhere>;
 };
 
 /** Fields to sort Courses by. The order in which sorts are applied is not guaranteed when specifying many fields in one CourseSort object. */
@@ -1803,6 +1978,7 @@ export type CourseUpdateInput = {
   languages?: InputMaybe<Array<CourseLanguagesUpdateFieldInput>>;
   platform?: InputMaybe<CoursePlatformUpdateFieldInput>;
   price?: InputMaybe<CoursePriceUpdateFieldInput>;
+  reviews?: InputMaybe<Array<CourseReviewsUpdateFieldInput>>;
   tags?: InputMaybe<Array<CourseTagsUpdateFieldInput>>;
   title?: InputMaybe<Scalars['String']>;
   url?: InputMaybe<Scalars['String']>;
@@ -1821,6 +1997,21 @@ export type CourseUserBookmarkedByNodeAggregateSelection = {
   firstName: StringAggregateSelectionNonNullable;
   id: IdAggregateSelectionNonNullable;
   lastName: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type CourseUserReviewReviewsAggregationSelection = {
+  __typename?: 'CourseUserReviewReviewsAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<CourseUserReviewReviewsNodeAggregateSelection>;
+};
+
+export type CourseUserReviewReviewsNodeAggregateSelection = {
+  __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+  comment: StringAggregateSelectionNonNullable;
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  rating: FloatAggregateSelectionNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
 };
 
@@ -1904,6 +2095,23 @@ export type CourseWhere = {
   priceConnection?: InputMaybe<CoursePriceConnectionWhere>;
   priceConnection_NOT?: InputMaybe<CoursePriceConnectionWhere>;
   price_NOT?: InputMaybe<CoursePriceWhere>;
+  reviewsAggregate?: InputMaybe<CourseReviewsAggregateInput>;
+  /** Return Courses where all of the related CourseReviewsConnections match this filter */
+  reviewsConnection_ALL?: InputMaybe<CourseReviewsConnectionWhere>;
+  /** Return Courses where none of the related CourseReviewsConnections match this filter */
+  reviewsConnection_NONE?: InputMaybe<CourseReviewsConnectionWhere>;
+  /** Return Courses where one of the related CourseReviewsConnections match this filter */
+  reviewsConnection_SINGLE?: InputMaybe<CourseReviewsConnectionWhere>;
+  /** Return Courses where some of the related CourseReviewsConnections match this filter */
+  reviewsConnection_SOME?: InputMaybe<CourseReviewsConnectionWhere>;
+  /** Return Courses where all of the related UserReviews match this filter */
+  reviews_ALL?: InputMaybe<UserReviewWhere>;
+  /** Return Courses where none of the related UserReviews match this filter */
+  reviews_NONE?: InputMaybe<UserReviewWhere>;
+  /** Return Courses where one of the related UserReviews match this filter */
+  reviews_SINGLE?: InputMaybe<UserReviewWhere>;
+  /** Return Courses where some of the related UserReviews match this filter */
+  reviews_SOME?: InputMaybe<UserReviewWhere>;
   tagsAggregate?: InputMaybe<CourseTagsAggregateInput>;
   /** Return Courses where all of the related CourseTagsConnections match this filter */
   tagsConnection_ALL?: InputMaybe<CourseTagsConnectionWhere>;
@@ -1999,6 +2207,12 @@ export type CreateTopicTagsMutationResponse = {
   __typename?: 'CreateTopicTagsMutationResponse';
   info: CreateInfo;
   topicTags: Array<TopicTag>;
+};
+
+export type CreateUserReviewsMutationResponse = {
+  __typename?: 'CreateUserReviewsMutationResponse';
+  info: CreateInfo;
+  userReviews: Array<UserReview>;
 };
 
 export type CreateUsersMutationResponse = {
@@ -2508,6 +2722,7 @@ export type Mutation = {
   createRoadmap: Scalars['Boolean'];
   createRoadmapNodes: CreateRoadmapNodesMutationResponse;
   createTopicTags: CreateTopicTagsMutationResponse;
+  createUserReviews: CreateUserReviewsMutationResponse;
   createUsers: CreateUsersMutationResponse;
   deleteCoursePlatforms: DeleteInfo;
   deleteCoursePrices: DeleteInfo;
@@ -2516,6 +2731,7 @@ export type Mutation = {
   deleteRoadmapNodes: DeleteInfo;
   deleteRoadmaps: DeleteInfo;
   deleteTopicTags: DeleteInfo;
+  deleteUserReviews: DeleteInfo;
   deleteUsers: DeleteInfo;
   /** Refresh user auth session */
   refreshSession: AuthSessionResponse;
@@ -2530,6 +2746,7 @@ export type Mutation = {
   updateRoadmapNodes: UpdateRoadmapNodesMutationResponse;
   updateRoadmaps: UpdateRoadmapsMutationResponse;
   updateTopicTags: UpdateTopicTagsMutationResponse;
+  updateUserReviews: UpdateUserReviewsMutationResponse;
   updateUsers: UpdateUsersMutationResponse;
 };
 
@@ -2559,6 +2776,10 @@ export type MutationCreateRoadmapNodesArgs = {
 
 export type MutationCreateTopicTagsArgs = {
   input: Array<TopicTagCreateInput>;
+};
+
+export type MutationCreateUserReviewsArgs = {
+  input: Array<UserReviewCreateInput>;
 };
 
 export type MutationCreateUsersArgs = {
@@ -2598,6 +2819,11 @@ export type MutationDeleteRoadmapsArgs = {
 export type MutationDeleteTopicTagsArgs = {
   delete?: InputMaybe<TopicTagDeleteInput>;
   where?: InputMaybe<TopicTagWhere>;
+};
+
+export type MutationDeleteUserReviewsArgs = {
+  delete?: InputMaybe<UserReviewDeleteInput>;
+  where?: InputMaybe<UserReviewWhere>;
 };
 
 export type MutationDeleteUsersArgs = {
@@ -2687,6 +2913,16 @@ export type MutationUpdateTopicTagsArgs = {
   where?: InputMaybe<TopicTagWhere>;
 };
 
+export type MutationUpdateUserReviewsArgs = {
+  connect?: InputMaybe<UserReviewConnectInput>;
+  connectOrCreate?: InputMaybe<UserReviewConnectOrCreateInput>;
+  create?: InputMaybe<UserReviewRelationInput>;
+  delete?: InputMaybe<UserReviewDeleteInput>;
+  disconnect?: InputMaybe<UserReviewDisconnectInput>;
+  update?: InputMaybe<UserReviewUpdateInput>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
 export type MutationUpdateUsersArgs = {
   connect?: InputMaybe<UserConnectInput>;
   connectOrCreate?: InputMaybe<UserConnectOrCreateInput>;
@@ -2734,6 +2970,9 @@ export type Query = {
   topicTagsAggregate: TopicTagAggregateSelection;
   topicTagsConnection: TopicTagsConnection;
   userRecommendedCourses?: Maybe<Array<Course>>;
+  userReviews: Array<UserReview>;
+  userReviewsAggregate: UserReviewAggregateSelection;
+  userReviewsConnection: UserReviewsConnection;
   users: Array<User>;
   usersAggregate: UserAggregateSelection;
   usersConnection: UsersConnection;
@@ -2871,6 +3110,22 @@ export type QueryUserRecommendedCoursesArgs = {
   count?: InputMaybe<Scalars['Int']>;
 };
 
+export type QueryUserReviewsArgs = {
+  options?: InputMaybe<UserReviewOptions>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
+export type QueryUserReviewsAggregateArgs = {
+  where?: InputMaybe<UserReviewWhere>;
+};
+
+export type QueryUserReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<InputMaybe<UserReviewSort>>>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
 export type QueryUsersArgs = {
   options?: InputMaybe<UserOptions>;
   where?: InputMaybe<UserWhere>;
@@ -2908,6 +3163,9 @@ export type Roadmap = {
   nodeAggregate?: Maybe<RoadmapRoadmapNodeNodeAggregationSelection>;
   nodeConnection: RoadmapNodeConnection;
   nodes?: Maybe<Array<RoadmapNode>>;
+  reviews: Array<UserReview>;
+  reviewsAggregate?: Maybe<RoadmapUserReviewReviewsAggregationSelection>;
+  reviewsConnection: RoadmapReviewsConnection;
   tags: Array<TopicTag>;
   tagsAggregate?: Maybe<RoadmapTopicTagTagsAggregationSelection>;
   tagsConnection: RoadmapTagsConnection;
@@ -2989,6 +3247,25 @@ export type RoadmapNodeConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<RoadmapNodeConnectionSort>>;
   where?: InputMaybe<RoadmapNodeConnectionWhere>;
+};
+
+export type RoadmapReviewsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<UserReviewOptions>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
+export type RoadmapReviewsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<UserReviewWhere>;
+};
+
+export type RoadmapReviewsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapReviewsConnectionSort>>;
+  where?: InputMaybe<RoadmapReviewsConnectionWhere>;
 };
 
 export type RoadmapTagsArgs = {
@@ -3182,6 +3459,7 @@ export type RoadmapConnectInput = {
   createdBy?: InputMaybe<RoadmapCreatedByConnectFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesConnectFieldInput>>;
   node?: InputMaybe<RoadmapNodeConnectFieldInput>;
+  reviews?: InputMaybe<Array<RoadmapReviewsConnectFieldInput>>;
   tags?: InputMaybe<Array<RoadmapTagsConnectFieldInput>>;
 };
 
@@ -3190,6 +3468,7 @@ export type RoadmapConnectOrCreateInput = {
   createdBy?: InputMaybe<RoadmapCreatedByConnectOrCreateFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesConnectOrCreateFieldInput>>;
   node?: InputMaybe<RoadmapNodeConnectOrCreateFieldInput>;
+  reviews?: InputMaybe<Array<RoadmapReviewsConnectOrCreateFieldInput>>;
   tags?: InputMaybe<Array<RoadmapTagsConnectOrCreateFieldInput>>;
 };
 
@@ -3208,6 +3487,7 @@ export type RoadmapCreateInput = {
   difficulty?: InputMaybe<Difficulty>;
   languages?: InputMaybe<RoadmapLanguagesFieldInput>;
   node?: InputMaybe<RoadmapNodeFieldInput>;
+  reviews?: InputMaybe<RoadmapReviewsFieldInput>;
   tags?: InputMaybe<RoadmapTagsFieldInput>;
   title: Scalars['String'];
 };
@@ -3374,6 +3654,7 @@ export type RoadmapDeleteInput = {
   createdBy?: InputMaybe<RoadmapCreatedByDeleteFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesDeleteFieldInput>>;
   node?: InputMaybe<RoadmapNodeDeleteFieldInput>;
+  reviews?: InputMaybe<Array<RoadmapReviewsDeleteFieldInput>>;
   tags?: InputMaybe<Array<RoadmapTagsDeleteFieldInput>>;
 };
 
@@ -3382,6 +3663,7 @@ export type RoadmapDisconnectInput = {
   createdBy?: InputMaybe<RoadmapCreatedByDisconnectFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesDisconnectFieldInput>>;
   node?: InputMaybe<RoadmapNodeDisconnectFieldInput>;
+  reviews?: InputMaybe<Array<RoadmapReviewsDisconnectFieldInput>>;
   tags?: InputMaybe<Array<RoadmapTagsDisconnectFieldInput>>;
 };
 
@@ -4956,7 +5238,155 @@ export type RoadmapRelationInput = {
   createdBy?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesCreateFieldInput>>;
   node?: InputMaybe<RoadmapNodeCreateFieldInput>;
+  reviews?: InputMaybe<Array<RoadmapReviewsCreateFieldInput>>;
   tags?: InputMaybe<Array<RoadmapTagsCreateFieldInput>>;
+};
+
+export type RoadmapReviewsAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapReviewsAggregateInput>>;
+  NOT?: InputMaybe<RoadmapReviewsAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapReviewsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<RoadmapReviewsNodeAggregationWhereInput>;
+};
+
+export type RoadmapReviewsConnectFieldInput = {
+  connect?: InputMaybe<Array<UserReviewConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<UserReviewConnectWhere>;
+};
+
+export type RoadmapReviewsConnectOrCreateFieldInput = {
+  onCreate: RoadmapReviewsConnectOrCreateFieldInputOnCreate;
+  where: UserReviewConnectOrCreateWhere;
+};
+
+export type RoadmapReviewsConnectOrCreateFieldInputOnCreate = {
+  node: UserReviewOnCreateInput;
+};
+
+export type RoadmapReviewsConnection = {
+  __typename?: 'RoadmapReviewsConnection';
+  edges: Array<RoadmapReviewsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapReviewsConnectionSort = {
+  node?: InputMaybe<UserReviewSort>;
+};
+
+export type RoadmapReviewsConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapReviewsConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapReviewsConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapReviewsConnectionWhere>>;
+  node?: InputMaybe<UserReviewWhere>;
+};
+
+export type RoadmapReviewsCreateFieldInput = {
+  node: UserReviewCreateInput;
+};
+
+export type RoadmapReviewsDeleteFieldInput = {
+  delete?: InputMaybe<UserReviewDeleteInput>;
+  where?: InputMaybe<RoadmapReviewsConnectionWhere>;
+};
+
+export type RoadmapReviewsDisconnectFieldInput = {
+  disconnect?: InputMaybe<UserReviewDisconnectInput>;
+  where?: InputMaybe<RoadmapReviewsConnectionWhere>;
+};
+
+export type RoadmapReviewsFieldInput = {
+  connect?: InputMaybe<Array<RoadmapReviewsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapReviewsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapReviewsCreateFieldInput>>;
+};
+
+export type RoadmapReviewsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapReviewsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapReviewsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapReviewsNodeAggregationWhereInput>>;
+  comment_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  comment_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  comment_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  comment_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  comment_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  rating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  rating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  rating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  rating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  rating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  rating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  rating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  rating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  rating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  rating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  rating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  rating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  rating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  rating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  rating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type RoadmapReviewsRelationship = {
+  __typename?: 'RoadmapReviewsRelationship';
+  cursor: Scalars['String'];
+  node: UserReview;
+};
+
+export type RoadmapReviewsUpdateConnectionInput = {
+  node?: InputMaybe<UserReviewUpdateInput>;
+};
+
+export type RoadmapReviewsUpdateFieldInput = {
+  connect?: InputMaybe<Array<RoadmapReviewsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapReviewsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapReviewsCreateFieldInput>>;
+  delete?: InputMaybe<Array<RoadmapReviewsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<RoadmapReviewsDisconnectFieldInput>>;
+  update?: InputMaybe<RoadmapReviewsUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapReviewsConnectionWhere>;
 };
 
 export type RoadmapRoadmapInfoFulltext = {
@@ -5160,6 +5590,7 @@ export type RoadmapUpdateInput = {
   difficulty?: InputMaybe<Difficulty>;
   languages?: InputMaybe<Array<RoadmapLanguagesUpdateFieldInput>>;
   node?: InputMaybe<RoadmapNodeUpdateFieldInput>;
+  reviews?: InputMaybe<Array<RoadmapReviewsUpdateFieldInput>>;
   tags?: InputMaybe<Array<RoadmapTagsUpdateFieldInput>>;
   title?: InputMaybe<Scalars['String']>;
 };
@@ -5193,6 +5624,21 @@ export type RoadmapUserCreatedByNodeAggregateSelection = {
   firstName: StringAggregateSelectionNonNullable;
   id: IdAggregateSelectionNonNullable;
   lastName: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type RoadmapUserReviewReviewsAggregationSelection = {
+  __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<RoadmapUserReviewReviewsNodeAggregateSelection>;
+};
+
+export type RoadmapUserReviewReviewsNodeAggregateSelection = {
+  __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+  comment: StringAggregateSelectionNonNullable;
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  rating: FloatAggregateSelectionNullable;
   updatedAt: DateTimeAggregateSelectionNullable;
 };
 
@@ -5264,6 +5710,23 @@ export type RoadmapWhere = {
   nodeConnection?: InputMaybe<RoadmapNodeConnectionWhere>;
   nodeConnection_NOT?: InputMaybe<RoadmapNodeConnectionWhere>;
   node_NOT?: InputMaybe<RoadmapNodeWhere>;
+  reviewsAggregate?: InputMaybe<RoadmapReviewsAggregateInput>;
+  /** Return Roadmaps where all of the related RoadmapReviewsConnections match this filter */
+  reviewsConnection_ALL?: InputMaybe<RoadmapReviewsConnectionWhere>;
+  /** Return Roadmaps where none of the related RoadmapReviewsConnections match this filter */
+  reviewsConnection_NONE?: InputMaybe<RoadmapReviewsConnectionWhere>;
+  /** Return Roadmaps where one of the related RoadmapReviewsConnections match this filter */
+  reviewsConnection_SINGLE?: InputMaybe<RoadmapReviewsConnectionWhere>;
+  /** Return Roadmaps where some of the related RoadmapReviewsConnections match this filter */
+  reviewsConnection_SOME?: InputMaybe<RoadmapReviewsConnectionWhere>;
+  /** Return Roadmaps where all of the related UserReviews match this filter */
+  reviews_ALL?: InputMaybe<UserReviewWhere>;
+  /** Return Roadmaps where none of the related UserReviews match this filter */
+  reviews_NONE?: InputMaybe<UserReviewWhere>;
+  /** Return Roadmaps where one of the related UserReviews match this filter */
+  reviews_SINGLE?: InputMaybe<UserReviewWhere>;
+  /** Return Roadmaps where some of the related UserReviews match this filter */
+  reviews_SOME?: InputMaybe<UserReviewWhere>;
   tagsAggregate?: InputMaybe<RoadmapTagsAggregateInput>;
   /** Return Roadmaps where all of the related RoadmapTagsConnections match this filter */
   tagsConnection_ALL?: InputMaybe<RoadmapTagsConnectionWhere>;
@@ -6011,6 +6474,12 @@ export type UpdateTopicTagsMutationResponse = {
   __typename?: 'UpdateTopicTagsMutationResponse';
   info: UpdateInfo;
   topicTags: Array<TopicTag>;
+};
+
+export type UpdateUserReviewsMutationResponse = {
+  __typename?: 'UpdateUserReviewsMutationResponse';
+  info: UpdateInfo;
+  userReviews: Array<UserReview>;
 };
 
 export type UpdateUsersMutationResponse = {
@@ -6820,6 +7289,783 @@ export type UserResponse = {
   updatedAt: Scalars['String'];
 };
 
+export type UserReview = {
+  __typename?: 'UserReview';
+  comment: Scalars['String'];
+  course?: Maybe<Course>;
+  courseAggregate?: Maybe<UserReviewCourseCourseAggregationSelection>;
+  courseConnection: UserReviewCourseConnection;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['ID'];
+  rating?: Maybe<Scalars['Float']>;
+  roadmap?: Maybe<Roadmap>;
+  roadmapAggregate?: Maybe<UserReviewRoadmapRoadmapAggregationSelection>;
+  roadmapConnection: UserReviewRoadmapConnection;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  user: User;
+  userAggregate?: Maybe<UserReviewUserUserAggregationSelection>;
+  userConnection: UserReviewUserConnection;
+};
+
+export type UserReviewCourseArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseOptions>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type UserReviewCourseAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type UserReviewCourseConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserReviewCourseConnectionSort>>;
+  where?: InputMaybe<UserReviewCourseConnectionWhere>;
+};
+
+export type UserReviewRoadmapArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapOptions>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserReviewRoadmapAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserReviewRoadmapConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserReviewRoadmapConnectionSort>>;
+  where?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+};
+
+export type UserReviewUserArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<UserOptions>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type UserReviewUserAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type UserReviewUserConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserReviewUserConnectionSort>>;
+  where?: InputMaybe<UserReviewUserConnectionWhere>;
+};
+
+export type UserReviewAggregateSelection = {
+  __typename?: 'UserReviewAggregateSelection';
+  comment: StringAggregateSelectionNonNullable;
+  count: Scalars['Int'];
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  rating: FloatAggregateSelectionNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type UserReviewConnectInput = {
+  course?: InputMaybe<UserReviewCourseConnectFieldInput>;
+  roadmap?: InputMaybe<UserReviewRoadmapConnectFieldInput>;
+  user?: InputMaybe<UserReviewUserConnectFieldInput>;
+};
+
+export type UserReviewConnectOrCreateInput = {
+  course?: InputMaybe<UserReviewCourseConnectOrCreateFieldInput>;
+  roadmap?: InputMaybe<UserReviewRoadmapConnectOrCreateFieldInput>;
+  user?: InputMaybe<UserReviewUserConnectOrCreateFieldInput>;
+};
+
+export type UserReviewConnectOrCreateWhere = {
+  node: UserReviewUniqueWhere;
+};
+
+export type UserReviewConnectWhere = {
+  node: UserReviewWhere;
+};
+
+export type UserReviewCourseAggregateInput = {
+  AND?: InputMaybe<Array<UserReviewCourseAggregateInput>>;
+  NOT?: InputMaybe<UserReviewCourseAggregateInput>;
+  OR?: InputMaybe<Array<UserReviewCourseAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserReviewCourseNodeAggregationWhereInput>;
+};
+
+export type UserReviewCourseConnectFieldInput = {
+  connect?: InputMaybe<CourseConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseConnectWhere>;
+};
+
+export type UserReviewCourseConnectOrCreateFieldInput = {
+  onCreate: UserReviewCourseConnectOrCreateFieldInputOnCreate;
+  where: CourseConnectOrCreateWhere;
+};
+
+export type UserReviewCourseConnectOrCreateFieldInputOnCreate = {
+  node: CourseOnCreateInput;
+};
+
+export type UserReviewCourseConnection = {
+  __typename?: 'UserReviewCourseConnection';
+  edges: Array<UserReviewCourseRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserReviewCourseConnectionSort = {
+  node?: InputMaybe<CourseSort>;
+};
+
+export type UserReviewCourseConnectionWhere = {
+  AND?: InputMaybe<Array<UserReviewCourseConnectionWhere>>;
+  NOT?: InputMaybe<UserReviewCourseConnectionWhere>;
+  OR?: InputMaybe<Array<UserReviewCourseConnectionWhere>>;
+  node?: InputMaybe<CourseWhere>;
+};
+
+export type UserReviewCourseCourseAggregationSelection = {
+  __typename?: 'UserReviewCourseCourseAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserReviewCourseCourseNodeAggregateSelection>;
+};
+
+export type UserReviewCourseCourseNodeAggregateSelection = {
+  __typename?: 'UserReviewCourseCourseNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
+export type UserReviewCourseCreateFieldInput = {
+  node: CourseCreateInput;
+};
+
+export type UserReviewCourseDeleteFieldInput = {
+  delete?: InputMaybe<CourseDeleteInput>;
+  where?: InputMaybe<UserReviewCourseConnectionWhere>;
+};
+
+export type UserReviewCourseDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseDisconnectInput>;
+  where?: InputMaybe<UserReviewCourseConnectionWhere>;
+};
+
+export type UserReviewCourseFieldInput = {
+  connect?: InputMaybe<UserReviewCourseConnectFieldInput>;
+  connectOrCreate?: InputMaybe<UserReviewCourseConnectOrCreateFieldInput>;
+  create?: InputMaybe<UserReviewCourseCreateFieldInput>;
+};
+
+export type UserReviewCourseNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserReviewCourseNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserReviewCourseNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserReviewCourseNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserReviewCourseRelationship = {
+  __typename?: 'UserReviewCourseRelationship';
+  cursor: Scalars['String'];
+  node: Course;
+};
+
+export type UserReviewCourseUpdateConnectionInput = {
+  node?: InputMaybe<CourseUpdateInput>;
+};
+
+export type UserReviewCourseUpdateFieldInput = {
+  connect?: InputMaybe<UserReviewCourseConnectFieldInput>;
+  connectOrCreate?: InputMaybe<UserReviewCourseConnectOrCreateFieldInput>;
+  create?: InputMaybe<UserReviewCourseCreateFieldInput>;
+  delete?: InputMaybe<UserReviewCourseDeleteFieldInput>;
+  disconnect?: InputMaybe<UserReviewCourseDisconnectFieldInput>;
+  update?: InputMaybe<UserReviewCourseUpdateConnectionInput>;
+  where?: InputMaybe<UserReviewCourseConnectionWhere>;
+};
+
+export type UserReviewCreateInput = {
+  comment: Scalars['String'];
+  course?: InputMaybe<UserReviewCourseFieldInput>;
+  rating?: InputMaybe<Scalars['Float']>;
+  roadmap?: InputMaybe<UserReviewRoadmapFieldInput>;
+  user?: InputMaybe<UserReviewUserFieldInput>;
+};
+
+export type UserReviewDeleteInput = {
+  course?: InputMaybe<UserReviewCourseDeleteFieldInput>;
+  roadmap?: InputMaybe<UserReviewRoadmapDeleteFieldInput>;
+  user?: InputMaybe<UserReviewUserDeleteFieldInput>;
+};
+
+export type UserReviewDisconnectInput = {
+  course?: InputMaybe<UserReviewCourseDisconnectFieldInput>;
+  roadmap?: InputMaybe<UserReviewRoadmapDisconnectFieldInput>;
+  user?: InputMaybe<UserReviewUserDisconnectFieldInput>;
+};
+
+export type UserReviewEdge = {
+  __typename?: 'UserReviewEdge';
+  cursor: Scalars['String'];
+  node: UserReview;
+};
+
+export type UserReviewOnCreateInput = {
+  comment: Scalars['String'];
+  rating?: InputMaybe<Scalars['Float']>;
+};
+
+export type UserReviewOptions = {
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  /** Specify one or more UserReviewSort objects to sort UserReviews by. The sorts will be applied in the order in which they are arranged in the array. */
+  sort?: InputMaybe<Array<UserReviewSort>>;
+};
+
+export type UserReviewRelationInput = {
+  course?: InputMaybe<UserReviewCourseCreateFieldInput>;
+  roadmap?: InputMaybe<UserReviewRoadmapCreateFieldInput>;
+  user?: InputMaybe<UserReviewUserCreateFieldInput>;
+};
+
+export type UserReviewRoadmapAggregateInput = {
+  AND?: InputMaybe<Array<UserReviewRoadmapAggregateInput>>;
+  NOT?: InputMaybe<UserReviewRoadmapAggregateInput>;
+  OR?: InputMaybe<Array<UserReviewRoadmapAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserReviewRoadmapNodeAggregationWhereInput>;
+};
+
+export type UserReviewRoadmapConnectFieldInput = {
+  connect?: InputMaybe<RoadmapConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapConnectWhere>;
+};
+
+export type UserReviewRoadmapConnectOrCreateFieldInput = {
+  onCreate: UserReviewRoadmapConnectOrCreateFieldInputOnCreate;
+  where: RoadmapConnectOrCreateWhere;
+};
+
+export type UserReviewRoadmapConnectOrCreateFieldInputOnCreate = {
+  node: RoadmapOnCreateInput;
+};
+
+export type UserReviewRoadmapConnection = {
+  __typename?: 'UserReviewRoadmapConnection';
+  edges: Array<UserReviewRoadmapRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserReviewRoadmapConnectionSort = {
+  node?: InputMaybe<RoadmapSort>;
+};
+
+export type UserReviewRoadmapConnectionWhere = {
+  AND?: InputMaybe<Array<UserReviewRoadmapConnectionWhere>>;
+  NOT?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+  OR?: InputMaybe<Array<UserReviewRoadmapConnectionWhere>>;
+  node?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserReviewRoadmapCreateFieldInput = {
+  node: RoadmapCreateInput;
+};
+
+export type UserReviewRoadmapDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  where?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+};
+
+export type UserReviewRoadmapDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapDisconnectInput>;
+  where?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+};
+
+export type UserReviewRoadmapFieldInput = {
+  connect?: InputMaybe<UserReviewRoadmapConnectFieldInput>;
+  connectOrCreate?: InputMaybe<UserReviewRoadmapConnectOrCreateFieldInput>;
+  create?: InputMaybe<UserReviewRoadmapCreateFieldInput>;
+};
+
+export type UserReviewRoadmapNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserReviewRoadmapNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserReviewRoadmapNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserReviewRoadmapNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserReviewRoadmapRelationship = {
+  __typename?: 'UserReviewRoadmapRelationship';
+  cursor: Scalars['String'];
+  node: Roadmap;
+};
+
+export type UserReviewRoadmapRoadmapAggregationSelection = {
+  __typename?: 'UserReviewRoadmapRoadmapAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserReviewRoadmapRoadmapNodeAggregateSelection>;
+};
+
+export type UserReviewRoadmapRoadmapNodeAggregateSelection = {
+  __typename?: 'UserReviewRoadmapRoadmapNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type UserReviewRoadmapUpdateConnectionInput = {
+  node?: InputMaybe<RoadmapUpdateInput>;
+};
+
+export type UserReviewRoadmapUpdateFieldInput = {
+  connect?: InputMaybe<UserReviewRoadmapConnectFieldInput>;
+  connectOrCreate?: InputMaybe<UserReviewRoadmapConnectOrCreateFieldInput>;
+  create?: InputMaybe<UserReviewRoadmapCreateFieldInput>;
+  delete?: InputMaybe<UserReviewRoadmapDeleteFieldInput>;
+  disconnect?: InputMaybe<UserReviewRoadmapDisconnectFieldInput>;
+  update?: InputMaybe<UserReviewRoadmapUpdateConnectionInput>;
+  where?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+};
+
+/** Fields to sort UserReviews by. The order in which sorts are applied is not guaranteed when specifying many fields in one UserReviewSort object. */
+export type UserReviewSort = {
+  comment?: InputMaybe<SortDirection>;
+  createdAt?: InputMaybe<SortDirection>;
+  id?: InputMaybe<SortDirection>;
+  rating?: InputMaybe<SortDirection>;
+  updatedAt?: InputMaybe<SortDirection>;
+};
+
+export type UserReviewUniqueWhere = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+export type UserReviewUpdateInput = {
+  comment?: InputMaybe<Scalars['String']>;
+  course?: InputMaybe<UserReviewCourseUpdateFieldInput>;
+  rating?: InputMaybe<Scalars['Float']>;
+  rating_ADD?: InputMaybe<Scalars['Float']>;
+  rating_DIVIDE?: InputMaybe<Scalars['Float']>;
+  rating_MULTIPLY?: InputMaybe<Scalars['Float']>;
+  rating_SUBTRACT?: InputMaybe<Scalars['Float']>;
+  roadmap?: InputMaybe<UserReviewRoadmapUpdateFieldInput>;
+  user?: InputMaybe<UserReviewUserUpdateFieldInput>;
+};
+
+export type UserReviewUserAggregateInput = {
+  AND?: InputMaybe<Array<UserReviewUserAggregateInput>>;
+  NOT?: InputMaybe<UserReviewUserAggregateInput>;
+  OR?: InputMaybe<Array<UserReviewUserAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserReviewUserNodeAggregationWhereInput>;
+};
+
+export type UserReviewUserConnectFieldInput = {
+  connect?: InputMaybe<UserConnectInput>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<UserConnectWhere>;
+};
+
+export type UserReviewUserConnectOrCreateFieldInput = {
+  onCreate: UserReviewUserConnectOrCreateFieldInputOnCreate;
+  where: UserConnectOrCreateWhere;
+};
+
+export type UserReviewUserConnectOrCreateFieldInputOnCreate = {
+  node: UserOnCreateInput;
+};
+
+export type UserReviewUserConnection = {
+  __typename?: 'UserReviewUserConnection';
+  edges: Array<UserReviewUserRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserReviewUserConnectionSort = {
+  node?: InputMaybe<UserSort>;
+};
+
+export type UserReviewUserConnectionWhere = {
+  AND?: InputMaybe<Array<UserReviewUserConnectionWhere>>;
+  NOT?: InputMaybe<UserReviewUserConnectionWhere>;
+  OR?: InputMaybe<Array<UserReviewUserConnectionWhere>>;
+  node?: InputMaybe<UserWhere>;
+};
+
+export type UserReviewUserCreateFieldInput = {
+  node: UserCreateInput;
+};
+
+export type UserReviewUserDeleteFieldInput = {
+  delete?: InputMaybe<UserDeleteInput>;
+  where?: InputMaybe<UserReviewUserConnectionWhere>;
+};
+
+export type UserReviewUserDisconnectFieldInput = {
+  disconnect?: InputMaybe<UserDisconnectInput>;
+  where?: InputMaybe<UserReviewUserConnectionWhere>;
+};
+
+export type UserReviewUserFieldInput = {
+  connect?: InputMaybe<UserReviewUserConnectFieldInput>;
+  connectOrCreate?: InputMaybe<UserReviewUserConnectOrCreateFieldInput>;
+  create?: InputMaybe<UserReviewUserCreateFieldInput>;
+};
+
+export type UserReviewUserNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserReviewUserNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserReviewUserNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserReviewUserNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  email_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  email_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  firstName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  lastName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserReviewUserRelationship = {
+  __typename?: 'UserReviewUserRelationship';
+  cursor: Scalars['String'];
+  node: User;
+};
+
+export type UserReviewUserUpdateConnectionInput = {
+  node?: InputMaybe<UserUpdateInput>;
+};
+
+export type UserReviewUserUpdateFieldInput = {
+  connect?: InputMaybe<UserReviewUserConnectFieldInput>;
+  connectOrCreate?: InputMaybe<UserReviewUserConnectOrCreateFieldInput>;
+  create?: InputMaybe<UserReviewUserCreateFieldInput>;
+  delete?: InputMaybe<UserReviewUserDeleteFieldInput>;
+  disconnect?: InputMaybe<UserReviewUserDisconnectFieldInput>;
+  update?: InputMaybe<UserReviewUserUpdateConnectionInput>;
+  where?: InputMaybe<UserReviewUserConnectionWhere>;
+};
+
+export type UserReviewUserUserAggregationSelection = {
+  __typename?: 'UserReviewUserUserAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserReviewUserUserNodeAggregateSelection>;
+};
+
+export type UserReviewUserUserNodeAggregateSelection = {
+  __typename?: 'UserReviewUserUserNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  email: StringAggregateSelectionNonNullable;
+  firstName: StringAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  lastName: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
+export type UserReviewWhere = {
+  AND?: InputMaybe<Array<UserReviewWhere>>;
+  NOT?: InputMaybe<UserReviewWhere>;
+  OR?: InputMaybe<Array<UserReviewWhere>>;
+  comment?: InputMaybe<Scalars['String']>;
+  comment_CONTAINS?: InputMaybe<Scalars['String']>;
+  comment_ENDS_WITH?: InputMaybe<Scalars['String']>;
+  comment_IN?: InputMaybe<Array<Scalars['String']>>;
+  comment_MATCHES?: InputMaybe<Scalars['String']>;
+  comment_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  course?: InputMaybe<CourseWhere>;
+  courseAggregate?: InputMaybe<UserReviewCourseAggregateInput>;
+  courseConnection?: InputMaybe<UserReviewCourseConnectionWhere>;
+  courseConnection_NOT?: InputMaybe<UserReviewCourseConnectionWhere>;
+  course_NOT?: InputMaybe<CourseWhere>;
+  createdAt?: InputMaybe<Scalars['DateTime']>;
+  createdAt_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_IN?: InputMaybe<Array<Scalars['DateTime']>>;
+  createdAt_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_LTE?: InputMaybe<Scalars['DateTime']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_CONTAINS?: InputMaybe<Scalars['ID']>;
+  id_ENDS_WITH?: InputMaybe<Scalars['ID']>;
+  id_IN?: InputMaybe<Array<Scalars['ID']>>;
+  id_MATCHES?: InputMaybe<Scalars['String']>;
+  id_STARTS_WITH?: InputMaybe<Scalars['ID']>;
+  rating?: InputMaybe<Scalars['Float']>;
+  rating_GT?: InputMaybe<Scalars['Float']>;
+  rating_GTE?: InputMaybe<Scalars['Float']>;
+  rating_IN?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  rating_LT?: InputMaybe<Scalars['Float']>;
+  rating_LTE?: InputMaybe<Scalars['Float']>;
+  roadmap?: InputMaybe<RoadmapWhere>;
+  roadmapAggregate?: InputMaybe<UserReviewRoadmapAggregateInput>;
+  roadmapConnection?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+  roadmapConnection_NOT?: InputMaybe<UserReviewRoadmapConnectionWhere>;
+  roadmap_NOT?: InputMaybe<RoadmapWhere>;
+  updatedAt?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_IN?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
+  updatedAt_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_LTE?: InputMaybe<Scalars['DateTime']>;
+  user?: InputMaybe<UserWhere>;
+  userAggregate?: InputMaybe<UserReviewUserAggregateInput>;
+  userConnection?: InputMaybe<UserReviewUserConnectionWhere>;
+  userConnection_NOT?: InputMaybe<UserReviewUserConnectionWhere>;
+  user_NOT?: InputMaybe<UserWhere>;
+};
+
+export type UserReviewsConnection = {
+  __typename?: 'UserReviewsConnection';
+  edges: Array<UserReviewEdge>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
 export type UserRoadmapBookmarkedRoadmapsAggregationSelection = {
   __typename?: 'UserRoadmapBookmarkedRoadmapsAggregationSelection';
   count: Scalars['Int'];
@@ -7180,6 +8426,22 @@ export type CourseInfoFragment = {
     url: string;
   } | null;
   tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+  reviews: Array<{
+    __typename?: 'UserReview';
+    id: string;
+    rating?: number | null;
+    comment: string;
+    createdAt: any;
+    user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+  }>;
+  reviewsAggregate?: {
+    __typename?: 'CourseUserReviewReviewsAggregationSelection';
+    count: number;
+    node?: {
+      __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+      rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+    } | null;
+  } | null;
 };
 
 export type GetCoursesQueryVariables = Exact<{
@@ -7215,6 +8477,22 @@ export type GetCoursesQuery = {
       url: string;
     } | null;
     tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+    reviews: Array<{
+      __typename?: 'UserReview';
+      id: string;
+      rating?: number | null;
+      comment: string;
+      createdAt: any;
+      user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    }>;
+    reviewsAggregate?: {
+      __typename?: 'CourseUserReviewReviewsAggregationSelection';
+      count: number;
+      node?: {
+        __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+        rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+      } | null;
+    } | null;
   }>;
   coursesAggregate: { __typename?: 'CourseAggregateSelection'; count: number };
 };
@@ -7257,6 +8535,22 @@ export type SearchCoursesQuery = {
         url: string;
       } | null;
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+      reviews: Array<{
+        __typename?: 'UserReview';
+        id: string;
+        rating?: number | null;
+        comment: string;
+        createdAt: any;
+        user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      }>;
+      reviewsAggregate?: {
+        __typename?: 'CourseUserReviewReviewsAggregationSelection';
+        count: number;
+        node?: {
+          __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+          rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+        } | null;
+      } | null;
     };
   }>;
 };
@@ -7335,6 +8629,22 @@ export type GlobalSearchQuery = {
         url: string;
       } | null;
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+      reviews: Array<{
+        __typename?: 'UserReview';
+        id: string;
+        rating?: number | null;
+        comment: string;
+        createdAt: any;
+        user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      }>;
+      reviewsAggregate?: {
+        __typename?: 'CourseUserReviewReviewsAggregationSelection';
+        count: number;
+        node?: {
+          __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+          rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+        } | null;
+      } | null;
     };
   }>;
   roadmapsFulltextRoadmapInfo: Array<{
@@ -7352,6 +8662,22 @@ export type GlobalSearchQuery = {
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
       languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
       createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      reviews: Array<{
+        __typename?: 'UserReview';
+        id: string;
+        rating?: number | null;
+        comment: string;
+        createdAt: any;
+        user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      }>;
+      reviewsAggregate?: {
+        __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+        count: number;
+        node?: {
+          __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+          rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+        } | null;
+      } | null;
     };
   }>;
 };
@@ -7390,6 +8716,22 @@ export type RoadmapNodeInfoFragment = {
       url: string;
     } | null;
     tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+    reviews: Array<{
+      __typename?: 'UserReview';
+      id: string;
+      rating?: number | null;
+      comment: string;
+      createdAt: any;
+      user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    }>;
+    reviewsAggregate?: {
+      __typename?: 'CourseUserReviewReviewsAggregationSelection';
+      count: number;
+      node?: {
+        __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+        rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+      } | null;
+    } | null;
   }>;
 };
 
@@ -7413,6 +8755,22 @@ export type RoadmapInfoFragment = {
   tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
   languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
   createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+  reviews: Array<{
+    __typename?: 'UserReview';
+    id: string;
+    rating?: number | null;
+    comment: string;
+    createdAt: any;
+    user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+  }>;
+  reviewsAggregate?: {
+    __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+    count: number;
+    node?: {
+      __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+      rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+    } | null;
+  } | null;
 };
 
 export type GetRoadmapsQueryVariables = Exact<{
@@ -7434,6 +8792,22 @@ export type GetRoadmapsQuery = {
     tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
     languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
     createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    reviews: Array<{
+      __typename?: 'UserReview';
+      id: string;
+      rating?: number | null;
+      comment: string;
+      createdAt: any;
+      user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    }>;
+    reviewsAggregate?: {
+      __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+      count: number;
+      node?: {
+        __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+        rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+      } | null;
+    } | null;
   }>;
   roadmapsAggregate: { __typename?: 'RoadmapAggregateSelection'; count: number };
 };
@@ -7462,6 +8836,22 @@ export type SearchRoadmapsQuery = {
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
       languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
       createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      reviews: Array<{
+        __typename?: 'UserReview';
+        id: string;
+        rating?: number | null;
+        comment: string;
+        createdAt: any;
+        user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      }>;
+      reviewsAggregate?: {
+        __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+        count: number;
+        node?: {
+          __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+          rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+        } | null;
+      } | null;
     };
   }>;
 };
@@ -7516,6 +8906,22 @@ export type GetRoadmapByIdQuery = {
           url: string;
         } | null;
         tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+        reviews: Array<{
+          __typename?: 'UserReview';
+          id: string;
+          rating?: number | null;
+          comment: string;
+          createdAt: any;
+          user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+        }>;
+        reviewsAggregate?: {
+          __typename?: 'CourseUserReviewReviewsAggregationSelection';
+          count: number;
+          node?: {
+            __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+            rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+          } | null;
+        } | null;
       }>;
     }> | null;
     edges?: Array<{
@@ -7526,6 +8932,22 @@ export type GetRoadmapByIdQuery = {
       targetHandle?: string | null;
     }> | null;
     createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    reviews: Array<{
+      __typename?: 'UserReview';
+      id: string;
+      rating?: number | null;
+      comment: string;
+      createdAt: any;
+      user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    }>;
+    reviewsAggregate?: {
+      __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+      count: number;
+      node?: {
+        __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+        rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+      } | null;
+    } | null;
   }>;
 };
 
@@ -7591,6 +9013,22 @@ export type CurrentUserQuery = {
         url: string;
       } | null;
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+      reviews: Array<{
+        __typename?: 'UserReview';
+        id: string;
+        rating?: number | null;
+        comment: string;
+        createdAt: any;
+        user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      }>;
+      reviewsAggregate?: {
+        __typename?: 'CourseUserReviewReviewsAggregationSelection';
+        count: number;
+        node?: {
+          __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+          rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+        } | null;
+      } | null;
     }>;
     bookmarkedRoadmaps: Array<{
       __typename?: 'Roadmap';
@@ -7604,6 +9042,22 @@ export type CurrentUserQuery = {
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
       languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
       createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      reviews: Array<{
+        __typename?: 'UserReview';
+        id: string;
+        rating?: number | null;
+        comment: string;
+        createdAt: any;
+        user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+      }>;
+      reviewsAggregate?: {
+        __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+        count: number;
+        node?: {
+          __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+          rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+        } | null;
+      } | null;
     }>;
   } | null;
 };
@@ -7640,6 +9094,22 @@ export type GetUserRecommendedCoursesQuery = {
       url: string;
     } | null;
     tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+    reviews: Array<{
+      __typename?: 'UserReview';
+      id: string;
+      rating?: number | null;
+      comment: string;
+      createdAt: any;
+      user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    }>;
+    reviewsAggregate?: {
+      __typename?: 'CourseUserReviewReviewsAggregationSelection';
+      count: number;
+      node?: {
+        __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+        rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+      } | null;
+    } | null;
   }> | null;
 };
 
@@ -7659,6 +9129,54 @@ export type UpdateUsersMutation = {
     __typename?: 'UpdateUsersMutationResponse';
     users: Array<{ __typename?: 'User'; id: string }>;
   };
+};
+
+export type UserReviewInfoFragment = {
+  __typename?: 'UserReview';
+  id: string;
+  rating?: number | null;
+  comment: string;
+  createdAt: any;
+  user: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+};
+
+export type CourseUserReviewAggregationInfoFragment = {
+  __typename?: 'CourseUserReviewReviewsAggregationSelection';
+  count: number;
+  node?: {
+    __typename?: 'CourseUserReviewReviewsNodeAggregateSelection';
+    rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+  } | null;
+};
+
+export type RoadmapUserReviewAggregationInfoFragment = {
+  __typename?: 'RoadmapUserReviewReviewsAggregationSelection';
+  count: number;
+  node?: {
+    __typename?: 'RoadmapUserReviewReviewsNodeAggregateSelection';
+    rating: { __typename?: 'FloatAggregateSelectionNullable'; average?: number | null };
+  } | null;
+};
+
+export type CreateUserReviewsMutationVariables = Exact<{
+  input: Array<UserReviewCreateInput> | UserReviewCreateInput;
+}>;
+
+export type CreateUserReviewsMutation = {
+  __typename?: 'Mutation';
+  createUserReviews: {
+    __typename?: 'CreateUserReviewsMutationResponse';
+    userReviews: Array<{ __typename?: 'UserReview'; id: string }>;
+  };
+};
+
+export type DelelteUserReviewsMutationVariables = Exact<{
+  where?: InputMaybe<UserReviewWhere>;
+}>;
+
+export type DelelteUserReviewsMutation = {
+  __typename?: 'Mutation';
+  deleteUserReviews: { __typename?: 'DeleteInfo'; nodesDeleted: number };
 };
 
 export const UserAuthInfoFragmentDoc = {
@@ -7724,6 +9242,73 @@ export const CoursePlatformInfoFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode;
+export const UserReviewInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const CourseUserReviewAggregationInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
 export const CourseInfoFragmentDoc = {
   kind: 'Document',
   definitions: [
@@ -7784,6 +9369,86 @@ export const CourseInfoFragmentDoc = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
               ],
             },
           },
@@ -7879,6 +9544,86 @@ export const RoadmapNodeInfoFragmentDoc = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -7898,6 +9643,42 @@ export const RoadmapEdgeInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'source' } },
           { kind: 'Field', name: { kind: 'Name', value: 'target' } },
           { kind: 'Field', name: { kind: 'Name', value: 'targetHandle' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export const RoadmapUserReviewAggregationInfoFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -7951,6 +9732,86 @@ export const RoadmapInfoFragmentDoc = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -8806,6 +10667,86 @@ export const GetCoursesDocument = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -8984,6 +10925,86 @@ export const SearchCoursesDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
               ],
             },
           },
@@ -9586,6 +11607,29 @@ export const GlobalSearchDocument = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -9634,6 +11678,117 @@ export const GlobalSearchDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -9790,6 +11945,86 @@ export const GetRoadmapsDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -9959,6 +12194,86 @@ export const SearchRoadmapsDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10109,6 +12424,29 @@ export const GetRoadmapByIdDocument = {
                 },
                 { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'reviews' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'reviewsAggregate' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      {
+                        kind: 'FragmentSpread',
+                        name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+                      },
+                    ],
+                  },
+                },
               ],
             },
           },
@@ -10175,6 +12513,29 @@ export const GetRoadmapByIdDocument = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10213,6 +12574,94 @@ export const GetRoadmapByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'source' } },
           { kind: 'Field', name: { kind: 'Name', value: 'target' } },
           { kind: 'Field', name: { kind: 'Name', value: 'targetHandle' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10527,6 +12976,29 @@ export const CurrentUserDocument = {
               ],
             },
           },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10575,6 +13047,29 @@ export const CurrentUserDocument = {
           },
           { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
           { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10590,6 +13085,94 @@ export const CurrentUserDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'RoadmapUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
+              ],
+            },
+          },
         ],
       },
     },
@@ -10724,6 +13307,86 @@ export const GetUserRecommendedCoursesDocument = {
               selections: [
                 { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviews' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserReviewInfo' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'reviewsAggregate' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'FragmentSpread',
+                  name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserReviewInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReview' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'rating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'comment' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'user' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseUserReviewAggregationInfo' },
+      typeCondition: {
+        kind: 'NamedType',
+        name: { kind: 'Name', value: 'CourseUserReviewReviewsAggregationSelection' },
+      },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'count' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'node' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'rating' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'average' } }],
+                  },
+                },
               ],
             },
           },
@@ -10931,4 +13594,176 @@ export type UpdateUsersMutationResult = Apollo.MutationResult<UpdateUsersMutatio
 export type UpdateUsersMutationOptions = Apollo.BaseMutationOptions<
   UpdateUsersMutation,
   UpdateUsersMutationVariables
+>;
+export const CreateUserReviewsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateUserReviews' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+          type: {
+            kind: 'NonNullType',
+            type: {
+              kind: 'ListType',
+              type: {
+                kind: 'NonNullType',
+                type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReviewCreateInput' } },
+              },
+            },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createUserReviews' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'input' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'input' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'userReviews' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type CreateUserReviewsMutationFn = Apollo.MutationFunction<
+  CreateUserReviewsMutation,
+  CreateUserReviewsMutationVariables
+>;
+
+/**
+ * __useCreateUserReviewsMutation__
+ *
+ * To run a mutation, you first call `useCreateUserReviewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateUserReviewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createUserReviewsMutation, { data, loading, error }] = useCreateUserReviewsMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateUserReviewsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateUserReviewsMutation,
+    CreateUserReviewsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateUserReviewsMutation, CreateUserReviewsMutationVariables>(
+    CreateUserReviewsDocument,
+    options,
+  );
+}
+export type CreateUserReviewsMutationHookResult = ReturnType<typeof useCreateUserReviewsMutation>;
+export type CreateUserReviewsMutationResult = Apollo.MutationResult<CreateUserReviewsMutation>;
+export type CreateUserReviewsMutationOptions = Apollo.BaseMutationOptions<
+  CreateUserReviewsMutation,
+  CreateUserReviewsMutationVariables
+>;
+export const DelelteUserReviewsDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DelelteUserReviews' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserReviewWhere' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteUserReviews' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'nodesDeleted' } }],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type DelelteUserReviewsMutationFn = Apollo.MutationFunction<
+  DelelteUserReviewsMutation,
+  DelelteUserReviewsMutationVariables
+>;
+
+/**
+ * __useDelelteUserReviewsMutation__
+ *
+ * To run a mutation, you first call `useDelelteUserReviewsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDelelteUserReviewsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [delelteUserReviewsMutation, { data, loading, error }] = useDelelteUserReviewsMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *   },
+ * });
+ */
+export function useDelelteUserReviewsMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    DelelteUserReviewsMutation,
+    DelelteUserReviewsMutationVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DelelteUserReviewsMutation, DelelteUserReviewsMutationVariables>(
+    DelelteUserReviewsDocument,
+    options,
+  );
+}
+export type DelelteUserReviewsMutationHookResult = ReturnType<typeof useDelelteUserReviewsMutation>;
+export type DelelteUserReviewsMutationResult = Apollo.MutationResult<DelelteUserReviewsMutation>;
+export type DelelteUserReviewsMutationOptions = Apollo.BaseMutationOptions<
+  DelelteUserReviewsMutation,
+  DelelteUserReviewsMutationVariables
 >;

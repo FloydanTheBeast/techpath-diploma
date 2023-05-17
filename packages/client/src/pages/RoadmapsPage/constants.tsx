@@ -1,4 +1,4 @@
-import { Avatar, Group, Text } from '@mantine/core';
+import { Avatar, Group, Rating, Text, Tooltip } from '@mantine/core';
 import { RoadmapInfoFragment } from '@shared/graphql';
 import { IconUserCircle } from '@tabler/icons-react';
 import dayjs from 'dayjs';
@@ -8,6 +8,33 @@ export const ROADMAPS_TABLE_COLUMNS: MRT_ColumnDef<RoadmapInfoFragment>[] = [
   {
     header: 'Title',
     accessorKey: 'title',
+  },
+  {
+    header: 'Title',
+    accessorKey: 'title',
+  },
+  {
+    header: 'Description',
+    accessorFn: ({ description }) => (
+      <Tooltip label={description} maw={300} multiline withArrow openDelay={500} withinPortal>
+        <Text lineClamp={3} sx={{ cursor: 'help', maw: 400 }}>
+          {description}
+        </Text>
+      </Tooltip>
+    ),
+  },
+  {
+    header: 'Internal rating',
+    accessorFn: ({ reviewsAggregate }) => (
+      <Group>
+        <Rating
+          value={reviewsAggregate?.node?.rating.average ?? undefined}
+          fractions={2}
+          readOnly
+        />
+        <Text>({reviewsAggregate?.count ?? 0})</Text>
+      </Group>
+    ),
   },
   {
     header: 'Created by',

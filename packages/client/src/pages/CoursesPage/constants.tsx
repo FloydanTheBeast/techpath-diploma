@@ -110,14 +110,26 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
       )),
   },
   {
+    header: 'Internal rating',
+    accessorFn: ({ reviewsAggregate }) => (
+      <Group>
+        <Rating
+          value={reviewsAggregate?.node?.rating.average ?? undefined}
+          fractions={2}
+          readOnly
+        />
+        <Text>({reviewsAggregate?.count ?? 0})</Text>
+      </Group>
+    ),
+  },
+  {
     header: 'External rating',
-    accessorFn: ({ externalRating, externalRatingsCount }) =>
-      externalRating ? (
-        <Group>
-          <Rating value={externalRating} fractions={2} readOnly />
-          <Text>({externalRatingsCount})</Text>
-        </Group>
-      ) : null,
+    accessorFn: ({ externalRating, externalRatingsCount }) => (
+      <Group>
+        <Rating value={externalRating ?? undefined} fractions={2} readOnly />
+        <Text>({externalRatingsCount ?? 0})</Text>
+      </Group>
+    ),
   },
   {
     header: 'Difficulty',
