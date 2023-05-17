@@ -24,7 +24,7 @@ export class UserResolver {
 
   @Query(() => UserResponse)
   @UseGuards(GqlAuthGuard)
-  async currentUser(@CurrentUser() { id }: JwtPayload) {
+  async currentUserAuthInfo(@CurrentUser() { id }: JwtPayload) {
     return this.userService.getUser(id);
   }
 

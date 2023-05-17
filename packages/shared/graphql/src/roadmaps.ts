@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-import { USER_INFO_FRAGMENT } from './auth';
 import { COURSE_INFO_FRAGMENT } from './courses';
 
 export const ROADMAP_NODE_INFO_FRAMENT = gql`
@@ -33,6 +32,7 @@ export const ROADMAP_INFO_FRAGMENT = gql`
     title
     description
     difficulty
+    bookmarked
     tags {
       id
       name
@@ -48,7 +48,6 @@ export const ROADMAP_INFO_FRAGMENT = gql`
     createdAt
     updatedAt
   }
-  ${USER_INFO_FRAGMENT}
 `;
 
 export const GET_ROADMAPS_QUERY = gql`

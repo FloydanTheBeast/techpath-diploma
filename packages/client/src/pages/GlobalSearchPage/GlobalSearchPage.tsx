@@ -1,16 +1,7 @@
 import React from 'react';
 
-import {
-  ActionIcon,
-  Group,
-  SegmentedControl,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  TextInput,
-} from '@mantine/core';
+import { Group, SegmentedControl, SimpleGrid, Skeleton, Stack, TextInput } from '@mantine/core';
 import { useSearchCoursesQuery, useSearchRoadmapsQuery } from '@shared/graphql';
-import { IconSearch } from '@tabler/icons-react';
 import { useSearchParams } from 'react-router-dom';
 
 import { COURSE_CARD_HEIGHT, ContentPageLayout, CourseCard, RoadmapCard } from 'src/components';

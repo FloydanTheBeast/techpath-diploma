@@ -35,9 +35,10 @@ import { COURSE_CARD_HEIGHT } from './constants';
 
 type CourseCardProps = {
   course: CourseInfoFragment;
+  renderCustomActions?: () => React.ReactNode;
 };
 
-export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
+export const CourseCard: React.FC<CourseCardProps> = ({ course, renderCustomActions }) => {
   return (
     <Card bg="white" radius="md" p="md" shadow="sm" sx={cardStyles}>
       <Card.Section withBorder inheritPadding py="xs" mb={16}>
@@ -63,6 +64,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course }) => {
               </Menu.Target>
 
               <Menu.Dropdown>
+                {renderCustomActions?.()}
                 <Menu.Item icon={<IconPlus size={rem(14)} />} disabled>
                   Add
                 </Menu.Item>

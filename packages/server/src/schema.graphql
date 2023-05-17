@@ -1,4 +1,11 @@
 type Query {
+  currentUser: User
+    @cypher(
+      statement: """
+      MATCH (u:User {id: $auth.jwt.id })
+      RETURN u
+      """
+    )
   userRecommendedCourses(count: Int): [Course!]
     @cypher(
       statement: """
@@ -20,6 +27,9 @@ type User {
 
   createdRoadmaps: [Roadmap!]! @relationship(type: "CREATED_BY", direction: IN)
   preferableTopics: [TopicTag!]! @relationship(type: "PREFERS_TOPIC", direction: OUT)
+
+  bookmarkedCourses: [Course!]! @relationship(type: "BOOKMARKED", direction: OUT)
+  bookmarkedRoadmaps: [Roadmap!]! @relationship(type: "BOOKMARKED", direction: OUT)
 
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
@@ -47,6 +57,15 @@ type Course
   languages: [Language!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
+
+  bookmarkedBy: [User!]! @relationship(type: "BOOKMARKED", direction: IN)
+  bookmarked: Boolean!
+    @cypher(
+      statement: """
+      MATCH (this)<-[:BOOKMARKED]-(:User { id: $auth.jwt.id })
+      RETURN count(*) > 0
+      """
+    )
 
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
@@ -107,6 +126,15 @@ type Roadmap
       """
     )
   createdBy: User! @relationship(type: "CREATED_BY", direction: OUT)
+
+  bookmarked: Boolean!
+    @cypher(
+      statement: """
+      MATCH (this)<-[:BOOKMARKED]-(:User { id: $auth.jwt.id })
+      RETURN count(*) > 0
+      """
+    )
+  bookmarkedBy: [User!]! @relationship(type: "BOOKMARKED", direction: IN)
 
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])

@@ -35,6 +35,10 @@ export type AuthSessionWithUserResponse = {
 
 export type Course = {
   __typename?: 'Course';
+  bookmarked: Scalars['Boolean'];
+  bookmarkedBy: Array<User>;
+  bookmarkedByAggregate?: Maybe<CourseUserBookmarkedByAggregationSelection>;
+  bookmarkedByConnection: CourseBookmarkedByConnection;
   createdAt: Scalars['DateTime'];
   description?: Maybe<Scalars['String']>;
   difficulty?: Maybe<Difficulty>;
@@ -56,6 +60,25 @@ export type Course = {
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
   url: Scalars['String'];
+};
+
+export type CourseBookmarkedByArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<UserOptions>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type CourseBookmarkedByAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type CourseBookmarkedByConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<CourseBookmarkedByConnectionSort>>;
+  where?: InputMaybe<CourseBookmarkedByConnectionWhere>;
 };
 
 export type CourseLanguagesArgs = {
@@ -147,7 +170,165 @@ export type CourseAggregateSelection = {
   url: StringAggregateSelectionNonNullable;
 };
 
+export type CourseBookmarkedByAggregateInput = {
+  AND?: InputMaybe<Array<CourseBookmarkedByAggregateInput>>;
+  NOT?: InputMaybe<CourseBookmarkedByAggregateInput>;
+  OR?: InputMaybe<Array<CourseBookmarkedByAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<CourseBookmarkedByNodeAggregationWhereInput>;
+};
+
+export type CourseBookmarkedByConnectFieldInput = {
+  connect?: InputMaybe<Array<UserConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<UserConnectWhere>;
+};
+
+export type CourseBookmarkedByConnectOrCreateFieldInput = {
+  onCreate: CourseBookmarkedByConnectOrCreateFieldInputOnCreate;
+  where: UserConnectOrCreateWhere;
+};
+
+export type CourseBookmarkedByConnectOrCreateFieldInputOnCreate = {
+  node: UserOnCreateInput;
+};
+
+export type CourseBookmarkedByConnection = {
+  __typename?: 'CourseBookmarkedByConnection';
+  edges: Array<CourseBookmarkedByRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type CourseBookmarkedByConnectionSort = {
+  node?: InputMaybe<UserSort>;
+};
+
+export type CourseBookmarkedByConnectionWhere = {
+  AND?: InputMaybe<Array<CourseBookmarkedByConnectionWhere>>;
+  NOT?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+  OR?: InputMaybe<Array<CourseBookmarkedByConnectionWhere>>;
+  node?: InputMaybe<UserWhere>;
+};
+
+export type CourseBookmarkedByCreateFieldInput = {
+  node: UserCreateInput;
+};
+
+export type CourseBookmarkedByDeleteFieldInput = {
+  delete?: InputMaybe<UserDeleteInput>;
+  where?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+};
+
+export type CourseBookmarkedByDisconnectFieldInput = {
+  disconnect?: InputMaybe<UserDisconnectInput>;
+  where?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+};
+
+export type CourseBookmarkedByFieldInput = {
+  connect?: InputMaybe<Array<CourseBookmarkedByConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseBookmarkedByConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseBookmarkedByCreateFieldInput>>;
+};
+
+export type CourseBookmarkedByNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<CourseBookmarkedByNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<CourseBookmarkedByNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<CourseBookmarkedByNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  email_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  email_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  firstName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  lastName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type CourseBookmarkedByRelationship = {
+  __typename?: 'CourseBookmarkedByRelationship';
+  cursor: Scalars['String'];
+  node: User;
+};
+
+export type CourseBookmarkedByUpdateConnectionInput = {
+  node?: InputMaybe<UserUpdateInput>;
+};
+
+export type CourseBookmarkedByUpdateFieldInput = {
+  connect?: InputMaybe<Array<CourseBookmarkedByConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<CourseBookmarkedByConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<CourseBookmarkedByCreateFieldInput>>;
+  delete?: InputMaybe<Array<CourseBookmarkedByDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<CourseBookmarkedByDisconnectFieldInput>>;
+  update?: InputMaybe<CourseBookmarkedByUpdateConnectionInput>;
+  where?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+};
+
 export type CourseConnectInput = {
+  bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByConnectFieldInput>>;
   languages?: InputMaybe<Array<CourseLanguagesConnectFieldInput>>;
   platform?: InputMaybe<CoursePlatformConnectFieldInput>;
   price?: InputMaybe<CoursePriceConnectFieldInput>;
@@ -155,6 +336,7 @@ export type CourseConnectInput = {
 };
 
 export type CourseConnectOrCreateInput = {
+  bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByConnectOrCreateFieldInput>>;
   languages?: InputMaybe<Array<CourseLanguagesConnectOrCreateFieldInput>>;
   platform?: InputMaybe<CoursePlatformConnectOrCreateFieldInput>;
   tags?: InputMaybe<Array<CourseTagsConnectOrCreateFieldInput>>;
@@ -201,6 +383,7 @@ export type CourseCoursePricePriceNodeAggregateSelection = {
 };
 
 export type CourseCreateInput = {
+  bookmarkedBy?: InputMaybe<CourseBookmarkedByFieldInput>;
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<Difficulty>;
   externalRating?: InputMaybe<Scalars['Float']>;
@@ -214,6 +397,7 @@ export type CourseCreateInput = {
 };
 
 export type CourseDeleteInput = {
+  bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByDeleteFieldInput>>;
   languages?: InputMaybe<Array<CourseLanguagesDeleteFieldInput>>;
   platform?: InputMaybe<CoursePlatformDeleteFieldInput>;
   price?: InputMaybe<CoursePriceDeleteFieldInput>;
@@ -221,6 +405,7 @@ export type CourseDeleteInput = {
 };
 
 export type CourseDisconnectInput = {
+  bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByDisconnectFieldInput>>;
   languages?: InputMaybe<Array<CourseLanguagesDisconnectFieldInput>>;
   platform?: InputMaybe<CoursePlatformDisconnectFieldInput>;
   price?: InputMaybe<CoursePriceDisconnectFieldInput>;
@@ -1418,6 +1603,7 @@ export type CoursePricesConnection = {
 };
 
 export type CourseRelationInput = {
+  bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByCreateFieldInput>>;
   languages?: InputMaybe<Array<CourseLanguagesCreateFieldInput>>;
   platform?: InputMaybe<CoursePlatformCreateFieldInput>;
   price?: InputMaybe<CoursePriceCreateFieldInput>;
@@ -1426,6 +1612,7 @@ export type CourseRelationInput = {
 
 /** Fields to sort Courses by. The order in which sorts are applied is not guaranteed when specifying many fields in one CourseSort object. */
 export type CourseSort = {
+  bookmarked?: InputMaybe<SortDirection>;
   createdAt?: InputMaybe<SortDirection>;
   description?: InputMaybe<SortDirection>;
   difficulty?: InputMaybe<SortDirection>;
@@ -1602,6 +1789,7 @@ export type CourseUniqueWhere = {
 };
 
 export type CourseUpdateInput = {
+  bookmarkedBy?: InputMaybe<Array<CourseBookmarkedByUpdateFieldInput>>;
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<Difficulty>;
   externalRating?: InputMaybe<Scalars['Float']>;
@@ -1620,10 +1808,43 @@ export type CourseUpdateInput = {
   url?: InputMaybe<Scalars['String']>;
 };
 
+export type CourseUserBookmarkedByAggregationSelection = {
+  __typename?: 'CourseUserBookmarkedByAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<CourseUserBookmarkedByNodeAggregateSelection>;
+};
+
+export type CourseUserBookmarkedByNodeAggregateSelection = {
+  __typename?: 'CourseUserBookmarkedByNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  email: StringAggregateSelectionNonNullable;
+  firstName: StringAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  lastName: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+};
+
 export type CourseWhere = {
   AND?: InputMaybe<Array<CourseWhere>>;
   NOT?: InputMaybe<CourseWhere>;
   OR?: InputMaybe<Array<CourseWhere>>;
+  bookmarkedByAggregate?: InputMaybe<CourseBookmarkedByAggregateInput>;
+  /** Return Courses where all of the related CourseBookmarkedByConnections match this filter */
+  bookmarkedByConnection_ALL?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+  /** Return Courses where none of the related CourseBookmarkedByConnections match this filter */
+  bookmarkedByConnection_NONE?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+  /** Return Courses where one of the related CourseBookmarkedByConnections match this filter */
+  bookmarkedByConnection_SINGLE?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+  /** Return Courses where some of the related CourseBookmarkedByConnections match this filter */
+  bookmarkedByConnection_SOME?: InputMaybe<CourseBookmarkedByConnectionWhere>;
+  /** Return Courses where all of the related Users match this filter */
+  bookmarkedBy_ALL?: InputMaybe<UserWhere>;
+  /** Return Courses where none of the related Users match this filter */
+  bookmarkedBy_NONE?: InputMaybe<UserWhere>;
+  /** Return Courses where one of the related Users match this filter */
+  bookmarkedBy_SINGLE?: InputMaybe<UserWhere>;
+  /** Return Courses where some of the related Users match this filter */
+  bookmarkedBy_SOME?: InputMaybe<UserWhere>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   createdAt_GT?: InputMaybe<Scalars['DateTime']>;
   createdAt_GTE?: InputMaybe<Scalars['DateTime']>;
@@ -2497,7 +2718,8 @@ export type Query = {
   coursesAggregate: CourseAggregateSelection;
   coursesConnection: CoursesConnection;
   coursesFulltextCourseInfo: Array<CourseFulltextResult>;
-  currentUser: UserResponse;
+  currentUser?: Maybe<User>;
+  currentUserAuthInfo: UserResponse;
   languages: Array<Language>;
   languagesAggregate: LanguageAggregateSelection;
   languagesConnection: LanguagesConnection;
@@ -2667,6 +2889,10 @@ export type QueryUsersConnectionArgs = {
 
 export type Roadmap = {
   __typename?: 'Roadmap';
+  bookmarked: Scalars['Boolean'];
+  bookmarkedBy: Array<User>;
+  bookmarkedByAggregate?: Maybe<RoadmapUserBookmarkedByAggregationSelection>;
+  bookmarkedByConnection: RoadmapBookmarkedByConnection;
   createdAt: Scalars['DateTime'];
   createdBy: User;
   createdByAggregate?: Maybe<RoadmapUserCreatedByAggregationSelection>;
@@ -2687,6 +2913,25 @@ export type Roadmap = {
   tagsConnection: RoadmapTagsConnection;
   title: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type RoadmapBookmarkedByArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<UserOptions>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type RoadmapBookmarkedByAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<UserWhere>;
+};
+
+export type RoadmapBookmarkedByConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<RoadmapBookmarkedByConnectionSort>>;
+  where?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
 };
 
 export type RoadmapCreatedByArgs = {
@@ -2775,7 +3020,165 @@ export type RoadmapAggregateSelection = {
   updatedAt: DateTimeAggregateSelectionNullable;
 };
 
+export type RoadmapBookmarkedByAggregateInput = {
+  AND?: InputMaybe<Array<RoadmapBookmarkedByAggregateInput>>;
+  NOT?: InputMaybe<RoadmapBookmarkedByAggregateInput>;
+  OR?: InputMaybe<Array<RoadmapBookmarkedByAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<RoadmapBookmarkedByNodeAggregationWhereInput>;
+};
+
+export type RoadmapBookmarkedByConnectFieldInput = {
+  connect?: InputMaybe<Array<UserConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<UserConnectWhere>;
+};
+
+export type RoadmapBookmarkedByConnectOrCreateFieldInput = {
+  onCreate: RoadmapBookmarkedByConnectOrCreateFieldInputOnCreate;
+  where: UserConnectOrCreateWhere;
+};
+
+export type RoadmapBookmarkedByConnectOrCreateFieldInputOnCreate = {
+  node: UserOnCreateInput;
+};
+
+export type RoadmapBookmarkedByConnection = {
+  __typename?: 'RoadmapBookmarkedByConnection';
+  edges: Array<RoadmapBookmarkedByRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type RoadmapBookmarkedByConnectionSort = {
+  node?: InputMaybe<UserSort>;
+};
+
+export type RoadmapBookmarkedByConnectionWhere = {
+  AND?: InputMaybe<Array<RoadmapBookmarkedByConnectionWhere>>;
+  NOT?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+  OR?: InputMaybe<Array<RoadmapBookmarkedByConnectionWhere>>;
+  node?: InputMaybe<UserWhere>;
+};
+
+export type RoadmapBookmarkedByCreateFieldInput = {
+  node: UserCreateInput;
+};
+
+export type RoadmapBookmarkedByDeleteFieldInput = {
+  delete?: InputMaybe<UserDeleteInput>;
+  where?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+};
+
+export type RoadmapBookmarkedByDisconnectFieldInput = {
+  disconnect?: InputMaybe<UserDisconnectInput>;
+  where?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+};
+
+export type RoadmapBookmarkedByFieldInput = {
+  connect?: InputMaybe<Array<RoadmapBookmarkedByConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapBookmarkedByConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapBookmarkedByCreateFieldInput>>;
+};
+
+export type RoadmapBookmarkedByNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<RoadmapBookmarkedByNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<RoadmapBookmarkedByNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<RoadmapBookmarkedByNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  email_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  email_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  email_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  email_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  firstName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  firstName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  firstName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  lastName_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  lastName_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  lastName_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type RoadmapBookmarkedByRelationship = {
+  __typename?: 'RoadmapBookmarkedByRelationship';
+  cursor: Scalars['String'];
+  node: User;
+};
+
+export type RoadmapBookmarkedByUpdateConnectionInput = {
+  node?: InputMaybe<UserUpdateInput>;
+};
+
+export type RoadmapBookmarkedByUpdateFieldInput = {
+  connect?: InputMaybe<Array<RoadmapBookmarkedByConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<RoadmapBookmarkedByConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<RoadmapBookmarkedByCreateFieldInput>>;
+  delete?: InputMaybe<Array<RoadmapBookmarkedByDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<RoadmapBookmarkedByDisconnectFieldInput>>;
+  update?: InputMaybe<RoadmapBookmarkedByUpdateConnectionInput>;
+  where?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+};
+
 export type RoadmapConnectInput = {
+  bookmarkedBy?: InputMaybe<Array<RoadmapBookmarkedByConnectFieldInput>>;
   createdBy?: InputMaybe<RoadmapCreatedByConnectFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesConnectFieldInput>>;
   node?: InputMaybe<RoadmapNodeConnectFieldInput>;
@@ -2783,6 +3186,7 @@ export type RoadmapConnectInput = {
 };
 
 export type RoadmapConnectOrCreateInput = {
+  bookmarkedBy?: InputMaybe<Array<RoadmapBookmarkedByConnectOrCreateFieldInput>>;
   createdBy?: InputMaybe<RoadmapCreatedByConnectOrCreateFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesConnectOrCreateFieldInput>>;
   node?: InputMaybe<RoadmapNodeConnectOrCreateFieldInput>;
@@ -2798,6 +3202,7 @@ export type RoadmapConnectWhere = {
 };
 
 export type RoadmapCreateInput = {
+  bookmarkedBy?: InputMaybe<RoadmapBookmarkedByFieldInput>;
   createdBy?: InputMaybe<RoadmapCreatedByFieldInput>;
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<Difficulty>;
@@ -2965,6 +3370,7 @@ export type RoadmapCreatedByUpdateFieldInput = {
 };
 
 export type RoadmapDeleteInput = {
+  bookmarkedBy?: InputMaybe<Array<RoadmapBookmarkedByDeleteFieldInput>>;
   createdBy?: InputMaybe<RoadmapCreatedByDeleteFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesDeleteFieldInput>>;
   node?: InputMaybe<RoadmapNodeDeleteFieldInput>;
@@ -2972,6 +3378,7 @@ export type RoadmapDeleteInput = {
 };
 
 export type RoadmapDisconnectInput = {
+  bookmarkedBy?: InputMaybe<Array<RoadmapBookmarkedByDisconnectFieldInput>>;
   createdBy?: InputMaybe<RoadmapCreatedByDisconnectFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesDisconnectFieldInput>>;
   node?: InputMaybe<RoadmapNodeDisconnectFieldInput>;
@@ -4545,6 +4952,7 @@ export type RoadmapOptions = {
 };
 
 export type RoadmapRelationInput = {
+  bookmarkedBy?: InputMaybe<Array<RoadmapBookmarkedByCreateFieldInput>>;
   createdBy?: InputMaybe<RoadmapCreatedByCreateFieldInput>;
   languages?: InputMaybe<Array<RoadmapLanguagesCreateFieldInput>>;
   node?: InputMaybe<RoadmapNodeCreateFieldInput>;
@@ -4573,6 +4981,7 @@ export type RoadmapRoadmapNodeNodeNodeAggregateSelection = {
 
 /** Fields to sort Roadmaps by. The order in which sorts are applied is not guaranteed when specifying many fields in one RoadmapSort object. */
 export type RoadmapSort = {
+  bookmarked?: InputMaybe<SortDirection>;
   createdAt?: InputMaybe<SortDirection>;
   description?: InputMaybe<SortDirection>;
   difficulty?: InputMaybe<SortDirection>;
@@ -4745,6 +5154,7 @@ export type RoadmapUniqueWhere = {
 };
 
 export type RoadmapUpdateInput = {
+  bookmarkedBy?: InputMaybe<Array<RoadmapBookmarkedByUpdateFieldInput>>;
   createdBy?: InputMaybe<RoadmapCreatedByUpdateFieldInput>;
   description?: InputMaybe<Scalars['String']>;
   difficulty?: InputMaybe<Difficulty>;
@@ -4752,6 +5162,22 @@ export type RoadmapUpdateInput = {
   node?: InputMaybe<RoadmapNodeUpdateFieldInput>;
   tags?: InputMaybe<Array<RoadmapTagsUpdateFieldInput>>;
   title?: InputMaybe<Scalars['String']>;
+};
+
+export type RoadmapUserBookmarkedByAggregationSelection = {
+  __typename?: 'RoadmapUserBookmarkedByAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<RoadmapUserBookmarkedByNodeAggregateSelection>;
+};
+
+export type RoadmapUserBookmarkedByNodeAggregateSelection = {
+  __typename?: 'RoadmapUserBookmarkedByNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  email: StringAggregateSelectionNonNullable;
+  firstName: StringAggregateSelectionNonNullable;
+  id: IdAggregateSelectionNonNullable;
+  lastName: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
 };
 
 export type RoadmapUserCreatedByAggregationSelection = {
@@ -4774,6 +5200,23 @@ export type RoadmapWhere = {
   AND?: InputMaybe<Array<RoadmapWhere>>;
   NOT?: InputMaybe<RoadmapWhere>;
   OR?: InputMaybe<Array<RoadmapWhere>>;
+  bookmarkedByAggregate?: InputMaybe<RoadmapBookmarkedByAggregateInput>;
+  /** Return Roadmaps where all of the related RoadmapBookmarkedByConnections match this filter */
+  bookmarkedByConnection_ALL?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+  /** Return Roadmaps where none of the related RoadmapBookmarkedByConnections match this filter */
+  bookmarkedByConnection_NONE?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+  /** Return Roadmaps where one of the related RoadmapBookmarkedByConnections match this filter */
+  bookmarkedByConnection_SINGLE?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+  /** Return Roadmaps where some of the related RoadmapBookmarkedByConnections match this filter */
+  bookmarkedByConnection_SOME?: InputMaybe<RoadmapBookmarkedByConnectionWhere>;
+  /** Return Roadmaps where all of the related Users match this filter */
+  bookmarkedBy_ALL?: InputMaybe<UserWhere>;
+  /** Return Roadmaps where none of the related Users match this filter */
+  bookmarkedBy_NONE?: InputMaybe<UserWhere>;
+  /** Return Roadmaps where one of the related Users match this filter */
+  bookmarkedBy_SINGLE?: InputMaybe<UserWhere>;
+  /** Return Roadmaps where some of the related Users match this filter */
+  bookmarkedBy_SOME?: InputMaybe<UserWhere>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   createdAt_GT?: InputMaybe<Scalars['DateTime']>;
   createdAt_GTE?: InputMaybe<Scalars['DateTime']>;
@@ -5578,6 +6021,12 @@ export type UpdateUsersMutationResponse = {
 
 export type User = {
   __typename?: 'User';
+  bookmarkedCourses: Array<Course>;
+  bookmarkedCoursesAggregate?: Maybe<UserCourseBookmarkedCoursesAggregationSelection>;
+  bookmarkedCoursesConnection: UserBookmarkedCoursesConnection;
+  bookmarkedRoadmaps: Array<Roadmap>;
+  bookmarkedRoadmapsAggregate?: Maybe<UserRoadmapBookmarkedRoadmapsAggregationSelection>;
+  bookmarkedRoadmapsConnection: UserBookmarkedRoadmapsConnection;
   createdAt: Scalars['DateTime'];
   createdRoadmaps: Array<Roadmap>;
   createdRoadmapsAggregate?: Maybe<UserRoadmapCreatedRoadmapsAggregationSelection>;
@@ -5591,6 +6040,44 @@ export type User = {
   preferableTopicsConnection: UserPreferableTopicsConnection;
   roles: Array<Scalars['String']>;
   updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type UserBookmarkedCoursesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<CourseOptions>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type UserBookmarkedCoursesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<CourseWhere>;
+};
+
+export type UserBookmarkedCoursesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserBookmarkedCoursesConnectionSort>>;
+  where?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+};
+
+export type UserBookmarkedRoadmapsArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<RoadmapOptions>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserBookmarkedRoadmapsAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserBookmarkedRoadmapsConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserBookmarkedRoadmapsConnectionSort>>;
+  where?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
 };
 
 export type UserCreatedRoadmapsArgs = {
@@ -5642,12 +6129,355 @@ export type UserAggregateSelection = {
   updatedAt: DateTimeAggregateSelectionNullable;
 };
 
+export type UserBookmarkedCoursesAggregateInput = {
+  AND?: InputMaybe<Array<UserBookmarkedCoursesAggregateInput>>;
+  NOT?: InputMaybe<UserBookmarkedCoursesAggregateInput>;
+  OR?: InputMaybe<Array<UserBookmarkedCoursesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserBookmarkedCoursesNodeAggregationWhereInput>;
+};
+
+export type UserBookmarkedCoursesConnectFieldInput = {
+  connect?: InputMaybe<Array<CourseConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<CourseConnectWhere>;
+};
+
+export type UserBookmarkedCoursesConnectOrCreateFieldInput = {
+  onCreate: UserBookmarkedCoursesConnectOrCreateFieldInputOnCreate;
+  where: CourseConnectOrCreateWhere;
+};
+
+export type UserBookmarkedCoursesConnectOrCreateFieldInputOnCreate = {
+  node: CourseOnCreateInput;
+};
+
+export type UserBookmarkedCoursesConnection = {
+  __typename?: 'UserBookmarkedCoursesConnection';
+  edges: Array<UserBookmarkedCoursesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserBookmarkedCoursesConnectionSort = {
+  node?: InputMaybe<CourseSort>;
+};
+
+export type UserBookmarkedCoursesConnectionWhere = {
+  AND?: InputMaybe<Array<UserBookmarkedCoursesConnectionWhere>>;
+  NOT?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+  OR?: InputMaybe<Array<UserBookmarkedCoursesConnectionWhere>>;
+  node?: InputMaybe<CourseWhere>;
+};
+
+export type UserBookmarkedCoursesCreateFieldInput = {
+  node: CourseCreateInput;
+};
+
+export type UserBookmarkedCoursesDeleteFieldInput = {
+  delete?: InputMaybe<CourseDeleteInput>;
+  where?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+};
+
+export type UserBookmarkedCoursesDisconnectFieldInput = {
+  disconnect?: InputMaybe<CourseDisconnectInput>;
+  where?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+};
+
+export type UserBookmarkedCoursesFieldInput = {
+  connect?: InputMaybe<Array<UserBookmarkedCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserBookmarkedCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserBookmarkedCoursesCreateFieldInput>>;
+};
+
+export type UserBookmarkedCoursesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserBookmarkedCoursesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserBookmarkedCoursesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserBookmarkedCoursesNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  externalRating_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LT?: InputMaybe<Scalars['Float']>;
+  externalRating_SUM_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_EQUAL?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
+  externalRatingsCount_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MAX_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_MIN_LTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_GTE?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LT?: InputMaybe<Scalars['Int']>;
+  externalRatingsCount_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  url_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  url_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  url_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  url_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserBookmarkedCoursesRelationship = {
+  __typename?: 'UserBookmarkedCoursesRelationship';
+  cursor: Scalars['String'];
+  node: Course;
+};
+
+export type UserBookmarkedCoursesUpdateConnectionInput = {
+  node?: InputMaybe<CourseUpdateInput>;
+};
+
+export type UserBookmarkedCoursesUpdateFieldInput = {
+  connect?: InputMaybe<Array<UserBookmarkedCoursesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserBookmarkedCoursesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserBookmarkedCoursesCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserBookmarkedCoursesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<UserBookmarkedCoursesDisconnectFieldInput>>;
+  update?: InputMaybe<UserBookmarkedCoursesUpdateConnectionInput>;
+  where?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+};
+
+export type UserBookmarkedRoadmapsAggregateInput = {
+  AND?: InputMaybe<Array<UserBookmarkedRoadmapsAggregateInput>>;
+  NOT?: InputMaybe<UserBookmarkedRoadmapsAggregateInput>;
+  OR?: InputMaybe<Array<UserBookmarkedRoadmapsAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserBookmarkedRoadmapsNodeAggregationWhereInput>;
+};
+
+export type UserBookmarkedRoadmapsConnectFieldInput = {
+  connect?: InputMaybe<Array<RoadmapConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<RoadmapConnectWhere>;
+};
+
+export type UserBookmarkedRoadmapsConnectOrCreateFieldInput = {
+  onCreate: UserBookmarkedRoadmapsConnectOrCreateFieldInputOnCreate;
+  where: RoadmapConnectOrCreateWhere;
+};
+
+export type UserBookmarkedRoadmapsConnectOrCreateFieldInputOnCreate = {
+  node: RoadmapOnCreateInput;
+};
+
+export type UserBookmarkedRoadmapsConnection = {
+  __typename?: 'UserBookmarkedRoadmapsConnection';
+  edges: Array<UserBookmarkedRoadmapsRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserBookmarkedRoadmapsConnectionSort = {
+  node?: InputMaybe<RoadmapSort>;
+};
+
+export type UserBookmarkedRoadmapsConnectionWhere = {
+  AND?: InputMaybe<Array<UserBookmarkedRoadmapsConnectionWhere>>;
+  NOT?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+  OR?: InputMaybe<Array<UserBookmarkedRoadmapsConnectionWhere>>;
+  node?: InputMaybe<RoadmapWhere>;
+};
+
+export type UserBookmarkedRoadmapsCreateFieldInput = {
+  node: RoadmapCreateInput;
+};
+
+export type UserBookmarkedRoadmapsDeleteFieldInput = {
+  delete?: InputMaybe<RoadmapDeleteInput>;
+  where?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+};
+
+export type UserBookmarkedRoadmapsDisconnectFieldInput = {
+  disconnect?: InputMaybe<RoadmapDisconnectInput>;
+  where?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+};
+
+export type UserBookmarkedRoadmapsFieldInput = {
+  connect?: InputMaybe<Array<UserBookmarkedRoadmapsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserBookmarkedRoadmapsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserBookmarkedRoadmapsCreateFieldInput>>;
+};
+
+export type UserBookmarkedRoadmapsNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserBookmarkedRoadmapsNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserBookmarkedRoadmapsNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserBookmarkedRoadmapsNodeAggregationWhereInput>>;
+  createdAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  createdAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+  description_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  description_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  description_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  description_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  title_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  title_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  title_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  updatedAt_MAX_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MAX_LTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_EQUAL?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_GTE?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LT?: InputMaybe<Scalars['DateTime']>;
+  updatedAt_MIN_LTE?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type UserBookmarkedRoadmapsRelationship = {
+  __typename?: 'UserBookmarkedRoadmapsRelationship';
+  cursor: Scalars['String'];
+  node: Roadmap;
+};
+
+export type UserBookmarkedRoadmapsUpdateConnectionInput = {
+  node?: InputMaybe<RoadmapUpdateInput>;
+};
+
+export type UserBookmarkedRoadmapsUpdateFieldInput = {
+  connect?: InputMaybe<Array<UserBookmarkedRoadmapsConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserBookmarkedRoadmapsConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserBookmarkedRoadmapsCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserBookmarkedRoadmapsDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<UserBookmarkedRoadmapsDisconnectFieldInput>>;
+  update?: InputMaybe<UserBookmarkedRoadmapsUpdateConnectionInput>;
+  where?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+};
+
 export type UserConnectInput = {
+  bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesConnectFieldInput>>;
+  bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsConnectFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectFieldInput>>;
 };
 
 export type UserConnectOrCreateInput = {
+  bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesConnectOrCreateFieldInput>>;
+  bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsConnectOrCreateFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectOrCreateFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectOrCreateFieldInput>>;
 };
@@ -5660,7 +6490,27 @@ export type UserConnectWhere = {
   node: UserWhere;
 };
 
+export type UserCourseBookmarkedCoursesAggregationSelection = {
+  __typename?: 'UserCourseBookmarkedCoursesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserCourseBookmarkedCoursesNodeAggregateSelection>;
+};
+
+export type UserCourseBookmarkedCoursesNodeAggregateSelection = {
+  __typename?: 'UserCourseBookmarkedCoursesNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  externalRating: FloatAggregateSelectionNullable;
+  externalRatingsCount: IntAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
+  url: StringAggregateSelectionNonNullable;
+};
+
 export type UserCreateInput = {
+  bookmarkedCourses?: InputMaybe<UserBookmarkedCoursesFieldInput>;
+  bookmarkedRoadmaps?: InputMaybe<UserBookmarkedRoadmapsFieldInput>;
   createdRoadmaps?: InputMaybe<UserCreatedRoadmapsFieldInput>;
   email: Scalars['String'];
   firstName: Scalars['String'];
@@ -5812,11 +6662,15 @@ export type UserCreatedRoadmapsUpdateFieldInput = {
 };
 
 export type UserDeleteInput = {
+  bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesDeleteFieldInput>>;
+  bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsDeleteFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDeleteFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsDeleteFieldInput>>;
 };
 
 export type UserDisconnectInput = {
+  bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesDisconnectFieldInput>>;
+  bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsDisconnectFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDisconnectFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsDisconnectFieldInput>>;
 };
@@ -5949,6 +6803,8 @@ export type UserPreferableTopicsUpdateFieldInput = {
 };
 
 export type UserRelationInput = {
+  bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesCreateFieldInput>>;
+  bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsCreateFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsCreateFieldInput>>;
 };
@@ -5962,6 +6818,21 @@ export type UserResponse = {
   lastName: Scalars['String'];
   roles: Array<Scalars['String']>;
   updatedAt: Scalars['String'];
+};
+
+export type UserRoadmapBookmarkedRoadmapsAggregationSelection = {
+  __typename?: 'UserRoadmapBookmarkedRoadmapsAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserRoadmapBookmarkedRoadmapsNodeAggregateSelection>;
+};
+
+export type UserRoadmapBookmarkedRoadmapsNodeAggregateSelection = {
+  __typename?: 'UserRoadmapBookmarkedRoadmapsNodeAggregateSelection';
+  createdAt: DateTimeAggregateSelectionNonNullable;
+  description: StringAggregateSelectionNullable;
+  id: IdAggregateSelectionNonNullable;
+  title: StringAggregateSelectionNonNullable;
+  updatedAt: DateTimeAggregateSelectionNullable;
 };
 
 export type UserRoadmapCreatedRoadmapsAggregationSelection = {
@@ -6019,6 +6890,8 @@ export type UserUniqueWhere = {
 };
 
 export type UserUpdateInput = {
+  bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesUpdateFieldInput>>;
+  bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsUpdateFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsUpdateFieldInput>>;
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
@@ -6033,6 +6906,40 @@ export type UserWhere = {
   AND?: InputMaybe<Array<UserWhere>>;
   NOT?: InputMaybe<UserWhere>;
   OR?: InputMaybe<Array<UserWhere>>;
+  bookmarkedCoursesAggregate?: InputMaybe<UserBookmarkedCoursesAggregateInput>;
+  /** Return Users where all of the related UserBookmarkedCoursesConnections match this filter */
+  bookmarkedCoursesConnection_ALL?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+  /** Return Users where none of the related UserBookmarkedCoursesConnections match this filter */
+  bookmarkedCoursesConnection_NONE?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+  /** Return Users where one of the related UserBookmarkedCoursesConnections match this filter */
+  bookmarkedCoursesConnection_SINGLE?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+  /** Return Users where some of the related UserBookmarkedCoursesConnections match this filter */
+  bookmarkedCoursesConnection_SOME?: InputMaybe<UserBookmarkedCoursesConnectionWhere>;
+  /** Return Users where all of the related Courses match this filter */
+  bookmarkedCourses_ALL?: InputMaybe<CourseWhere>;
+  /** Return Users where none of the related Courses match this filter */
+  bookmarkedCourses_NONE?: InputMaybe<CourseWhere>;
+  /** Return Users where one of the related Courses match this filter */
+  bookmarkedCourses_SINGLE?: InputMaybe<CourseWhere>;
+  /** Return Users where some of the related Courses match this filter */
+  bookmarkedCourses_SOME?: InputMaybe<CourseWhere>;
+  bookmarkedRoadmapsAggregate?: InputMaybe<UserBookmarkedRoadmapsAggregateInput>;
+  /** Return Users where all of the related UserBookmarkedRoadmapsConnections match this filter */
+  bookmarkedRoadmapsConnection_ALL?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+  /** Return Users where none of the related UserBookmarkedRoadmapsConnections match this filter */
+  bookmarkedRoadmapsConnection_NONE?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+  /** Return Users where one of the related UserBookmarkedRoadmapsConnections match this filter */
+  bookmarkedRoadmapsConnection_SINGLE?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+  /** Return Users where some of the related UserBookmarkedRoadmapsConnections match this filter */
+  bookmarkedRoadmapsConnection_SOME?: InputMaybe<UserBookmarkedRoadmapsConnectionWhere>;
+  /** Return Users where all of the related Roadmaps match this filter */
+  bookmarkedRoadmaps_ALL?: InputMaybe<RoadmapWhere>;
+  /** Return Users where none of the related Roadmaps match this filter */
+  bookmarkedRoadmaps_NONE?: InputMaybe<RoadmapWhere>;
+  /** Return Users where one of the related Roadmaps match this filter */
+  bookmarkedRoadmaps_SINGLE?: InputMaybe<RoadmapWhere>;
+  /** Return Users where some of the related Roadmaps match this filter */
+  bookmarkedRoadmaps_SOME?: InputMaybe<RoadmapWhere>;
   createdAt?: InputMaybe<Scalars['DateTime']>;
   createdAt_GT?: InputMaybe<Scalars['DateTime']>;
   createdAt_GTE?: InputMaybe<Scalars['DateTime']>;
@@ -6114,7 +7021,7 @@ export type UsersConnection = {
   totalCount: Scalars['Int'];
 };
 
-export type UserInfoFragment = {
+export type UserAuthInfoFragment = {
   __typename?: 'UserResponse';
   id: string;
   email: string;
@@ -6129,20 +7036,6 @@ export type SessionInfoFragment = {
   accessTokenExpiresIn: number;
   refreshToken: string;
   refreshTokenExpiresIn: number;
-};
-
-export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
-
-export type CurrentUserQuery = {
-  __typename?: 'Query';
-  currentUser: {
-    __typename?: 'UserResponse';
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    roles: Array<string>;
-  };
 };
 
 export type SignInMutationVariables = Exact<{
@@ -6272,6 +7165,7 @@ export type CourseInfoFragment = {
   difficulty?: Difficulty | null;
   externalRating?: number | null;
   externalRatingsCount?: number | null;
+  bookmarked: boolean;
   languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
   price?: {
     __typename?: 'CoursePrice';
@@ -6306,6 +7200,7 @@ export type GetCoursesQuery = {
     difficulty?: Difficulty | null;
     externalRating?: number | null;
     externalRatingsCount?: number | null;
+    bookmarked: boolean;
     languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
     price?: {
       __typename?: 'CoursePrice';
@@ -6347,6 +7242,7 @@ export type SearchCoursesQuery = {
       difficulty?: Difficulty | null;
       externalRating?: number | null;
       externalRatingsCount?: number | null;
+      bookmarked: boolean;
       languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
       price?: {
         __typename?: 'CoursePrice';
@@ -6424,6 +7320,7 @@ export type GlobalSearchQuery = {
       difficulty?: Difficulty | null;
       externalRating?: number | null;
       externalRatingsCount?: number | null;
+      bookmarked: boolean;
       languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
       price?: {
         __typename?: 'CoursePrice';
@@ -6449,6 +7346,7 @@ export type GlobalSearchQuery = {
       title: string;
       description?: string | null;
       difficulty?: Difficulty | null;
+      bookmarked: boolean;
       createdAt: any;
       updatedAt?: any | null;
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
@@ -6477,6 +7375,7 @@ export type RoadmapNodeInfoFragment = {
     difficulty?: Difficulty | null;
     externalRating?: number | null;
     externalRatingsCount?: number | null;
+    bookmarked: boolean;
     languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
     price?: {
       __typename?: 'CoursePrice';
@@ -6508,6 +7407,7 @@ export type RoadmapInfoFragment = {
   title: string;
   description?: string | null;
   difficulty?: Difficulty | null;
+  bookmarked: boolean;
   createdAt: any;
   updatedAt?: any | null;
   tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
@@ -6528,6 +7428,7 @@ export type GetRoadmapsQuery = {
     title: string;
     description?: string | null;
     difficulty?: Difficulty | null;
+    bookmarked: boolean;
     createdAt: any;
     updatedAt?: any | null;
     tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
@@ -6555,6 +7456,7 @@ export type SearchRoadmapsQuery = {
       title: string;
       description?: string | null;
       difficulty?: Difficulty | null;
+      bookmarked: boolean;
       createdAt: any;
       updatedAt?: any | null;
       tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
@@ -6599,6 +7501,7 @@ export type GetRoadmapByIdQuery = {
         difficulty?: Difficulty | null;
         externalRating?: number | null;
         externalRatingsCount?: number | null;
+        bookmarked: boolean;
         languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
         price?: {
           __typename?: 'CoursePrice';
@@ -6642,6 +7545,69 @@ export type GetTopicTagsQuery = {
   topicTags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
 };
 
+export type UserInfoFragment = {
+  __typename?: 'User';
+  id: string;
+  email: string;
+  roles: Array<string>;
+  firstName: string;
+  lastName: string;
+};
+
+export type CurrentUserQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CurrentUserQuery = {
+  __typename?: 'Query';
+  currentUser?: {
+    __typename?: 'User';
+    id: string;
+    email: string;
+    roles: Array<string>;
+    firstName: string;
+    lastName: string;
+    bookmarkedCourses: Array<{
+      __typename?: 'Course';
+      id: string;
+      title: string;
+      description?: string | null;
+      url: string;
+      createdAt: any;
+      updatedAt?: any | null;
+      difficulty?: Difficulty | null;
+      externalRating?: number | null;
+      externalRatingsCount?: number | null;
+      bookmarked: boolean;
+      languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
+      price?: {
+        __typename?: 'CoursePrice';
+        currencyCodeISO?: string | null;
+        price?: number | null;
+      } | null;
+      platform?: {
+        __typename?: 'CoursePlatform';
+        id: string;
+        name: string;
+        logoUrl?: string | null;
+        url: string;
+      } | null;
+      tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+    }>;
+    bookmarkedRoadmaps: Array<{
+      __typename?: 'Roadmap';
+      id: string;
+      title: string;
+      description?: string | null;
+      difficulty?: Difficulty | null;
+      bookmarked: boolean;
+      createdAt: any;
+      updatedAt?: any | null;
+      tags: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+      languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
+      createdBy: { __typename?: 'User'; id: string; firstName: string; lastName: string };
+    }>;
+  } | null;
+};
+
 export type GetUserRecommendedCoursesQueryVariables = Exact<{
   count?: InputMaybe<Scalars['Int']>;
 }>;
@@ -6659,6 +7625,7 @@ export type GetUserRecommendedCoursesQuery = {
     difficulty?: Difficulty | null;
     externalRating?: number | null;
     externalRatingsCount?: number | null;
+    bookmarked: boolean;
     languages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
     price?: {
       __typename?: 'CoursePrice';
@@ -6676,12 +7643,30 @@ export type GetUserRecommendedCoursesQuery = {
   }> | null;
 };
 
-export const UserInfoFragmentDoc = {
+export type UpdateUsersMutationVariables = Exact<{
+  where?: InputMaybe<UserWhere>;
+  update?: InputMaybe<UserUpdateInput>;
+  connect?: InputMaybe<UserConnectInput>;
+  disconnect?: InputMaybe<UserDisconnectInput>;
+  create?: InputMaybe<UserRelationInput>;
+  delete?: InputMaybe<UserDeleteInput>;
+  connectOrCreate?: InputMaybe<UserConnectOrCreateInput>;
+}>;
+
+export type UpdateUsersMutation = {
+  __typename?: 'Mutation';
+  updateUsers: {
+    __typename?: 'UpdateUsersMutationResponse';
+    users: Array<{ __typename?: 'User'; id: string }>;
+  };
+};
+
+export const UserAuthInfoFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UserInfo' },
+      name: { kind: 'Name', value: 'UserAuthInfo' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
       selectionSet: {
         kind: 'SelectionSet',
@@ -6758,6 +7743,7 @@ export const CourseInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -6849,6 +7835,7 @@ export const RoadmapNodeInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -6930,6 +7917,7 @@ export const RoadmapInfoFragmentDoc = {
           { kind: 'Field', name: { kind: 'Name', value: 'title' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'tags' },
@@ -6968,81 +7956,26 @@ export const RoadmapInfoFragmentDoc = {
     },
   ],
 } as unknown as DocumentNode;
-export const CurrentUserDocument = {
+export const UserInfoFragmentDoc = {
   kind: 'Document',
   definitions: [
     {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'CurrentUser' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'currentUser' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } }],
-            },
-          },
-        ],
-      },
-    },
-    {
       kind: 'FragmentDefinition',
       name: { kind: 'Name', value: 'UserInfo' },
-      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           { kind: 'Field', name: { kind: 'Name', value: 'id' } },
           { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
           { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
           { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
-          { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
         ],
       },
     },
   ],
 } as unknown as DocumentNode;
-
-/**
- * __useCurrentUserQuery__
- *
- * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
- * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCurrentUserQuery({
- *   variables: {
- *   },
- * });
- */
-export function useCurrentUserQuery(
-  baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
-}
-export function useCurrentUserLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(
-    CurrentUserDocument,
-    options,
-  );
-}
-export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
-export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
-export type CurrentUserQueryResult = Apollo.QueryResult<
-  CurrentUserQuery,
-  CurrentUserQueryVariables
->;
 export const SignInDocument = {
   kind: 'Document',
   definitions: [
@@ -7083,7 +8016,7 @@ export const SignInDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } },
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserAuthInfo' } },
                     ],
                   },
                 },
@@ -7095,7 +8028,7 @@ export const SignInDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UserInfo' },
+      name: { kind: 'Name', value: 'UserAuthInfo' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
       selectionSet: {
         kind: 'SelectionSet',
@@ -7198,7 +8131,7 @@ export const SignUpDocument = {
                   selectionSet: {
                     kind: 'SelectionSet',
                     selections: [
-                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } },
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserAuthInfo' } },
                     ],
                   },
                 },
@@ -7210,7 +8143,7 @@ export const SignUpDocument = {
     },
     {
       kind: 'FragmentDefinition',
-      name: { kind: 'Name', value: 'UserInfo' },
+      name: { kind: 'Name', value: 'UserAuthInfo' },
       typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'UserResponse' } },
       selectionSet: {
         kind: 'SelectionSet',
@@ -7829,6 +8762,7 @@ export const GetCoursesDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -8009,6 +8943,7 @@ export const SearchCoursesDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -8607,6 +9542,7 @@ export const GlobalSearchDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -8664,6 +9600,7 @@ export const GlobalSearchDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'title' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'tags' },
@@ -8819,6 +9756,7 @@ export const GetRoadmapsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'title' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'tags' },
@@ -8987,6 +9925,7 @@ export const SearchRoadmapsDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'title' } },
           { kind: 'Field', name: { kind: 'Name', value: 'description' } },
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'tags' },
@@ -9192,6 +10131,7 @@ export const GetRoadmapByIdDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -9484,6 +10424,214 @@ export type GetTopicTagsQueryResult = Apollo.QueryResult<
   GetTopicTagsQuery,
   GetTopicTagsQueryVariables
 >;
+export const CurrentUserDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'CurrentUser' },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'currentUser' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bookmarkedCourses' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'CourseInfo' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'bookmarkedRoadmaps' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'FragmentSpread', name: { kind: 'Name', value: 'RoadmapInfo' } },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'CourseInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Course' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'languages' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'price' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'currencyCodeISO' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'price' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'platform' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'logoUrl' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'url' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'RoadmapInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Roadmap' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'description' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'tags' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+              ],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'languages' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [{ kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO' } }],
+            },
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createdBy' },
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+              ],
+            },
+          },
+          { kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'UserInfo' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'User' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'email' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'roles' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'lastName' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+
+/**
+ * __useCurrentUserQuery__
+ *
+ * To run a query within a React component, call `useCurrentUserQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCurrentUserQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCurrentUserQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCurrentUserQuery(
+  baseOptions?: Apollo.QueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CurrentUserQuery, CurrentUserQueryVariables>(CurrentUserDocument, options);
+}
+export function useCurrentUserLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<CurrentUserQuery, CurrentUserQueryVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CurrentUserQuery, CurrentUserQueryVariables>(
+    CurrentUserDocument,
+    options,
+  );
+}
+export type CurrentUserQueryHookResult = ReturnType<typeof useCurrentUserQuery>;
+export type CurrentUserLazyQueryHookResult = ReturnType<typeof useCurrentUserLazyQuery>;
+export type CurrentUserQueryResult = Apollo.QueryResult<
+  CurrentUserQuery,
+  CurrentUserQueryVariables
+>;
 export const GetUserRecommendedCoursesDocument = {
   kind: 'Document',
   definitions: [
@@ -9535,6 +10683,7 @@ export const GetUserRecommendedCoursesDocument = {
           { kind: 'Field', name: { kind: 'Name', value: 'difficulty' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRating' } },
           { kind: 'Field', name: { kind: 'Name', value: 'externalRatingsCount' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'bookmarked' } },
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'languages' },
@@ -9633,4 +10782,153 @@ export type GetUserRecommendedCoursesLazyQueryHookResult = ReturnType<
 export type GetUserRecommendedCoursesQueryResult = Apollo.QueryResult<
   GetUserRecommendedCoursesQuery,
   GetUserRecommendedCoursesQueryVariables
+>;
+export const UpdateUsersDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'UpdateUsers' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserWhere' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'update' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserUpdateInput' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'connect' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserConnectInput' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'disconnect' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserDisconnectInput' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'create' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserRelationInput' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'delete' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserDeleteInput' } },
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'connectOrCreate' } },
+          type: { kind: 'NamedType', name: { kind: 'Name', value: 'UserConnectOrCreateInput' } },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'updateUsers' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'where' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'where' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'update' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'update' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'connect' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'connect' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'disconnect' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'disconnect' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'create' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'create' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'delete' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'delete' } },
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'connectOrCreate' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'connectOrCreate' } },
+              },
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'users' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type UpdateUsersMutationFn = Apollo.MutationFunction<
+  UpdateUsersMutation,
+  UpdateUsersMutationVariables
+>;
+
+/**
+ * __useUpdateUsersMutation__
+ *
+ * To run a mutation, you first call `useUpdateUsersMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateUsersMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateUsersMutation, { data, loading, error }] = useUpdateUsersMutation({
+ *   variables: {
+ *      where: // value for 'where'
+ *      update: // value for 'update'
+ *      connect: // value for 'connect'
+ *      disconnect: // value for 'disconnect'
+ *      create: // value for 'create'
+ *      delete: // value for 'delete'
+ *      connectOrCreate: // value for 'connectOrCreate'
+ *   },
+ * });
+ */
+export function useUpdateUsersMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateUsersMutation, UpdateUsersMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateUsersMutation, UpdateUsersMutationVariables>(
+    UpdateUsersDocument,
+    options,
+  );
+}
+export type UpdateUsersMutationHookResult = ReturnType<typeof useUpdateUsersMutation>;
+export type UpdateUsersMutationResult = Apollo.MutationResult<UpdateUsersMutation>;
+export type UpdateUsersMutationOptions = Apollo.BaseMutationOptions<
+  UpdateUsersMutation,
+  UpdateUsersMutationVariables
 >;

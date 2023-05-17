@@ -11,6 +11,7 @@ export const COURSE_INFO_FRAGMENT = gql`
     difficulty
     externalRating
     externalRatingsCount
+    bookmarked
     languages {
       countryCodeISO
     }

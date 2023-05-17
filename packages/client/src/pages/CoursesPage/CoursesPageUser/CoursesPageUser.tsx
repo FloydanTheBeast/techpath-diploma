@@ -10,10 +10,18 @@ import {
   SimpleGrid,
   Skeleton,
   Stack,
+  Switch,
   TextInput,
+  ThemeIcon,
+  rem,
 } from '@mantine/core';
-import { SortDirection, useGetCoursesQuery } from '@shared/graphql';
-import { IconListDetails, IconSearch, IconX } from '@tabler/icons-react';
+import {
+  GetCoursesDocument,
+  SortDirection,
+  useGetCoursesQuery,
+  useUpdateUsersMutation,
+} from '@shared/graphql';
+import { IconBookmark, IconListDetails, IconSearch, IconX } from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
@@ -21,6 +29,7 @@ import { COURSE_CARD_HEIGHT, CourseCard, DataViewSwitch } from 'src/components/c
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
 import { RouteEntityType, appRoutes } from 'src/constants';
 import {
+  useCurrentUser,
   usePagination,
   usePaginationQueryOptions,
   useSearch,
@@ -33,14 +42,21 @@ import { COURSES_TABLE_COLUMNS } from '../constants';
 const columns = COURSES_TABLE_COLUMNS.filter(col => !['id'].includes(col.accessorKey as string));
 
 export const CoursesPageUser: React.FC = () => {
+  const [isShowingBoomarks, setIsShowingBoomarks] = React.useState(false);
+
   const paginationOptions = usePaginationQueryOptions();
   const { paginationState, dispatchPaginationState, pageSizeOptions } = usePagination();
   const { setSearchQuery } = useSearch();
   const searchOptions = useSearchQueryOptions(['title', 'description']);
+  const { currentUser } = useCurrentUser();
+  const [updateUsers, { loading: updatingUsers }] = useUpdateUsersMutation();
 
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     variables: {
-      where: searchOptions,
+      where: {
+        ...searchOptions,
+        ...(isShowingBoomarks ? { bookmarkedBy_SINGLE: { id: currentUser?.id } } : null),
+      },
       options: { ...paginationOptions, sort: [{ createdAt: SortDirection.Desc }] },
     },
   });
@@ -71,16 +87,94 @@ export const CoursesPageUser: React.FC = () => {
             rowCount={paginationState.count}
             mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
             enableRowActions
+            renderTopToolbarCustomActions={() => (
+              <Switch
+                label="Only show bookmarked"
+                labelPosition="left"
+                onChange={event => setIsShowingBoomarks(event.currentTarget.checked)}
+                checked={isShowingBoomarks}
+              />
+            )}
             renderRowActionMenuItems={({ row }) => (
-              <Menu.Item
-                icon={<IconListDetails />}
-                component={Link}
-                to={generatePath(appRoutes.courses.details, {
-                  [RouteEntityType.course]: row.original.id,
-                })}
-              >
-                View details
-              </Menu.Item>
+              <React.Fragment>
+                <Menu.Item
+                  icon={<IconListDetails />}
+                  component={Link}
+                  to={generatePath(appRoutes.courses.details, {
+                    [RouteEntityType.course]: row.original.id,
+                  })}
+                >
+                  View details
+                </Menu.Item>
+                <Menu.Item
+                  disabled={updatingUsers}
+                  closeMenuOnClick={false}
+                  onClick={() =>
+                    updateUsers({
+                      variables: {
+                        where: {
+                          id: currentUser?.id,
+                        },
+                        ...(!row.original.bookmarked
+                          ? {
+                              connect: {
+                                bookmarkedCourses: [{ where: { node: { id: row.original.id } } }],
+                              },
+                            }
+                          : {
+                              disconnect: {
+                                bookmarkedCourses: [{ where: { node: { id: row.original.id } } }],
+                              },
+                            }),
+                      },
+                      refetchQueries: [GetCoursesDocument],
+                      // TODO: Update cache directly
+                      // update: store => {
+                      //   const queryData = store.readQuery<
+                      //     GetCoursesQuery,
+                      //     GetCoursesQueryVariables
+                      //   >({
+                      //     query: GetCoursesDocument,
+                      //     variables: {
+                      //       where: {
+                      //         ...searchOptions,
+                      //         ...(isShowingBoomarks
+                      //           ? { bookmarkedBy_SINGLE: { id: currentUser?.id } }
+                      //           : null),
+                      //       },
+                      //       options: {
+                      //         ...paginationOptions,
+                      //         sort: [{ createdAt: SortDirection.Desc }],
+                      //       },
+                      //     },
+                      //   });
+
+                      //   if (queryData?.courses) {
+                      //     store.writeQuery<GetCoursesQuery>({
+                      //       query: GetCoursesDocument,
+                      //       data: {
+                      //         ...queryData,
+                      //         courses: queryData.courses.map(course => {
+                      //           if (course.id === row.original.id) {
+                      //             return { ...course, bookmarked: !course.bookmarked };
+                      //           }
+                      //           return course;
+                      //         }),
+                      //       },
+                      //     });
+                      //   }
+                      // },
+                    })
+                  }
+                  icon={
+                    <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'}>
+                      <IconBookmark />
+                    </ThemeIcon>
+                  }
+                >
+                  {row.original.bookmarked ? 'Remove from bookmarks' : 'Add to boomarks'}
+                </Menu.Item>
+              </React.Fragment>
             )}
           />
         );
@@ -88,7 +182,7 @@ export const CoursesPageUser: React.FC = () => {
         return (
           <Paper withBorder p={8}>
             <Stack>
-              <Flex>
+              <Flex justify="space-between">
                 <TextInput
                   icon={<IconSearch />}
                   variant="filled"
@@ -99,6 +193,12 @@ export const CoursesPageUser: React.FC = () => {
                       <IconX />
                     </ActionIcon>
                   }
+                />
+                <Switch
+                  label="Only show bookmarked"
+                  labelPosition="left"
+                  onChange={event => setIsShowingBoomarks(event.currentTarget.checked)}
+                  checked={isShowingBoomarks}
                 />
               </Flex>
               <SimpleGrid
@@ -113,7 +213,50 @@ export const CoursesPageUser: React.FC = () => {
                   ? new Array(paginationState.pageSize)
                       .fill(0)
                       .map((_, i) => <Skeleton key={i} h={COURSE_CARD_HEIGHT} />)
-                  : data?.courses.map(course => <CourseCard key={course.id} course={course} />)}
+                  : data?.courses.map(course => (
+                      <CourseCard
+                        key={course.id}
+                        course={course}
+                        renderCustomActions={() => (
+                          <Menu.Item
+                            disabled={updatingUsers}
+                            closeMenuOnClick={false}
+                            onClick={() =>
+                              updateUsers({
+                                variables: {
+                                  where: {
+                                    id: currentUser?.id,
+                                  },
+                                  ...(!course.bookmarked
+                                    ? {
+                                        connect: {
+                                          bookmarkedCourses: [
+                                            { where: { node: { id: course.id } } },
+                                          ],
+                                        },
+                                      }
+                                    : {
+                                        disconnect: {
+                                          bookmarkedCourses: [
+                                            { where: { node: { id: course.id } } },
+                                          ],
+                                        },
+                                      }),
+                                },
+                                refetchQueries: [GetCoursesDocument],
+                              })
+                            }
+                            icon={
+                              <ThemeIcon size={rem(14)} color={course.bookmarked ? 'red' : 'green'}>
+                                <IconBookmark />
+                              </ThemeIcon>
+                            }
+                          >
+                            {course.bookmarked ? 'Remove from bookmarks' : 'Add to boomarks'}
+                          </Menu.Item>
+                        )}
+                      />
+                    ))}
               </SimpleGrid>
               <Flex justify="center" gap="md">
                 <Select
