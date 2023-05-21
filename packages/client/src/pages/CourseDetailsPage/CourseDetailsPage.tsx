@@ -57,7 +57,7 @@ export const CourseDetailsPage: React.FC = () => {
         ) : (
           <Box mr={32} w="100%">
             {course?.description ? (
-              <Text>{course?.description}</Text>
+              <Box dangerouslySetInnerHTML={{ __html: course?.description }} />
             ) : (
               <Text color="dimmed">This course doesn&apos;t have a description ¯\_(ツ)_/¯</Text>
             )}

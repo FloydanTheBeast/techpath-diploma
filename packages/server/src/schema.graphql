@@ -9,7 +9,15 @@ type Query {
   userRecommendedCourses(count: Int): [Course!]
     @cypher(
       statement: """
-      MATCH (u:User { id: $auth.jwt.id })-[:PREFERS_TOPIC]->(t:TopicTag)<-[:INCLUDES_TOPIC]-(c:Course)
+      MATCH (u:User { id: $auth.jwt.id })
+      CALL {
+        OPTIONAL MATCH (u)-[:BOOKMARKED]->(bc:Course)-[:INCLUDES_TOPIC]->(bt:TopicTag)
+        RETURN bt as tags
+        UNION
+        OPTIONAL MATCH (u)-[:PREFERS_TOPIC]->(ut:TopicTag)
+        RETURN ut as tags
+      }
+      MATCH (tags)<-[:INCLUDES_TOPIC]-(c:Course)
       RETURN c, rand() as r
       ORDER BY r
       LIMIT COALESCE($count, 10)

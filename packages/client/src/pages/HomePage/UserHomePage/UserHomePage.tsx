@@ -7,7 +7,9 @@ import { useGetUserRecommendedCoursesQuery } from '@shared/graphql';
 import { COURSE_CARD_HEIGHT, ContentPageLayout, CourseCard } from 'src/components';
 
 export const UserHomePage: React.FC = () => {
-  const { data, loading: loadingCourses } = useGetUserRecommendedCoursesQuery();
+  const { data, loading: loadingCourses } = useGetUserRecommendedCoursesQuery({
+    fetchPolicy: 'cache-and-network',
+  });
 
   const recommendedCourses = data?.userRecommendedCourses;
 
@@ -32,7 +34,7 @@ export const UserHomePage: React.FC = () => {
           ))
         ) : recommendedCourses?.length ? (
           recommendedCourses?.map(course => (
-            <Carousel.Slide key={course.id}>
+            <Carousel.Slide key={course.id} maw="25%">
               <CourseCard course={course} />
             </Carousel.Slide>
           ))
