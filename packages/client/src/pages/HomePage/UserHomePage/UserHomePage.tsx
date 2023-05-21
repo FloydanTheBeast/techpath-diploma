@@ -19,7 +19,12 @@ export const UserHomePage: React.FC = () => {
         Your recommeded courses:
       </Title>
       <Carousel
-        slideSize="25%"
+        breakpoints={[
+          { minWidth: 'xs', slideSize: '100%' },
+          { minWidth: 'md', slideSize: '50%' },
+          { minWidth: 'xl', slideSize: '33%' },
+          { minWidth: 1920, slideSize: '25%' },
+        ]}
         height={COURSE_CARD_HEIGHT}
         slideGap="md"
         align="center"
@@ -34,7 +39,7 @@ export const UserHomePage: React.FC = () => {
           ))
         ) : recommendedCourses?.length ? (
           recommendedCourses?.map(course => (
-            <Carousel.Slide key={course.id} maw="25%">
+            <Carousel.Slide key={course.id}>
               <CourseCard course={course} />
             </Carousel.Slide>
           ))

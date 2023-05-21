@@ -4,6 +4,7 @@
     "outDir": "../../dist/out-tsc",
     "types": ["node", "vite/client"],
     "target": "ES6",
+    "useUnknownInCatchVariables": false
   },
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",

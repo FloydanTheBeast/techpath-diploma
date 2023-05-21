@@ -12,7 +12,9 @@ import {
   LoadingOverlay,
   Stack,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useSignUpMutation } from '@shared/graphql';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -38,8 +40,23 @@ export const SignUpPage: React.FC = () => {
     try {
       await signUp({ variables: { data: formData } });
       navigate(appRoutes.auth.signin);
+      notifications.show({
+        title: 'Success',
+        message: 'Your account has been created',
+        color: 'green',
+        withCloseButton: true,
+        icon: <IconCheck />,
+        withBorder: true,
+      });
     } catch (error) {
-      // TODO: Spawn notification
+      notifications.show({
+        title: 'Something went wrong',
+        message: error.message,
+        color: 'red',
+        withCloseButton: true,
+        icon: <IconX />,
+        withBorder: true,
+      });
       console.log(error);
     }
   };

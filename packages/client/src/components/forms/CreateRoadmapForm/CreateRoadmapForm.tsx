@@ -14,13 +14,14 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import {
   Difficulty,
   GetRoadmapsDocument,
   useCreateRoadmapMutation,
   useGetTopicTagsQuery,
 } from '@shared/graphql';
-import { IconHash, IconLanguage, IconStairsUp } from '@tabler/icons-react';
+import { IconCheck, IconHash, IconLanguage, IconStairsUp, IconX } from '@tabler/icons-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { InferType } from 'yup';
@@ -55,8 +56,24 @@ export const CreateRoadmapForm: React.FC = () => {
         refetchQueries: [GetRoadmapsDocument],
         awaitRefetchQueries: true,
       });
+
+      notifications.show({
+        title: 'Success',
+        message: 'Roadmap has been created',
+        color: 'green',
+        withCloseButton: true,
+        icon: <IconCheck />,
+        withBorder: true,
+      });
     } catch (error) {
-      // TODO: Spawn notification
+      notifications.show({
+        title: 'Something went wrong',
+        message: error.message,
+        color: 'red',
+        withCloseButton: true,
+        icon: <IconX />,
+        withBorder: true,
+      });
       console.log(error);
       return;
     }

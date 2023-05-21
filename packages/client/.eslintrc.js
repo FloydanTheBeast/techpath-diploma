@@ -10,6 +10,9 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/prop-types': 'off',
 
+    // '@typescript-eslint/no-implicit-any-catch': ['error', { allowExplicitAny: true }],
+    // '@typescript-eslint/no-explicit-any': 'off',
+
     'import/order': [
       'warn',
       {

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Button, Menu } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import {
   GetCoursesDocument,
   SortDirection,
@@ -10,7 +11,14 @@ import {
   useUpdateCourseByIdMutation,
 } from '@shared/graphql';
 import { Nullable } from '@shared/types';
-import { IconDatabasePlus, IconEdit, IconListDetails, IconTrash } from '@tabler/icons-react';
+import {
+  IconCheck,
+  IconDatabasePlus,
+  IconEdit,
+  IconListDetails,
+  IconTrash,
+  IconX,
+} from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, CreateUpdateCourseModal, DataGrid } from 'src/components';
@@ -75,8 +83,23 @@ export const CoursesPageAdmin: React.FC = () => {
         refetchQueries: [GetCoursesDocument],
       });
       closeModal();
+      notifications.show({
+        title: 'Success',
+        message: 'Course has been created',
+        color: 'green',
+        withCloseButton: true,
+        icon: <IconCheck />,
+        withBorder: true,
+      });
     } catch (error) {
-      // TODO: Spawn notification
+      notifications.show({
+        title: 'Something went wrong',
+        message: error.message,
+        color: 'red',
+        withCloseButton: true,
+        icon: <IconX />,
+        withBorder: true,
+      });
     } finally {
       switchClosability(true);
     }
@@ -128,8 +151,23 @@ export const CoursesPageAdmin: React.FC = () => {
         refetchQueries: [GetCoursesDocument],
       });
       closeModal();
+      notifications.show({
+        title: 'Success',
+        message: 'Course has been updated',
+        color: 'green',
+        withCloseButton: true,
+        icon: <IconCheck />,
+        withBorder: true,
+      });
     } catch (error) {
-      // TODO: Spawn notification
+      notifications.show({
+        title: 'Something went wrong',
+        message: error.message,
+        color: 'red',
+        withCloseButton: true,
+        icon: <IconX />,
+        withBorder: true,
+      });
     } finally {
       switchClosability(true);
     }

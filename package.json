@@ -16,6 +16,7 @@
     "@mantine/core": "6.0.10",
     "@mantine/dates": "6.0.10",
     "@mantine/hooks": "6.0.10",
+    "@mantine/notifications": "^6.0.11",
     "@mantine/spotlight": "^6.0.11",
     "@neo4j/graphql": "^3.17.1",
     "@neo4j/graphql-ogm": "^3.17.1",
