@@ -1,19 +1,41 @@
 import React from 'react';
 
-import { Group, Paper, Title } from '@mantine/core';
+import { ActionIcon, Group, Paper, Sx, Title, Transition } from '@mantine/core';
+import { IconChevronsUp } from '@tabler/icons-react';
 
 type ContentPageLayoutProps = {
   title?: string;
   headerRightElement?: React.ReactElement;
 };
 
-export const ContentPageLayout: React.FC<React.PropsWithChildren<ContentPageLayoutProps>> = ({
-  title,
-  children,
-  headerRightElement,
-}) => {
+// eslint-disable-next-line react/display-name
+export const ContentPageLayout = React.forwardRef<
+  HTMLDivElement,
+  React.PropsWithChildren<ContentPageLayoutProps>
+>(({ title, children, headerRightElement }, ref) => {
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
+  const [isScrollButtonShown, setIsScrollButtonShown] = React.useState(false);
+
+  const handleScroll: React.UIEventHandler<HTMLDivElement> = event => {
+    setIsScrollButtonShown(
+      ((event.target as HTMLDivElement)?.scrollTop ?? 0) > window.innerHeight + 300,
+    );
+  };
+
   return (
-    <Paper shadow="xl" sx={{ height: '100%', padding: 32, overflowY: 'auto' }}>
+    <Paper
+      onScroll={handleScroll}
+      shadow="xl"
+      sx={containerStyles}
+      ref={node => {
+        containerRef.current = node;
+        if (typeof ref === 'function') {
+          ref(node);
+        } else if (ref) {
+          ref.current = node;
+        }
+      }}
+    >
       <Group position="apart">
         <Title variant="gradient" mb="1rem">
           {title}
@@ -21,6 +43,26 @@ export const ContentPageLayout: React.FC<React.PropsWithChildren<ContentPageLayo
         {headerRightElement}
       </Group>
       {children}
+      <Transition mounted={isScrollButtonShown} transition="slide-left">
+        {styles => (
+          <ActionIcon
+            style={styles}
+            sx={{ position: 'fixed', right: 40, bottom: 40 }}
+            variant="filled"
+            radius="xl"
+            size="xl"
+            onClick={() => containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })}
+          >
+            <IconChevronsUp />
+          </ActionIcon>
+        )}
+      </Transition>
     </Paper>
   );
+});
+
+const containerStyles: Sx = {
+  height: '100%',
+  padding: 32,
+  overflowY: 'auto',
 };

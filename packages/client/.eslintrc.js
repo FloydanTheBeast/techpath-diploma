@@ -11,7 +11,7 @@ module.exports = {
     'react/prop-types': 'off',
 
     // '@typescript-eslint/no-implicit-any-catch': ['error', { allowExplicitAny: true }],
-    // '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
 
     'import/order': [
       'warn',

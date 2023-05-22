@@ -1,12 +1,13 @@
 import React from 'react';
 
-import { Group, SegmentedControl, SimpleGrid, Skeleton, Stack, TextInput } from '@mantine/core';
-import { useSearchCoursesQuery, useSearchRoadmapsQuery } from '@shared/graphql';
+import { Group, SegmentedControl, Stack, TextInput } from '@mantine/core';
 import { useSearchParams } from 'react-router-dom';
 
-import { COURSE_CARD_HEIGHT, ContentPageLayout, CourseCard, RoadmapCard } from 'src/components';
+import { ContentPageLayout } from 'src/components';
 import { SEARCH_ENTITY_QUERY_STRING_NAME, SEARCH_QUERY_STRING_NAME } from 'src/constants';
 import { useDebounce } from 'src/hooks';
+
+import { CoursesSearchList, RoadmapsSearchList } from './components';
 
 export const GlobalSearchPage: React.FC = () => {
   const [urlSearchParams, setUrlsSearchParams] = useSearchParams();
@@ -16,50 +17,35 @@ export const GlobalSearchPage: React.FC = () => {
   const [query, setQuery] = React.useState(querySearchParam);
   const [searchEntity, setSearchEntity] = React.useState(entitySearchParam);
 
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
   const searchQuery = useDebounce(query, 1000);
 
-  const { data: coursesData, loading: loadingCourses } = useSearchCoursesQuery({
-    variables: {
-      searchQuery: `${searchQuery}~`,
-      where: {
-        score: { min: 0.8 },
-      },
-      limit: 50,
-    },
-    skip: !searchQuery || searchEntity !== 'courses', // TODO: Move to constants
-  });
-
-  const { data: roadmapsData, loading: loadingRoadmaps } = useSearchRoadmapsQuery({
-    variables: {
-      searchQuery: `${searchQuery}~`,
-      where: {
-        score: { min: 0.5 },
-      },
-      limit: 50,
-    },
-    skip: !searchQuery || searchEntity !== 'roadmaps', // TODO: Move to constants
-  });
-
-  const renderData = React.useCallback(() => {
+  const resultsList = React.useMemo(() => {
     if (searchEntity === 'courses') {
-      return loadingCourses
-        ? new Array(12).fill(0).map((_, i) => <Skeleton key={i} h={COURSE_CARD_HEIGHT} />)
-        : coursesData?.coursesFulltextCourseInfo.map(({ course }) => (
-            <CourseCard key={course.id} course={course} />
-          ));
+      return (
+        <CoursesSearchList
+          searchQuery={searchQuery}
+          scrollerRef={containerRef.current ?? undefined}
+        />
+      );
     }
 
     if (searchEntity === 'roadmaps') {
-      return loadingRoadmaps
-        ? new Array(12).fill(0).map((_, i) => <Skeleton key={i} h={COURSE_CARD_HEIGHT} />)
-        : roadmapsData?.roadmapsFulltextRoadmapInfo.map(({ roadmap }) => (
-            <RoadmapCard key={roadmap.id} roadmap={roadmap} />
-          ));
+      return (
+        <RoadmapsSearchList
+          searchQuery={searchQuery}
+          scrollerRef={containerRef.current ?? undefined}
+        />
+      );
     }
-  }, [coursesData, roadmapsData, loadingCourses, loadingRoadmaps, searchEntity]);
+
+    return null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchEntity, searchQuery, containerRef.current]);
 
   return (
-    <ContentPageLayout title="Search">
+    <ContentPageLayout title="Search" ref={containerRef}>
       <Stack>
         <Group>
           <TextInput
@@ -88,16 +74,7 @@ export const GlobalSearchPage: React.FC = () => {
             }}
           />
         </Group>
-        <SimpleGrid
-          breakpoints={[
-            { minWidth: 'sm', cols: 1 },
-            { minWidth: 'lg', cols: 2 },
-            { minWidth: 'xl', cols: 3 },
-            { minWidth: 1920, cols: 4 },
-          ]}
-        >
-          {renderData()}
-        </SimpleGrid>
+        {resultsList}
       </Stack>
     </ContentPageLayout>
   );
