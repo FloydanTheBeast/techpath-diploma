@@ -27,11 +27,7 @@ export const ROADMAPS_TABLE_COLUMNS: MRT_ColumnDef<RoadmapInfoFragment>[] = [
     header: 'Internal rating',
     accessorFn: ({ reviewsAggregate }) => (
       <Group>
-        <Rating
-          value={reviewsAggregate?.node?.rating.average ?? undefined}
-          fractions={2}
-          readOnly
-        />
+        <Rating value={reviewsAggregate?.node?.rating.average ?? 0} fractions={2} readOnly />
         <Text>({reviewsAggregate?.count ?? 0})</Text>
       </Group>
     ),

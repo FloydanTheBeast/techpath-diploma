@@ -114,7 +114,7 @@ export const CourseDetailsPage: React.FC = () => {
                       <Rating
                         readOnly
                         fractions={2}
-                        value={course?.reviewsAggregate?.node?.rating.average ?? undefined}
+                        value={course?.reviewsAggregate?.node?.rating.average ?? 0}
                       />
                       <Text color="dimmed" weight={300}>
                         ({course?.reviewsAggregate?.count})
@@ -124,7 +124,7 @@ export const CourseDetailsPage: React.FC = () => {
                   <Group>
                     <Text>External:</Text>
                     <Group spacing="xs">
-                      <Rating readOnly fractions={2} value={course?.externalRating ?? undefined} />
+                      <Rating readOnly fractions={2} value={course?.externalRating ?? 0} />
                       <Text color="dimmed" weight={300}>
                         ({course?.externalRatingsCount ?? 0})
                       </Text>

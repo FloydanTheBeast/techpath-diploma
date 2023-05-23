@@ -77,7 +77,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, renderCustomActi
         <Group spacing={4} mt="xs">
           <Rating
             size="xs"
-            value={course.reviewsAggregate?.node?.rating.average ?? undefined}
+            value={course.reviewsAggregate?.node?.rating.average ?? 0}
             fractions={2}
             readOnly
           />

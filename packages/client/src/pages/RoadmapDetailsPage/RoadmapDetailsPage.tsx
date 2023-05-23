@@ -96,7 +96,7 @@ export const RoadmapDetailsPage: React.FC = () => {
                     <Rating
                       readOnly
                       fractions={2}
-                      value={roadmap?.reviewsAggregate?.node?.rating.average ?? undefined}
+                      value={roadmap?.reviewsAggregate?.node?.rating.average ?? 0}
                     />
                     <Text color="dimmed" weight={300}>
                       ({roadmap?.reviewsAggregate?.count})

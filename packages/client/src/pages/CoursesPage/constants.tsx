@@ -113,11 +113,7 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
     header: 'Internal rating',
     accessorFn: ({ reviewsAggregate }) => (
       <Group>
-        <Rating
-          value={reviewsAggregate?.node?.rating.average ?? undefined}
-          fractions={2}
-          readOnly
-        />
+        <Rating value={reviewsAggregate?.node?.rating.average ?? 0} fractions={2} readOnly />
         <Text>({reviewsAggregate?.count ?? 0})</Text>
       </Group>
     ),
@@ -126,7 +122,7 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
     header: 'External rating',
     accessorFn: ({ externalRating, externalRatingsCount }) => (
       <Group>
-        <Rating value={externalRating ?? undefined} fractions={2} readOnly />
+        <Rating value={externalRating ?? 0} fractions={2} readOnly />
         <Text>({externalRatingsCount ?? 0})</Text>
       </Group>
     ),
