@@ -4,7 +4,7 @@ import { ActionIcon, Card, Flex, Stack, Text, Title } from '@mantine/core';
 import { IconExternalLink } from '@tabler/icons-react';
 import { generatePath } from 'react-router';
 
-import { CoursePlatformLogo } from 'src/components/common';
+import { CoursePlatformLogo, RichTextEditor } from 'src/components';
 import { RouteEntityType, appRoutes } from 'src/constants';
 import { RoadmapNode } from 'src/types';
 
@@ -16,7 +16,9 @@ export const NodeViewer: React.FC<NodeViewerProps> = ({ node }) => {
   return (
     <Stack>
       <Title order={2}>{node.data.title}</Title>
-      <Text>{node.data.description}</Text>
+      {node.data.description && (
+        <RichTextEditor content={node.data.description} editable={false} minHeight={0} />
+      )}
       <Title order={4}>Suggested courses</Title>
       {node.data.suggestedCourses?.map(course => (
         <Card key={course.id} withBorder p={24}>

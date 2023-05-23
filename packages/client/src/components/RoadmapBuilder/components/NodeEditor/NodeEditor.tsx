@@ -18,7 +18,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { generatePath } from 'react-router';
 import { useReactFlow } from 'reactflow';
 
-import { CoursePlatformLogo, FormField } from 'src/components/common';
+import { CoursePlatformLogo, FormField, RichTextEditor } from 'src/components/common';
 import { RouteEntityType, appRoutes } from 'src/constants';
 import { RoadmapNode, RoadmapNodeData } from 'src/types';
 
@@ -39,15 +39,9 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
     setError,
     watch,
     clearErrors,
-    formState: { errors },
+    formState: { errors, defaultValues },
   } = useForm<RoadmapNodeData>({
-    defaultValues: React.useMemo(
-      () => ({
-        ...node.data,
-        description: '',
-      }),
-      [node],
-    ),
+    defaultValues: React.useMemo(() => node.data, [node]),
   });
   const [getCourses, { loading: loadingCourses }] = useGetCoursesLazyQuery();
 
@@ -121,15 +115,14 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
             required: true,
           }}
         />
-        {/* TODO: Use WYSIWYG (rich-text editor) */}
-        <FormField
-          component={Textarea}
-          fieldProps={{
-            ...register('description'),
-            control,
-            label: 'Description',
-            minRows: 8,
-          }}
+        <RichTextEditor
+          label="Description"
+          editable
+          minHeight={150}
+          maxHeight={300}
+          content={defaultValues?.description ?? undefined}
+          placeholder="Put description here"
+          onChange={value => setValue('description', value)}
         />
         {errors['suggestedCourses'] && (
           <Alert

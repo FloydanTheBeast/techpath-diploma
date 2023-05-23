@@ -22,7 +22,13 @@ import { IconLanguage } from '@tabler/icons-react';
 import _ from 'lodash';
 import { useParams } from 'react-router';
 
-import { ContentPageLayout, DifficultyBadge, ReviewsSection, RoadmapViewer } from 'src/components';
+import {
+  ContentPageLayout,
+  DifficultyBadge,
+  ReviewsSection,
+  RichTextEditor,
+  RoadmapViewer,
+} from 'src/components';
 import { RouteEntityType } from 'src/constants';
 import { useCurrentUser } from 'src/hooks';
 import { mapGqlRoadmapNodes } from 'src/utils';
@@ -62,7 +68,7 @@ export const RoadmapDetailsPage: React.FC = () => {
           ) : (
             <Stack w="100%">
               <Title order={3}>Description</Title>
-              <Text>{roadmap?.description}</Text>
+              <RichTextEditor content={roadmap?.description ?? undefined} editable={false} />
             </Stack>
           )}
           {loadingRoadmap ? (

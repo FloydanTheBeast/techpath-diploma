@@ -27,6 +27,7 @@ import {
   CoursePlatformLogo,
   DifficultyBadge,
   ReviewsSection,
+  RichTextEditor,
 } from 'src/components';
 import { RouteEntityType } from 'src/constants';
 import { useCurrentUser } from 'src/hooks';
@@ -57,7 +58,8 @@ export const CourseDetailsPage: React.FC = () => {
         ) : (
           <Box mr={32} w="100%">
             {course?.description ? (
-              <Box dangerouslySetInnerHTML={{ __html: course?.description }} />
+              // <Box dangerouslySetInnerHTML={{ __html: course?.description }} />
+              <RichTextEditor content={course.description} editable={false} />
             ) : (
               <Text color="dimmed">This course doesn&apos;t have a description ¯\_(ツ)_/¯</Text>
             )}

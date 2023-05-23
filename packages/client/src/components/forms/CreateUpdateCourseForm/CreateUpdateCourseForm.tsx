@@ -12,13 +12,12 @@ import {
   Skeleton,
   Stack,
   TextInput,
-  Textarea,
 } from '@mantine/core';
 import { Difficulty, useGetCoursePlatformsQuery, useGetTopicTagsQuery } from '@shared/graphql';
 import { IconCoins, IconHash, IconLanguage, IconStairsUp, IconWorldWww } from '@tabler/icons-react';
 import { useForm } from 'react-hook-form';
 
-import { FormField } from 'src/components/common';
+import { FormField, RichTextEditor } from 'src/components';
 import { useDebounce } from 'src/hooks';
 import { CreateUpdateFormProps } from 'src/types';
 import { getSearchQueryOption } from 'src/utils';
@@ -61,7 +60,6 @@ export const CreateUpdateCourseForm: React.FC<
       topicTagsData?.topicTags.map(tag => ({
         value: tag.id,
         label: tag.name,
-        // selected: true,
       })) ?? [],
     [topicTagsData?.topicTags],
   );
@@ -91,15 +89,12 @@ export const CreateUpdateCourseForm: React.FC<
             }}
           />
         </Group>
-        <FormField
-          component={Textarea}
-          fieldProps={{
-            ...register('description'),
-            control,
-            label: 'Description',
-            placeholder: 'Course description',
-            minRows: 8,
-          }}
+        <RichTextEditor
+          label="Description"
+          editable
+          maxHeight={300}
+          content={defaultValues?.description ?? undefined}
+          onChange={value => setValue('description', value)}
         />
         <Flex justify="space-between" gap="md">
           <FormField

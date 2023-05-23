@@ -12,7 +12,6 @@ import {
   Skeleton,
   Stack,
   TextInput,
-  Textarea,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import {
@@ -26,7 +25,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { InferType } from 'yup';
 
-import { FormField, RoadmapBuilder } from 'src/components';
+import { FormField, RichTextEditor, RoadmapBuilder } from 'src/components';
 import { appRoutes } from 'src/constants';
 
 import { createRoadmapValidationSchema } from './constants';
@@ -109,14 +108,13 @@ export const CreateRoadmapForm: React.FC = () => {
               withAsterisk: true,
             }}
           />
-          <FormField
-            component={Textarea}
-            fieldProps={{
-              ...register('description'),
-              control,
-              label: 'Description',
-              minRows: 8,
-            }}
+          <RichTextEditor
+            label="Description"
+            editable
+            minHeight={250}
+            maxHeight={500}
+            placeholder="Put description here"
+            onChange={value => setValue('description', value)}
           />
           <Flex justify="space-between" gap="md">
             <FormField

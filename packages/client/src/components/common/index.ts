@@ -7,3 +7,4 @@ export * from './DataViewSwitch';
 export * from './CourseCard';
 export * from './RoadmapNodes';
 export * from './RoadmapCard';
+export * from './RichTextEditor';
