@@ -11,7 +11,11 @@ export const mapGqlRoadmapNodes = (nodes: RoadmapNodeInfoFragment[]): RoadmapNod
     data: {
       title: node.title,
       description: node.description,
-      suggestedCourses: node.suggestedCourses,
+      suggestedCourses: node.suggestedCourses.map(({ id, title, platform }) => ({
+        value: id,
+        title,
+        platformLogo: platform?.logoUrl,
+      })),
     },
     position: { x: node.positionX, y: node.positionY },
   }));

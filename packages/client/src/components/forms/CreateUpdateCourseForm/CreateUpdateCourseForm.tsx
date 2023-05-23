@@ -28,11 +28,12 @@ import { CreateUpdateCourseFormData } from './types';
 export const CreateUpdateCourseForm: React.FC<
   CreateUpdateFormProps<CreateUpdateCourseFormData>
 > = ({ onSubmit, onCancel, defaultValues, isUpdate }) => {
+  const [platformSearchValue, setPlatformSearchValue] = React.useState('');
+
   const { handleSubmit, register, control, setValue } = useForm<CreateUpdateCourseFormData>({
     defaultValues,
   });
 
-  const [platformSearchValue, setPlatformSearchValue] = React.useState('');
   const debouncedPlatformSearchValue = useDebounce(platformSearchValue, 500);
 
   const { data: coursePlatformsData, loading: loadingCoursePlatforms } = useGetCoursePlatformsQuery(

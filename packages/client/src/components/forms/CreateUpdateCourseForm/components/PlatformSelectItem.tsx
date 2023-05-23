@@ -8,7 +8,7 @@ import { CoursePlatformLogo } from 'src/components/common';
 export type PlatformSelectItemProps = SelectItem & Pick<CoursePlatformInfoFragment, 'logoUrl'>;
 
 const PlatformSelectItem = React.forwardRef<HTMLDivElement, PlatformSelectItemProps>(
-  ({ value, label, logoUrl, ...restProps }, ref) => {
+  ({ _value, label, logoUrl, ...restProps }, ref) => {
     return (
       <Box ref={ref} {...restProps}>
         <Group>

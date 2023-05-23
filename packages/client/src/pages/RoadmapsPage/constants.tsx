@@ -1,6 +1,5 @@
 import { Avatar, Group, Rating, Text, Tooltip } from '@mantine/core';
 import { RoadmapInfoFragment } from '@shared/graphql';
-import { IconUserCircle } from '@tabler/icons-react';
 import dayjs from 'dayjs';
 import { MRT_ColumnDef } from 'mantine-react-table';
 

@@ -3,6 +3,7 @@ import React from 'react';
 import {
   ActionIcon,
   Alert,
+  Autocomplete,
   Button,
   Card,
   Flex,
@@ -10,24 +11,27 @@ import {
   Stack,
   Text,
   TextInput,
-  Textarea,
 } from '@mantine/core';
-import { useGetCoursesLazyQuery } from '@shared/graphql';
-import { IconAlertCircle, IconExternalLink, IconPlus, IconX } from '@tabler/icons-react';
+import { useGetCoursesQuery } from '@shared/graphql';
+import { IconAlertCircle, IconExternalLink, IconX } from '@tabler/icons-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { generatePath } from 'react-router';
 import { useReactFlow } from 'reactflow';
 
 import { CoursePlatformLogo, FormField, RichTextEditor } from 'src/components/common';
 import { RouteEntityType, appRoutes } from 'src/constants';
+import { useDebounce } from 'src/hooks';
 import { RoadmapNode, RoadmapNodeData } from 'src/types';
+import { getSearchQueryOption } from 'src/utils';
+
+import { CourseSelectItem, CourseSelectItemProps } from './components';
 
 type NodeEditorProps = {
   node: RoadmapNode;
 };
 
 export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
-  const [suggestedCourseId, setSugggestedCourseId] = React.useState<string>('');
+  const [courseSearchValue, setCourseSearchValue] = React.useState('');
 
   const { setCenter, getZoom, setNodes } = useReactFlow();
   const {
@@ -36,14 +40,22 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
     handleSubmit,
     reset,
     setValue,
-    setError,
     watch,
     clearErrors,
     formState: { errors, defaultValues },
   } = useForm<RoadmapNodeData>({
     defaultValues: React.useMemo(() => node.data, [node]),
   });
-  const [getCourses, { loading: loadingCourses }] = useGetCoursesLazyQuery();
+
+  const debouncedCourseSearchValue = useDebounce(courseSearchValue, 500);
+
+  const { data: coursesData } = useGetCoursesQuery({
+    variables: {
+      where: getSearchQueryOption(debouncedCourseSearchValue, ['id', 'title', 'description']),
+    },
+  });
+
+  const foundCourses = coursesData?.courses;
 
   // React.useEffect(() => {
   //   setCenter(
@@ -70,27 +82,6 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
         return nd;
       }),
     );
-  };
-
-  const handleAddSuggestedCourse = async () => {
-    const { data } = await getCourses({ variables: { where: { id: suggestedCourseId } } });
-    const course = data?.courses[0];
-
-    if (!course) {
-      setError('suggestedCourses', { message: "Course with provided ID doesn't exist" });
-      return;
-    }
-
-    if (
-      suggestedCourses &&
-      suggestedCourses.findIndex(suggestedCourse => suggestedCourse.id === course.id) !== -1
-    ) {
-      setError('suggestedCourses', { message: 'Course with provided ID is already added' });
-      return;
-    }
-
-    setValue('suggestedCourses', [...(suggestedCourses ?? []), course]);
-    setSugggestedCourseId('');
   };
 
   React.useEffect(() => {
@@ -136,33 +127,32 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
             {errors['suggestedCourses']?.message}
           </Alert>
         )}
-        <TextInput
+        <Autocomplete
           label="Suggested courses"
-          placeholder="Course ID"
-          value={suggestedCourseId}
-          onChange={({ target }) => setSugggestedCourseId(target.value)}
-          onKeyDown={e => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              handleAddSuggestedCourse();
-            }
+          value={courseSearchValue}
+          onChange={setCourseSearchValue}
+          onItemSubmit={(course: CourseSelectItemProps) => {
+            console.log(course);
+            setValue('suggestedCourses', [...(suggestedCourses ?? []), course]);
+            setCourseSearchValue('');
           }}
-          disabled={(suggestedCourses?.length ?? 0) >= 5}
-          rightSection={
-            <ActionIcon
-              disabled={(suggestedCourses?.length ?? 0) >= 5}
-              size="1.25rem"
-              onClick={handleAddSuggestedCourse}
-              loading={loadingCourses}
-            >
-              <IconPlus />
-            </ActionIcon>
+          limit={10}
+          itemComponent={CourseSelectItem}
+          filter={(_, item) =>
+            (suggestedCourses ?? []).findIndex(course => course.value === item.value) === -1
+          }
+          data={
+            foundCourses?.map(course => ({
+              value: course.id,
+              title: course.title,
+              platformLogo: course.platform?.logoUrl,
+            })) ?? []
           }
         />
         {suggestedCourses?.map(course => (
-          <Card key={course.id} withBorder p={24}>
+          <Card key={course.value} withBorder p={24}>
             <Flex gap={16} align="center" pos="relative">
-              <CoursePlatformLogo logoUrl={course.platform?.logoUrl} />
+              <CoursePlatformLogo logoUrl={course.platformLogo} />
               <Text>{course.title}</Text>
             </Flex>
             <ActionIcon
@@ -170,7 +160,9 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
               onClick={() =>
                 setValue(
                   'suggestedCourses',
-                  suggestedCourses.filter(suggestedCourse => suggestedCourse.id !== course.id),
+                  suggestedCourses.filter(
+                    suggestedCourse => suggestedCourse.value !== course.value,
+                  ),
                 )
               }
             >
@@ -180,7 +172,7 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
               sx={{ position: 'absolute', top: 4, right: 30 }}
               component="a"
               href={generatePath(appRoutes.courses.details, {
-                [RouteEntityType.course]: course.id,
+                [RouteEntityType.course]: course.value,
               })}
               target="_blank"
             >
