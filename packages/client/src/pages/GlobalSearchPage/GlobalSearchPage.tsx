@@ -16,36 +16,29 @@ export const GlobalSearchPage: React.FC = () => {
 
   const [query, setQuery] = React.useState(querySearchParam);
   const [searchEntity, setSearchEntity] = React.useState(entitySearchParam);
-
-  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [containerRef, setContainerRef] = React.useState<HTMLDivElement | null>(null);
 
   const searchQuery = useDebounce(query, 1000);
 
   const resultsList = React.useMemo(() => {
     if (searchEntity === 'courses') {
       return (
-        <CoursesSearchList
-          searchQuery={searchQuery}
-          scrollerRef={containerRef.current ?? undefined}
-        />
+        <CoursesSearchList searchQuery={searchQuery} scrollerRef={containerRef ?? undefined} />
       );
     }
 
     if (searchEntity === 'roadmaps') {
       return (
-        <RoadmapsSearchList
-          searchQuery={searchQuery}
-          scrollerRef={containerRef.current ?? undefined}
-        />
+        <RoadmapsSearchList searchQuery={searchQuery} scrollerRef={containerRef ?? undefined} />
       );
     }
 
     return null;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchEntity, searchQuery, containerRef.current]);
+  }, [searchEntity, searchQuery, containerRef]);
 
   return (
-    <ContentPageLayout title="Search" ref={containerRef}>
+    <ContentPageLayout title="Search" ref={setContainerRef}>
       <Stack>
         <Group>
           <TextInput

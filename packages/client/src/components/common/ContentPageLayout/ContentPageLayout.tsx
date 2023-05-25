@@ -13,8 +13,9 @@ export const ContentPageLayout = React.forwardRef<
   HTMLDivElement,
   React.PropsWithChildren<ContentPageLayoutProps>
 >(({ title, children, headerRightElement }, ref) => {
-  const containerRef = React.useRef<HTMLDivElement | null>(null);
   const [isScrollButtonShown, setIsScrollButtonShown] = React.useState(false);
+
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   const handleScroll: React.UIEventHandler<HTMLDivElement> = event => {
     setIsScrollButtonShown(

@@ -33,7 +33,7 @@ type NodeEditorProps = {
 export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
   const [courseSearchValue, setCourseSearchValue] = React.useState('');
 
-  const { setCenter, getZoom, setNodes } = useReactFlow();
+  const { setNodes } = useReactFlow();
   const {
     register,
     control,
@@ -56,16 +56,6 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
   });
 
   const foundCourses = coursesData?.courses;
-
-  // React.useEffect(() => {
-  //   setCenter(
-  //     node.position.x + (node.width ?? 0) / 2 + EDITOR_WIDTH / 4,
-  //     node.position.y + (node.height ?? 0) / 2,
-  //     {
-  //       zoom: Math.max(1, getZoom()),
-  //     },
-  //   );
-  // }, [setCenter, node.position.x, node.position.y, node.width, node.height, getZoom]);
 
   const suggestedCourses = watch('suggestedCourses');
 

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ActionIcon, Flex, Loader } from '@mantine/core';
-import { SpotlightAction, SpotlightProvider } from '@mantine/spotlight';
+import { SpotlightAction, SpotlightProvider, spotlight } from '@mantine/spotlight';
 import { useGlobalSearchQuery } from '@shared/graphql';
 import { IconSearch } from '@tabler/icons-react';
 import { generatePath, useNavigate } from 'react-router';
@@ -60,7 +60,12 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
       shortcut="ctrl + K"
       searchPlaceholder="Search"
       filter={(_, actions) => actions}
-      onKeyDown={event => event.ctrlKey && event.key === 'Enter' && navigateToSearchResults()}
+      onKeyDown={event => {
+        if (event.ctrlKey && event.key === 'Enter') {
+          spotlight.close();
+          navigateToSearchResults();
+        }
+      }}
       searchInputProps={{
         rightSectionWidth: 100,
         rightSection: (
