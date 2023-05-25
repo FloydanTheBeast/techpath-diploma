@@ -19,12 +19,17 @@ export const UserHomePage: React.FC = () => {
         Your recommeded courses:
       </Title>
       <Carousel
-        breakpoints={[
-          { minWidth: 'xs', slideSize: '100%' },
-          { minWidth: 'md', slideSize: '50%' },
-          { minWidth: 'xl', slideSize: '33%' },
-          { minWidth: 1920, slideSize: '25%' },
-        ]}
+        breakpoints={
+          recommendedCourses?.length
+            ? [
+                { minWidth: 'xs', slideSize: '100%' },
+                { minWidth: 'md', slideSize: '50%' },
+                { minWidth: 'xl', slideSize: '33%' },
+                { minWidth: 1920, slideSize: '25%' },
+              ]
+            : undefined
+        }
+        // slideSize={recommendedCourses?.length ? undefined : '100%'}
         height={COURSE_CARD_HEIGHT}
         slideGap="md"
         align="center"

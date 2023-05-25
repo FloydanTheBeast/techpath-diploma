@@ -3,6 +3,7 @@ import { RouteEntityType } from './reactRouter';
 export const app = {
   index: '/',
   search: '/search',
+  profile: '/profile',
 };
 
 export const auth = {

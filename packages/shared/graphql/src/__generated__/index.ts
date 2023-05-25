@@ -6504,6 +6504,9 @@ export type User = {
   firstName: Scalars['String'];
   id: Scalars['ID'];
   lastName: Scalars['String'];
+  preferableLanguages: Array<Language>;
+  preferableLanguagesAggregate?: Maybe<UserLanguagePreferableLanguagesAggregationSelection>;
+  preferableLanguagesConnection: UserPreferableLanguagesConnection;
   preferableTopics: Array<TopicTag>;
   preferableTopicsAggregate?: Maybe<UserTopicTagPreferableTopicsAggregationSelection>;
   preferableTopicsConnection: UserPreferableTopicsConnection;
@@ -6566,6 +6569,25 @@ export type UserCreatedRoadmapsConnectionArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<UserCreatedRoadmapsConnectionSort>>;
   where?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+};
+
+export type UserPreferableLanguagesArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  options?: InputMaybe<LanguageOptions>;
+  where?: InputMaybe<LanguageWhere>;
+};
+
+export type UserPreferableLanguagesAggregateArgs = {
+  directed?: InputMaybe<Scalars['Boolean']>;
+  where?: InputMaybe<LanguageWhere>;
+};
+
+export type UserPreferableLanguagesConnectionArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  directed?: InputMaybe<Scalars['Boolean']>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<UserPreferableLanguagesConnectionSort>>;
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
 };
 
 export type UserPreferableTopicsArgs = {
@@ -6941,6 +6963,7 @@ export type UserConnectInput = {
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesConnectFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsConnectFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
+  preferableLanguages?: InputMaybe<Array<UserPreferableLanguagesConnectFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectFieldInput>>;
 };
 
@@ -6948,6 +6971,7 @@ export type UserConnectOrCreateInput = {
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesConnectOrCreateFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsConnectOrCreateFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectOrCreateFieldInput>>;
+  preferableLanguages?: InputMaybe<Array<UserPreferableLanguagesConnectOrCreateFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectOrCreateFieldInput>>;
 };
 
@@ -6984,6 +7008,7 @@ export type UserCreateInput = {
   email: Scalars['String'];
   firstName: Scalars['String'];
   lastName: Scalars['String'];
+  preferableLanguages?: InputMaybe<UserPreferableLanguagesFieldInput>;
   preferableTopics?: InputMaybe<UserPreferableTopicsFieldInput>;
   roles: Array<Scalars['String']>;
 };
@@ -7134,6 +7159,7 @@ export type UserDeleteInput = {
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesDeleteFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsDeleteFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDeleteFieldInput>>;
+  preferableLanguages?: InputMaybe<Array<UserPreferableLanguagesDeleteFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsDeleteFieldInput>>;
 };
 
@@ -7141,6 +7167,7 @@ export type UserDisconnectInput = {
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesDisconnectFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsDisconnectFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDisconnectFieldInput>>;
+  preferableLanguages?: InputMaybe<Array<UserPreferableLanguagesDisconnectFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsDisconnectFieldInput>>;
 };
 
@@ -7148,6 +7175,18 @@ export type UserEdge = {
   __typename?: 'UserEdge';
   cursor: Scalars['String'];
   node: User;
+};
+
+export type UserLanguagePreferableLanguagesAggregationSelection = {
+  __typename?: 'UserLanguagePreferableLanguagesAggregationSelection';
+  count: Scalars['Int'];
+  node?: Maybe<UserLanguagePreferableLanguagesNodeAggregateSelection>;
+};
+
+export type UserLanguagePreferableLanguagesNodeAggregateSelection = {
+  __typename?: 'UserLanguagePreferableLanguagesNodeAggregateSelection';
+  countryCodeISO: StringAggregateSelectionNonNullable;
+  name: StringAggregateSelectionNonNullable;
 };
 
 export type UserOnCreateInput = {
@@ -7162,6 +7201,128 @@ export type UserOptions = {
   offset?: InputMaybe<Scalars['Int']>;
   /** Specify one or more UserSort objects to sort Users by. The sorts will be applied in the order in which they are arranged in the array. */
   sort?: InputMaybe<Array<UserSort>>;
+};
+
+export type UserPreferableLanguagesAggregateInput = {
+  AND?: InputMaybe<Array<UserPreferableLanguagesAggregateInput>>;
+  NOT?: InputMaybe<UserPreferableLanguagesAggregateInput>;
+  OR?: InputMaybe<Array<UserPreferableLanguagesAggregateInput>>;
+  count?: InputMaybe<Scalars['Int']>;
+  count_GT?: InputMaybe<Scalars['Int']>;
+  count_GTE?: InputMaybe<Scalars['Int']>;
+  count_LT?: InputMaybe<Scalars['Int']>;
+  count_LTE?: InputMaybe<Scalars['Int']>;
+  node?: InputMaybe<UserPreferableLanguagesNodeAggregationWhereInput>;
+};
+
+export type UserPreferableLanguagesConnectFieldInput = {
+  connect?: InputMaybe<Array<LanguageConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars['Boolean'];
+  where?: InputMaybe<LanguageConnectWhere>;
+};
+
+export type UserPreferableLanguagesConnectOrCreateFieldInput = {
+  onCreate: UserPreferableLanguagesConnectOrCreateFieldInputOnCreate;
+  where: LanguageConnectOrCreateWhere;
+};
+
+export type UserPreferableLanguagesConnectOrCreateFieldInputOnCreate = {
+  node: LanguageOnCreateInput;
+};
+
+export type UserPreferableLanguagesConnection = {
+  __typename?: 'UserPreferableLanguagesConnection';
+  edges: Array<UserPreferableLanguagesRelationship>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type UserPreferableLanguagesConnectionSort = {
+  node?: InputMaybe<LanguageSort>;
+};
+
+export type UserPreferableLanguagesConnectionWhere = {
+  AND?: InputMaybe<Array<UserPreferableLanguagesConnectionWhere>>;
+  NOT?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  OR?: InputMaybe<Array<UserPreferableLanguagesConnectionWhere>>;
+  node?: InputMaybe<LanguageWhere>;
+};
+
+export type UserPreferableLanguagesCreateFieldInput = {
+  node: LanguageCreateInput;
+};
+
+export type UserPreferableLanguagesDeleteFieldInput = {
+  delete?: InputMaybe<LanguageDeleteInput>;
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+};
+
+export type UserPreferableLanguagesDisconnectFieldInput = {
+  disconnect?: InputMaybe<LanguageDisconnectInput>;
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+};
+
+export type UserPreferableLanguagesFieldInput = {
+  connect?: InputMaybe<Array<UserPreferableLanguagesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserPreferableLanguagesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserPreferableLanguagesCreateFieldInput>>;
+};
+
+export type UserPreferableLanguagesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserPreferableLanguagesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserPreferableLanguagesNodeAggregationWhereInput>;
+  OR?: InputMaybe<Array<UserPreferableLanguagesNodeAggregationWhereInput>>;
+  countryCodeISO_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  countryCodeISO_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  countryCodeISO_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars['Float']>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars['Float']>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars['Int']>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars['Int']>;
+};
+
+export type UserPreferableLanguagesRelationship = {
+  __typename?: 'UserPreferableLanguagesRelationship';
+  cursor: Scalars['String'];
+  node: Language;
+};
+
+export type UserPreferableLanguagesUpdateConnectionInput = {
+  node?: InputMaybe<LanguageUpdateInput>;
+};
+
+export type UserPreferableLanguagesUpdateFieldInput = {
+  connect?: InputMaybe<Array<UserPreferableLanguagesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<Array<UserPreferableLanguagesConnectOrCreateFieldInput>>;
+  create?: InputMaybe<Array<UserPreferableLanguagesCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserPreferableLanguagesDeleteFieldInput>>;
+  disconnect?: InputMaybe<Array<UserPreferableLanguagesDisconnectFieldInput>>;
+  update?: InputMaybe<UserPreferableLanguagesUpdateConnectionInput>;
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
 };
 
 export type UserPreferableTopicsAggregateInput = {
@@ -7275,6 +7436,7 @@ export type UserRelationInput = {
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesCreateFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<Array<UserBookmarkedRoadmapsCreateFieldInput>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
+  preferableLanguages?: InputMaybe<Array<UserPreferableLanguagesCreateFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsCreateFieldInput>>;
 };
 
@@ -8142,6 +8304,7 @@ export type UserUpdateInput = {
   email?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
+  preferableLanguages?: InputMaybe<Array<UserPreferableLanguagesUpdateFieldInput>>;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsUpdateFieldInput>>;
   roles?: InputMaybe<Array<Scalars['String']>>;
   roles_POP?: InputMaybe<Scalars['Int']>;
@@ -8233,6 +8396,23 @@ export type UserWhere = {
   lastName_IN?: InputMaybe<Array<Scalars['String']>>;
   lastName_MATCHES?: InputMaybe<Scalars['String']>;
   lastName_STARTS_WITH?: InputMaybe<Scalars['String']>;
+  preferableLanguagesAggregate?: InputMaybe<UserPreferableLanguagesAggregateInput>;
+  /** Return Users where all of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_ALL?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where none of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_NONE?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where one of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_SINGLE?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where some of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_SOME?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where all of the related Languages match this filter */
+  preferableLanguages_ALL?: InputMaybe<LanguageWhere>;
+  /** Return Users where none of the related Languages match this filter */
+  preferableLanguages_NONE?: InputMaybe<LanguageWhere>;
+  /** Return Users where one of the related Languages match this filter */
+  preferableLanguages_SINGLE?: InputMaybe<LanguageWhere>;
+  /** Return Users where some of the related Languages match this filter */
+  preferableLanguages_SOME?: InputMaybe<LanguageWhere>;
   preferableTopicsAggregate?: InputMaybe<UserPreferableTopicsAggregateInput>;
   /** Return Users where all of the related UserPreferableTopicsConnections match this filter */
   preferableTopicsConnection_ALL?: InputMaybe<UserPreferableTopicsConnectionWhere>;
@@ -8987,6 +9167,8 @@ export type CurrentUserQuery = {
     roles: Array<string>;
     firstName: string;
     lastName: string;
+    preferableTopics: Array<{ __typename?: 'TopicTag'; id: string; name: string }>;
+    preferableLanguages: Array<{ __typename?: 'Language'; countryCodeISO: string }>;
     bookmarkedCourses: Array<{
       __typename?: 'Course';
       id: string;
@@ -12890,6 +13072,27 @@ export const CurrentUserDocument = {
               kind: 'SelectionSet',
               selections: [
                 { kind: 'FragmentSpread', name: { kind: 'Name', value: 'UserInfo' } },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferableTopics' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                      { kind: 'Field', name: { kind: 'Name', value: 'name' } },
+                    ],
+                  },
+                },
+                {
+                  kind: 'Field',
+                  name: { kind: 'Name', value: 'preferableLanguages' },
+                  selectionSet: {
+                    kind: 'SelectionSet',
+                    selections: [
+                      { kind: 'Field', name: { kind: 'Name', value: 'countryCodeISO' } },
+                    ],
+                  },
+                },
                 {
                   kind: 'Field',
                   name: { kind: 'Name', value: 'bookmarkedCourses' },

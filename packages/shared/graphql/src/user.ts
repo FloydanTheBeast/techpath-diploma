@@ -17,6 +17,13 @@ export const CURRENT_USER_QUERY = gql`
   query CurrentUser {
     currentUser {
       ...UserInfo
+      preferableTopics {
+        id
+        name
+      }
+      preferableLanguages {
+        countryCodeISO
+      }
       bookmarkedCourses {
         ...CourseInfo
       }

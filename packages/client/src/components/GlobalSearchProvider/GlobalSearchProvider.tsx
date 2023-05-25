@@ -50,7 +50,7 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
   );
 
   const navigateToSearchResults = () => {
-    navigate(`/search?query=${query}`);
+    navigate(`/search?query=${encodeURIComponent(query)}`);
   };
 
   return (

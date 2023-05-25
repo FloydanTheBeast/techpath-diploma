@@ -103,9 +103,9 @@ export const CoursePlatformsPage: React.FC = () => {
         notifications.show({
           title: 'Something went wrong',
           message: error.message,
-          color: 'green',
+          color: 'red',
           withCloseButton: true,
-          icon: <IconCheck />,
+          icon: <IconX />,
           withBorder: true,
         });
       } finally {

@@ -9,3 +9,4 @@ export * from './NewRoadmapPage';
 export * from './RoadmapDetailsPage';
 export * from './CourseDetailsPage';
 export * from './GlobalSearchPage';
+export * from './UserProfilePage';

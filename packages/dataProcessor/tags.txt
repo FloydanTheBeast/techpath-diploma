@@ -32,3 +32,4 @@ Algorithms and Data Structures
 DevOps
 cybersecurity
 Operating Systems
+UI/UX design

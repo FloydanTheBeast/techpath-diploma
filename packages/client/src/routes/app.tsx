@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router';
 
 import { RouteAccessType, appRoutes } from 'src/constants';
-import { GlobalSearchPage, HomePage } from 'src/pages';
+import { GlobalSearchPage, HomePage, UserProfilePage } from 'src/pages';
 import { RouteProps } from 'src/types';
 
 export const ROUTES: RouteProps[] = [
@@ -14,6 +14,11 @@ export const ROUTES: RouteProps[] = [
     path: appRoutes.app.search,
     element: <GlobalSearchPage />,
     accessRoles: [RouteAccessType.anyAuthorized],
+  },
+  {
+    path: appRoutes.app.profile,
+    element: <UserProfilePage />,
+    accessRoles: [RouteAccessType.hasUserRole],
   },
 ];
 export const APP_ROUTE: RouteProps = {

@@ -17,7 +17,9 @@ type Query {
         OPTIONAL MATCH (u)-[:PREFERS_TOPIC]->(ut:TopicTag)
         RETURN ut as tags
       }
+      OPTIONAL MATCH (u)-[:PREFERS_LANGUAGE]-(lang:Language)
       MATCH (tags)<-[:INCLUDES_TOPIC]-(c:Course)
+      WHERE lang IS NULL OR (c)-[:TRANSLATED_INTO]->(lang)
       RETURN c, rand() as r
       ORDER BY r
       LIMIT COALESCE($count, 10)
@@ -34,6 +36,8 @@ type User {
   lastName: String!
 
   createdRoadmaps: [Roadmap!]! @relationship(type: "CREATED_BY", direction: IN)
+
+  preferableLanguages: [Language!]! @relationship(type: "PREFERS_LANGUAGE", direction: OUT)
   preferableTopics: [TopicTag!]! @relationship(type: "PREFERS_TOPIC", direction: OUT)
 
   bookmarkedCourses: [Course!]! @relationship(type: "BOOKMARKED", direction: OUT)

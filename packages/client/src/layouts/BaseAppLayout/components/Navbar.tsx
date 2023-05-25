@@ -27,6 +27,7 @@ import {
 } from '@tabler/icons-react';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 
+import { appRoutes } from 'src/constants';
 import { useAuth, useCurrentUser } from 'src/hooks';
 import type { NavbarLink } from 'src/types';
 
@@ -136,7 +137,11 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
             <Menu.Dropdown>
               <Menu.Label>Application</Menu.Label>
               {/* TODO */}
-              <Menu.Item icon={<IconUserCircle size={14} />} disabled>
+              <Menu.Item
+                icon={<IconUserCircle size={14} />}
+                component={Link}
+                to={appRoutes.app.profile}
+              >
                 Profile
               </Menu.Item>
               <Menu.Item icon={<IconLogout size={14} />} onClick={() => logout()} color="red">
