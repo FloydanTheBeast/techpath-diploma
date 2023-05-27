@@ -16,12 +16,15 @@ import {
   rem,
 } from '@mantine/core';
 import {
+  CourseWhere,
   GetCoursesDocument,
   SortDirection,
   useGetCoursesQuery,
   useUpdateUsersMutation,
 } from '@shared/graphql';
 import { IconBookmark, IconListDetails, IconSearch, IconX } from '@tabler/icons-react';
+import _ from 'lodash';
+import { MRT_ColumnFiltersState } from 'mantine-react-table';
 import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
@@ -30,6 +33,7 @@ import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
 import { RouteEntityType, appRoutes } from 'src/constants';
 import {
   useCurrentUser,
+  useDebounce,
   usePagination,
   usePaginationQueryOptions,
   useSearch,
@@ -39,10 +43,10 @@ import { PaginationActionType } from 'src/providers';
 
 import { COURSES_TABLE_COLUMNS } from '../constants';
 
-const columns = COURSES_TABLE_COLUMNS.filter(col => !['id'].includes(col.accessorKey as string));
-
 export const CoursesPageUser: React.FC = () => {
   const [isShowingBoomarks, setIsShowingBoomarks] = React.useState(false);
+  const [columnFilters, setColumnFilters] = React.useState<MRT_ColumnFiltersState>([]);
+  const [dataViewType, setDataViewType] = React.useState<DataViewType>(DataViewType.Table);
 
   const paginationOptions = usePaginationQueryOptions();
   const { paginationState, dispatchPaginationState, pageSizeOptions } = usePagination();
@@ -51,17 +55,54 @@ export const CoursesPageUser: React.FC = () => {
   const { currentUser } = useCurrentUser();
   const [updateUsers, { loading: updatingUsers }] = useUpdateUsersMutation();
 
+  const coursesFilters = React.useMemo((): CourseWhere => {
+    return columnFilters.reduce((acc, colFilter) => {
+      console.log(colFilter);
+      if (typeof colFilter.value === 'string') {
+        return _.set(acc, `${colFilter.id}_CONTAINS`, colFilter.value);
+      }
+
+      if (Array.isArray(colFilter.value) && !_.isEmpty(colFilter.value.filter(Boolean))) {
+        console.log('test');
+        return _.set(acc, `${colFilter.id}_IN`, colFilter.value);
+      }
+
+      if (typeof colFilter.value === 'object') {
+        const val = colFilter.value as { min?: number; max?: number };
+        _.set(acc, `${colFilter.id}_GTE`, val.min);
+        _.set(acc, `${colFilter.id}_LTE`, val.max);
+        return acc;
+      }
+
+      return acc;
+    }, {} as CourseWhere);
+  }, [columnFilters]);
+
+  const debouncedCoursesFilters = useDebounce(coursesFilters, 1000);
+
   const { data, loading: loadingCourses } = useGetCoursesQuery({
     variables: {
       where: {
         ...searchOptions,
+        ...debouncedCoursesFilters,
         ...(isShowingBoomarks ? { bookmarkedBy_SINGLE: { id: currentUser?.id } } : null),
       },
       options: { ...paginationOptions, sort: [{ createdAt: SortDirection.Desc }] },
     },
   });
 
-  const [dataViewType, setDataViewType] = React.useState<DataViewType>(DataViewType.Table);
+  const columns = React.useMemo(
+    () =>
+      COURSES_TABLE_COLUMNS({
+        // FIXME: Get from global state
+        languages: ['ru', 'en', 'fr', 'es', 'de'],
+        platforms: ['Stepik', 'Coursera'],
+        difficulties: ['beginner', 'intermediate', 'advanced'],
+        topics: [],
+        setFiltersState: setColumnFilters,
+      }).filter(col => !['id'].includes(col.accessorKey as string)),
+    [],
+  );
 
   React.useEffect(() => {
     if (!loadingCourses) {
@@ -83,7 +124,7 @@ export const CoursesPageUser: React.FC = () => {
               showGlobalFilter: true,
             }}
             positionGlobalFilter="left"
-            state={{ isLoading: loadingCourses }}
+            state={{ isLoading: loadingCourses, columnFilters }}
             rowCount={paginationState.count}
             mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
             enableRowActions
@@ -95,6 +136,8 @@ export const CoursesPageUser: React.FC = () => {
                 checked={isShowingBoomarks}
               />
             )}
+            manualFiltering
+            onColumnFiltersChange={setColumnFilters}
             renderRowActionMenuItems={({ row }) => (
               <React.Fragment>
                 <Menu.Item

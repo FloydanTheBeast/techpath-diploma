@@ -12,20 +12,66 @@ import {
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
 import { IconExternalLink, IconLanguage } from '@tabler/icons-react';
-import { MRT_ColumnDef } from 'mantine-react-table';
+import { MRT_ColumnDef, MRT_ColumnFiltersState } from 'mantine-react-table';
 
 import { CoursePlatformLogo, DifficultyBadge } from 'src/components';
 
-export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
+type ColumnsOptions = {
+  platforms: string[];
+  languages: string[];
+  topics: string[];
+  difficulties: string[];
+  setFiltersState: React.Dispatch<React.SetStateAction<MRT_ColumnFiltersState>>;
+};
+
+const DEFAULT_RANGE_TEXT_INPUT_PROPS: (
+  options: ColumnsOptions,
+) => MRT_ColumnDef<CourseInfoFragment>['mantineFilterTextInputProps'] =
+  options =>
+  ({ column: { id }, rangeFilterIndex }) => ({
+    type: 'number',
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+      options.setFiltersState(prevState => {
+        const fieldValue = event.target.value;
+        const prevFilterIdx = prevState.findIndex(filter => filter.id === id);
+        const value = {
+          [rangeFilterIndex === 0 ? 'min' : 'max']: fieldValue ? Number(fieldValue) : undefined,
+        };
+
+        if (prevFilterIdx !== -1) {
+          return [
+            ...prevState.slice(0, prevFilterIdx),
+            {
+              id,
+              value: {
+                ...((prevState[prevFilterIdx] as MRT_ColumnFiltersState[0]).value as any),
+                ...value,
+              },
+            },
+            ...prevState.slice(prevFilterIdx + 1),
+          ];
+        }
+
+        return prevState.concat({ id, value });
+      });
+    },
+  });
+
+export const COURSES_TABLE_COLUMNS: (
+  options: ColumnsOptions,
+) => MRT_ColumnDef<CourseInfoFragment>[] = options => [
   {
+    id: 'id',
     header: 'Id',
     accessorKey: 'id',
   },
   {
+    id: 'title',
     header: 'Title',
     accessorKey: 'title',
   },
   {
+    id: 'platform.name',
     header: 'Platform',
     accessorFn: ({ platform }) =>
       platform ? (
@@ -48,9 +94,14 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
       ) : (
         <Text c="dimmed">None</Text>
       ),
+    filterVariant: 'multi-select',
+    mantineFilterMultiSelectProps: {
+      data: options.platforms as any, // TODO
+    },
     size: 30,
   },
   {
+    id: 'url',
     header: 'Url',
     accessorFn: ({ url }) => (
       <Tooltip label={url} withArrow openDelay={300}>
@@ -69,6 +120,7 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
     ),
   },
   {
+    id: 'description',
     header: 'Description',
     accessorFn: ({ description }) => (
       <Tooltip label={description} width={300} multiline withArrow openDelay={500} withinPortal>
@@ -89,12 +141,20 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
         ))}
       </Flex>
     ),
+    filterVariant: 'multi-select',
+    mantineFilterMultiSelectProps: {
+      data: options.topics as any,
+    },
   },
   {
+    id: 'price.price',
     header: 'Price',
     accessorFn: ({ price }) => (price ? `${price.price} ${price.currencyCodeISO}` : 'Free'),
+    filterVariant: 'range',
+    mantineFilterTextInputProps: DEFAULT_RANGE_TEXT_INPUT_PROPS(options),
   },
   {
+    id: 'languages_SOME.countryCodeISO',
     header: 'Languages',
     accessorFn: ({ languages }) =>
       languages.map(language => (
@@ -108,8 +168,13 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
           {language.countryCodeISO}
         </Badge>
       )),
+    filterVariant: 'multi-select',
+    mantineFilterMultiSelectProps: {
+      data: options.languages as any,
+    },
   },
   {
+    id: 'reviewsAggregate.node.rating_AVERAGE',
     header: 'Internal rating',
     accessorFn: ({ reviewsAggregate }) => (
       <Group>
@@ -117,8 +182,11 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
         <Text>({reviewsAggregate?.count ?? 0})</Text>
       </Group>
     ),
+    filterVariant: 'range',
+    mantineFilterTextInputProps: DEFAULT_RANGE_TEXT_INPUT_PROPS(options),
   },
   {
+    id: 'externalRating',
     header: 'External rating',
     accessorFn: ({ externalRating, externalRatingsCount }) => (
       <Group>
@@ -126,9 +194,16 @@ export const COURSES_TABLE_COLUMNS: MRT_ColumnDef<CourseInfoFragment>[] = [
         <Text>({externalRatingsCount ?? 0})</Text>
       </Group>
     ),
+    filterVariant: 'range',
+    mantineFilterTextInputProps: DEFAULT_RANGE_TEXT_INPUT_PROPS(options),
   },
   {
+    id: 'difficulty',
     header: 'Difficulty',
     accessorFn: ({ difficulty }) => <DifficultyBadge difficulty={difficulty} />,
+    filterVariant: 'multi-select',
+    mantineFilterMultiSelectProps: {
+      data: options.difficulties as any,
+    },
   },
 ];

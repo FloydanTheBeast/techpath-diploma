@@ -48,7 +48,7 @@ export const ContentPageLayout = React.forwardRef<
         {styles => (
           <ActionIcon
             style={styles}
-            sx={{ position: 'fixed', right: 40, bottom: 40 }}
+            sx={{ position: 'fixed', right: 40, bottom: 40, zIndex: 100 }}
             variant="filled"
             radius="xl"
             size="xl"

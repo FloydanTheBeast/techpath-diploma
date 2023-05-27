@@ -53,6 +53,18 @@ export const CoursesPageAdmin: React.FC = () => {
   const [updateCourse, { loading: updatingCourse }] = useUpdateCourseByIdMutation();
   const [deleteCourse] = useDeleteCourseByIdMutation();
 
+  const columns = React.useMemo(
+    () =>
+      COURSES_TABLE_COLUMNS({
+        languages: ['ru', 'en', 'fr', 'es', 'de'],
+        platforms: ['Stepik', 'Coursera'],
+        difficulties: ['beginner', 'intermediate', 'advanced'],
+        topics: [],
+        setFiltersState: () => void 0,
+      }).filter(col => !['id'].includes(col.accessorKey as string)),
+    [],
+  );
+
   const handleCreateFormSubmit: CreateUpdateCourseModalArgs['onSubmit'] = async ({
     platformId,
     topicTagsIds,
@@ -206,7 +218,7 @@ export const CoursesPageAdmin: React.FC = () => {
             minSize: 80,
           },
         }}
-        columns={COURSES_TABLE_COLUMNS}
+        columns={columns}
         data={courses ?? []}
         state={{ isLoading: loadingCourses }}
         enableColumnOrdering

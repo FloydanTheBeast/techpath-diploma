@@ -86,7 +86,7 @@ type Course
 
 type CoursePrice {
   course: Course @relationship(type: "HAS_PRICE", direction: IN)
-  price: Int
+  price: Float
   currencyCodeISO: String
 }
 
