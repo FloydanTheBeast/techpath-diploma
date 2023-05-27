@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://github.com/FloydanTheBeast/diploma/compare/v0.2.0...v1.0.0) (2023-05-27)
+
+
+### Features
+
+* Add notifications support ([ab23604](https://github.com/FloydanTheBeast/diploma/commit/ab236048745f5e3aed049ae1693c1ab444e9295e))
+* **client|server:** Add ability to bookmark courses and roadmaps ([282b127](https://github.com/FloydanTheBeast/diploma/commit/282b127468825e26799df18b472e631d45b07ed9))
+* **client|server:** Add courses and roamaps reviews ([3c61088](https://github.com/FloydanTheBeast/diploma/commit/3c61088b32b8752d6754e2592eb9c0b800e625aa))
+* **client|server:** Add user preferences to profile page ([0f36b99](https://github.com/FloydanTheBeast/diploma/commit/0f36b994101ba9dcf4db3d5035955ab3342fc1f4))
+* **client|server:** Implement basic courses recommendation ([f3cf04c](https://github.com/FloydanTheBeast/diploma/commit/f3cf04c16ee174f81376a0512f33fdc69be22dd5))
+* **client:** Add an ability to link suggested courses ([bd05093](https://github.com/FloydanTheBeast/diploma/commit/bd05093580c71fac86a5b1b0632af230b0b4c6d1))
+* **client:** Add basic table search ([1cb62ad](https://github.com/FloydanTheBeast/diploma/commit/1cb62ada0c05001788784c96c99df185546d1c17))
+* **client:** Add course details page ([ecc4198](https://github.com/FloydanTheBeast/diploma/commit/ecc4198dea22de5a8133799977f1ac31a4b75347))
+* **client:** Add global search page ([0cf3a8e](https://github.com/FloydanTheBeast/diploma/commit/0cf3a8e0acff4fd04732c2ff47237da3a23da23f))
+* **client:** Add mising props on details pages ([0a2bc6f](https://github.com/FloydanTheBeast/diploma/commit/0a2bc6fd422c59ce0484296c11f4ff802a7916a9))
+* **client:** Add new fields to `CreateRoadmapForm` ([594ec7b](https://github.com/FloydanTheBeast/diploma/commit/594ec7b3c34b36cc2860db3a7c9623d729ca84fc))
+* **client:** Add new fields to course create/update modal ([818ca6a](https://github.com/FloydanTheBeast/diploma/commit/818ca6a039db5e6bf9834785bd9d282b4b82c31e))
+* **client:** Enable search for tables and grid view ([aa32065](https://github.com/FloydanTheBeast/diploma/commit/aa32065f2cbb32da9a55037d1ed6b5e202923421))
+* **client:** Implement basic global search ([3b0c36b](https://github.com/FloydanTheBeast/diploma/commit/3b0c36b6a6f198cc842694e25124e7900122d50e))
+* **client:** Implement server-side filtering ([8255fe4](https://github.com/FloydanTheBeast/diploma/commit/8255fe4d8fd4fe61d7646f28b7100b40a3deffe1))
+* **client:** Improve course picker in `NodeEditor` ([0f27222](https://github.com/FloydanTheBeast/diploma/commit/0f2722273402022ede90fbf274691de81318660c))
+* **client:** Improve courses grid view ([ee0ae3b](https://github.com/FloydanTheBeast/diploma/commit/ee0ae3bb55cdeee868ca818c5a1ec65ab613d9fb))
+* **client:** Integrate rich text editor ([6c6e847](https://github.com/FloydanTheBeast/diploma/commit/6c6e847e191bd6f7e719ff2a6571bd48491bf6c5))
+* **client:** Minor improvements ([61684b9](https://github.com/FloydanTheBeast/diploma/commit/61684b9220a902be461f45e1ba262d4c22572e4e))
+* **client:** Virtualize global search page ([ad1d480](https://github.com/FloydanTheBeast/diploma/commit/ad1d480a2dccafaa60f0d44fc5ec580bea2944cf))
+* **server|parser:** Improve dataProcessor ([4a048ac](https://github.com/FloydanTheBeast/diploma/commit/4a048acbe7d3c77996ce6a052838172e976b1573))
+* **server:** Add course language detection ([12d4906](https://github.com/FloydanTheBeast/diploma/commit/12d4906d6dc552d85d9a69c5a3f87d31673860cb))
+
+
+### Bug Fixes
+
+* **client:** Disable readonly rating interactions ([a141bcc](https://github.com/FloydanTheBeast/diploma/commit/a141bcc779edd61545eb1dd831ee1cb1203edc21))
+* **client:** Fix global search results initial render ([1bfa958](https://github.com/FloydanTheBeast/diploma/commit/1bfa9583e3d0ddb35872c94e38db48f3bb82d9bd))
+* **client:** Fix pagination sync between grid and table ([5a8e5fc](https://github.com/FloydanTheBeast/diploma/commit/5a8e5fc6ed2a9da0dbdf19961eddda768a49dc3a))
+
 ## [0.2.0](https://github.com/FloydanTheBeast/diploma/compare/v0.1.0...v0.2.0) (2023-05-10)
 
 

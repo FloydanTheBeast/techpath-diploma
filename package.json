@@ -1,6 +1,6 @@
 {
   "name": "diploma",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "gql-codegen:client": "nx run shared-graphql:gql-codegen",
