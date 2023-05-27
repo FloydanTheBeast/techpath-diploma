@@ -23,8 +23,7 @@ export const DataGrid = <TData extends Record<string, unknown>>({
   const { setSearchQuery } = useSearch();
 
   const dataGridState: MRT_TableState<TData> = React.useMemo(
-    // () => _.defaultsDeep(_.cloneDeep(state), { pagination: paginationState }),
-    () => ({ ...state, pagination: paginationState } as any),
+    () => _.defaultsDeep(state, { pagination: paginationState }),
     [state, paginationState],
   );
 

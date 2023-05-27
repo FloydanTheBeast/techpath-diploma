@@ -142,3 +142,9 @@ export const CREATE_ROADMAP_MUTATION = gql`
     createRoadmap(data: $data)
   }
 `;
+
+export const DELETE_ROADMAP_MUTATION = gql`
+  mutation DeleteRoadmap($id: ID!) {
+    deleteRoadmap(id: $id)
+  }
+`;

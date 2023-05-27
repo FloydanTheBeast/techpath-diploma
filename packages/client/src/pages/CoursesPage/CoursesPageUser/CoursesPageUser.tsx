@@ -57,13 +57,11 @@ export const CoursesPageUser: React.FC = () => {
 
   const coursesFilters = React.useMemo((): CourseWhere => {
     return columnFilters.reduce((acc, colFilter) => {
-      console.log(colFilter);
       if (typeof colFilter.value === 'string') {
         return _.set(acc, `${colFilter.id}_CONTAINS`, colFilter.value);
       }
 
       if (Array.isArray(colFilter.value) && !_.isEmpty(colFilter.value.filter(Boolean))) {
-        console.log('test');
         return _.set(acc, `${colFilter.id}_IN`, colFilter.value);
       }
 

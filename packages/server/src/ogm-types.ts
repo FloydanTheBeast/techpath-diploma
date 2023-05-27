@@ -686,7 +686,7 @@ export type CourseCoursePricePriceAggregationSelection = {
 
 export type CourseCoursePricePriceNodeAggregateSelection = {
   __typename?: "CourseCoursePricePriceNodeAggregateSelection";
-  price: IntAggregateSelectionNullable;
+  price: FloatAggregateSelectionNullable;
   currencyCodeISO: StringAggregateSelectionNullable;
 };
 
@@ -830,7 +830,7 @@ export type CoursePlatformsConnection = {
 
 export type CoursePrice = {
   __typename?: "CoursePrice";
-  price?: Maybe<Scalars["Int"]>;
+  price?: Maybe<Scalars["Float"]>;
   currencyCodeISO?: Maybe<Scalars["String"]>;
   course?: Maybe<Course>;
   courseAggregate?: Maybe<CoursePriceCourseCourseAggregationSelection>;
@@ -859,7 +859,7 @@ export type CoursePriceCourseConnectionArgs = {
 export type CoursePriceAggregateSelection = {
   __typename?: "CoursePriceAggregateSelection";
   count: Scalars["Int"];
-  price: IntAggregateSelectionNullable;
+  price: FloatAggregateSelectionNullable;
   currencyCodeISO: StringAggregateSelectionNullable;
 };
 
@@ -2074,6 +2074,8 @@ export type User = {
   updatedAt?: Maybe<Scalars["DateTime"]>;
   createdRoadmaps: Array<Roadmap>;
   createdRoadmapsAggregate?: Maybe<UserRoadmapCreatedRoadmapsAggregationSelection>;
+  preferableLanguages: Array<Language>;
+  preferableLanguagesAggregate?: Maybe<UserLanguagePreferableLanguagesAggregationSelection>;
   preferableTopics: Array<TopicTag>;
   preferableTopicsAggregate?: Maybe<UserTopicTagPreferableTopicsAggregationSelection>;
   bookmarkedCourses: Array<Course>;
@@ -2081,6 +2083,7 @@ export type User = {
   bookmarkedRoadmaps: Array<Roadmap>;
   bookmarkedRoadmapsAggregate?: Maybe<UserRoadmapBookmarkedRoadmapsAggregationSelection>;
   createdRoadmapsConnection: UserCreatedRoadmapsConnection;
+  preferableLanguagesConnection: UserPreferableLanguagesConnection;
   preferableTopicsConnection: UserPreferableTopicsConnection;
   bookmarkedCoursesConnection: UserBookmarkedCoursesConnection;
   bookmarkedRoadmapsConnection: UserBookmarkedRoadmapsConnection;
@@ -2094,6 +2097,17 @@ export type UserCreatedRoadmapsArgs = {
 
 export type UserCreatedRoadmapsAggregateArgs = {
   where?: InputMaybe<RoadmapWhere>;
+  directed?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type UserPreferableLanguagesArgs = {
+  where?: InputMaybe<LanguageWhere>;
+  options?: InputMaybe<LanguageOptions>;
+  directed?: InputMaybe<Scalars["Boolean"]>;
+};
+
+export type UserPreferableLanguagesAggregateArgs = {
+  where?: InputMaybe<LanguageWhere>;
   directed?: InputMaybe<Scalars["Boolean"]>;
 };
 
@@ -2136,6 +2150,14 @@ export type UserCreatedRoadmapsConnectionArgs = {
   after?: InputMaybe<Scalars["String"]>;
   directed?: InputMaybe<Scalars["Boolean"]>;
   sort?: InputMaybe<Array<UserCreatedRoadmapsConnectionSort>>;
+};
+
+export type UserPreferableLanguagesConnectionArgs = {
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  first?: InputMaybe<Scalars["Int"]>;
+  after?: InputMaybe<Scalars["String"]>;
+  directed?: InputMaybe<Scalars["Boolean"]>;
+  sort?: InputMaybe<Array<UserPreferableLanguagesConnectionSort>>;
 };
 
 export type UserPreferableTopicsConnectionArgs = {
@@ -2235,6 +2257,31 @@ export type UserEdge = {
   __typename?: "UserEdge";
   cursor: Scalars["String"];
   node: User;
+};
+
+export type UserLanguagePreferableLanguagesAggregationSelection = {
+  __typename?: "UserLanguagePreferableLanguagesAggregationSelection";
+  count: Scalars["Int"];
+  node?: Maybe<UserLanguagePreferableLanguagesNodeAggregateSelection>;
+};
+
+export type UserLanguagePreferableLanguagesNodeAggregateSelection = {
+  __typename?: "UserLanguagePreferableLanguagesNodeAggregateSelection";
+  name: StringAggregateSelectionNonNullable;
+  countryCodeISO: StringAggregateSelectionNonNullable;
+};
+
+export type UserPreferableLanguagesConnection = {
+  __typename?: "UserPreferableLanguagesConnection";
+  edges: Array<UserPreferableLanguagesRelationship>;
+  totalCount: Scalars["Int"];
+  pageInfo: PageInfo;
+};
+
+export type UserPreferableLanguagesRelationship = {
+  __typename?: "UserPreferableLanguagesRelationship";
+  cursor: Scalars["String"];
+  node: Language;
 };
 
 export type UserPreferableTopicsConnection = {
@@ -4337,7 +4384,7 @@ export type CoursePriceCreateFieldInput = {
 };
 
 export type CoursePriceCreateInput = {
-  price?: InputMaybe<Scalars["Int"]>;
+  price?: InputMaybe<Scalars["Float"]>;
   currencyCodeISO?: InputMaybe<Scalars["String"]>;
   course?: InputMaybe<CoursePriceCourseFieldInput>;
 };
@@ -4425,35 +4472,35 @@ export type CoursePriceNodeAggregationWhereInput = {
   currencyCodeISO_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]>;
   currencyCodeISO_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  price_EQUAL?: InputMaybe<Scalars["Int"]>;
+  price_EQUAL?: InputMaybe<Scalars["Float"]>;
   price_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]>;
-  price_MIN_EQUAL?: InputMaybe<Scalars["Int"]>;
-  price_MAX_EQUAL?: InputMaybe<Scalars["Int"]>;
-  price_SUM_EQUAL?: InputMaybe<Scalars["Int"]>;
+  price_MIN_EQUAL?: InputMaybe<Scalars["Float"]>;
+  price_MAX_EQUAL?: InputMaybe<Scalars["Float"]>;
+  price_SUM_EQUAL?: InputMaybe<Scalars["Float"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  price_GT?: InputMaybe<Scalars["Int"]>;
+  price_GT?: InputMaybe<Scalars["Float"]>;
   price_AVERAGE_GT?: InputMaybe<Scalars["Float"]>;
-  price_MIN_GT?: InputMaybe<Scalars["Int"]>;
-  price_MAX_GT?: InputMaybe<Scalars["Int"]>;
-  price_SUM_GT?: InputMaybe<Scalars["Int"]>;
+  price_MIN_GT?: InputMaybe<Scalars["Float"]>;
+  price_MAX_GT?: InputMaybe<Scalars["Float"]>;
+  price_SUM_GT?: InputMaybe<Scalars["Float"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  price_GTE?: InputMaybe<Scalars["Int"]>;
+  price_GTE?: InputMaybe<Scalars["Float"]>;
   price_AVERAGE_GTE?: InputMaybe<Scalars["Float"]>;
-  price_MIN_GTE?: InputMaybe<Scalars["Int"]>;
-  price_MAX_GTE?: InputMaybe<Scalars["Int"]>;
-  price_SUM_GTE?: InputMaybe<Scalars["Int"]>;
+  price_MIN_GTE?: InputMaybe<Scalars["Float"]>;
+  price_MAX_GTE?: InputMaybe<Scalars["Float"]>;
+  price_SUM_GTE?: InputMaybe<Scalars["Float"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  price_LT?: InputMaybe<Scalars["Int"]>;
+  price_LT?: InputMaybe<Scalars["Float"]>;
   price_AVERAGE_LT?: InputMaybe<Scalars["Float"]>;
-  price_MIN_LT?: InputMaybe<Scalars["Int"]>;
-  price_MAX_LT?: InputMaybe<Scalars["Int"]>;
-  price_SUM_LT?: InputMaybe<Scalars["Int"]>;
+  price_MIN_LT?: InputMaybe<Scalars["Float"]>;
+  price_MAX_LT?: InputMaybe<Scalars["Float"]>;
+  price_SUM_LT?: InputMaybe<Scalars["Float"]>;
   /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
-  price_LTE?: InputMaybe<Scalars["Int"]>;
+  price_LTE?: InputMaybe<Scalars["Float"]>;
   price_AVERAGE_LTE?: InputMaybe<Scalars["Float"]>;
-  price_MIN_LTE?: InputMaybe<Scalars["Int"]>;
-  price_MAX_LTE?: InputMaybe<Scalars["Int"]>;
-  price_SUM_LTE?: InputMaybe<Scalars["Int"]>;
+  price_MIN_LTE?: InputMaybe<Scalars["Float"]>;
+  price_MAX_LTE?: InputMaybe<Scalars["Float"]>;
+  price_SUM_LTE?: InputMaybe<Scalars["Float"]>;
 };
 
 export type CoursePriceOptions = {
@@ -4487,10 +4534,12 @@ export type CoursePriceUpdateFieldInput = {
 };
 
 export type CoursePriceUpdateInput = {
-  price?: InputMaybe<Scalars["Int"]>;
+  price?: InputMaybe<Scalars["Float"]>;
   currencyCodeISO?: InputMaybe<Scalars["String"]>;
-  price_INCREMENT?: InputMaybe<Scalars["Int"]>;
-  price_DECREMENT?: InputMaybe<Scalars["Int"]>;
+  price_ADD?: InputMaybe<Scalars["Float"]>;
+  price_SUBTRACT?: InputMaybe<Scalars["Float"]>;
+  price_DIVIDE?: InputMaybe<Scalars["Float"]>;
+  price_MULTIPLY?: InputMaybe<Scalars["Float"]>;
   course?: InputMaybe<CoursePriceCourseUpdateFieldInput>;
 };
 
@@ -4498,16 +4547,16 @@ export type CoursePriceWhere = {
   OR?: InputMaybe<Array<CoursePriceWhere>>;
   AND?: InputMaybe<Array<CoursePriceWhere>>;
   NOT?: InputMaybe<CoursePriceWhere>;
-  price?: InputMaybe<Scalars["Int"]>;
+  price?: InputMaybe<Scalars["Float"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  price_NOT?: InputMaybe<Scalars["Int"]>;
-  price_IN?: InputMaybe<Array<InputMaybe<Scalars["Int"]>>>;
+  price_NOT?: InputMaybe<Scalars["Float"]>;
+  price_IN?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
-  price_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["Int"]>>>;
-  price_LT?: InputMaybe<Scalars["Int"]>;
-  price_LTE?: InputMaybe<Scalars["Int"]>;
-  price_GT?: InputMaybe<Scalars["Int"]>;
-  price_GTE?: InputMaybe<Scalars["Int"]>;
+  price_NOT_IN?: InputMaybe<Array<InputMaybe<Scalars["Float"]>>>;
+  price_LT?: InputMaybe<Scalars["Float"]>;
+  price_LTE?: InputMaybe<Scalars["Float"]>;
+  price_GT?: InputMaybe<Scalars["Float"]>;
+  price_GTE?: InputMaybe<Scalars["Float"]>;
   currencyCodeISO?: InputMaybe<Scalars["String"]>;
   /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
   currencyCodeISO_NOT?: InputMaybe<Scalars["String"]>;
@@ -10912,6 +10961,9 @@ export type UserBookmarkedRoadmapsUpdateFieldInput = {
 
 export type UserConnectInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsConnectFieldInput>>;
+  preferableLanguages?: InputMaybe<
+    Array<UserPreferableLanguagesConnectFieldInput>
+  >;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsConnectFieldInput>>;
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesConnectFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<
@@ -10922,6 +10974,9 @@ export type UserConnectInput = {
 export type UserConnectOrCreateInput = {
   createdRoadmaps?: InputMaybe<
     Array<UserCreatedRoadmapsConnectOrCreateFieldInput>
+  >;
+  preferableLanguages?: InputMaybe<
+    Array<UserPreferableLanguagesConnectOrCreateFieldInput>
   >;
   preferableTopics?: InputMaybe<
     Array<UserPreferableTopicsConnectOrCreateFieldInput>
@@ -11186,6 +11241,7 @@ export type UserCreateInput = {
   firstName: Scalars["String"];
   lastName: Scalars["String"];
   createdRoadmaps?: InputMaybe<UserCreatedRoadmapsFieldInput>;
+  preferableLanguages?: InputMaybe<UserPreferableLanguagesFieldInput>;
   preferableTopics?: InputMaybe<UserPreferableTopicsFieldInput>;
   bookmarkedCourses?: InputMaybe<UserBookmarkedCoursesFieldInput>;
   bookmarkedRoadmaps?: InputMaybe<UserBookmarkedRoadmapsFieldInput>;
@@ -11193,6 +11249,9 @@ export type UserCreateInput = {
 
 export type UserDeleteInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDeleteFieldInput>>;
+  preferableLanguages?: InputMaybe<
+    Array<UserPreferableLanguagesDeleteFieldInput>
+  >;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsDeleteFieldInput>>;
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesDeleteFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<
@@ -11202,6 +11261,9 @@ export type UserDeleteInput = {
 
 export type UserDisconnectInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsDisconnectFieldInput>>;
+  preferableLanguages?: InputMaybe<
+    Array<UserPreferableLanguagesDisconnectFieldInput>
+  >;
   preferableTopics?: InputMaybe<
     Array<UserPreferableTopicsDisconnectFieldInput>
   >;
@@ -11226,6 +11288,201 @@ export type UserOptions = {
   sort?: InputMaybe<Array<UserSort>>;
   limit?: InputMaybe<Scalars["Int"]>;
   offset?: InputMaybe<Scalars["Int"]>;
+};
+
+export type UserPreferableLanguagesAggregateInput = {
+  count?: InputMaybe<Scalars["Int"]>;
+  count_LT?: InputMaybe<Scalars["Int"]>;
+  count_LTE?: InputMaybe<Scalars["Int"]>;
+  count_GT?: InputMaybe<Scalars["Int"]>;
+  count_GTE?: InputMaybe<Scalars["Int"]>;
+  AND?: InputMaybe<Array<UserPreferableLanguagesAggregateInput>>;
+  OR?: InputMaybe<Array<UserPreferableLanguagesAggregateInput>>;
+  NOT?: InputMaybe<UserPreferableLanguagesAggregateInput>;
+  node?: InputMaybe<UserPreferableLanguagesNodeAggregationWhereInput>;
+};
+
+export type UserPreferableLanguagesConnectFieldInput = {
+  where?: InputMaybe<LanguageConnectWhere>;
+  connect?: InputMaybe<Array<LanguageConnectInput>>;
+  /** Whether or not to overwrite any matching relationship with the new properties. Will default to `false` in 4.0.0. */
+  overwrite?: Scalars["Boolean"];
+};
+
+export type UserPreferableLanguagesConnectionSort = {
+  node?: InputMaybe<LanguageSort>;
+};
+
+export type UserPreferableLanguagesConnectionWhere = {
+  AND?: InputMaybe<Array<UserPreferableLanguagesConnectionWhere>>;
+  OR?: InputMaybe<Array<UserPreferableLanguagesConnectionWhere>>;
+  NOT?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  node?: InputMaybe<LanguageWhere>;
+  /** @deprecated Negation filters will be deprecated, use the NOT operator to achieve the same behavior */
+  node_NOT?: InputMaybe<LanguageWhere>;
+};
+
+export type UserPreferableLanguagesConnectOrCreateFieldInput = {
+  where: LanguageConnectOrCreateWhere;
+  onCreate: UserPreferableLanguagesConnectOrCreateFieldInputOnCreate;
+};
+
+export type UserPreferableLanguagesConnectOrCreateFieldInputOnCreate = {
+  node: LanguageOnCreateInput;
+};
+
+export type UserPreferableLanguagesCreateFieldInput = {
+  node: LanguageCreateInput;
+};
+
+export type UserPreferableLanguagesDeleteFieldInput = {
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  delete?: InputMaybe<LanguageDeleteInput>;
+};
+
+export type UserPreferableLanguagesDisconnectFieldInput = {
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  disconnect?: InputMaybe<LanguageDisconnectInput>;
+};
+
+export type UserPreferableLanguagesFieldInput = {
+  create?: InputMaybe<Array<UserPreferableLanguagesCreateFieldInput>>;
+  connect?: InputMaybe<Array<UserPreferableLanguagesConnectFieldInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserPreferableLanguagesConnectOrCreateFieldInput>
+  >;
+};
+
+export type UserPreferableLanguagesNodeAggregationWhereInput = {
+  AND?: InputMaybe<Array<UserPreferableLanguagesNodeAggregationWhereInput>>;
+  OR?: InputMaybe<Array<UserPreferableLanguagesNodeAggregationWhereInput>>;
+  NOT?: InputMaybe<UserPreferableLanguagesNodeAggregationWhereInput>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_EQUAL?: InputMaybe<Scalars["String"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]>;
+  name_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]>;
+  name_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]>;
+  name_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_GT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_GT?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_GT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_GT?: InputMaybe<Scalars["Int"]>;
+  name_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]>;
+  name_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]>;
+  name_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_GTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_GTE?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_GTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_GTE?: InputMaybe<Scalars["Int"]>;
+  name_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]>;
+  name_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]>;
+  name_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_LT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_LT?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_LT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_LT?: InputMaybe<Scalars["Int"]>;
+  name_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]>;
+  name_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]>;
+  name_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  name_LTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_AVERAGE_LTE?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_LONGEST_LTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  name_SHORTEST_LTE?: InputMaybe<Scalars["Int"]>;
+  name_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]>;
+  name_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]>;
+  name_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  countryCodeISO_EQUAL?: InputMaybe<Scalars["String"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_AVERAGE_EQUAL?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_LONGEST_EQUAL?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_SHORTEST_EQUAL?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_AVERAGE_LENGTH_EQUAL?: InputMaybe<Scalars["Float"]>;
+  countryCodeISO_LONGEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_SHORTEST_LENGTH_EQUAL?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  countryCodeISO_GT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_AVERAGE_GT?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_LONGEST_GT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_SHORTEST_GT?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_AVERAGE_LENGTH_GT?: InputMaybe<Scalars["Float"]>;
+  countryCodeISO_LONGEST_LENGTH_GT?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_SHORTEST_LENGTH_GT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  countryCodeISO_GTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_AVERAGE_GTE?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_LONGEST_GTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_SHORTEST_GTE?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_AVERAGE_LENGTH_GTE?: InputMaybe<Scalars["Float"]>;
+  countryCodeISO_LONGEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_SHORTEST_LENGTH_GTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  countryCodeISO_LT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_AVERAGE_LT?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_LONGEST_LT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_SHORTEST_LT?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_AVERAGE_LENGTH_LT?: InputMaybe<Scalars["Float"]>;
+  countryCodeISO_LONGEST_LENGTH_LT?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_SHORTEST_LENGTH_LT?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Aggregation filters that are not relying on an aggregating function will be deprecated. */
+  countryCodeISO_LTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_AVERAGE_LTE?: InputMaybe<Scalars["Float"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_LONGEST_LTE?: InputMaybe<Scalars["Int"]>;
+  /** @deprecated Please use the explicit _LENGTH version for string aggregation. */
+  countryCodeISO_SHORTEST_LTE?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_AVERAGE_LENGTH_LTE?: InputMaybe<Scalars["Float"]>;
+  countryCodeISO_LONGEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]>;
+  countryCodeISO_SHORTEST_LENGTH_LTE?: InputMaybe<Scalars["Int"]>;
+};
+
+export type UserPreferableLanguagesUpdateConnectionInput = {
+  node?: InputMaybe<LanguageUpdateInput>;
+};
+
+export type UserPreferableLanguagesUpdateFieldInput = {
+  where?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  update?: InputMaybe<UserPreferableLanguagesUpdateConnectionInput>;
+  connect?: InputMaybe<Array<UserPreferableLanguagesConnectFieldInput>>;
+  disconnect?: InputMaybe<Array<UserPreferableLanguagesDisconnectFieldInput>>;
+  create?: InputMaybe<Array<UserPreferableLanguagesCreateFieldInput>>;
+  delete?: InputMaybe<Array<UserPreferableLanguagesDeleteFieldInput>>;
+  connectOrCreate?: InputMaybe<
+    Array<UserPreferableLanguagesConnectOrCreateFieldInput>
+  >;
 };
 
 export type UserPreferableTopicsAggregateInput = {
@@ -11372,6 +11629,9 @@ export type UserPreferableTopicsUpdateFieldInput = {
 
 export type UserRelationInput = {
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsCreateFieldInput>>;
+  preferableLanguages?: InputMaybe<
+    Array<UserPreferableLanguagesCreateFieldInput>
+  >;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsCreateFieldInput>>;
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesCreateFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<
@@ -12492,6 +12752,9 @@ export type UserUpdateInput = {
   roles_POP?: InputMaybe<Scalars["Int"]>;
   roles_PUSH?: InputMaybe<Array<Scalars["String"]>>;
   createdRoadmaps?: InputMaybe<Array<UserCreatedRoadmapsUpdateFieldInput>>;
+  preferableLanguages?: InputMaybe<
+    Array<UserPreferableLanguagesUpdateFieldInput>
+  >;
   preferableTopics?: InputMaybe<Array<UserPreferableTopicsUpdateFieldInput>>;
   bookmarkedCourses?: InputMaybe<Array<UserBookmarkedCoursesUpdateFieldInput>>;
   bookmarkedRoadmaps?: InputMaybe<
@@ -12617,6 +12880,19 @@ export type UserWhere = {
   createdRoadmaps_SINGLE?: InputMaybe<RoadmapWhere>;
   /** Return Users where some of the related Roadmaps match this filter */
   createdRoadmaps_SOME?: InputMaybe<RoadmapWhere>;
+  /** @deprecated Use `preferableLanguages_SOME` instead. */
+  preferableLanguages?: InputMaybe<LanguageWhere>;
+  /** @deprecated Use `preferableLanguages_NONE` instead. */
+  preferableLanguages_NOT?: InputMaybe<LanguageWhere>;
+  preferableLanguagesAggregate?: InputMaybe<UserPreferableLanguagesAggregateInput>;
+  /** Return Users where all of the related Languages match this filter */
+  preferableLanguages_ALL?: InputMaybe<LanguageWhere>;
+  /** Return Users where none of the related Languages match this filter */
+  preferableLanguages_NONE?: InputMaybe<LanguageWhere>;
+  /** Return Users where one of the related Languages match this filter */
+  preferableLanguages_SINGLE?: InputMaybe<LanguageWhere>;
+  /** Return Users where some of the related Languages match this filter */
+  preferableLanguages_SOME?: InputMaybe<LanguageWhere>;
   /** @deprecated Use `preferableTopics_SOME` instead. */
   preferableTopics?: InputMaybe<TopicTagWhere>;
   /** @deprecated Use `preferableTopics_NONE` instead. */
@@ -12668,6 +12944,18 @@ export type UserWhere = {
   createdRoadmapsConnection_SINGLE?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
   /** Return Users where some of the related UserCreatedRoadmapsConnections match this filter */
   createdRoadmapsConnection_SOME?: InputMaybe<UserCreatedRoadmapsConnectionWhere>;
+  /** @deprecated Use `preferableLanguagesConnection_SOME` instead. */
+  preferableLanguagesConnection?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** @deprecated Use `preferableLanguagesConnection_NONE` instead. */
+  preferableLanguagesConnection_NOT?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where all of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_ALL?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where none of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_NONE?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where one of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_SINGLE?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
+  /** Return Users where some of the related UserPreferableLanguagesConnections match this filter */
+  preferableLanguagesConnection_SOME?: InputMaybe<UserPreferableLanguagesConnectionWhere>;
   /** @deprecated Use `preferableTopicsConnection_SOME` instead. */
   preferableTopicsConnection?: InputMaybe<UserPreferableTopicsConnectionWhere>;
   /** @deprecated Use `preferableTopicsConnection_NONE` instead. */
@@ -12899,7 +13187,7 @@ export interface IntAggregateInputNullable {
 }
 export interface CoursePriceAggregateSelectionInput {
   count?: boolean;
-  price?: IntAggregateInputNullable;
+  price?: FloatAggregateInputNullable;
   currencyCodeISO?: StringAggregateInputNullable;
 }
 

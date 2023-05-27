@@ -226,6 +226,7 @@ export const CoursesPageAdmin: React.FC = () => {
         initialState={{
           showGlobalFilter: true,
         }}
+        enableColumnFilters={false} // TODO
         positionGlobalFilter="left"
         enableRowActions
         renderRowActionMenuItems={({
@@ -266,7 +267,11 @@ export const CoursesPageAdmin: React.FC = () => {
             >
               Edit course
             </Menu.Item>
-            <Menu.Item icon={<IconTrash />} onClick={async () => await handleCourseDelete(id)}>
+            <Menu.Item
+              icon={<IconTrash />}
+              color="red"
+              onClick={async () => await handleCourseDelete(id)}
+            >
               Delete course
             </Menu.Item>
           </React.Fragment>
