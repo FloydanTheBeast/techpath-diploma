@@ -21,7 +21,7 @@ services:
       - backend
     healthcheck:
       test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider localhost:7474 || exit 1"]
-      interval: 7s
+      interval: 5s
       timeout: 5s
       retries: 3
   rabbitmq:
@@ -59,10 +59,12 @@ services:
       resources:
         limits:
           cpus: '4.0'
-          memory: 3072M
+          memory: 4096M
         reservations:
           cpus: '0.5'
           memory: 1024M
+    profiles:
+      - tools
 
 networks:
   backend:

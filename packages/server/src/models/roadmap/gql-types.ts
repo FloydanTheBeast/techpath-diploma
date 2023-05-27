@@ -1,4 +1,5 @@
 import { Field, InputType, ID } from '@nestjs/graphql';
+import { Difficulty } from '@shared/graphql';
 
 @InputType()
 export class RoadmapEdgeInput {
@@ -21,6 +22,12 @@ export class RoadmapNodePositionInput {
 }
 
 @InputType()
+export class RoadmapNodeSuggestedCourseInput {
+  @Field()
+  id: string;
+}
+
+@InputType()
 export class RoadmapNodeInput {
   @Field(() => ID)
   id: string;
@@ -32,6 +39,8 @@ export class RoadmapNodeInput {
   position: RoadmapNodePositionInput;
   @Field()
   type: string;
+  @Field(() => [RoadmapNodeSuggestedCourseInput], { nullable: true })
+  suggestedCourses: [RoadmapNodeSuggestedCourseInput];
 }
 
 @InputType()
@@ -44,4 +53,10 @@ export class CreateRoadmapInput {
   nodes: RoadmapNodeInput[];
   @Field(() => [RoadmapEdgeInput])
   edges: RoadmapEdgeInput[];
+  @Field(() => String)
+  difficulty: Difficulty;
+  @Field(() => String)
+  countryCodeISO: string;
+  @Field(() => [String], { nullable: true })
+  tagsIds?: string[];
 }

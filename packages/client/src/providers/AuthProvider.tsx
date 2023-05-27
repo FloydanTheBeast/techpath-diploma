@@ -21,7 +21,6 @@ export const AuthContext = React.createContext<AuthContextType>({
 });
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  // const { spawnNotification } = useNotifications();
   const apolloClient = useApolloClient();
   const navigate = useNavigate();
   const [signInMutation] = useSignInMutation();

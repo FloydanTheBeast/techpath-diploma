@@ -10,6 +10,7 @@ import {
   fromPromise,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
+import { Notifications } from '@mantine/notifications';
 import { AuthSessionResponse } from '@shared/graphql';
 import { BrowserRouter } from 'react-router-dom';
 
@@ -18,6 +19,7 @@ import { AuthProvider } from 'src/providers';
 import { ModalsProvider } from 'src/providers/ModalsProvider';
 
 import { AppRouter } from '../AppRouter';
+import { GlobalSearchProvider } from '../GlobalSearchProvider';
 
 import { refreshToken } from './utils';
 
@@ -77,7 +79,10 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <AuthProvider>
           <ModalsProvider>
-            <AppRouter />
+            <GlobalSearchProvider>
+              <Notifications />
+              <AppRouter />
+            </GlobalSearchProvider>
           </ModalsProvider>
         </AuthProvider>
       </BrowserRouter>

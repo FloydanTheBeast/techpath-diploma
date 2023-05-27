@@ -10,16 +10,28 @@ export class RoadmapService {
   async createRoadmap(data: CreateRoadmapInput, userId: string) {
     const session = this.gqlService.driver.session();
 
-    const res = await session.run(
-      `
-      MERGE (rm:Roadmap { id: randomUUID() })
+    try {
+      const res = await session.run(
+        `
+      CREATE (rm:Roadmap { id: randomUUID() })
       SET rm.title = $data.title
       SET rm.description = $data.description
       SET rm.createdAt = datetime.realtime()
+      SET rm.difficulty = $data.difficulty
+
+      WITH rm
+      MATCH (lang:Language { countryCodeISO: $data.countryCodeISO })
+      MERGE (rm)-[:TRANSLATED_INTO]->(lang)
 
       WITH rm
       MATCH (u:User { id: $userId })
       MERGE (rm)-[:CREATED_BY]->(u)
+
+      WITH $data.tagsIds as tagsIds, rm
+      FOREACH (tagId in tagsIds |
+        MERGE (t:TopicTag { id: tagId })
+        MERGE (rm)-[:INCLUDES_TOPIC]->(t)
+      )
 
       WITH $data.nodes AS nodes, rm
       FOREACH (n IN nodes | 
@@ -29,6 +41,10 @@ export class RoadmapService {
         SET node.positionX = n.position.x
         SET node.positionY = n.position.y
         SET node.type = n.type
+        FOREACH (sg IN n.suggestedCourses |
+          MERGE (c:Course { id: sg.id })
+          MERGE (node)-[:SUGGESTS_COURSE]->(c)
+        )
       )
       
       WITH $data.nodes as nodes, rm
@@ -42,14 +58,18 @@ export class RoadmapService {
       MERGE (n1)-[r:HAS_CHILD { id: edgeObj.id }]->(n2)
       RETURN rm
     `,
-      {
-        data,
-        userId,
-      },
-    );
+        {
+          data,
+          userId,
+        },
+      );
 
-    await session.close();
+      await session.close();
 
-    return res.records[0];
+      return res.records[0];
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 }

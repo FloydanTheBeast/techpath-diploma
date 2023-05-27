@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { ActionIcon, Button, Group, Image, ThemeIcon, Tooltip } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import {
   CoursePlatformInfoFragment,
   GetCoursePlatformsDocument,
@@ -12,11 +13,13 @@ import {
 } from '@shared/graphql';
 import { Nullable } from '@shared/types';
 import {
+  IconCheck,
   IconDatabasePlus,
   IconEdit,
   IconExternalLink,
   IconSchool,
   IconTrash,
+  IconX,
 } from '@tabler/icons-react';
 import { MRT_ColumnDef } from 'mantine-react-table';
 
@@ -88,8 +91,23 @@ export const CoursePlatformsPage: React.FC = () => {
           refetchQueries: [GetCoursePlatformsDocument],
         });
         closeModal();
+        notifications.show({
+          title: 'Success',
+          message: 'Course platform has been created',
+          color: 'green',
+          withCloseButton: true,
+          icon: <IconCheck />,
+          withBorder: true,
+        });
       } catch (error) {
-        // TODO: Spawn notification
+        notifications.show({
+          title: 'Something went wrong',
+          message: error.message,
+          color: 'red',
+          withCloseButton: true,
+          icon: <IconX />,
+          withBorder: true,
+        });
       } finally {
         switchClosability(true);
       }
@@ -106,8 +124,23 @@ export const CoursePlatformsPage: React.FC = () => {
         refetchQueries: [GetCoursePlatformsDocument],
       });
       closeModal();
+      notifications.show({
+        title: 'Success',
+        message: 'Course platform has been updated',
+        color: 'green',
+        withCloseButton: true,
+        icon: <IconCheck />,
+        withBorder: true,
+      });
     } catch (error) {
-      // TODO: Spawn notification
+      notifications.show({
+        title: 'Something went wrong',
+        message: error.message,
+        color: 'red',
+        withCloseButton: true,
+        icon: <IconX />,
+        withBorder: true,
+      });
     } finally {
       switchClosability(true);
     }

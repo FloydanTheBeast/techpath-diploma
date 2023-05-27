@@ -17,6 +17,6 @@ export class RoadmapResolver {
     @CurrentUser() { id: userId }: JwtPayload,
     @Args('data') data: CreateRoadmapInput,
   ): Promise<boolean> {
-    return Boolean(this.roadmapService.createRoadmap(data, userId));
+    return Boolean(await this.roadmapService.createRoadmap(data, userId));
   }
 }

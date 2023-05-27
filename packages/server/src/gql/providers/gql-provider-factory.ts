@@ -36,6 +36,9 @@ export const gqlProviderFactory: GqlModuleAsyncOptions<ApolloDriverConfig>['useF
         jwtService,
       ),
     },
+    config: {
+      enableRegex: true,
+    },
   });
 
   const schema = await neoSchema.getSchema();

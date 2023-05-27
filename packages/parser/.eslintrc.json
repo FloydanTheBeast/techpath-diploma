@@ -1,6 +1,9 @@
 {
   "extends": ["../../.eslintrc.js"],
   "ignorePatterns": ["!**/*"],
+  "rules": {
+    "no-empty": ["error", { "allowEmptyCatch": true }]
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],

@@ -1,5 +1,10 @@
 import { gql } from '@apollo/client';
 
+import {
+  COURSE_USER_REVIEW_AGGREGATION_INFO_FRAGMENT,
+  USER_REVIEW_INFO_FRAGMENT,
+} from './userReviews';
+
 export const COURSE_INFO_FRAGMENT = gql`
   fragment CourseInfo on Course {
     id
@@ -8,6 +13,13 @@ export const COURSE_INFO_FRAGMENT = gql`
     url
     createdAt
     updatedAt
+    difficulty
+    externalRating
+    externalRatingsCount
+    bookmarked
+    languages {
+      countryCodeISO
+    }
     price {
       currencyCodeISO
       price
@@ -18,7 +30,19 @@ export const COURSE_INFO_FRAGMENT = gql`
       logoUrl
       url
     }
+    tags {
+      id
+      name
+    }
+    reviews {
+      ...UserReviewInfo
+    }
+    reviewsAggregate {
+      ...CourseUserReviewAggregationInfo
+    }
   }
+  ${USER_REVIEW_INFO_FRAGMENT}
+  ${COURSE_USER_REVIEW_AGGREGATION_INFO_FRAGMENT}
 `;
 
 export const GET_COURSES_QUERY = gql`
@@ -28,6 +52,23 @@ export const GET_COURSES_QUERY = gql`
     }
     coursesAggregate(where: $where) {
       count
+    }
+  }
+  ${COURSE_INFO_FRAGMENT}
+`;
+
+export const SEARCH_COURSES_QUERY = gql`
+  query SearchCourses(
+    $searchQuery: String!
+    $where: CourseFulltextWhere
+    $limit: Int
+    $offset: Int
+  ) {
+    coursesFulltextCourseInfo(phrase: $searchQuery, where: $where, limit: $limit, offset: $offset) {
+      course {
+        ...CourseInfo
+      }
+      score
     }
   }
   ${COURSE_INFO_FRAGMENT}
@@ -44,8 +85,13 @@ export const CREATE_COURSE_MUTATION = gql`
 `;
 
 export const UPDATE_COURSE_BY_ID_MUTATION = gql`
-  mutation UpdateCourseById($id: ID!, $input: CourseUpdateInput) {
-    updateCourses(where: { id: $id }, update: $input) {
+  mutation UpdateCourseById(
+    $id: ID!
+    $input: CourseUpdateInput
+    $connect: CourseConnectInput
+    $disconnect: CourseDisconnectInput
+  ) {
+    updateCourses(where: { id: $id }, update: $input, connect: $connect, disconnect: $disconnect) {
       courses {
         id
       }

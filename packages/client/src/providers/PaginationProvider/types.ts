@@ -16,5 +16,5 @@ export type PaginationAction =
     }
   | {
       type: PaginationActionType.changePagination;
-      payload: MRT_PaginationState;
+      payload: Partial<MRT_PaginationState>;
     };

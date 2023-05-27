@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { useCurrentUserQuery } from '@shared/graphql';
+import {
+  CurrentUserDocument,
+  UserUpdateInput,
+  useCurrentUserQuery,
+  useUpdateUsersMutation,
+} from '@shared/graphql';
 import _ from 'lodash';
 
 import { getUserPermissions } from 'src/utils';
@@ -16,9 +21,30 @@ export const useCurrentUser = () => {
   } = useCurrentUserQuery({
     skip: !isAuthenticated,
     initialFetchPolicy: 'network-only',
+    nextFetchPolicy: 'cache-first',
     notifyOnNetworkStatusChange: true,
   });
   const currentUser = data?.currentUser;
+
+  const [updateUsers] = useUpdateUsersMutation();
+
+  const updateCurrentUser = React.useCallback(
+    async (input: Pick<UserUpdateInput, 'preferableLanguages' | 'preferableTopics'>) => {
+      if (!currentUser?.id) return;
+
+      return await updateUsers({
+        variables: {
+          where: {
+            id: currentUser?.id,
+          },
+          update: input,
+        },
+        refetchQueries: [CurrentUserDocument],
+        awaitRefetchQueries: true,
+      });
+    },
+    [currentUser?.id, updateUsers],
+  );
 
   const isAuthorized = React.useMemo(() => !_.isEmpty(currentUser), [currentUser]);
   const permissions = React.useMemo(() => getUserPermissions(currentUser), [currentUser]);
@@ -26,6 +52,7 @@ export const useCurrentUser = () => {
   return {
     currentUser,
     isAuthorized,
+    updateCurrentUser,
     refetchCurrentUser,
     loadingCurrentUser,
     permissions,

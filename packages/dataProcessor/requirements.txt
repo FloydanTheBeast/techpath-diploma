@@ -4,3 +4,6 @@ sentencepiece==0.1.99
 transformers==4.28.1
 torch==2.0.1
 protobuf==3.20.3
+lxml==4.9.2
+fasttext==0.9.2
+pycountry==22.3.5

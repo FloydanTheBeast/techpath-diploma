@@ -1,6 +1,5 @@
+import { Difficulty } from '@shared/graphql';
 import * as yup from 'yup';
-
-import { CreateRoadmapFormFields } from './types';
 
 const positionSchema = yup.object({
   x: yup.number().required(),
@@ -8,7 +7,7 @@ const positionSchema = yup.object({
 });
 
 export const createRoadmapValidationSchema = yup.object({
-  [CreateRoadmapFormFields.roadmap]: yup.object({
+  roadmap: yup.object({
     edges: yup
       .array()
       .required()
@@ -31,11 +30,24 @@ export const createRoadmapValidationSchema = yup.object({
           data: yup.object({
             title: yup.string().required(),
             description: yup.string(),
+            suggestedCourses: yup
+              .array()
+              .nullable()
+              .of(
+                yup.object({
+                  id: yup.string().required(),
+                }),
+              ),
           }),
         }),
       ),
   }),
-
-  [CreateRoadmapFormFields.title]: yup.string().required(),
-  [CreateRoadmapFormFields.description]: yup.string(),
+  title: yup.string().required(),
+  description: yup.string(),
+  difficulty: yup.mixed<Difficulty>().oneOf(Object.values(Difficulty)).required(),
+  countryCodeISO: yup
+    .string()
+    .oneOf(['ru', 'en', 'es', 'de', 'fr'] as const)
+    .required(), // FIXME: Use constant
+  topicTagsIds: yup.array().of(yup.string().required()),
 });

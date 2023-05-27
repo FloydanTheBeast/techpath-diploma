@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Avatar,
   Box,
+  Button,
   Code,
   Group,
   Menu,
@@ -15,10 +16,18 @@ import {
   UnstyledButton,
   rem,
 } from '@mantine/core';
+import { spotlight } from '@mantine/spotlight';
 import { getUserFullName } from '@shared/utils';
-import { IconChevronRight, IconLogout, IconRoute, IconUserCircle } from '@tabler/icons-react';
+import {
+  IconChevronRight,
+  IconLogout,
+  IconRoute,
+  IconSearch,
+  IconUserCircle,
+} from '@tabler/icons-react';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 
+import { appRoutes } from 'src/constants';
 import { useAuth, useCurrentUser } from 'src/hooks';
 import type { NavbarLink } from 'src/types';
 
@@ -52,6 +61,23 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
         </Group>
       </NavbarBase.Section>
       <NavbarBase.Section grow>
+        <Button
+          fullWidth
+          variant="default"
+          placeholder="Search"
+          size="xs"
+          leftIcon={<IconSearch size="0.8rem" stroke={1.5} />}
+          sx={theme => ({ color: theme.colors.gray[5] })}
+          styles={{
+            inner: { justifyContent: 'space-between' },
+            label: { flexGrow: 1, fontWeight: 400 },
+          }}
+          rightIcon={<Code sx={searchCodeStyles}>Ctrl + K</Code>}
+          mb="sm"
+          onClick={() => spotlight.open()}
+        >
+          Search
+        </Button>
         {navbarLinks.map(link => (
           <NavLink
             key={link.path}
@@ -111,7 +137,11 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
             <Menu.Dropdown>
               <Menu.Label>Application</Menu.Label>
               {/* TODO */}
-              <Menu.Item icon={<IconUserCircle size={14} />} disabled>
+              <Menu.Item
+                icon={<IconUserCircle size={14} />}
+                component={Link}
+                to={appRoutes.app.profile}
+              >
                 Profile
               </Menu.Item>
               <Menu.Item icon={<IconLogout size={14} />} onClick={() => logout()} color="red">
@@ -134,4 +164,10 @@ const headerSectionStyles: Sx = theme => ({
 
 const headerStyles: Sx = theme => ({
   paddingBottom: theme.spacing.md,
+});
+
+const searchCodeStyles: Sx = theme => ({
+  fontWeight: 700,
+  fontSize: 10,
+  border: `1px solid ${theme.colors.gray[2]}`,
 });

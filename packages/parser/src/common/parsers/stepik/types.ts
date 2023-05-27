@@ -1,7 +1,6 @@
 export type StepikCoursesResponse = {
-  meta: Meta;
+  meta: StepikResponseMeta;
   courses: StepikCourseData[];
-  enrollments: unknown[];
 };
 
 export type StepikCourseData = {
@@ -166,7 +165,20 @@ export enum NeedsPermission {
   Teach = 'teach',
 }
 
-export type Meta = {
+export type StepikCourseReviewSummaryResponse = {
+  meta: StepikResponseMeta;
+  'course-review-summaries': StepikCourseReviewSummary[];
+};
+
+export type StepikCourseReviewSummary = {
+  id: number;
+  course: number;
+  average: number;
+  count: number;
+  distribution: number[];
+};
+
+export type StepikResponseMeta = {
   page: number;
   has_next: boolean;
   has_previous: boolean;

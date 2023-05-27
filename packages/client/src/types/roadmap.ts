@@ -1,5 +1,8 @@
+import { CourseInfoFragment } from '@shared/graphql';
 import type { Nullable } from '@shared/types';
 import type { Node } from 'reactflow';
+
+import { CourseSelectItemProps } from 'src/components/RoadmapBuilder/components';
 
 export enum RoadmapNodeType {
   basic = 'basic',
@@ -8,7 +11,7 @@ export enum RoadmapNodeType {
 export type RoadmapNodeData = {
   title: string;
   description?: Nullable<string>;
-  courses?: any[];
+  suggestedCourses?: Nullable<CourseSelectItemProps[]>;
 };
 
 export type RoadmapNode = Node<RoadmapNodeData, RoadmapNodeType>;

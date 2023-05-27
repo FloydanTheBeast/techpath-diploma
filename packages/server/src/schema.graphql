@@ -1,3 +1,32 @@
+type Query {
+  currentUser: User
+    @cypher(
+      statement: """
+      MATCH (u:User {id: $auth.jwt.id })
+      RETURN u
+      """
+    )
+  userRecommendedCourses(count: Int): [Course!]
+    @cypher(
+      statement: """
+      MATCH (u:User { id: $auth.jwt.id })
+      CALL {
+        OPTIONAL MATCH (u)-[:BOOKMARKED]->(bc:Course)-[:INCLUDES_TOPIC]->(bt:TopicTag)
+        RETURN bt as tags
+        UNION
+        OPTIONAL MATCH (u)-[:PREFERS_TOPIC]->(ut:TopicTag)
+        RETURN ut as tags
+      }
+      OPTIONAL MATCH (u)-[:PREFERS_LANGUAGE]-(lang:Language)
+      MATCH (tags)<-[:INCLUDES_TOPIC]-(c:Course)
+      WHERE lang IS NULL OR (c)-[:TRANSLATED_INTO]->(lang)
+      RETURN c, rand() as r
+      ORDER BY r
+      LIMIT COALESCE($count, 10)
+      """
+    )
+}
+
 type User {
   id: ID! @id
   email: String! @unique
@@ -5,28 +34,59 @@ type User {
   roles: [String!]!
   firstName: String!
   lastName: String!
+
   createdRoadmaps: [Roadmap!]! @relationship(type: "CREATED_BY", direction: IN)
+
+  preferableLanguages: [Language!]! @relationship(type: "PREFERS_LANGUAGE", direction: OUT)
+  preferableTopics: [TopicTag!]! @relationship(type: "PREFERS_TOPIC", direction: OUT)
+
+  bookmarkedCourses: [Course!]! @relationship(type: "BOOKMARKED", direction: OUT)
+  bookmarkedRoadmaps: [Roadmap!]! @relationship(type: "BOOKMARKED", direction: OUT)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-type Course @auth(rules: [{ operations: [CREATE], roles: ["admin"] }]) {
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+type Course
+  @auth(rules: [{ operations: [CREATE], roles: ["admin"] }])
+  @fulltext(indexes: [{ indexName: "CourseInfo", fields: ["title", "description"] }]) {
   id: ID! @id
   title: String!
   description: String
   url: String! @unique
+  difficulty: Difficulty
+  externalRating: Float
+  externalRatingsCount: Int
+
   price: CoursePrice @relationship(type: "HAS_PRICE", direction: OUT)
   platform: CoursePlatform @relationship(type: "OWNED_BY_PLATFORM", direction: OUT)
-  languages: [CourseLanguage!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
+  languages: [Language!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
+
+  bookmarkedBy: [User!]! @relationship(type: "BOOKMARKED", direction: IN)
+  bookmarked: Boolean!
+    @cypher(
+      statement: """
+      MATCH (this)<-[:BOOKMARKED]-(:User { id: $auth.jwt.id })
+      RETURN count(*) > 0
+      """
+    )
+  reviews: [UserReview!]! @relationship(type: "REVIEWED", direction: IN)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
 type CoursePrice {
   course: Course @relationship(type: "HAS_PRICE", direction: IN)
-  price: Int
+  price: Float
   currencyCodeISO: String
 }
 
@@ -35,12 +95,14 @@ type CoursePlatform {
   name: String! @unique
   url: String! @unique
   logoUrl: String
+
   courses: [Course!]! @relationship(type: "OWNED_BY_PLATFORM", direction: IN)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
 
-type CourseLanguage {
+type Language {
   name: String! @unique
   countryCodeISO: String! @unique
   courses: [Course!]! @relationship(type: "TRANSLATED_INTO", direction: IN)
@@ -48,13 +110,17 @@ type CourseLanguage {
 
 type Roadmap
   @auth(rules: [{ operations: [CREATE], roles: ["admin"] }])
-  @exclude(operations: [CREATE]) {
+  @exclude(operations: [CREATE])
+  @fulltext(indexes: [{ indexName: "RoadmapInfo", fields: ["title", "description"] }]) {
   id: ID! @id
   title: String!
   description: String
+  difficulty: Difficulty
+
   node: RoadmapNode! @relationship(type: "CONSISTS_OF", direction: OUT)
   tags: [TopicTag!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: OUT)
+  languages: [Language!]! @relationship(type: "TRANSLATED_INTO", direction: OUT)
   nodes: [RoadmapNode!]
     @cypher(
       statement: """
@@ -73,6 +139,17 @@ type Roadmap
       """
     )
   createdBy: User! @relationship(type: "CREATED_BY", direction: OUT)
+
+  bookmarked: Boolean!
+    @cypher(
+      statement: """
+      MATCH (this)<-[:BOOKMARKED]-(:User { id: $auth.jwt.id })
+      RETURN count(*) > 0
+      """
+    )
+  bookmarkedBy: [User!]! @relationship(type: "BOOKMARKED", direction: IN)
+  reviews: [UserReview!]! @relationship(type: "REVIEWED", direction: IN)
+
   createdAt: DateTime! @timestamp(operations: [CREATE])
   updatedAt: DateTime @timestamp(operations: [UPDATE])
 }
@@ -84,11 +161,13 @@ type RoadmapNode {
   type: String!
   positionX: Float!
   positionY: Float!
+
   childNodes: [RoadmapNode!]!
     @relationship(type: "HAS_CHILD", properties: "HasChild", direction: OUT)
   parentNodes: [RoadmapNode!]!
     @relationship(type: "HAS_CHILD", properties: "HasChild", direction: IN)
   roadmap: Roadmap @relationship(type: "CONSISTS_OF", direction: IN)
+  suggestedCourses: [Course!]! @relationship(type: "SUGGESTS_COURSE", direction: OUT)
 }
 
 interface HasChild @relationshipProperties {
@@ -106,12 +185,26 @@ type RoadmapEdge @exclude {
 type TopicTag {
   id: ID! @id
   name: String! @unique
+
   courses: [Course!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
   roadmaps: [Roadmap!]!
     @relationship(type: "INCLUDES_TOPIC", properties: "IncludesTopic", direction: IN)
 }
 
+type UserReview {
+  id: ID! @id
+  rating: Float
+  comment: String!
+
+  course: Course @relationship(type: "REVIEWED", direction: OUT)
+  roadmap: Roadmap @relationship(type: "REVIEWED", direction: OUT)
+  user: User! @relationship(type: "REVIEWED_BY", direction: IN)
+
+  createdAt: DateTime! @timestamp(operations: [CREATE])
+  updatedAt: DateTime @timestamp(operations: [UPDATE])
+}
+
 interface IncludesTopic {
-  score: Float!
+  score: Float
 }

@@ -1,44 +1,63 @@
 import React from 'react';
 
-import { Button, Group, Stack, TextInput, Textarea } from '@mantine/core';
+import {
+  ActionIcon,
+  Alert,
+  Autocomplete,
+  Button,
+  Card,
+  Flex,
+  Group,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
+import { useGetCoursesQuery } from '@shared/graphql';
+import { IconAlertCircle, IconExternalLink, IconX } from '@tabler/icons-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { generatePath } from 'react-router';
 import { useReactFlow } from 'reactflow';
 
-import { FormField } from 'src/components/common';
+import { CoursePlatformLogo, FormField, RichTextEditor } from 'src/components/common';
+import { RouteEntityType, appRoutes } from 'src/constants';
+import { useDebounce } from 'src/hooks';
 import { RoadmapNode, RoadmapNodeData } from 'src/types';
+import { getSearchQueryOption } from 'src/utils';
+
+import { CourseSelectItem, CourseSelectItemProps } from './components';
 
 type NodeEditorProps = {
   node: RoadmapNode;
 };
 
-const EDITOR_WIDTH = 500;
-
 export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
-  const { setCenter, getZoom, setNodes } = useReactFlow();
-  const { register, control, handleSubmit, reset } = useForm<RoadmapNodeData>({
-    defaultValues: React.useMemo(
-      () => ({
-        ...node.data,
-        description: '',
-      }),
-      [node],
-    ),
+  const [courseSearchValue, setCourseSearchValue] = React.useState('');
+
+  const { setNodes } = useReactFlow();
+  const {
+    register,
+    control,
+    handleSubmit,
+    reset,
+    setValue,
+    watch,
+    clearErrors,
+    formState: { errors, defaultValues },
+  } = useForm<RoadmapNodeData>({
+    defaultValues: React.useMemo(() => node.data, [node]),
   });
 
-  React.useEffect(() => {
-    reset(node.data, { keepDefaultValues: true });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [node.data]);
+  const debouncedCourseSearchValue = useDebounce(courseSearchValue, 500);
 
-  // React.useEffect(() => {
-  //   setCenter(
-  //     node.position.x + (node.width ?? 0) / 2 + EDITOR_WIDTH / 4,
-  //     node.position.y + (node.height ?? 0) / 2,
-  //     {
-  //       zoom: Math.max(1, getZoom()),
-  //     },
-  //   );
-  // }, [setCenter, node.position.x, node.position.y, node.width, node.height, getZoom]);
+  const { data: coursesData } = useGetCoursesQuery({
+    variables: {
+      where: getSearchQueryOption(debouncedCourseSearchValue, ['id', 'title', 'description']),
+    },
+  });
+
+  const foundCourses = coursesData?.courses;
+
+  const suggestedCourses = watch('suggestedCourses');
 
   const onSubmit: SubmitHandler<RoadmapNodeData> = async data => {
     setNodes(nds =>
@@ -55,8 +74,18 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
     );
   };
 
+  React.useEffect(() => {
+    reset(node.data, { keepDefaultValues: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [node.data]);
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={event => {
+        event.stopPropagation();
+        handleSubmit(onSubmit)(event);
+      }}
+    >
       <Stack>
         <FormField
           component={TextInput}
@@ -67,17 +96,82 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
             required: true,
           }}
         />
-        {/* TODO: Use WYSIWYG (rich-text editor) */}
-        <FormField
-          component={Textarea}
-          fieldProps={{
-            ...register('description'),
-            control,
-            label: 'Description',
-            minRows: 8,
-          }}
+        <RichTextEditor
+          label="Description"
+          editable
+          minHeight={150}
+          maxHeight={300}
+          content={defaultValues?.description ?? undefined}
+          placeholder="Put description here"
+          onChange={value => setValue('description', value)}
         />
+        {errors['suggestedCourses'] && (
+          <Alert
+            icon={<IconAlertCircle size="1rem" />}
+            withCloseButton
+            onClose={() => clearErrors('suggestedCourses')}
+            title="Error"
+            color="red"
+            variant="filled"
+          >
+            {errors['suggestedCourses']?.message}
+          </Alert>
+        )}
+        <Autocomplete
+          label="Suggested courses"
+          value={courseSearchValue}
+          onChange={setCourseSearchValue}
+          onItemSubmit={(course: CourseSelectItemProps) => {
+            console.log(course);
+            setValue('suggestedCourses', [...(suggestedCourses ?? []), course]);
+            setCourseSearchValue('');
+          }}
+          limit={10}
+          itemComponent={CourseSelectItem}
+          filter={(_, item) =>
+            (suggestedCourses ?? []).findIndex(course => course.value === item.value) === -1
+          }
+          data={
+            foundCourses?.map(course => ({
+              value: course.id,
+              title: course.title,
+              platformLogo: course.platform?.logoUrl,
+            })) ?? []
+          }
+        />
+        {suggestedCourses?.map(course => (
+          <Card key={course.value} withBorder p={24}>
+            <Flex gap={16} align="center" pos="relative">
+              <CoursePlatformLogo logoUrl={course.platformLogo} />
+              <Text>{course.title}</Text>
+            </Flex>
+            <ActionIcon
+              sx={{ position: 'absolute', top: 4, right: 4 }}
+              onClick={() =>
+                setValue(
+                  'suggestedCourses',
+                  suggestedCourses.filter(
+                    suggestedCourse => suggestedCourse.value !== course.value,
+                  ),
+                )
+              }
+            >
+              <IconX size="1rem" />
+            </ActionIcon>
+            <ActionIcon
+              sx={{ position: 'absolute', top: 4, right: 30 }}
+              component="a"
+              href={generatePath(appRoutes.courses.details, {
+                [RouteEntityType.course]: course.value,
+              })}
+              target="_blank"
+            >
+              <IconExternalLink size="1rem" />
+            </ActionIcon>
+          </Card>
+        ))}
         <Group spacing="1rem" position="center">
+          {/* FIXME: Close editor */}
           <Button onClick={console.log} variant="outline" color="red">
             Cancel
           </Button>

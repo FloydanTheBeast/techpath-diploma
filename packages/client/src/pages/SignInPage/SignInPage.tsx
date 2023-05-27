@@ -11,6 +11,8 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -39,8 +41,23 @@ export const SignInPage: React.FC = () => {
       await signIn(data);
       refetchCurrentUser();
       navigate(appRoutes.app.index);
+      notifications.show({
+        title: 'Success',
+        message: 'You are signed in',
+        color: 'green',
+        withCloseButton: true,
+        icon: <IconCheck />,
+        withBorder: true,
+      });
     } catch (error) {
-      // TODO: Spawn notification
+      notifications.show({
+        title: 'Something went wrong',
+        message: error.message,
+        color: 'red',
+        withCloseButton: true,
+        icon: <IconX />,
+        withBorder: true,
+      });
       console.error(error);
     }
   };

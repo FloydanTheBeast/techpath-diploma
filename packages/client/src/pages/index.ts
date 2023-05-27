@@ -7,3 +7,6 @@ export * from './CoursePlatformsPage';
 export * from './RoadmapsPage';
 export * from './NewRoadmapPage';
 export * from './RoadmapDetailsPage';
+export * from './CourseDetailsPage';
+export * from './GlobalSearchPage';
+export * from './UserProfilePage';
