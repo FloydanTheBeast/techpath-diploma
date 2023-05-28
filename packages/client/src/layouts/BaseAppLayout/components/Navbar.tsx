@@ -25,7 +25,7 @@ import {
   IconSearch,
   IconUserCircle,
 } from '@tabler/icons-react';
-import { Link, matchPath, useLocation } from 'react-router-dom';
+import { Link, matchPath, useLocation, useNavigate } from 'react-router-dom';
 
 import { appRoutes } from 'src/constants';
 import { useAuth, useCurrentUser } from 'src/hooks';
@@ -39,6 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
   const { permissions } = useCurrentUser();
   const { logout } = useAuth();
   const { currentUser } = useCurrentUser();
+  const navigate = useNavigate();
   const location = useLocation();
 
   return (
@@ -138,13 +139,13 @@ export const Navbar: React.FC<NavbarProps> = ({ navbarLinks }) => {
               <Menu.Label>Application</Menu.Label>
               {/* TODO */}
               <Menu.Item
-                icon={<IconUserCircle size={14} />}
-                component={Link}
-                to={appRoutes.app.profile}
+                icon={<IconUserCircle size="1rem" />}
+                onClick={() => navigate(appRoutes.app.profile)}
+                disabled={permissions.isAdmin}
               >
                 Profile
               </Menu.Item>
-              <Menu.Item icon={<IconLogout size={14} />} onClick={() => logout()} color="red">
+              <Menu.Item icon={<IconLogout size="1rem" />} onClick={() => logout()} color="red">
                 Logout
               </Menu.Item>
             </Menu.Dropdown>

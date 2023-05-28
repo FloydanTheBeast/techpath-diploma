@@ -236,7 +236,7 @@ export const CoursesPageAdmin: React.FC = () => {
         }) => (
           <React.Fragment>
             <Menu.Item
-              icon={<IconListDetails />}
+              icon={<IconListDetails size="1rem" />}
               component={Link}
               to={generatePath(appRoutes.courses.details, {
                 [RouteEntityType.course]: id,
@@ -245,7 +245,7 @@ export const CoursesPageAdmin: React.FC = () => {
               View details
             </Menu.Item>
             <Menu.Item
-              icon={<IconEdit />}
+              icon={<IconEdit size="1rem" />}
               onClick={() =>
                 openModal(ModalId.CreateUpdateCourseModal, {
                   onSubmit: formData => handleUpdateFormSubmit(formData, id),
@@ -268,7 +268,7 @@ export const CoursesPageAdmin: React.FC = () => {
               Edit course
             </Menu.Item>
             <Menu.Item
-              icon={<IconTrash />}
+              icon={<IconTrash size="1rem" />}
               color="red"
               onClick={async () => await handleCourseDelete(id)}
             >

@@ -139,7 +139,7 @@ export const CoursesPageUser: React.FC = () => {
             renderRowActionMenuItems={({ row }) => (
               <React.Fragment>
                 <Menu.Item
-                  icon={<IconListDetails />}
+                  icon={<IconListDetails size="1rem" />}
                   component={Link}
                   to={generatePath(appRoutes.courses.details, {
                     [RouteEntityType.course]: row.original.id,
@@ -169,6 +169,16 @@ export const CoursesPageUser: React.FC = () => {
                             }),
                       },
                       refetchQueries: [GetCoursesDocument],
+                      update: cache => {
+                        cache.evict({
+                          id: 'ROOT_QUERY',
+                          fieldName: 'courses',
+                        });
+                        cache.evict({
+                          id: 'ROOT_QUERY',
+                          fieldName: 'coursesAggregate',
+                        });
+                      },
                       // TODO: Update cache directly
                       // update: store => {
                       //   const queryData = store.readQuery<
@@ -208,7 +218,7 @@ export const CoursesPageUser: React.FC = () => {
                     })
                   }
                   icon={
-                    <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'}>
+                    <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'} size="1rem">
                       <IconBookmark />
                     </ThemeIcon>
                   }
@@ -285,10 +295,21 @@ export const CoursesPageUser: React.FC = () => {
                                       }),
                                 },
                                 refetchQueries: [GetCoursesDocument],
+                                awaitRefetchQueries: true,
+                                update: cache => {
+                                  cache.evict({
+                                    id: 'ROOT_QUERY',
+                                    fieldName: 'courses',
+                                  });
+                                  cache.evict({
+                                    id: 'ROOT_QUERY',
+                                    fieldName: 'coursesAggregate',
+                                  });
+                                },
                               })
                             }
                             icon={
-                              <ThemeIcon size={rem(14)} color={course.bookmarked ? 'red' : 'green'}>
+                              <ThemeIcon color={course.bookmarked ? 'red' : 'green'} size="1rem">
                                 <IconBookmark />
                               </ThemeIcon>
                             }

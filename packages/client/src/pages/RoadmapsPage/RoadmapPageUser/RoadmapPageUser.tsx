@@ -96,10 +96,20 @@ export const RoadmapsPageUser: React.FC = () => {
                         }),
                   },
                   refetchQueries: [GetRoadmapsDocument],
+                  update: cache => {
+                    cache.evict({
+                      id: 'ROOT_QUERY',
+                      fieldName: 'roadmaps',
+                    });
+                    cache.evict({
+                      id: 'ROOT_QUERY',
+                      fieldName: 'roadmapsAggregate',
+                    });
+                  },
                 })
               }
               icon={
-                <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'}>
+                <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'} size="1rem">
                   <IconBookmark />
                 </ThemeIcon>
               }
@@ -107,7 +117,7 @@ export const RoadmapsPageUser: React.FC = () => {
               {row.original.bookmarked ? 'Remove from bookmarks' : 'Add to boomarks'}
             </Menu.Item>
             <Menu.Item
-              icon={<IconListDetails />}
+              icon={<IconListDetails size="1rem" />}
               component={Link}
               to={generatePath(appRoutes.roadmaps.details, {
                 [RouteEntityType.roadmap]: row.original.id,

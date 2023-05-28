@@ -44,7 +44,7 @@ const initialNodes: RoadmapNode[] = [
     type: RoadmapNodeType.basic,
     position: { x: 0, y: 50 },
     deletable: false,
-    data: { title: 'Inital node' },
+    data: { title: 'Initial node' },
   },
 ];
 

@@ -2,6 +2,7 @@ import React from 'react';
 
 import {
   ActionIcon,
+  Avatar,
   Badge,
   Box,
   Button,
@@ -16,6 +17,7 @@ import {
   rem,
 } from '@mantine/core';
 import { RoadmapInfoFragment } from '@shared/graphql';
+import { getUserFullName } from '@shared/utils';
 import { IconCopy, IconDots, IconExternalLink, IconLanguage, IconPlus } from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
@@ -53,10 +55,10 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({ roadmap }) => {
               </Menu.Target>
 
               <Menu.Dropdown>
-                <Menu.Item icon={<IconPlus size={rem(14)} />} disabled>
-                  Add
+                <Menu.Item icon={<IconPlus size="1rem" />} disabled>
+                  Add to
                 </Menu.Item>
-                <Menu.Item icon={<IconCopy size={rem(14)} />}>Copy link to clipboard</Menu.Item>
+                <Menu.Item icon={<IconCopy size="1rem" />}>Copy link to clipboard</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Flex>
@@ -68,10 +70,24 @@ export const RoadmapCard: React.FC<RoadmapCardProps> = ({ roadmap }) => {
             {roadmap.title}
           </Text>
         </Box>
-        <Text color="dimmed" size="sm">
-          {roadmap.description}
-        </Text>
+        <Text
+          color="dimmed"
+          size="sm"
+          sx={{ '& *:first-child': { marginTop: 0 } }}
+          dangerouslySetInnerHTML={{ __html: roadmap.description ?? '' }}
+        />
       </Stack>
+
+      <Card.Section p="md">
+        <Group>
+          <Avatar size="md" radius="xl" color="blue" />
+          <Box sx={{ flex: 1 }}>
+            <Text size="sm" weight={500}>
+              {getUserFullName(roadmap.createdBy)}
+            </Text>
+          </Box>
+        </Group>
+      </Card.Section>
       <Center>
         <Button
           compact

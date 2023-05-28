@@ -45,7 +45,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     removeAccessToken();
     localStorage.removeItem(REFRESH_TOKEN_STORAGE_KEY);
     setIsAuthenticated(false);
-    apolloClient.clearStore();
+    apolloClient.resetStore();
     navigate(appRoutes.auth.index);
   };
 

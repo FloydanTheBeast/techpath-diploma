@@ -1,5 +1,6 @@
 import { Avatar, Group, Rating, Text, Tooltip } from '@mantine/core';
 import { RoadmapInfoFragment } from '@shared/graphql';
+import { clearHtml } from '@shared/utils';
 import dayjs from 'dayjs';
 import { MRT_ColumnDef } from 'mantine-react-table';
 
@@ -14,13 +15,16 @@ export const ROADMAPS_TABLE_COLUMNS: MRT_ColumnDef<RoadmapInfoFragment>[] = [
   },
   {
     header: 'Description',
-    accessorFn: ({ description }) => (
-      <Tooltip label={description} maw={300} multiline withArrow openDelay={500} withinPortal>
-        <Text lineClamp={3} sx={{ cursor: 'help', maw: 400 }}>
-          {description}
-        </Text>
-      </Tooltip>
-    ),
+    accessorFn: ({ description }) => {
+      const text = clearHtml(description);
+      return (
+        <Tooltip label={text} width={300} multiline withArrow openDelay={500} withinPortal>
+          <Text lineClamp={3} sx={{ cursor: 'help', width: 400 }}>
+            {text}
+          </Text>
+        </Tooltip>
+      );
+    },
   },
   {
     header: 'Internal rating',

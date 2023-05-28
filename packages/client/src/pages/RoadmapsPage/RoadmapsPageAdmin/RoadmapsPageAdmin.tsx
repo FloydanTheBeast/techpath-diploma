@@ -63,7 +63,7 @@ export const RoadmapsPageAdmin: React.FC = () => {
         renderRowActionMenuItems={({ row }) => (
           <React.Fragment>
             <Menu.Item
-              icon={<IconListDetails />}
+              icon={<IconListDetails size="1rem" />}
               component={Link}
               to={generatePath(appRoutes.roadmaps.details, {
                 [RouteEntityType.roadmap]: row.original.id,
@@ -72,7 +72,7 @@ export const RoadmapsPageAdmin: React.FC = () => {
               View details
             </Menu.Item>
             <Menu.Item
-              icon={<IconTrash />}
+              icon={<IconTrash size="1rem" />}
               color="red"
               onClick={async () => await handleDeleteRoadmap(row.original.id)}
             >
