@@ -18,7 +18,7 @@ export class StepikParser extends BaseParser {
 
   async parse() {
     let res: Nullable<StepikCoursesResponse> = null;
-    let page = 1;
+    let page = 400;
 
     do {
       console.log(`[Stepik] Parsing page ${page}`);
@@ -28,28 +28,28 @@ export class StepikParser extends BaseParser {
             `${this.baseApiUrl}/courses?page=${++page}&page_size=${this.pageSize}&is_public=true`,
           )
         ).data;
+
+        res?.courses.forEach(async course => {
+          const courseReviewSummary = (
+            await axios.get<StepikCourseReviewSummaryResponse>(
+              `${this.baseApiUrl}/course-review-summaries/${course.review_summary}`,
+            )
+          ).data['course-review-summaries'][0];
+
+          if (courseReviewSummary?.count && courseReviewSummary.average < 4) {
+            return;
+          }
+
+          this.processCourse(
+            { ...course, average: courseReviewSummary?.average, count: courseReviewSummary?.count },
+            this.convertCourseData,
+          );
+        });
       } catch (error) {
-        console.log(error);
+        console.log(`An error occured while parsing Stepik: ${error}`);
       }
-
-      res?.courses.forEach(async course => {
-        const courseReviewSummary = (
-          await axios.get<StepikCourseReviewSummaryResponse>(
-            `${this.baseApiUrl}/course-review-summaries/${course.review_summary}`,
-          )
-        ).data['course-review-summaries'][0];
-
-        if (courseReviewSummary?.count && courseReviewSummary.average < 4) {
-          return;
-        }
-
-        this.processCourse(
-          { ...course, average: courseReviewSummary?.average, count: courseReviewSummary?.count },
-          this.convertCourseData,
-        );
-      });
       await sleep(2000);
-    } while (res?.meta.has_next && page < 50);
+    } while (res?.meta.has_next && page < 450);
   }
 
   private convertCourseData(
@@ -60,7 +60,7 @@ export class StepikParser extends BaseParser {
       url: courseData.canonical_url,
       title: courseData.title,
       description: courseData.description,
-      languages: [courseData.language],
+      // languages: [courseData.language], NOTE: Info is not reliable
       price: courseData.price
         ? {
             price: courseData.price,

@@ -22,7 +22,7 @@ const RoadmapsSearchListInner: React.FC<SearchListProps> = ({ searchQuery, scrol
       const { data: newRoadmaps } = await getRoadmaps({
         variables: {
           searchQuery: `${searchQuery}~`,
-          where: { score: { min: 0.3 } },
+          where: { score: { min: 0.1 } },
           limit: 24,
           offset: reset ? 0 : roadmaps.length,
         },

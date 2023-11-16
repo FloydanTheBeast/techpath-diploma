@@ -35,7 +35,7 @@ export const createRoadmapValidationSchema = yup.object({
               .nullable()
               .of(
                 yup.object({
-                  id: yup.string().required(),
+                  value: yup.string().required(),
                 }),
               ),
           }),

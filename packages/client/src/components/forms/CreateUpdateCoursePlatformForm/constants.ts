@@ -16,6 +16,8 @@ export const createCoursePlatformValidationSchema: yup.ObjectSchema<CreateUpdate
         message: ({ label }) => `${label} must point to an image`,
         test: val =>
           !val ||
-          ['jpg', 'jpeg', 'tiff', 'png', 'gif', 'bmp'].includes(val?.split('.').at(-1) ?? ''),
+          ['jpg', 'jpeg', 'tiff', 'png', 'gif', 'bmp', 'ico'].includes(
+            val?.split('.').at(-1) ?? '',
+          ),
       }),
   });

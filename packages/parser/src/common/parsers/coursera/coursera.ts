@@ -8,6 +8,8 @@ enum RequestLabel {
   coursePage = 'COURSE_PAGE',
 }
 
+const DESCRIPTION_SELECTOR = '.cds-33.css-ngtbbz.cds-35, .description p, .css-1581nod .css-1xvagko';
+
 export class CourseraParser extends BaseParser {
   async parse() {
     const crawler = new PlaywrightCrawler({
@@ -17,11 +19,11 @@ export class CourseraParser extends BaseParser {
 
           const title = await page.locator('h1').first().textContent();
 
-          await page.waitForSelector('.cds-33.css-ngtbbz.cds-35, .description p', {
+          await page.waitForSelector(DESCRIPTION_SELECTOR, {
             timeout: 10_000,
           });
           const description = await (
-            await page.locator('.cds-33.css-ngtbbz.cds-35, .description p').allInnerTexts()
+            await page.locator(DESCRIPTION_SELECTOR).allInnerTexts()
           )
             .map(text => `<p>${text}</p>`)
             .join('\n')
@@ -90,9 +92,9 @@ export class CourseraParser extends BaseParser {
     });
 
     crawler.run(
-      new Array(20)
+      new Array(40)
         .fill(0)
-        .map((_, i) => `https://www.coursera.org/directory/courses?page=${i + 1}`),
+        .map((_, i) => `https://www.coursera.org/directory/courses?page=${i + 61}`),
     );
   }
 }

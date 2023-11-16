@@ -1,15 +1,15 @@
-import { CourseDifficulty } from '@shared/graphql';
+import { Difficulty } from '@shared/graphql';
 import type { Nullable } from '@shared/types';
 
-export const mapStepikDifficulty = (difficulty: Nullable<string>): Nullable<CourseDifficulty> => {
+export const mapStepikDifficulty = (difficulty: Nullable<string>): Nullable<Difficulty> => {
   if (difficulty?.match(/.*easy.*/gi)) {
-    return CourseDifficulty.Beginner;
+    return Difficulty.Beginner;
   }
   if (difficulty?.match(/.*normal.*/gi)) {
-    return CourseDifficulty.Intermediate;
+    return Difficulty.Intermediate;
   }
   if (difficulty?.match(/.*hard.*/gi)) {
-    return CourseDifficulty.Advanced;
+    return Difficulty.Advanced;
   }
 
   return null;

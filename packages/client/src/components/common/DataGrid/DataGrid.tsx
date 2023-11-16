@@ -19,7 +19,7 @@ export const DataGrid = <TData extends Record<string, unknown>>({
   state,
   ...props
 }: React.ComponentProps<typeof MantineReactTable<TData>>) => {
-  const { paginationState, dispatchPaginationState } = usePagination();
+  const { paginationState, dispatchPaginationState, pageSizeOptions } = usePagination();
   const { setSearchQuery } = useSearch();
 
   const dataGridState: MRT_TableState<TData> = React.useMemo(
@@ -46,6 +46,7 @@ export const DataGrid = <TData extends Record<string, unknown>>({
           <IconDatabaseOff stroke={1.5} size="1.25rem" />
         </Group>
       )}
+      mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
       enableToolbarInternalActions={enableToolbarInternalActions}
       onPaginationChange={onPaginationChange}
       onGlobalFilterChange={setSearchQuery}

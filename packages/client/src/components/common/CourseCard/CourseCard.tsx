@@ -14,9 +14,9 @@ import {
   Stack,
   Sx,
   Text,
-  rem,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
+import { clearHtml } from '@shared/utils';
 import {
   IconCopy,
   IconDots,
@@ -96,12 +96,14 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, renderCustomActi
           color="dimmed"
           size="sm"
           sx={{ '& *:first-child': { marginTop: 0 } }}
-          dangerouslySetInnerHTML={{ __html: course.description ?? '' }}
-        />
+          // dangerouslySetInnerHTML={{ __html: course.description ?? '' }}
+        >
+          {clearHtml(course.description)}
+        </Text>
       </Stack>
       <Card.Section p="md">
         <Flex wrap="wrap" gap={8} mah={76} sx={{ overflow: 'hidden' }}>
-          {course.price && (
+          {course.price?.price && (
             <Badge
               pl={4}
               pr={8}

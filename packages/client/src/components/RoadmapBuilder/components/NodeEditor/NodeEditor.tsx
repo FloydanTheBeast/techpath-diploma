@@ -122,7 +122,6 @@ export const NodeEditor: React.FC<NodeEditorProps> = ({ node }) => {
           value={courseSearchValue}
           onChange={setCourseSearchValue}
           onItemSubmit={(course: CourseSelectItemProps) => {
-            console.log(course);
             setValue('suggestedCourses', [...(suggestedCourses ?? []), course]);
             setCourseSearchValue('');
           }}

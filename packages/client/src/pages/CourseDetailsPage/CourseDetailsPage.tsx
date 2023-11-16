@@ -90,7 +90,7 @@ export const CourseDetailsPage: React.FC = () => {
                     </Flex>
                   </React.Fragment>
                 )}
-                {course?.price && (
+                {course?.price?.price && (
                   <Box>
                     <Badge
                       pl={4}

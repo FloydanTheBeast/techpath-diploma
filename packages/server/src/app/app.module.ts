@@ -8,7 +8,7 @@ import { IS_PRODUCTION } from '../common/constants/misc';
 import { GqlModule } from '../gql';
 import { RoadmapModule, UserModule } from '../models';
 
-const delayMiddleware = (_req: Request, _res: Response, next: () => void) => setTimeout(next, 350);
+const delayMiddleware = (_req: Request, _res: Response, next: () => void) => setTimeout(next, 0);
 
 @Module({
   imports: [

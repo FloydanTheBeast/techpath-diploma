@@ -11,9 +11,13 @@ type Query {
       statement: """
       MATCH (u:User { id: $auth.jwt.id })
       CALL {
+        WITH u
         OPTIONAL MATCH (u)-[:BOOKMARKED]->(bc:Course)-[:INCLUDES_TOPIC]->(bt:TopicTag)
         RETURN bt as tags
+
         UNION
+
+        WITH u
         OPTIONAL MATCH (u)-[:PREFERS_TOPIC]->(ut:TopicTag)
         RETURN ut as tags
       }

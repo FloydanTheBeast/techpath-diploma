@@ -4,6 +4,7 @@ import { ActionIcon, Avatar, Group, Paper, Rating, Text, rem } from '@mantine/co
 import { UserReviewInfoFragment } from '@shared/graphql';
 import { getUserFullName } from '@shared/utils';
 import { IconTrash } from '@tabler/icons-react';
+import dayjs from 'dayjs';
 
 type ReviewProps = {
   review: UserReviewInfoFragment;
@@ -38,7 +39,7 @@ export const Review: React.FC<ReviewProps> = ({ review, onDeleteReview }) => {
             <Rating readOnly value={review.rating ?? 0} fractions={2} />
             <Text fz="sm">{getUserFullName(review.user)}</Text>
             <Text fz="xs" c="dimmed">
-              {review.createdAt}
+              {dayjs(review.createdAt).format('DD/MM/YYYY HH:mm:ss')}
             </Text>
           </div>
         </Group>

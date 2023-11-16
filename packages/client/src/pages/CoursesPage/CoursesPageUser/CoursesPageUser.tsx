@@ -30,7 +30,7 @@ import { Link, generatePath } from 'react-router-dom';
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { COURSE_CARD_HEIGHT, CourseCard, DataViewSwitch } from 'src/components/common';
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
-import { RouteEntityType, appRoutes } from 'src/constants';
+import { RouteEntityType, TOPIC_TAGS, appRoutes } from 'src/constants';
 import {
   useCurrentUser,
   useDebounce,
@@ -95,8 +95,8 @@ export const CoursesPageUser: React.FC = () => {
         // FIXME: Get from global state
         languages: ['ru', 'en', 'fr', 'es', 'de'],
         platforms: ['Stepik', 'Coursera'],
-        difficulties: ['beginner', 'intermediate', 'advanced'],
-        topics: [],
+        difficulties: ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'],
+        topics: TOPIC_TAGS,
         setFiltersState: setColumnFilters,
       }).filter(col => !['id'].includes(col.accessorKey as string)),
     [],
@@ -124,7 +124,6 @@ export const CoursesPageUser: React.FC = () => {
             positionGlobalFilter="left"
             state={{ isLoading: loadingCourses, columnFilters }}
             rowCount={paginationState.count}
-            mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
             enableRowActions
             renderTopToolbarCustomActions={() => (
               <Switch

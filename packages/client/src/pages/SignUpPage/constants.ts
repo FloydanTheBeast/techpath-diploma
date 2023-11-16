@@ -6,9 +6,9 @@ export const signUpFormValidationSchema: yup.ObjectSchema<SignUpFormData> = yup.
   firstName: yup.string().label('First Name').required(),
   lastName: yup.string().label('Last Name').required(),
   email: yup.string().label('Email').email().required(),
-  password: yup.string().label('Password').required(),
+  password: yup.string().min(6).label('Password').required(),
   repeatPassword: yup
     .string()
     .required()
-    .oneOf([yup.ref<string>('password')], 'Passwords must be equal'),
+    .oneOf([yup.ref<string>('password')], "Passwords don't match"),
 });

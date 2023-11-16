@@ -135,6 +135,7 @@ export const COURSES_TABLE_COLUMNS: (
     },
   },
   {
+    id: 'tags.name',
     header: 'Topics',
     accessorFn: ({ tags }) => (
       <Flex gap="sm" sx={{ textTransform: 'capitalize' }} maw={500} wrap="wrap">
@@ -153,7 +154,7 @@ export const COURSES_TABLE_COLUMNS: (
   {
     id: 'price.price',
     header: 'Price',
-    accessorFn: ({ price }) => (price ? `${price.price} ${price.currencyCodeISO}` : 'Free'),
+    accessorFn: ({ price }) => (price?.price ? `${price.price} ${price.currencyCodeISO}` : 'Free'),
     filterVariant: 'range',
     mantineFilterTextInputProps: DEFAULT_RANGE_TEXT_INPUT_PROPS(options),
   },
