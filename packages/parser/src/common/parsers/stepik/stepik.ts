@@ -18,15 +18,17 @@ export class StepikParser extends BaseParser {
 
   async parse() {
     let res: Nullable<StepikCoursesResponse> = null;
-    let page = 400;
+    let page = 1;
 
     do {
       console.log(`[Stepik] Parsing page ${page}`);
       try {
         res = await (
-          await axios.get<StepikCoursesResponse>(
-            `${this.baseApiUrl}/courses?page=${++page}&page_size=${this.pageSize}&is_public=true`,
-          )
+          await axios
+            .get<StepikCoursesResponse>(
+              `${this.baseApiUrl}/courses?page=${++page}&page_size=${this.pageSize}&is_public=true`,
+            )
+            .catch(() => ({ data: null }))
         ).data;
 
         res?.courses.forEach(async course => {
@@ -48,8 +50,8 @@ export class StepikParser extends BaseParser {
       } catch (error) {
         console.log(`An error occured while parsing Stepik: ${error}`);
       }
-      await sleep(2000);
-    } while (res?.meta.has_next && page < 450);
+      await sleep(5000);
+    } while (res?.meta.has_next && page < 50);
   }
 
   private convertCourseData(
@@ -60,7 +62,8 @@ export class StepikParser extends BaseParser {
       url: courseData.canonical_url,
       title: courseData.title,
       description: courseData.description,
-      // languages: [courseData.language], NOTE: Info is not reliable
+      // NOTE: Language retrieved from stepik is not reliable
+      // languages: [courseData.language],
       price: courseData.price
         ? {
             price: courseData.price,
