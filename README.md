@@ -1,14 +1,41 @@
-# TechPath - Diploma Project
+## TechPath - Diploma Project
 
-> **Diploma Topic**: Information retrieval web application of MOOCs (mass open online courses) for IT specialties
+> **Thesis**: Information retrieval web application of MOOCs (mass open online courses) for IT specialties
 
-# About the project
+<details><summary>Table of Contents</summary><p>
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+- [TechPath - Diploma Project](#techpath---diploma-project)
+- [About the project](#about-the-project)
+  - [Screenshots](#screenshots)
+  - [Architecture Overview](#architecture-overview)
+  - [Tech Stack](#tech-stack)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+    - [Data Processor](#data-processor)
+    - [Misc](#misc)
+- [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Roadmap](#roadmap)
+  - [Server](#server)
+  - [Client](#client)
+
+<!-- /code_chunk_output -->
+
+</p></details>
+
+## About the project
 
 **TechPath** is a web platform developed to simplify searching for educational materials to study IT disciplines. Every person may find himself drowning in a vast variery of topics, paths and learning resources.
 
 That is why this app may come in handy, helping to clear one's mind by suggesting hand-picked materials and roadmaps to learn a topic or even a whole profession.
 
-## Screenshots
+### Screenshots
 
 <p align="center">
   <img style="width: 45%;" src="./assets/login-screen.jpg">
@@ -18,7 +45,7 @@ That is why this app may come in handy, helping to clear one's mind by suggestin
   <img style="width: 45%" src="./assets/roadmap-view.jpg">
 </div>
 
-## Architecture Overview
+### Architecture Overview
 
 The repo consists of 5 packages (apps):
 
@@ -34,9 +61,9 @@ The repo consists of 5 packages (apps):
 
 > Blue color on architecture diagram describes a component that is to be added, red - a components that is not planned yet.
 
-## Tech Stack
+### Tech Stack
 
-### Frontend
+#### Frontend
 
 - `TypeScript`
 - `React`
@@ -45,7 +72,7 @@ The repo consists of 5 packages (apps):
 - `Apollo`
 - `Vite`
 
-### Backend
+#### Backend
 
 - `TypeScript`
 - `Nest.js`
@@ -54,7 +81,7 @@ The repo consists of 5 packages (apps):
 - `Neo4j`
 - `RabbitMQ`
 
-### Data Processor
+#### Data Processor
 
 - `Python`
 - `Pika` (RabbitMQ adapter)
@@ -62,15 +89,15 @@ The repo consists of 5 packages (apps):
 - `Fasttext`
 - `Transformers`
 
-### Misc
+#### Misc
 
 - `Nx` (monorepo tool)
 - `Docker`
 - `Docker compose`
 
-# Getting started
+## Getting started
 
-## Prerequisites
+### Prerequisites
 
 A list of required software:
 
@@ -78,7 +105,7 @@ A list of required software:
 - `docker`
 - `python3`
 
-## Installation
+### Installation
 
 1. Clone the repo
 
@@ -90,7 +117,7 @@ git clone git@github.com:FloydanTheBeast/diploma.git
 
 ```bash
 npm i
-# OR
+## OR
 yarn
 ```
 
@@ -101,7 +128,7 @@ yarn
 docker-compose up -d
 ```
 
-## Usage
+### Usage
 
 1. Serve NX package - server, client or parser
 
@@ -115,9 +142,9 @@ nx serve <server|client|parser>
 yarn gql-codegen:<client|server>
 ```
 
-# Roadmap
+## Roadmap
 
-## Server
+### Server
 
 - [x] Role-based JWT auth
 - [x] Parse and process courses data from different vendors
@@ -135,7 +162,7 @@ yarn gql-codegen:<client|server>
 - [ ] Testing system for users to determine their preferences
 - [ ] CI/CD deployment pipeline
 
-## Client
+### Client
 
 - [x] Basic JWT auth
 - [x] Role-based routing
