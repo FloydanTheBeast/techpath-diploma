@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Mutation, Resolver, ID } from '@nestjs/graphql';
 
 import { CreateRoadmapInput } from './gql-types';
 import { RoadmapService } from './roadmap.service';
@@ -18,5 +18,10 @@ export class RoadmapResolver {
     @Args('data') data: CreateRoadmapInput,
   ): Promise<boolean> {
     return Boolean(await this.roadmapService.createRoadmap(data, userId));
+  }
+
+  @Mutation(() => Boolean)
+  async deleteRoadmap(@Args({ name: 'id', type: () => ID }) id: string): Promise<boolean> {
+    return Boolean(await this.roadmapService.deleteRoadmap(id));
   }
 }

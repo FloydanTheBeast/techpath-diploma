@@ -1,8 +1,12 @@
 import React from 'react';
 
 import { Button, Menu } from '@mantine/core';
-import { useGetRoadmapsQuery } from '@shared/graphql';
-import { IconDatabasePlus, IconListDetails } from '@tabler/icons-react';
+import {
+  GetRoadmapsDocument,
+  useDeleteRoadmapMutation,
+  useGetRoadmapsQuery,
+} from '@shared/graphql';
+import { IconDatabasePlus, IconListDetails, IconTrash } from '@tabler/icons-react';
 import { Link, generatePath } from 'react-router-dom';
 
 import { ContentPageLayout, DataGrid } from 'src/components';
@@ -22,9 +26,18 @@ export const RoadmapsPageAdmin: React.FC = () => {
       where: searchOptions,
       options: paginationOptions,
     },
+    notifyOnNetworkStatusChange: true,
   });
+  const [deleteRoadmap] = useDeleteRoadmapMutation();
 
   const roadmaps = data?.roadmaps;
+
+  const handleDeleteRoadmap = async (id: string) => {
+    // TODO: Confirmation modal
+    if (window.confirm('Are you sure you want to delete the course platform?')) {
+      await deleteRoadmap({ variables: { id }, refetchQueries: [GetRoadmapsDocument] });
+    }
+  };
 
   React.useEffect(() => {
     if (!loadingRoadmaps) {
@@ -48,15 +61,24 @@ export const RoadmapsPageAdmin: React.FC = () => {
         }}
         positionGlobalFilter="left"
         renderRowActionMenuItems={({ row }) => (
-          <Menu.Item
-            icon={<IconListDetails />}
-            component={Link}
-            to={generatePath(appRoutes.roadmaps.details, {
-              [RouteEntityType.roadmap]: row.original.id,
-            })}
-          >
-            View details
-          </Menu.Item>
+          <React.Fragment>
+            <Menu.Item
+              icon={<IconListDetails size="1rem" />}
+              component={Link}
+              to={generatePath(appRoutes.roadmaps.details, {
+                [RouteEntityType.roadmap]: row.original.id,
+              })}
+            >
+              View details
+            </Menu.Item>
+            <Menu.Item
+              icon={<IconTrash size="1rem" />}
+              color="red"
+              onClick={async () => await handleDeleteRoadmap(row.original.id)}
+            >
+              Delete roadmap
+            </Menu.Item>
+          </React.Fragment>
         )}
         renderTopToolbarCustomActions={() => {
           return (

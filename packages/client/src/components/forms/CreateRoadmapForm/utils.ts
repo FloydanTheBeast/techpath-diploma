@@ -12,7 +12,10 @@ export const prepareFormData = (
     title: data.title,
     description: data.description,
     edges: data.roadmap.edges,
-    nodes: data.roadmap.nodes.map(({ data, ...node }) => ({ ...node, ...data })),
+    nodes: data.roadmap.nodes.map(({ data, ...node }) => ({
+      ...node,
+      ...{ ...data, suggestedCourses: data.suggestedCourses?.map(({ value }) => ({ id: value })) },
+    })),
     difficulty: data.difficulty,
     countryCodeISO: data.countryCodeISO,
     tagsIds: data.topicTagsIds,

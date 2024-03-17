@@ -403,7 +403,7 @@ export type CourseCoursePricePriceAggregationSelection = {
 export type CourseCoursePricePriceNodeAggregateSelection = {
   __typename?: 'CourseCoursePricePriceNodeAggregateSelection';
   currencyCodeISO: StringAggregateSelectionNullable;
-  price: IntAggregateSelectionNullable;
+  price: FloatAggregateSelectionNullable;
 };
 
 export type CourseCreateInput = {
@@ -1182,7 +1182,7 @@ export type CoursePrice = {
   courseAggregate?: Maybe<CoursePriceCourseCourseAggregationSelection>;
   courseConnection: CoursePriceCourseConnection;
   currencyCodeISO?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Int']>;
+  price?: Maybe<Scalars['Float']>;
 };
 
 export type CoursePriceCourseArgs = {
@@ -1220,7 +1220,7 @@ export type CoursePriceAggregateSelection = {
   __typename?: 'CoursePriceAggregateSelection';
   count: Scalars['Int'];
   currencyCodeISO: StringAggregateSelectionNullable;
-  price: IntAggregateSelectionNullable;
+  price: FloatAggregateSelectionNullable;
 };
 
 export type CoursePriceConnectFieldInput = {
@@ -1482,7 +1482,7 @@ export type CoursePriceCreateFieldInput = {
 export type CoursePriceCreateInput = {
   course?: InputMaybe<CoursePriceCourseFieldInput>;
   currencyCodeISO?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Float']>;
 };
 
 export type CoursePriceDeleteFieldInput = {
@@ -1538,21 +1538,21 @@ export type CoursePriceNodeAggregationWhereInput = {
   price_AVERAGE_GTE?: InputMaybe<Scalars['Float']>;
   price_AVERAGE_LT?: InputMaybe<Scalars['Float']>;
   price_AVERAGE_LTE?: InputMaybe<Scalars['Float']>;
-  price_MAX_EQUAL?: InputMaybe<Scalars['Int']>;
-  price_MAX_GT?: InputMaybe<Scalars['Int']>;
-  price_MAX_GTE?: InputMaybe<Scalars['Int']>;
-  price_MAX_LT?: InputMaybe<Scalars['Int']>;
-  price_MAX_LTE?: InputMaybe<Scalars['Int']>;
-  price_MIN_EQUAL?: InputMaybe<Scalars['Int']>;
-  price_MIN_GT?: InputMaybe<Scalars['Int']>;
-  price_MIN_GTE?: InputMaybe<Scalars['Int']>;
-  price_MIN_LT?: InputMaybe<Scalars['Int']>;
-  price_MIN_LTE?: InputMaybe<Scalars['Int']>;
-  price_SUM_EQUAL?: InputMaybe<Scalars['Int']>;
-  price_SUM_GT?: InputMaybe<Scalars['Int']>;
-  price_SUM_GTE?: InputMaybe<Scalars['Int']>;
-  price_SUM_LT?: InputMaybe<Scalars['Int']>;
-  price_SUM_LTE?: InputMaybe<Scalars['Int']>;
+  price_MAX_EQUAL?: InputMaybe<Scalars['Float']>;
+  price_MAX_GT?: InputMaybe<Scalars['Float']>;
+  price_MAX_GTE?: InputMaybe<Scalars['Float']>;
+  price_MAX_LT?: InputMaybe<Scalars['Float']>;
+  price_MAX_LTE?: InputMaybe<Scalars['Float']>;
+  price_MIN_EQUAL?: InputMaybe<Scalars['Float']>;
+  price_MIN_GT?: InputMaybe<Scalars['Float']>;
+  price_MIN_GTE?: InputMaybe<Scalars['Float']>;
+  price_MIN_LT?: InputMaybe<Scalars['Float']>;
+  price_MIN_LTE?: InputMaybe<Scalars['Float']>;
+  price_SUM_EQUAL?: InputMaybe<Scalars['Float']>;
+  price_SUM_GT?: InputMaybe<Scalars['Float']>;
+  price_SUM_GTE?: InputMaybe<Scalars['Float']>;
+  price_SUM_LT?: InputMaybe<Scalars['Float']>;
+  price_SUM_LTE?: InputMaybe<Scalars['Float']>;
 };
 
 export type CoursePriceOptions = {
@@ -1594,9 +1594,11 @@ export type CoursePriceUpdateFieldInput = {
 export type CoursePriceUpdateInput = {
   course?: InputMaybe<CoursePriceCourseUpdateFieldInput>;
   currencyCodeISO?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['Int']>;
-  price_DECREMENT?: InputMaybe<Scalars['Int']>;
-  price_INCREMENT?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Float']>;
+  price_ADD?: InputMaybe<Scalars['Float']>;
+  price_DIVIDE?: InputMaybe<Scalars['Float']>;
+  price_MULTIPLY?: InputMaybe<Scalars['Float']>;
+  price_SUBTRACT?: InputMaybe<Scalars['Float']>;
 };
 
 export type CoursePriceWhere = {
@@ -1614,12 +1616,12 @@ export type CoursePriceWhere = {
   currencyCodeISO_IN?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   currencyCodeISO_MATCHES?: InputMaybe<Scalars['String']>;
   currencyCodeISO_STARTS_WITH?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['Int']>;
-  price_GT?: InputMaybe<Scalars['Int']>;
-  price_GTE?: InputMaybe<Scalars['Int']>;
-  price_IN?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
-  price_LT?: InputMaybe<Scalars['Int']>;
-  price_LTE?: InputMaybe<Scalars['Int']>;
+  price?: InputMaybe<Scalars['Float']>;
+  price_GT?: InputMaybe<Scalars['Float']>;
+  price_GTE?: InputMaybe<Scalars['Float']>;
+  price_IN?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
+  price_LT?: InputMaybe<Scalars['Float']>;
+  price_LTE?: InputMaybe<Scalars['Float']>;
 };
 
 export type CoursePricesConnection = {
@@ -2728,6 +2730,7 @@ export type Mutation = {
   deleteCoursePrices: DeleteInfo;
   deleteCourses: DeleteInfo;
   deleteLanguages: DeleteInfo;
+  deleteRoadmap: Scalars['Boolean'];
   deleteRoadmapNodes: DeleteInfo;
   deleteRoadmaps: DeleteInfo;
   deleteTopicTags: DeleteInfo;
@@ -2804,6 +2807,10 @@ export type MutationDeleteCoursesArgs = {
 export type MutationDeleteLanguagesArgs = {
   delete?: InputMaybe<LanguageDeleteInput>;
   where?: InputMaybe<LanguageWhere>;
+};
+
+export type MutationDeleteRoadmapArgs = {
+  id: Scalars['ID'];
 };
 
 export type MutationDeleteRoadmapNodesArgs = {
@@ -9137,6 +9144,12 @@ export type CreateRoadmapMutationVariables = Exact<{
 
 export type CreateRoadmapMutation = { __typename?: 'Mutation'; createRoadmap: boolean };
 
+export type DeleteRoadmapMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type DeleteRoadmapMutation = { __typename?: 'Mutation'; deleteRoadmap: boolean };
+
 export type GetTopicTagsQueryVariables = Exact<{
   where?: InputMaybe<TopicTagWhere>;
   options?: InputMaybe<TopicTagOptions>;
@@ -12962,6 +12975,79 @@ export type CreateRoadmapMutationResult = Apollo.MutationResult<CreateRoadmapMut
 export type CreateRoadmapMutationOptions = Apollo.BaseMutationOptions<
   CreateRoadmapMutation,
   CreateRoadmapMutationVariables
+>;
+export const DeleteRoadmapDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'DeleteRoadmap' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'ID' } },
+          },
+        },
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'deleteRoadmap' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode;
+export type DeleteRoadmapMutationFn = Apollo.MutationFunction<
+  DeleteRoadmapMutation,
+  DeleteRoadmapMutationVariables
+>;
+
+/**
+ * __useDeleteRoadmapMutation__
+ *
+ * To run a mutation, you first call `useDeleteRoadmapMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteRoadmapMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteRoadmapMutation, { data, loading, error }] = useDeleteRoadmapMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useDeleteRoadmapMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteRoadmapMutation, DeleteRoadmapMutationVariables>,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteRoadmapMutation, DeleteRoadmapMutationVariables>(
+    DeleteRoadmapDocument,
+    options,
+  );
+}
+export type DeleteRoadmapMutationHookResult = ReturnType<typeof useDeleteRoadmapMutation>;
+export type DeleteRoadmapMutationResult = Apollo.MutationResult<DeleteRoadmapMutation>;
+export type DeleteRoadmapMutationOptions = Apollo.BaseMutationOptions<
+  DeleteRoadmapMutation,
+  DeleteRoadmapMutationVariables
 >;
 export const GetTopicTagsDocument = {
   kind: 'Document',

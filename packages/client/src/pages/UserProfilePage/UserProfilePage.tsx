@@ -70,7 +70,7 @@ export const UserProfilePage: React.FC = () => {
 
       notifications.show({
         title: 'Success',
-        message: 'Course platform has been created',
+        message: 'Preferences has been updated',
         color: 'green',
         withCloseButton: true,
         icon: <IconCheck />,

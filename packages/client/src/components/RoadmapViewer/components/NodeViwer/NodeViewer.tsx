@@ -23,14 +23,14 @@ export const NodeViewer: React.FC<NodeViewerProps> = ({ node }) => {
       {node.data.suggestedCourses?.map(course => (
         <Card key={course.id} withBorder p={24}>
           <Flex gap={16} align="center" pos="relative">
-            <CoursePlatformLogo logoUrl={course.platform?.logoUrl} />
+            <CoursePlatformLogo logoUrl={course.platformLogo} />
             <Text>{course.title}</Text>
           </Flex>
           <ActionIcon
             sx={{ position: 'absolute', top: 4, right: 4 }}
             component="a"
             href={generatePath(appRoutes.courses.details, {
-              [RouteEntityType.course]: course.id,
+              [RouteEntityType.course]: course.value,
             })}
             target="_blank"
           >

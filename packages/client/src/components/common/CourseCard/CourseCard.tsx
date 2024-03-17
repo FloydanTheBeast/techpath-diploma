@@ -14,9 +14,9 @@ import {
   Stack,
   Sx,
   Text,
-  rem,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
+import { clearHtml } from '@shared/utils';
 import {
   IconCopy,
   IconDots,
@@ -66,10 +66,10 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, renderCustomActi
 
               <Menu.Dropdown>
                 {renderCustomActions?.()}
-                <Menu.Item icon={<IconPlus size={rem(14)} />} disabled>
-                  Add
+                <Menu.Item icon={<IconPlus size="1rem" />} disabled>
+                  Add to
                 </Menu.Item>
-                <Menu.Item icon={<IconCopy size={rem(14)} />}>Copy link to clipboard</Menu.Item>
+                <Menu.Item icon={<IconCopy size="1rem" />}>Copy link to clipboard</Menu.Item>
               </Menu.Dropdown>
             </Menu>
           </Flex>
@@ -92,13 +92,18 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, renderCustomActi
             {course.title}
           </Text>
         </Box>
-        <Text color="dimmed" size="sm">
-          {course.description}
+        <Text
+          color="dimmed"
+          size="sm"
+          sx={{ '& *:first-child': { marginTop: 0 } }}
+          // dangerouslySetInnerHTML={{ __html: course.description ?? '' }}
+        >
+          {clearHtml(course.description)}
         </Text>
       </Stack>
       <Card.Section p="md">
         <Flex wrap="wrap" gap={8} mah={76} sx={{ overflow: 'hidden' }}>
-          {course.price && (
+          {course.price?.price && (
             <Badge
               pl={4}
               pr={8}

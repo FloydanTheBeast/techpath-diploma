@@ -8,7 +8,7 @@ import { COURSE_CARD_HEIGHT, ContentPageLayout, CourseCard } from 'src/component
 
 export const UserHomePage: React.FC = () => {
   const { data, loading: loadingCourses } = useGetUserRecommendedCoursesQuery({
-    fetchPolicy: 'cache-and-network',
+    fetchPolicy: 'network-only',
   });
 
   const recommendedCourses = data?.userRecommendedCourses;

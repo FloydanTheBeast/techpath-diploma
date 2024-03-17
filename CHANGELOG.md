@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0-alpha.1](https://github.com/FloydanTheBeast/diploma/compare/v1.0.0-alpha.0...v1.0.0-alpha.1) (2024-03-17)
+
+## [1.0.0-alpha.0](https://github.com/FloydanTheBeast/diploma/compare/v1.0.0...v1.0.0-alpha.0) (2024-03-17)
+
+
+### Features
+
+* **client|server:** Add ability to delete roadmaps ([bbad28c](https://github.com/FloydanTheBeast/diploma/commit/bbad28cdea534d8785ad5f1e0dae70414e7267d7))
+* Minor changes before demo ([3f0ffeb](https://github.com/FloydanTheBeast/diploma/commit/3f0ffeb067f070d8a91ba7ae87d6c99c666f0c64))
+
+
+### Bug Fixes
+
+* **client:** Minor improvements ([1b2338e](https://github.com/FloydanTheBeast/diploma/commit/1b2338e049208f8732a5e3ab2671fc2a0aba201b))
+
+## [1.0.0-alpha.0](https://github.com/FloydanTheBeast/diploma/compare/v1.0.0...v1.0.0-alpha.0) (2024-03-17)
+
+
+### Features
+
+* **client|server:** Add ability to delete roadmaps ([bbad28c](https://github.com/FloydanTheBeast/diploma/commit/bbad28cdea534d8785ad5f1e0dae70414e7267d7))
+* Minor changes before demo ([3f0ffeb](https://github.com/FloydanTheBeast/diploma/commit/3f0ffeb067f070d8a91ba7ae87d6c99c666f0c64))
+
+
+### Bug Fixes
+
+* **client:** Minor improvements ([1b2338e](https://github.com/FloydanTheBeast/diploma/commit/1b2338e049208f8732a5e3ab2671fc2a0aba201b))
+
+## [1.0.0-alpha.0](https://github.com/FloydanTheBeast/diploma/compare/v1.0.0...v1.0.0-alpha.0) (2024-03-17)
+
+
+### Features
+
+* **client|server:** Add ability to delete roadmaps ([bbad28c](https://github.com/FloydanTheBeast/diploma/commit/bbad28cdea534d8785ad5f1e0dae70414e7267d7))
+* Minor changes before demo ([3f0ffeb](https://github.com/FloydanTheBeast/diploma/commit/3f0ffeb067f070d8a91ba7ae87d6c99c666f0c64))
+
+
+### Bug Fixes
+
+* **client:** Minor improvements ([1b2338e](https://github.com/FloydanTheBeast/diploma/commit/1b2338e049208f8732a5e3ab2671fc2a0aba201b))
+
 ## [1.0.0](https://github.com/FloydanTheBeast/diploma/compare/v0.2.0...v1.0.0) (2023-05-27)
 
 

@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { ActionIcon, Flex, Loader } from '@mantine/core';
+import { ActionIcon, Flex, Loader, Text } from '@mantine/core';
 import { SpotlightAction, SpotlightProvider, spotlight } from '@mantine/spotlight';
 import { useGlobalSearchQuery } from '@shared/graphql';
+import { clearHtml } from '@shared/utils';
 import { IconSearch } from '@tabler/icons-react';
 import { generatePath, useNavigate } from 'react-router';
 
@@ -18,7 +19,7 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
   const { data, loading } = useGlobalSearchQuery({
     variables: {
       searchQuery: `${searchQuery}~`, // `~` is used for fuzzy search. Ref: https://lucene.apache.org/core/2_9_4/queryparsersyntax.html
-      minScore: 0.5,
+      minScore: 0.3,
       limit: 7,
     },
     skip: !searchQuery,
@@ -30,7 +31,11 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
         ...(data?.coursesFulltextCourseInfo.map(({ course }) => ({
           title: course.title,
           group: 'Courses',
-          description: course.description?.slice(0, 100),
+          description: (
+            <Text lineClamp={3} sx={{ '& *:first-child': { marginTop: 0 } }}>
+              {clearHtml(course.description)}
+            </Text>
+          ),
           onTrigger: () =>
             navigate(
               generatePath(appRoutes.courses.details, { [RouteEntityType.course]: course.id }),
@@ -39,7 +44,11 @@ export const GlobalSearchProvider: React.FC<React.PropsWithChildren> = ({ childr
         ...(data?.roadmapsFulltextRoadmapInfo.map(({ roadmap }) => ({
           title: roadmap.title,
           group: 'Roadmaps',
-          description: roadmap.description?.slice(0, 100),
+          description: (
+            <Text lineClamp={3} sx={{ '& *:first-child': { marginTop: 0 } }}>
+              {clearHtml(roadmap.description)}
+            </Text>
+          ) as any,
           onTrigger: () =>
             navigate(
               generatePath(appRoutes.roadmaps.details, { [RouteEntityType.roadmap]: roadmap.id }),

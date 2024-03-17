@@ -24,31 +24,33 @@ export class StepikParser extends BaseParser {
       console.log(`[Stepik] Parsing page ${page}`);
       try {
         res = await (
-          await axios.get<StepikCoursesResponse>(
-            `${this.baseApiUrl}/courses?page=${++page}&page_size=${this.pageSize}&is_public=true`,
-          )
+          await axios
+            .get<StepikCoursesResponse>(
+              `${this.baseApiUrl}/courses?page=${++page}&page_size=${this.pageSize}&is_public=true`,
+            )
+            .catch(() => ({ data: null }))
         ).data;
+
+        res?.courses.forEach(async course => {
+          const courseReviewSummary = (
+            await axios.get<StepikCourseReviewSummaryResponse>(
+              `${this.baseApiUrl}/course-review-summaries/${course.review_summary}`,
+            )
+          ).data['course-review-summaries'][0];
+
+          if (courseReviewSummary?.count && courseReviewSummary.average < 4) {
+            return;
+          }
+
+          this.processCourse(
+            { ...course, average: courseReviewSummary?.average, count: courseReviewSummary?.count },
+            this.convertCourseData,
+          );
+        });
       } catch (error) {
-        console.log(error);
+        console.log(`An error occured while parsing Stepik: ${error}`);
       }
-
-      res?.courses.forEach(async course => {
-        const courseReviewSummary = (
-          await axios.get<StepikCourseReviewSummaryResponse>(
-            `${this.baseApiUrl}/course-review-summaries/${course.review_summary}`,
-          )
-        ).data['course-review-summaries'][0];
-
-        if (courseReviewSummary?.count && courseReviewSummary.average < 4) {
-          return;
-        }
-
-        this.processCourse(
-          { ...course, average: courseReviewSummary?.average, count: courseReviewSummary?.count },
-          this.convertCourseData,
-        );
-      });
-      await sleep(2000);
+      await sleep(5000);
     } while (res?.meta.has_next && page < 50);
   }
 
@@ -60,7 +62,8 @@ export class StepikParser extends BaseParser {
       url: courseData.canonical_url,
       title: courseData.title,
       description: courseData.description,
-      languages: [courseData.language],
+      // NOTE: Language retrieved from stepik is not reliable
+      // languages: [courseData.language],
       price: courseData.price
         ? {
             price: courseData.price,

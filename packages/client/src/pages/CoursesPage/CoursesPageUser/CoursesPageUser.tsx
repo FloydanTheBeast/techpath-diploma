@@ -30,7 +30,7 @@ import { Link, generatePath } from 'react-router-dom';
 import { ContentPageLayout, DataGrid } from 'src/components';
 import { COURSE_CARD_HEIGHT, CourseCard, DataViewSwitch } from 'src/components/common';
 import { DataViewType } from 'src/components/common/DataViewSwitch/constants';
-import { RouteEntityType, appRoutes } from 'src/constants';
+import { RouteEntityType, TOPIC_TAGS, appRoutes } from 'src/constants';
 import {
   useCurrentUser,
   useDebounce,
@@ -57,13 +57,11 @@ export const CoursesPageUser: React.FC = () => {
 
   const coursesFilters = React.useMemo((): CourseWhere => {
     return columnFilters.reduce((acc, colFilter) => {
-      console.log(colFilter);
       if (typeof colFilter.value === 'string') {
         return _.set(acc, `${colFilter.id}_CONTAINS`, colFilter.value);
       }
 
       if (Array.isArray(colFilter.value) && !_.isEmpty(colFilter.value.filter(Boolean))) {
-        console.log('test');
         return _.set(acc, `${colFilter.id}_IN`, colFilter.value);
       }
 
@@ -97,8 +95,8 @@ export const CoursesPageUser: React.FC = () => {
         // FIXME: Get from global state
         languages: ['ru', 'en', 'fr', 'es', 'de'],
         platforms: ['Stepik', 'Coursera'],
-        difficulties: ['beginner', 'intermediate', 'advanced'],
-        topics: [],
+        difficulties: ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'],
+        topics: TOPIC_TAGS,
         setFiltersState: setColumnFilters,
       }).filter(col => !['id'].includes(col.accessorKey as string)),
     [],
@@ -126,7 +124,6 @@ export const CoursesPageUser: React.FC = () => {
             positionGlobalFilter="left"
             state={{ isLoading: loadingCourses, columnFilters }}
             rowCount={paginationState.count}
-            mantinePaginationProps={{ rowsPerPageOptions: pageSizeOptions.map(String) }}
             enableRowActions
             renderTopToolbarCustomActions={() => (
               <Switch
@@ -141,7 +138,7 @@ export const CoursesPageUser: React.FC = () => {
             renderRowActionMenuItems={({ row }) => (
               <React.Fragment>
                 <Menu.Item
-                  icon={<IconListDetails />}
+                  icon={<IconListDetails size="1rem" />}
                   component={Link}
                   to={generatePath(appRoutes.courses.details, {
                     [RouteEntityType.course]: row.original.id,
@@ -171,6 +168,16 @@ export const CoursesPageUser: React.FC = () => {
                             }),
                       },
                       refetchQueries: [GetCoursesDocument],
+                      update: cache => {
+                        cache.evict({
+                          id: 'ROOT_QUERY',
+                          fieldName: 'courses',
+                        });
+                        cache.evict({
+                          id: 'ROOT_QUERY',
+                          fieldName: 'coursesAggregate',
+                        });
+                      },
                       // TODO: Update cache directly
                       // update: store => {
                       //   const queryData = store.readQuery<
@@ -210,7 +217,7 @@ export const CoursesPageUser: React.FC = () => {
                     })
                   }
                   icon={
-                    <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'}>
+                    <ThemeIcon color={row.original.bookmarked ? 'red' : 'green'} size="1rem">
                       <IconBookmark />
                     </ThemeIcon>
                   }
@@ -287,10 +294,21 @@ export const CoursesPageUser: React.FC = () => {
                                       }),
                                 },
                                 refetchQueries: [GetCoursesDocument],
+                                awaitRefetchQueries: true,
+                                update: cache => {
+                                  cache.evict({
+                                    id: 'ROOT_QUERY',
+                                    fieldName: 'courses',
+                                  });
+                                  cache.evict({
+                                    id: 'ROOT_QUERY',
+                                    fieldName: 'coursesAggregate',
+                                  });
+                                },
                               })
                             }
                             icon={
-                              <ThemeIcon size={rem(14)} color={course.bookmarked ? 'red' : 'green'}>
+                              <ThemeIcon color={course.bookmarked ? 'red' : 'green'} size="1rem">
                                 <IconBookmark />
                               </ThemeIcon>
                             }

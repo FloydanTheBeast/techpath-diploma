@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { CourseInfoFragment } from '@shared/graphql';
+import { clearHtml } from '@shared/utils';
 import { IconExternalLink, IconLanguage } from '@tabler/icons-react';
 import { MRT_ColumnDef, MRT_ColumnFiltersState } from 'mantine-react-table';
 
@@ -122,15 +123,19 @@ export const COURSES_TABLE_COLUMNS: (
   {
     id: 'description',
     header: 'Description',
-    accessorFn: ({ description }) => (
-      <Tooltip label={description} width={300} multiline withArrow openDelay={500} withinPortal>
-        <Text lineClamp={3} sx={{ cursor: 'help', width: 400 }}>
-          {description}
-        </Text>
-      </Tooltip>
-    ),
+    accessorFn: ({ description }) => {
+      const text = clearHtml(description);
+      return (
+        <Tooltip label={text} width={300} multiline withArrow openDelay={500} withinPortal>
+          <Text lineClamp={3} sx={{ cursor: 'help', width: 400 }}>
+            {text}
+          </Text>
+        </Tooltip>
+      );
+    },
   },
   {
+    id: 'tags.name',
     header: 'Topics',
     accessorFn: ({ tags }) => (
       <Flex gap="sm" sx={{ textTransform: 'capitalize' }} maw={500} wrap="wrap">
@@ -149,7 +154,7 @@ export const COURSES_TABLE_COLUMNS: (
   {
     id: 'price.price',
     header: 'Price',
-    accessorFn: ({ price }) => (price ? `${price.price} ${price.currencyCodeISO}` : 'Free'),
+    accessorFn: ({ price }) => (price?.price ? `${price.price} ${price.currencyCodeISO}` : 'Free'),
     filterVariant: 'range',
     mantineFilterTextInputProps: DEFAULT_RANGE_TEXT_INPUT_PROPS(options),
   },

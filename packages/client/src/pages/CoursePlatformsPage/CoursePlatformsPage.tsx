@@ -5,9 +5,8 @@ import { notifications } from '@mantine/notifications';
 import {
   CoursePlatformInfoFragment,
   GetCoursePlatformsDocument,
-  GetCoursesDocument,
   useCreateCoursePlatformMutation,
-  useDeleteCourseByIdMutation,
+  useDeleteCoursePlatformByIdMutation,
   useGetCoursePlatformsQuery,
   useUpdateCoursePlatformByIdMutation,
 } from '@shared/graphql';
@@ -78,7 +77,7 @@ export const CoursePlatformsPage: React.FC = () => {
     useCreateCoursePlatformMutation();
   const [updateCoursePlatform, { loading: updatingCoursePlatform }] =
     useUpdateCoursePlatformByIdMutation();
-  const [deleteCourse] = useDeleteCourseByIdMutation();
+  const [deleteCoursePlatform] = useDeleteCoursePlatformByIdMutation();
 
   const coursePlatforms = data?.coursePlatforms;
 
@@ -153,7 +152,10 @@ export const CoursePlatformsPage: React.FC = () => {
 
     // TODO: Confirmation modal
     if (window.confirm('Are you sure you want to delete the course platform?')) {
-      await deleteCourse({ variables: { id }, refetchQueries: [GetCoursesDocument] });
+      await deleteCoursePlatform({
+        variables: { id },
+        refetchQueries: [GetCoursePlatformsDocument],
+      });
     }
   };
 

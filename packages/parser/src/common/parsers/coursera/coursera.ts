@@ -8,20 +8,29 @@ enum RequestLabel {
   coursePage = 'COURSE_PAGE',
 }
 
+const DESCRIPTION_SELECTOR =
+  '#modules > div > div > div > div:nth-child(1) > div > div > div > div.content > div';
+
 export class CourseraParser extends BaseParser {
   async parse() {
     const crawler = new PlaywrightCrawler({
+      maxConcurrency: 10,
       requestHandler: async ({ request, enqueueLinks, page }) => {
         if (request.label === RequestLabel.coursePage) {
           // page.waitForLoadState('networkidle', { timeout: 3000 });
 
+          // Exclude coursera projects
+          if (page.url().match(/coursera.org\/projects\/.+/)) {
+            return;
+          }
+
           const title = await page.locator('h1').first().textContent();
 
-          await page.waitForSelector('.cds-33.css-ngtbbz.cds-35, .description p', {
+          await page.waitForSelector(DESCRIPTION_SELECTOR, {
             timeout: 10_000,
           });
           const description = await (
-            await page.locator('.cds-33.css-ngtbbz.cds-35, .description p').allInnerTexts()
+            await page.locator(DESCRIPTION_SELECTOR).allInnerTexts()
           )
             .map(text => `<p>${text}</p>`)
             .join('\n')
@@ -38,9 +47,12 @@ export class CourseraParser extends BaseParser {
                   .all()
               )[1]?.textContent({ timeout: 1_000 })) ||
               (await page
-                .locator('._16ni8zai.m-b-0.m-t-1s', {
-                  hasText: /(beginner|intermidiate|advanced)/i,
-                })
+                .locator(
+                  '#rendered-content > div > main > section.css-oe48t8 > div > div > div.cds-9.css-62jp51.cds-11.cds-grid-item.cds-56.cds-76 > div > div > section > div.css-lt1dx1 > div:nth-child(2) > div.cds-119.cds-Typography-base.css-h1jogs.cds-121',
+                  {
+                    hasText: /(beginner|intermidiate|advanced)/i,
+                  },
+                )
                 .first()
                 .innerText({ timeout: 1_000 }));
           } catch (error) {}
@@ -50,14 +62,20 @@ export class CourseraParser extends BaseParser {
           try {
             rating = Number(
               await (
-                await page.locator('[data-test="number-star-rating"]').innerText({ timeout: 1000 })
+                await page
+                  .locator(
+                    '#rendered-content > div > main > section.css-oe48t8 > div > div > div.cds-9.css-62jp51.cds-11.cds-grid-item.cds-56.cds-76 > div > div > section > div.css-lt1dx1 > div.css-guxf6x > div.cds-119.cds-Typography-base.css-h1jogs.cds-121',
+                  )
+                  .innerText({ timeout: 1000 })
               ).split('\n')[0],
             );
 
             ratingsCount = Number(
               await (
                 await page
-                  .locator('[data-test="ratings-count-without-asterisks"]')
+                  .locator(
+                    '#rendered-content > div > main > section.css-oe48t8 > div > div > div.cds-9.css-62jp51.cds-11.cds-grid-item.cds-56.cds-76 > div > div > section > div.css-lt1dx1 > div.css-guxf6x > p',
+                  )
                   .innerText({ timeout: 1000 })
               )
                 .split(' ')[0]
@@ -90,9 +108,7 @@ export class CourseraParser extends BaseParser {
     });
 
     crawler.run(
-      new Array(20)
-        .fill(0)
-        .map((_, i) => `https://www.coursera.org/directory/courses?page=${i + 1}`),
+      new Array(5).fill(0).map((_, i) => `https://www.coursera.org/directory/courses?page=${i}`),
     );
   }
 }

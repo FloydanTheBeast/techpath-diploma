@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.11.6-slim-bullseye
 
 WORKDIR /usr/src/dataProcessor
 
@@ -6,6 +6,10 @@ WORKDIR /usr/src/dataProcessor
 ENV PYTHONUNBUFFERED=1
 
 RUN pip install --upgrade pip
+
+# Install C++ compiler
+RUN apt-get update
+RUN apt-get install build-essential -y
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt

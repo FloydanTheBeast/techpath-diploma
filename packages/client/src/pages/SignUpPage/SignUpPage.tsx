@@ -89,7 +89,7 @@ export const SignUpPage: React.FC = () => {
                 control,
                 label: 'First Name',
                 placeholder: 'Your first name',
-                required: true,
+                withAsterisk: true,
               }}
             />
             <FormField
@@ -99,7 +99,7 @@ export const SignUpPage: React.FC = () => {
                 control,
                 label: 'Last Name',
                 placeholder: 'Your last name',
-                required: true,
+                withAsterisk: true,
               }}
             />
             <FormField
@@ -109,7 +109,7 @@ export const SignUpPage: React.FC = () => {
                 control,
                 label: 'Email',
                 placeholder: 'Your email',
-                required: true,
+                withAsterisk: true,
               }}
             />
             <FormField
@@ -119,7 +119,7 @@ export const SignUpPage: React.FC = () => {
                 control,
                 label: 'Password',
                 placeholder: 'Your password',
-                required: true,
+                withAsterisk: true,
               }}
             />
             <FormField
@@ -129,7 +129,7 @@ export const SignUpPage: React.FC = () => {
                 control,
                 label: 'Repeat Password',
                 placeholder: 'Repeat your password',
-                required: true,
+                withAsterisk: true,
               }}
             />
             <Button fullWidth mt="xl" type="submit">
